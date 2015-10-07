@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="model.VaiTro" table="VAITRO">
+		<id name="vtId" type="int" access="field">
+			<column name="VTID" />
+			<generator class="increment" />
+		</id>
+		<property name="vtTen" type="java.lang.String" access="field">
+			<column name="VTTEN" />
+		</property>
+		<property name="daXoa" type="int" access="field"> 
+ 			<column name="DAXOA" /> 
+ 		</property>
+	</class>
+</hibernate-mapping>

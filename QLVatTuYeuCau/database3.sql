@@ -1,0 +1,579 @@
+/*==============================================================*/
+/* DBMS name:      MySQL 5.0                                    */
+/* Created on:     02/08/2015 8:03:04 CH                        */
+/*==============================================================*/
+drop database if exists vattu;
+create database if not exists vattu DEFAULT CHARACTER SET utf8
+  DEFAULT COLLATE utf8_unicode_ci;
+CREATE SCHEMA IF NOT EXISTS vattu DEFAULT CHARACTER SET utf8 ;
+use vattu;
+
+drop table if exists CHATLUONG;
+
+drop table if exists CHUCDANH;
+
+drop table if exists CONGVAN;
+
+drop table if exists CTNGUOIDUNG;
+
+drop table if exists CTVATTU;
+
+drop table if exists DONVI;
+
+drop table if exists FILE;
+
+drop table if exists MUCDICH;
+
+drop table if exists NGUOIDUNG;
+
+drop table if exists NOISANXUAT;
+
+drop table if exists PHIEUNHAP;
+
+drop table if exists PHIEUXUAT;
+
+drop table if exists TRANGTHAI;
+
+drop table if exists VAITRO;
+
+drop table if exists VATTU;
+
+drop table if exists DONVITINH;
+
+drop table if exists VATTUNHAP;
+
+drop table if exists VATTUXUAT;
+
+drop table if exists VTCONGVAN;
+
+drop table if exists YEUCAU;
+
+/*==============================================================*/
+/* Table: CHATLUONG                                             */
+/*==============================================================*/
+create table CHATLUONG
+(
+   CLMA                 char(3) not null,
+   CLTEN                varchar(20),
+   DAXOA int(2) default 0,
+   primary key (CLMA)
+) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+/*==============================================================*/
+/* Table: CHUCDANH                                              */
+/*==============================================================*/
+create table CHUCDANH
+(
+   CDMA                 varchar(10) not null,
+   CDTEN                varchar(30),
+   DAXOA int(2) default 0,
+   primary key (CDMA)
+) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+/*==============================================================*/
+/* Table: CONGVAN                                               */
+/*==============================================================*/
+create table CONGVAN
+(
+   CVID                 int not null,
+--   FILEID               int not null,
+   DVMA                 varchar(10) not null,
+   TTMA                 varchar(10) not null,
+   MDMA                 char(3) not null,
+   SODEN                int,
+   CVNGAYNHAN           date,
+   CVSO                 varchar(10),
+   CVNGAYDI             date,
+   TRICHYEU             text,
+   BUTPHE               text,
+   DAXOA int(2) default 0,
+   primary key (CVID)
+) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8 ;
+
+/*==============================================================*/
+/* Table: CTNGUOIDUNG                                           */
+/*==============================================================*/
+create table CTNGUOIDUNG
+(
+   MSNV                 varchar(10),
+   MATKHAU              varchar(40),
+   KHOA int(2) default 0
+) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+/*==============================================================*/
+/* Table: CTVATTU                                               */
+/*==============================================================*/
+create table CTVATTU
+(
+	CTVTID int primary key auto_increment,
+   NSXMA                char(3) not null,
+   CLMA                 char(3) not null,
+   VTMA                 char(16) not null,
+   DINHMUC              int,
+   SOLUONGTON           int,
+   DAXOA int(2) default 0,
+CONSTRAINT UNIQUE NONCLUSTERED
+(
+	NSXMA, CLMA, VTMA
+)
+--   primary key (NSXMA, CLMA, VTMA)
+) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+/*==============================================================*/
+/* Table: DONVI                                                 */
+/*==============================================================*/
+create table DONVI
+(
+   DVMA                 varchar(10) not null,
+   DVTEN                varchar(100),
+   SDT                  varchar(12),
+   EMAIL                varchar(50),
+   DIACHI               varchar(100),
+   DAXOA int(2) default 0,
+   primary key (DVMA)
+) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+create table DONVITINH
+(
+	DVTID int  primary key auto_increment,
+	DVTTEN               varchar(20),
+	DAXOA int(2)
+) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+/*==============================================================*/
+/* Table: FILE                                                  */
+/*==============================================================*/
+create table FILE
+(
+   FILEID int not null,
+   CVID  int not null,
+   DIACHI               varchar(200),
+   MOTA                 text,
+   primary key (FILEID)
+) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+/*==============================================================*/
+/* Table: MUCDICH                                               */
+/*==============================================================*/
+create table MUCDICH
+(
+   MDMA                 char(3) not null,
+   MDTEN                varchar(50),
+   DAXOA int(2) default 0,
+   primary key (MDMA)
+) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+/*==============================================================*/
+/* Table: NGUOIDUNG                                             */
+/*==============================================================*/
+create table NGUOIDUNG
+(
+   MSNV                 varchar(10) not null,
+   CDMA                 varchar(10) not null,
+   HOTEN                varchar(50),
+   DIACHI               varchar(100),
+   EMAIL                varchar(50),
+   SDT                  varchar(12),
+   primary key (MSNV)
+) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+/*==============================================================*/
+/* Table: NOISANXUAT                                            */
+/*==============================================================*/
+create table NOISANXUAT
+(
+   NSXMA                char(3) not null,
+   NSXTEN               varchar(20),
+   DAXOA int(2) default 0,
+   primary key (NSXMA)
+) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+/*==============================================================*/
+/* Table: PHIEUNHAP                                             */
+/*==============================================================*/
+create table PHIEUNHAP
+(
+   PNID                 int not null,
+   CVID                 int not null,
+   MSNV                 varchar(10) not null,
+   VTID                 int not null,
+   PNNGAY               date not null,
+   DAXOA int(2) default 0,
+   primary key (PNID)
+) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+/*==============================================================*/
+/* Table: PHIEUXUAT                                             */
+/*==============================================================*/
+create table PHIEUXUAT
+(
+   PXID                 int not null,
+   CVID                 int not null,
+   MSNV                 varchar(10) not null,
+   VTID                 int not null,
+   PXNGAY               date,
+   DAXOA int(2) default 0,
+   primary key (PXID)
+) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+/*==============================================================*/
+/* Table: TRANGTHAI                                             */
+/*==============================================================*/
+create table TRANGTHAI
+(
+   TTMA                 varchar(10) not null,
+   TTTEN                varchar(20),
+   DAXOA int(2) default 0,
+   primary key (TTMA)
+) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+/*==============================================================*/
+/* Table: VAITRO                                                */
+/*==============================================================*/
+create table VAITRO
+(
+   VTID   int primary key auto_increment,
+   VTTEN                varchar(50),
+   DAXOA int(2) default 0
+)ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+/*==============================================================*/
+/* Table: VATTU                                                 */
+/*==============================================================*/
+create table VATTU
+(
+   VTMA                 char(16) not null,
+   VTTEN                varchar(200),
+   DVTID int,
+   DAXOA int(2) default 0,
+   primary key (VTMA),
+   constraint fk_DVT foreign key(DVTID) references DONVITINH(DVTID)
+) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+/*==============================================================*/
+/* Table: VATTUNHAP                                             */
+/*==============================================================*/
+create table VATTUNHAP
+(
+   NSXMA                char(3) not null,
+   CLMA                 char(3) not null,
+   VTMA                 char(16) not null,
+   PNID                 int not null,
+   SOLUONG              int,
+   DAXOA int(2) default 0,
+   primary key (NSXMA, CLMA, VTMA, PNID)
+) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+/*==============================================================*/
+/* Table: VATTUXUAT                                             */
+/*==============================================================*/
+create table VATTUXUAT
+(
+   CTVTID int not null,
+   CVID                 int not null,
+   PXID                 int not null,
+   SOLUONG              int,
+   DAXOA int(2) default 0,
+   primary key (CTVTID, CVID, PXID)
+) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+/*==============================================================*/
+/* Table: VTCONGVAN                                             */
+/*==============================================================*/
+create table VTCONGVAN
+(
+   CVID                 int not null,
+   MSNV                 varchar(10) not null,
+   VTID                 int not null,
+   TTMA varchar(10) not null,
+   DAXOA int(2) default 0,
+   primary key (CVID, MSNV, VTID),
+   constraint fk_ttMa foreign key (TTMA) references TRANGTHAI(TTMA)
+) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+/*==============================================================*/
+/* Table: YEUCAU                                                */
+/*==============================================================*/
+create table YEUCAU(
+	YCID int primary key auto_increment,
+	CTVTID int not null,
+	CVID int not null,
+	DAXOA int(2) default 0,
+	YCSOLUONG int,
+	CAPSOLUONG int,
+	CONSTRAINT UNIQUE NONCLUSTERED(CVID, CTVTID)
+) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE NHATKY (
+	NKID int primary key auto_increment,
+	MSNV varchar(10),
+	HOATDONG TEXT,
+	THOIGIAN date,
+	NOIDUNG TEXT,
+	constraint FK_MSNV foreign key (MSNV) references NGUOIDUNG(MSNV)
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+alter table CONGVAN add constraint FK_DONVI_CONGVAN2 foreign key (DVMA)
+      references DONVI (DVMA) on delete restrict on update restrict;
+
+-- alter table CONGVAN add constraint FK_FILE_CONGVAN2 foreign key (FILEID)
+   -- references FILE (FILEID) on delete restrict on update restrict;
+alter table FILE add constraint FK_FILE_CONGVAN2 foreign key (CVID)
+      references CONGVAN (CVID) on delete restrict on update restrict;
+
+alter table CONGVAN add constraint FK_MUCDICH2 foreign key (MDMA)
+      references MUCDICH (MDMA) on delete restrict on update restrict;
+
+alter table CONGVAN add constraint FK_RELATIONSHIP_11 foreign key (TTMA)
+      references TRANGTHAI (TTMA) on delete restrict on update restrict;
+-- ---------------------------
+
+alter table CTNGUOIDUNG add constraint FK_CHI_TIET_NGUOIDUNG foreign key (MSNV)
+      references NGUOIDUNG (MSNV) on delete restrict on update restrict;
+
+alter table CTVATTU add constraint FK_CHATLUONG_YEUCAU2 foreign key (CLMA)
+      references CHATLUONG (CLMA) on delete restrict on update restrict;
+
+alter table CTVATTU add constraint FK_RELATIONSHIP_15 foreign key (VTMA)
+      references VATTU (VTMA) on delete restrict on update restrict;
+
+alter table CTVATTU add constraint FK_SANXUAT2 foreign key (NSXMA)
+      references NOISANXUAT (NSXMA) on delete restrict on update restrict;
+
+alter table NGUOIDUNG add constraint FK_RELATIONSHIP_2 foreign key (CDMA)
+      references CHUCDANH (CDMA) on delete restrict on update restrict;
+
+-- alter table PHIEUNHAP add constraint FK_LAP_PHIEUNHAP foreign key (CVID, MSNV, VTID)
+   --   references VTCONGVAN (CVID, MSNV, VTID) on delete restrict on update restrict;
+
+-- alter table PHIEUXUAT add constraint FK_LAP_PHIEU_XUAT foreign key (CVID, MSNV, VTID)
+--      references VTCONGVAN (CVID, MSNV, VTID) on delete restrict on update restrict;
+
+-- alter table VATTUNHAP add constraint FK_CHITIET_VATTU_NHAP foreign key (NSXMA, CLMA, VTMA)
+ --     references CTVATTU (NSXMA, CLMA, VTMA) on delete restrict on update restrict;
+
+alter table VATTUNHAP add constraint FK_VATTU_NHAP2 foreign key (PNID)
+      references PHIEUNHAP (PNID) on delete restrict on update restrict;
+
+alter table VATTUXUAT add constraint FK_RELATIONSHIP_21 foreign key (PXID)
+      references PHIEUXUAT (PXID) on delete restrict on update restrict;
+
+-- alter table VATTUXUAT add constraint FK_VATTU_DUOCXUAT foreign key (CTVTID, CVID)
+   --   references YEUCAU (CTVTID, CVID) on delete restrict on update restrict;
+
+alter table VTCONGVAN add constraint FK_RELATIONSHIP_14 foreign key (MSNV)
+      references NGUOIDUNG (MSNV) on delete restrict on update restrict;
+
+alter table VTCONGVAN add constraint FK_VAI_TRO_NGUOI_XU_LY foreign key (VTID)
+      references VAITRO (VTID) on delete restrict on update restrict;
+
+alter table VTCONGVAN add constraint FK_XULY2 foreign key (CVID)
+      references CONGVAN (CVID) on delete restrict on update restrict;
+
+alter table YEUCAU add constraint FK_RELATIONSHIP_13 foreign key (CVID)
+      references CONGVAN (CVID) on delete restrict on update restrict;
+
+alter table YEUCAU add constraint FK_RELATIONSHIP_7 foreign key (CTVTID)
+    references CTVATTU (CTVTID) on delete restrict on update restrict;
+
+
+-- alter table CTNGUOIDUNG ADD KHOA int(2) default 0;
+
+
+insert into VAITRO values(1,'Láº­p phiáº¿u nháº­p',0);
+insert into VAITRO values(2,'Mua váº­t tÆ°',0);
+insert into VAITRO values(3,'Cáº¥p váº­t tÆ°',0);
+insert into VAITRO values(4,'Láº­p phiáº¿u xuáº¥t',0);
+
+insert into CHUCDANH values ('GD', 'GiÃ¡m Ä‘á»‘c',0);
+insert into CHUCDANH values ('TP', 'TrÆ°á»Ÿng phÃ²ng',0);
+insert into CHUCDANH values ('NV', 'NhÃ¢n viÃªn',0);
+insert into CHUCDANH values ('TK', 'ThÆ° kÃ½',0);
+insert into CHUCDANH values ('VT', 'VÄƒn thÆ°',0);
+
+insert into NGUOIDUNG values ('b1203959', 'GD', 'Vo Phu Quoi', 'An giang', 'quoipro94@gmail.com', '0979921380');
+insert into NGUOIDUNG values ('b1203958', 'TK', 'LÃª Thá»‹ Cáº©m TiÃªn', 'An giang', 'quoipro94@gmail.com', '0979921380');
+insert into NGUOIDUNG values ('b1203957', 'TP', 'Nguyá»…n Thá»‹ Cáº©m Nhung', 'An giang', 'quoipro94@gmail.com', '0979921380');
+insert into NGUOIDUNG values ('b1203955', 'VT', 'TrÆ°Æ¡ng Trung Hiáº¿u', 'An giang', 'quoipro94@gmail.com', '0979921380');
+insert into NGUOIDUNG values ('b1203954', 'NV', 'TrÆ°Æ¡ng Quá»‘c Huy', 'An giang', 'quoipro94@gmail.com', '0979921380');
+
+
+insert into CHUCDANH value('AD','Admin',0);
+insert into NGUOIDUNG values ('admin123','AD','Vo Phu Quoi','An Giang','quoipro94@gmail.com','0979921380');
+insert into CTNGUOIDUNG values ('admin123' ,md5('123456789'),0);
+insert into CTNGUOIDUNG values ('b1203958' ,md5('123456789'),0);
+insert into CTNGUOIDUNG values ('b1203959' ,md5('123456789'),0);
+insert into CTNGUOIDUNG values ('b1203957' ,md5('123456789'),0);
+insert into CTNGUOIDUNG values ('b1203955' ,md5('123456789'),0);
+insert into CTNGUOIDUNG values ('b1203954' ,md5('123456789'),0);
+
+-- alter table VAITRO add DAXOA int(2) not null;
+-- alter table CHUCDANH add DAXOA int(2) not null;
+-- alter table NOISANXUAT add DAXOA int(2) not null;
+-- alter table MUCDICH add DAXOA int(2) not null;
+-- alter table VATTU add DAXOA int(2) not null;
+-- alter table CTVATTU add DAXOA int(2) not null;
+-- alter table CHATLUONG add DAXOA int(2) not null;
+-- alter table DONVITINH add DAXOA int(2) not null;
+-- alter table DONVI add DAXOA int(2) not null;
+
+-- alter table CTNGUOIDUNG ADD KHOA int(2) default 0;
+
+-- update DONVI set DAXOA = 0;
+-- update CHATLUONG set DAXOA = 0;
+-- update VAITRO set DAXOA = 0;
+-- update CHUCDANH set DAXOA = 0;
+-- update NOISANXUAT set DAXOA = 0;
+-- update MUCDICH set DAXOA = 0;
+-- update VATTU set DAXOA = 0;
+-- update CTVATTU set DAXOA = 0;
+-- update CHATLUONG set DAXOA = 0;
+-- update DONVITINH set DAXOA = 0;
+
+INSERT INTO TRANGTHAI VALUES('CGQ','ChÆ°a giáº£i quyáº¿t', 0);
+INSERT INTO TRANGTHAI VALUES('DGQ','Dang giáº£i quyáº¿t', 0);
+INSERT INTO TRANGTHAI VALUES('DaGQ','Ä�Ã£ giáº£i quyáº¿t', 0);
+-- ---------------------------
+INSERT INTO DONVI VALUES('F02F09','CÃ´ng ty Ä�iá»‡n lá»±c Cáº§n ThÆ¡', '0979921380' , 'vpdtevn@gmail.com', 'Can Tho', 0);
+INSERT INTO DONVI VALUES('F09A01','Ban QLDA lÆ°á»›i Ä‘iá»‡n', '0979921380' , 'vpdtevn@gmail.com', 'Can Tho', 0);
+INSERT INTO DONVI VALUES('F09D01','PhÃ²ng tá»• chá»©c vÃ  nhÃ¢n sá»±', '0979921380' , 'vpdtevn@gmail.com', 'Can Tho', 0);
+INSERT INTO DONVI VALUES('F02D08','PhÃ²ng Káº¿ Hoáº¡ch(Cty)', '0979921380' , 'vpdtevn@gmail.com', 'Can Tho', 0);
+INSERT INTO DONVI VALUES('F09D02','PhÃ²ng Thanh tra báº£o vá»‡-PhÃ¡p', '0979921380' , 'vpdtevn@gmail.com', 'Can Tho', 0);
+INSERT INTO DONVI VALUES('F09D03','PhÃ²ng Ká»¹ thuáº­t Sáº£n xuáº¥t(Cty)', '0979921380' , 'vpdtevn@gmail.com', 'Can Tho', 0);
+INSERT INTO DONVI VALUES('F09D04','PhÃ²ng Váº­t tÆ°(Cty)', '0979921380' , 'vpdtevn@gmail.com', 'Can Tho', 0);
+-----------------------------
+INSERT INTO MUCDICH VALUES('MD1','Má»¥c Ä‘Ã­ch 1',0);
+INSERT INTO MUCDICH VALUES('MD2','Má»¥c Ä‘Ã­ch 2',0);
+INSERT INTO MUCDICH VALUES('MD3','Má»¥c Ä‘Ã­ch 3',0);
+INSERT INTO MUCDICH VALUES('MD4','Má»¥c Ä‘Ã­ch 4',0);
+INSERT INTO MUCDICH VALUES('MD5','Má»¥c Ä‘Ã­ch 5',0);
+INSERT INTO MUCDICH VALUES('MD6','Má»¥c Ä‘Ã­ch 6',0);
+-- ---------------------------
+
+insert into CONGVAN values(1,"F02F09","DGQ","MD2",1,"2014-09-01","111","2014-09-01","KhÃ´ng cÃ³ trÃ­ch yáº¿u","KhÃ´ng cÃ³ bÃºt phÃª",0);
+insert into CONGVAN values(2,"F02D08","DGQ","MD3",2,"2015-08-27","222","2015-08-27","KhÃ´ng cÃ³ trÃ­ch yáº¿u","KhÃ´ng cÃ³ bÃºt phÃª",0);
+insert into CONGVAN values(3,"F02D08","DGQ","MD3",3,"2015-08-27","333","2015-08-27","KhÃ´ng cÃ³ trÃ­ch yáº¿u","KhÃ´ng cÃ³ bÃºt phÃª",0);
+insert into CONGVAN values(4,"F09D01","DGQ","MD2",4,"2015-08-28","444","2015-08-28","KhÃ´ng cÃ³ trÃ­ch yáº¿u","KhÃ´ng cÃ³ bÃºt phÃª",0);
+insert into CONGVAN values(5,"F09A01","DGQ","MD2",5,"2015-11-06","555","2015-08-06","111","11",0);
+insert into CONGVAN values(6,"F09A01","DGQ","MD2",6,"2015-08-28","666","2015-07-30","1111","1111",0);
+insert into CONGVAN values(7,"F09A01","DGQ","MD2",7,"2015-08-28","777","2015-07-30","1111","1111",0);
+insert into CONGVAN values(8,"F09A01","DGQ","MD2",8,"2015-08-28","888","2015-07-30","1111","1111",0);
+insert into CONGVAN values(9,"F09A01","DGQ","MD2",9,"2015-08-28","999","2015-07-30","1111","1111",0);
+insert into CONGVAN values(10,"F02D08","DGQ","MD3",10,"2015-08-28","123","2015-08-28","a","a",0);
+insert into CONGVAN values(11,"F02D08","DGQ","MD3",11,"2015-08-28","234","2015-08-28","a","a",0);
+insert into CONGVAN values(12,"F02D08","DGQ","MD3",12,"2015-08-28","345","2015-08-28","a","a",0);
+insert into CONGVAN values(13,"F09A01","DaGQ","MD3",13,"2015-08-28","456","2015-08-28","KhÃ´ng cÃ³ trÃ­ch yáº¿u","KhÃ´ng cÃ³ bÃºt phÃª",0);
+insert into CONGVAN values(14,"F02F09","DaGQ","MD3",1,"2015-11-01","789","2015-11-01","111","111",0);
+insert into CONGVAN values(15,"F09A01","CGQ","MD2",1,"2015-09-01","890","2015-09-01","KhÃ´ng cÃ³ trÃ­ch yáº¿u","KhÃ´ng cÃ³ bÃºt phÃª",0);
+insert into CONGVAN values(16,"F09A01","CGQ","MD3",1,"2015-09-01","901","2015-09-01","Khong co","Khong co",0);
+insert into CONGVAN values(17,"F02D08","CGQ","MD1",14,"2015-06-06","012","2015-05-06","khong"," khong",0);
+insert into CONGVAN values(18,"F02F09","CGQ","MD2",15,"2014-09-01","1234","2014-09-01","Khong co trich yeu","Khong co but phe",0);
+insert into CONGVAN values(19,"F02D08","DGQ","MD3",16,"2015-08-27","2345","2015-08-27","KhÃ´ng cÃ³ trÃ­ch yáº¿u","KhÃ´ng cÃ³ bÃºt phÃª",0);
+insert into CONGVAN values(20,"F02D08","DGQ","MD3",17,"2015-08-27","3456","2015-08-27","KhÃ´ng cÃ³ trÃ­ch yáº¿u","KhÃ´ng cÃ³ bÃºt phÃª",0);
+insert into CONGVAN values(21,"F09D01","DGQ","MD2",18,"2015-08-28","4567","2015-08-28","KhÃ´ng cÃ³ trÃ­ch yáº¿u","KhÃ´ng cÃ³ bÃºt phÃª",0);
+insert into CONGVAN values(22,"F09A01","CGQ","MD2",19,"2015-11-06","5678","2015-08-06","111","11",0);
+insert into CONGVAN values(23,"F09A01","DGQ","MD2",20,"2015-08-28","6789","2015-07-30","1111","1111",0);
+insert into CONGVAN values(24,"F09A01","DGQ","MD2",21,"2015-08-28","7890","2015-07-30","1111","1111",0);
+insert into CONGVAN values(25,"F09A01","DGQ","MD2",22,"2015-08-28","8901","2015-07-30","1111","1111",0);
+insert into CONGVAN values(26,"F09A01","DGQ","MD2",23,"2015-08-28","9012","2015-07-30","1111","1111",0);
+insert into CONGVAN values(27,"F02D08","DGQ","MD3",24,"2015-08-28","0123","2015-08-28","a","a",0);
+insert into CONGVAN values(28,"F02D08","DGQ","MD3",25,"2015-08-28","12345","2015-08-28","a","a",0);
+insert into CONGVAN values(29,"F02D08","DGQ","MD3",26,"2015-08-28","23456","2015-08-28","a","a",0);
+insert into CONGVAN values(30,"F09A01","CGQ","MD3",27,"2015-08-28","34567","2015-08-28","KhÃ´ng cÃ³ trÃ­ch yáº¿u","KhÃ´ng cÃ³ bÃºt phÃª",0);
+insert into CONGVAN values(31,"F02F09","CGQ","MD3",28,"2015-11-01","45678","2015-11-01","111","111",0);
+insert into CONGVAN values(32,"F09A01","CGQ","MD2",29,"2015-09-01","56789","2015-09-01","KhÃ´ng cÃ³ trÃ­ch yáº¿u","KhÃ´ng cÃ³ bÃºt phÃª",0);
+insert into CONGVAN values(33,"F09A01","CGQ","MD3",30,"2015-09-01","67890","2015-09-01","KhÃ´ng cÃ³ trÃ­ch yáº¿u","KhÃ´ng cÃ³ bÃºt phÃª",0);
+insert into CONGVAN values(34,"F02D08","CGQ","MD1",31,"2015-06-06","78901","2015-05-06","KhÃ´ng cÃ³ trÃ­ch yáº¿u","KhÃ´ng cÃ³ bÃºt phÃª",0);
+insert into CONGVAN values(35,"F02F09","CGQ","MD2",32,"2014-09-01","89012","2014-09-01","KhÃ´ng cÃ³ trÃ­ch yáº¿u","KhÃ´ng cÃ³ bÃºt phÃª",0);
+insert into CONGVAN values(36,"F02D08","DGQ","MD3",33,"2015-08-27","90123","2015-08-27","KhÃ´ng cÃ³ trÃ­ch yáº¿u","KhÃ´ng cÃ³ bÃºt phÃª",0);
+insert into CONGVAN values(37,"F02D08","DGQ","MD3",3,"2015-08-27","01234","2015-08-27","KhÃ´ng cÃ³ trÃ­ch yáº¿u","KhÃ´ng cÃ³ bÃºt phÃª",0);
+insert into CONGVAN values(38,"F09D01","DGQ","MD2",34,"2015-08-28","123456","2015-08-28","KhÃ´ng cÃ³ trÃ­ch yáº¿u","KhÃ´ng cÃ³ bÃºt phÃª",0);
+insert into CONGVAN values(39,"F09A01","CGQ","MD2",35,"2015-11-06","234567","2015-08-06","111","11",0);
+insert into CONGVAN values(40,"F09A01","DGQ","MD2",36,"2015-08-28","345678","2015-07-30","1111","1111",0);
+insert into CONGVAN values(41,"F09A01","DGQ","MD2",37,"2015-08-28","456789","2015-07-30","1111","1111",0);
+insert into CONGVAN values(42,"F09A01","DGQ","MD2",38,"2015-08-28","567890","2015-07-30","1111","1111",0);
+insert into CONGVAN values(43,"F09A01","DGQ","MD2",39,"2015-08-28","678901","2015-07-30","1111","1111",0);
+insert into CONGVAN values(44,"F02D08","DGQ","MD3",40,"2015-08-28","789012","2015-08-28","a","a",0);
+insert into CONGVAN values(45,"F02D08","DGQ","MD3",41,"2015-08-28","890123","2015-08-28","a","a",0);
+insert into CONGVAN values(46,"F02D08","DGQ","MD3",42,"2015-08-28","901234","2015-08-28","a","a",0);
+insert into CONGVAN values(47,"F09A01","CGQ","MD3",43,"2015-08-28","012345","2015-08-28","KhÃ´ng cÃ³ trÃ­ch yáº¿u","KhÃ´ng cÃ³ bÃºt phÃª",0);
+insert into CONGVAN values(48,"F02F09","CGQ","MD3",44,"2015-11-01","1234567","2015-11-01","111","111",0);
+insert into CONGVAN values(49,"F09A01","CGQ","MD2",45,"2015-09-01","2345678","2015-09-01","KhÃ´ng cÃ³ trÃ­ch yáº¿u","KhÃ´ng cÃ³ bÃºt phÃª",0);
+insert into CONGVAN values(50,"F09A01","CGQ","MD3",46,"2015-09-01","3456789","2015-09-01","KhÃ´ng cÃ³ trÃ­ch yáº¿u","KhÃ´ng cÃ³ bÃºt phÃª",0);
+insert into CONGVAN values(51,"F02D08","CGQ","MD1",47,"2015-06-06","4567890","2015-05-06","KhÃ´ng cÃ³ trÃ­ch yáº¿u","KhÃ´ng cÃ³ bÃºt phÃª",0);
+
+--
+INSERT INTO FILE VALUES(1,1,"./6-quan_ly_tien_trinh-1.pdf","file cong van");
+INSERT INTO FILE VALUES(2,2,"./6-quan_ly_tien_trinh-2.pdf","file quan ly");
+INSERT INTO FILE VALUES(3,3,"./6-quan_ly_tien_trinh-3.pdf","file quan ly");
+INSERT INTO FILE VALUES(4,4,"./vattu-4.xls","file vattu");
+INSERT INTO FILE VALUES(5,5,"./6-quan_ly_tien_trinh-14.pdf","111");
+INSERT INTO FILE VALUES(6,6,"./indsvattu-6.xls","1111");
+INSERT INTO FILE VALUES(7,7,"./indsvattu-7.xls","1111");
+INSERT INTO FILE VALUES(8,8,"./indsvattu-8.xls","1111");
+INSERT INTO FILE VALUES(9,9,"./indsvattu-9.xls","1111");
+INSERT INTO FILE VALUES(10,10,"./JsonToMapUtility-10.java","aa");
+INSERT INTO FILE VALUES(11,11,"./JsonToMapUtility-11.java","aa");
+INSERT INTO FILE VALUES(12,12,"./JsonToMapUtility-12.java","aa");
+INSERT INTO FILE VALUES(13,13,"./6-quan_ly_tien_trinh-13.pdf","file vattu");
+INSERT INTO FILE VALUES(14,14,"./vattu-1.xls","11111");
+INSERT INTO FILE VALUES(15,15,"./15M-FLD-004 Job Openning SW Engineer-1.pdf","file cong van");
+INSERT INTO FILE VALUES(16,16,"./6-quan_ly_tien_trinh-13-1.pdf","cong van");
+INSERT INTO FILE VALUES(17,17,"./jsapi-14.js","file json");
+INSERT INTO FILE VALUES(18,18,"./6-quan_ly_tien_trinh-1.pdf","file cong van");
+INSERT INTO FILE VALUES(19,19,"./6-quan_ly_tien_trinh-2.pdf","file quan ly");
+INSERT INTO FILE VALUES(20,20,"./6-quan_ly_tien_trinh-3.pdf","file quan ly ");
+INSERT INTO FILE VALUES(21,21,"./vattu-4.xls","file vattu");
+INSERT INTO FILE VALUES(22,22,"./6-quan_ly_tien_trinh-14.pdf","111");
+INSERT INTO FILE VALUES(23,23,"./indsvattu-6.xls","1111");
+INSERT INTO FILE VALUES(24,24,"./indsvattu-7.xls","1111");
+INSERT INTO FILE VALUES(25,25,"./indsvattu-8.xls","1111");
+INSERT INTO FILE VALUES(26,26,"./indsvattu-9.xls","1111");
+INSERT INTO FILE VALUES(27,27,"./JsonToMapUtility-10.java","aa");
+INSERT INTO FILE VALUES(28,28,"./JsonToMapUtility-11.java","aa");
+INSERT INTO FILE VALUES(29,29,"./JsonToMapUtility-12.java","aa");
+INSERT INTO FILE VALUES(30,30,"./6-quan_ly_tien_trinh-13.pdf","file vattu");
+INSERT INTO FILE VALUES(31,31,"./vattu-1.xls","11111");
+INSERT INTO FILE VALUES(32,32,"./15M-FLD-004 Job Openning SW Engineer-1.pdf","file cong van");
+INSERT INTO FILE VALUES(33,33,"./6-quan_ly_tien_trinh-13-1.pdf","cong van");
+INSERT INTO FILE VALUES(34,34,"./jsapi-14.js","file json");
+INSERT INTO FILE VALUES(35,35,"./6-quan_ly_tien_trinh-1.pdf","file cong van");
+INSERT INTO FILE VALUES(36,36,"./6-quan_ly_tien_trinh-2.pdf","file quan ly");
+INSERT INTO FILE VALUES(37,37,"./6-quan_ly_tien_trinh-3.pdf","file quan ly");
+INSERT INTO FILE VALUES(38,38,"./vattu-4.xls","file vattu");
+INSERT INTO FILE VALUES(39,39,"./6-quan_ly_tien_trinh-14.pdf","111");
+INSERT INTO FILE VALUES(40,40,"./indsvattu-6.xls","1111");
+INSERT INTO FILE VALUES(41,41,"./indsvattu-7.xls","1111");
+INSERT INTO FILE VALUES(42,42,"./indsvattu-8.xls","1111");
+INSERT INTO FILE VALUES(43,43,"./indsvattu-9.xls","1111");
+INSERT INTO FILE VALUES(44,44,"./JsonToMapUtility-10.java","aa");
+INSERT INTO FILE VALUES(45,45,"./JsonToMapUtility-11.java","aa");
+INSERT INTO FILE VALUES(46,46,"./JsonToMapUtility-12.java","aa");
+INSERT INTO FILE VALUES(47,47,"./6-quan_ly_tien_trinh-13.pdf","file vattu");
+INSERT INTO FILE VALUES(48,48,"./vattu-1.xls","11111");
+INSERT INTO FILE VALUES(49,49,"./15M-FLD-004 Job Openning SW Engineer-1.pdf","file cong van");
+INSERT INTO FILE VALUES(50,50,"./6-quan_ly_tien_trinh-13-1.pdf","cong van");
+INSERT INTO FILE VALUES(51,51,"./jsapi-14.js","file json");
+
+

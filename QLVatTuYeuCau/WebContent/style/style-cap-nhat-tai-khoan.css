@@ -1,0 +1,98 @@
+#paging {
+	text-align: center;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	margin: 0 auto;
+}
+#paging {
+	text-align: center;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	margin: 0 auto;
+}
+#paging table {
+	margin: 0 auto;
+	margin-top: 20px;
+	border-style: none;
+}
+#paging table tr td{
+	border-style: none;
+}
+#paging table tr td a {
+	color: blue;
+	font-size: 15px;
+}
+.scroll_content {
+	height: 370px;
+	width: 810px;
+	display: auto;
+	font-size: 16px;
+	border: 1px solid #CCCCCC;
+	margin: 0 auto;
+}
+.text-search{
+	border-radius: 5px;
+	border-style: solid;
+	border-width: 1px;
+	height: 25px;
+	width: 300px;
+	opacity: 0.9;
+	border-color: dimgray;
+	font-size: 16px;
+}
+#title-content {
+	text-align: center;
+	font-size: 25px;
+	color: firebrick;
+	font-weight: bold;
+	padding-top: 20px;
+}
+.text-search{
+	border-radius: 5px;
+	border-style: solid;
+	border-width: 1px;
+	height: 25px;
+	width: 700px;
+	opacity: 0.9;
+	border-color: dimgray;
+	font-size: 16px;
+}
+#add-form{
+	display: none;
+	position: absolute;
+	top:35%;
+	left:30%;
+	width:35%;
+	background-color: #DCEAF5;
+	border-radius: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 10px;
+	margin: 0 auto;
+	
+}
+#wrapper {
+	margin: 0 auto;
+}
+
+#main-content {
+	margin: 0 auto;
+	width: 100%;
+}
+
+#view-table table tr th {
+	background-color: #199e5e;
+}
+
+.form-title {
+	text-align: center;
+	font-size: 25px;
+	font-weight: bold;
+	color: #199e5e;
+}
+
+
+#main-content {
+	height: 700px;
+	
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="model.VTCongVan" table="VTCONGVAN">
+<!-- 		<id name="cvId" type="int" access="field"> -->
+<!-- 			<column name="CVID" /> -->
+<!-- 			<generator class="assigned" /> -->
+<!-- 		</id> -->
+<!-- 		<many-to-one name="vaiTro" class="model.VaiTro" access="field" -->
+<!-- 			fetch="join"> -->
+<!-- 			<column name="VAITRO" /> -->
+<!-- 		</many-to-one> -->
+<!-- 		<many-to-one name="nguoiDung" class="model.NguoiDung" -->
+<!-- 			access="field" fetch="join"> -->
+<!-- 			<column name="NGUOIDUNG" /> -->
+<!-- 		</many-to-one> -->
+		<composite-id>
+			<key-property name="cvId" column="CVID" type="int"></key-property>
+			<key-property name="msnv" column="MSNV" type="string"></key-property>
+			<key-property name="vtId" column="VTID" type="int"></key-property>
+		</composite-id>
+		<many-to-one name="trangThai" class="model.TrangThai" fetch ="join"  > 
+ 			<column name="TTMA" /> 
+ 		</many-to-one> 
+		<property name="daXoa" type="int" access="field"> 
+ 			<column name="DAXOA" /> 
+ 		</property>
+	</class>
+</hibernate-mapping>

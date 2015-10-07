@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="model.CongVan" table="CONGVAN" catalog="vattu">
+		<id name="cvId" type="int">
+			<column name="CVID" />
+			<generator class="increment" />
+		</id>
+		<property name="soDen" type="int">
+			<column name="SODEN" />
+		</property>
+		<property name="cvNgayNhan" type="java.sql.Date">
+			<column name="CVNGAYNHAN" />
+		</property>
+		<property name="cvSo" type="java.lang.String">
+			<column name="CVSO" />
+		</property>
+		<property name="cvNgayDi" type="java.sql.Date">
+			<column name="CVNGAYDI" />
+		</property>
+		<property name="daXoa" type="int">
+			<column name="DAXOA" />
+		</property>
+		<property name="trichYeu" type="java.lang.String">
+			<column name="TRICHYEU" />
+		</property>
+		<property name="butPhe" type="java.lang.String">
+			<column name="BUTPHE" />
+		</property>
+		<many-to-one name="mucDich" class="model.MucDich" fetch="join">
+			<column name="MDMA" />
+		</many-to-one>
+		<many-to-one name="trangThai" class="model.TrangThai" access="field"
+			fetch="join">
+			<column name="TTMA" />
+		</many-to-one>
+		<many-to-one name="donVi" class="model.DonVi" fetch="join" access="field" >
+			<column name="DVMA" />
+		</many-to-one>
+		<!-- <many-to-one name="file" class="model.File" fetch="select"> -->
+		<!-- <column name="FILEID" /> -->
+		<!-- </many-to-one> -->
+	</class>
+</hibernate-mapping>
