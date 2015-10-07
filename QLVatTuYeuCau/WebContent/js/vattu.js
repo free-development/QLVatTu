@@ -256,7 +256,7 @@
 				if(listCTVatTu.vtMa != null) {
 					$('#add-chitiet input:text[name=vtMa]').val(listCTVatTu.vtMa);
 					$('#add-chitiet input:text[name=vtTen]').val(listCTVatTu.vtTen);
-					$('#add-chitiet input:text[name=dvt]').val(listCTVatTu.vattu.dvt.dvtTen);
+					$('#add-chitiet input:text[name=dvt]').val(listCTVatTu.dvt.dvtTen);
 					alert("Không có chi tiết vật tư!");
 				}
 				else {

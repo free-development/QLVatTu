@@ -81,9 +81,9 @@ public class CTVatTuDAO {
 		session.update(ctVatTu);
 		session.getTransaction().commit();
 	}
-	public void deleteCTVatTu(String vtMa){
+	public void deleteCTVatTu(int ctVtId){
 		session.beginTransaction();
-		String sql = "update CTVatTu set daXoa = 1 where vtMa = '" + vtMa + "'";		
+		String sql = "update CTVatTu set daXoa = 1 where ctvtId = " + ctVtId;		
 		Query query = session.createQuery(sql);
 		query.executeUpdate();
 		session.getTransaction().commit();
@@ -125,7 +125,7 @@ public class CTVatTuDAO {
 		Criterion expVatTu = Restrictions.eq("vatTu", new VatTu(vtMa));
 		
 		cr.add(expVatTu);
-		
+		cr.add(Restrictions.eq("daXoa", 0));
 		ArrayList<CTVatTu> ctVatTu =  (ArrayList<CTVatTu>) cr.list();
 		session.getTransaction().commit();
 		return ctVatTu;

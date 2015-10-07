@@ -75,7 +75,7 @@ public class CtvtController extends HttpServlet {
 			String[] vtIdList = request.getParameterValues("vtMa");
 			for(String s : vtIdList) {
 				
-					ctVatTuDAO.deleteCTVatTu(s);
+					ctVatTuDAO.deleteCTVatTu(Integer.parseInt(s));
 			}
 			ArrayList<VatTu> vatTuList =  (ArrayList<VatTu>) vatTuDAO.getAllVatTu();
 			vatTuDAO.disconnect();
@@ -200,10 +200,10 @@ public class CtvtController extends HttpServlet {
 	@RequestMapping(value = "/deleteCTVattu", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String deleteVattu(@RequestParam("ctvtList") String ctvtList) {
 		String[] str = ctvtList.split("\\, ");
-		
+		System.out.println(str[0]);
 		CTVatTuDAO ctvtDAO =  new CTVatTuDAO();
 		for(String ctvtId : str) {
-			ctvtDAO.deleteCTVatTu(ctvtId);
+			ctvtDAO.deleteCTVatTu(Integer.parseInt(ctvtId));
 		}
 		ctvtDAO.disconnect();
 		return JSonUtil.toJson(ctvtList);
