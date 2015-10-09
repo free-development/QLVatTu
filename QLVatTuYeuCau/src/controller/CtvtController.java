@@ -109,7 +109,6 @@ public class CtvtController extends HttpServlet {
 				vatTuDAO.disconnect();
 				return JSonUtil.toJson(vatTu);
 			}
-			System.out.println(listCTVatTu.get(0).getVatTu().getVtTen());
 			vatTuDAO.disconnect();
 			ctVatTuDAO.disconnect();
 			return JSonUtil.toJson(listCTVatTu);

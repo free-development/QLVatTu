@@ -54,6 +54,10 @@
     <param-name>hosting</param-name>
     <param-value>http://localhost:8080</param-value>
   </context-param>
+  <context-param>
+    <param-name>pathFile</param-name>
+    <param-value>/home/quoioln/File/</param-value>
+  </context-param>
   <jsp-config>
     <jsp-property-group>
       <url-pattern>*.jsp</url-pattern>
@@ -77,4 +81,5 @@
 	<filter-name>CharacterEncodingFilter</filter-name>
 	<url-pattern>/*</url-pattern>
 </filter-mapping>
+
 </web-app>

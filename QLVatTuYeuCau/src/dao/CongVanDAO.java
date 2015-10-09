@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -15,13 +13,11 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import model.CongVan;
 import model.DonVi;
-import model.File;
 import model.TrangThai;
 import model.VTCongVan;
 import util.DateUtil;
@@ -38,9 +34,17 @@ public class CongVanDAO {
 	}
 	public CongVan getCongVan(final int cvId) {
 		session.beginTransaction();
-		CongVan congVan = (CongVan) session.get(CongVan.class, cvId);
+		Criteria cr = session.createCriteria(CongVan.class, "congVan");
+		cr.createAlias("congVan.mucDich", "mucDich");
+		cr.createAlias("congVan.donVi", "donVi");
+		cr.createAlias("congVan.trangThai", "trangThai");
+		cr.add(Restrictions.eq("cvId", cvId));
+		ArrayList<CongVan> congVanList = (ArrayList<CongVan>) cr.list();
 		session.getTransaction().commit();
-		return congVan;
+		if (congVanList.size() > 0)
+			return congVanList.get(0);
+		else
+			return null;
 	}
 	public List<CongVan> getAllCongVan() {
 		session.beginTransaction();
@@ -54,6 +58,7 @@ public class CongVanDAO {
 	public List<CongVan> limit(int first, int limit) {
 		session.beginTransaction();
 		Criteria cr = session.createCriteria(CongVan.class);
+		
 		Criterion xoaCd = Restrictions.eq("daXoa", 0);
 //		Criterion limitRow = Restrictions.
 		cr.add(xoaCd);
@@ -107,6 +112,7 @@ public class CongVanDAO {
 	public void addCongVan(CongVan congVan){
 		session.beginTransaction();
 		session.save(congVan);
+//		session.refresh(congVan);
 		session.getTransaction().commit();
 	}
 	public void addOrUpdateCongVan(CongVan congVan){
@@ -140,7 +146,7 @@ public class CongVanDAO {
 	}
 	public int getLastInsert() {
 		session.beginTransaction();
-		Criteria cr =  session.createCriteria(File.class).setProjection(Projections.max("cvId"));// max("ctvtId"));
+		Criteria cr =  session.createCriteria(CongVan.class).setProjection(Projections.max("cvId"));// max("ctvtId"));
 		Integer idOld =  (Integer) cr.list().get(0);
 		int id = 0;
 		if (idOld != null)
@@ -150,16 +156,24 @@ public class CongVanDAO {
 		session.getTransaction().commit();
 		return id;
 	}
-	public int getSoDenMax() {
+	public int getSoDenAdd(Date cvNgayNhan) {
+		System.out.println(cvNgayNhan.getMonth());
 		session.beginTransaction();
-		Criteria cr =  session.createCriteria(CongVan.class).setProjection(Projections.max("soDen"));// max("ctvtId"));
-		Integer idOld =  (Integer) cr.list().get(0);
-		int soDen = 0;
-		if (idOld != null)
-			soDen += idOld + 1;
-		else
-			soDen++;
-		
+		Criteria cr =  session.createCriteria(CongVan.class);
+		cr.setProjection(Projections.max("soDen"));
+		cr.add(Restrictions.sqlRestriction("MONTH(cvNgayNhan) = " + (cvNgayNhan.getMonth() + 1)));
+		cr.add(Restrictions.sqlRestriction("YEAR(cvNgayNhan) = " + (cvNgayNhan.getYear() + 1900)));
+//		cr.setProjection(Projections.property("soDen"));
+//		cr.addOrder(Order.desc("soDen"));
+		Integer soDen = (Integer) cr.uniqueResult();
+		if (soDen == null)
+			soDen = 0;
+		soDen ++;
+//		ArrayList<Integer> temp = (ArrayList<Integer>) cr.list();
+//		int soDen = 0;
+//		if (temp.size() > 0)
+//			soDen = temp.get(0);
+//		soDen ++;
 		session.getTransaction().commit();
 		return soDen;
 	}
@@ -480,15 +494,9 @@ public long size(String msnv, HashMap<String, Object> conditions) {
 //		return null;
 //	}
 	public static void main(String[] args) {
-		System.out.println(new CongVanDAO().size("b1203959"));
-		HashMap<String, Object> conditions = new HashMap<String, Object>();
-//		conditions.put("year", 2015);
-//		conditions.put("month", 8);
-		conditions.put("soDen", 1);
-//		conditions.put("trangThai.ttMa", "CGQ");
-		ArrayList<CongVan> size =  new CongVanDAO().searchLimit(null , conditions, null, 0, 10);
-		for(CongVan year : size)
-			System.out.println(year);
-//		System.out.println(size.size());
+		String d = "2015-12-09";
+		Date date = DateUtil.parseDate(d);
+		 int soDen = new CongVanDAO().getSoDenAdd(date);
+		System.out.println(soDen);
 	}
 }

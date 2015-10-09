@@ -88,11 +88,11 @@ adminMa = '<%=adminMa  %>';
 truongPhongMa = '<%=truongPhongMa  %>';
 hosting = '<%=hosting  %>';
 msnv = '<%=authentication.getMsnv()  %>';
-
+countAdd = '0';
 // || capPhatMa.equals(chucDanhMa)
 
 </script>
-<script type="text/javascript" src="js/cong-van.js"></script>
+<script type="text/javascript" src="js/cong-van.js" charset="utf-8"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="Shortcut Icon" href="img/logo16.png" type="image/x-icon" />
 
@@ -109,7 +109,7 @@ msnv = '<%=authentication.getMsnv()  %>';
 			<div id="content-form">
 			<div id="title-content">Công văn</div>
 			
-				<table style="margin: 0 auto;width: 1400px;">
+				<table style="margin: 0 auto;width: 100%;">
 				<tr>
 				<td>
 				 <form id="time-form">
@@ -215,14 +215,16 @@ msnv = '<%=authentication.getMsnv()  %>';
 
 
                      <form name="main-form" id = "main-form" method="get" action="<%=siteMap.ycvtManage%>">
-                     <div style="width: 1250px; overflow:auto" class="scroll_content ">
+                     <div style="width: 100%; overflow:auto" class="scroll_content " id="scroll_content">
+                     <table>
 						<%
 					
                      	int count = 0;
                      	for(CongVan congVan : congVanList) {
                      		count ++;
                      %>
-					<table class="tableContent" <%if (count % 2 == 1){ out.println("style=\"background : #CCFFFF;width: 1224px;  \"");}else{out.println("style=\"background : #FFFFFF; width: 1224px;\"");}%>style="font-size: 16px;width:900px;" class="border-congvan">
+                     <tr><td> 
+					<table class="tableContent" <%if (count % 2 == 1){ out.println("style=\"background : #CCFFFF; width: 100%; font-size: 18px;  \"");}else{out.println("style=\"background : #FFFFFF; width: 100%; font-size: 18px;\"");}%> class="border-congvan">
 						<tr >
 						<% if (chucDanhMa.equals(vanThuMa) || chucDanhMa.equals(adminMa)) {%>
 							<td class="column-check" rowspan="9" style="margin-right: 30px;">
@@ -387,8 +389,9 @@ msnv = '<%=authentication.getMsnv()  %>';
 				
 					<br>
 					<hr>
-
+					</td></tr>
 							<%} %>
+							</table>
 					<script type="text/javascript">
 						$('.ttMaUpdate').bind('change', function() {
 							var trangThai = $(this).val(); 
@@ -539,7 +542,7 @@ msnv = '<%=authentication.getMsnv()  %>';
 						<table>
 							<tr style="margin-bottom: 20px;">
 								<th colspan="1" style="text-align: left"><label for="soDen" style="text-align: left">Số nhận</label></th>
-								<td colspan="3"><input type = "text" class="text" value="123" readonly style="background: #D1D1E0;" sise="5" name="soDen"></td>
+								<td colspan="3"><input type = "text" class="text" value="123" readonly style="background: #D1D1E0;" sise="5" name="soDen"><input type = "hidden" value=""  name="cvId"></td>
 							</tr>
 							<tr style="margin-bottom: 20px;">
 								<th style="text-align: left" colspan="1"> <label for="cvSo" style="text-align: left">Số công văn đến: </label></th>

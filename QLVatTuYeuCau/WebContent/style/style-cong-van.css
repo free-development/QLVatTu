@@ -217,11 +217,9 @@
 
 .scroll_content {
 	height: 500px;
-	width: 810px;
 	display: auto;
 	font-size: 16px;
 	border: 1px solid #CCCCCC;
-	margin: 0 auto;
 }
 
 .chi-tiet {
@@ -299,7 +297,7 @@
 	text-align: left;
 }
 
-.fonr-column {
+.four-column {
 	width: 100px;
 	text-align: left;
 }
@@ -384,7 +382,7 @@
 	display: none;
 	width: 63%;
 	/*    height: 36%*/
-	position: absolute;
+	position: fixed;
 	left: 17%;
 	right: 17% /*	margin: 0 auto;*/ 
 	 float: left;
@@ -401,10 +399,10 @@
 
 #update-form {
 	display: none;
-	width: 66%;1111
+	width: 66%;
 	width: 63%;
 	/*    height: 36%*/
-	position: absolute;
+	position: fixed;
 	left: 17%;
 	right: 17%;
 	top: 21%;
@@ -422,7 +420,7 @@
 #update-yc-vat-tu {
 	display: none;
 	width: 58%;
-	position: absolute;
+	position: fixed;
 	left: 20%;
 	right: 20%;
 	top: 35%;
@@ -435,9 +433,10 @@
 }
 
 #add-form-ycvt, #update-form-ycvt {
+	
 	display: none;
 	width: 30%;
-	position: absolute;
+	position: fixed;
 	left: 20%;
 	right: 20%;
 	margin: 0 auto;

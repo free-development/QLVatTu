@@ -118,7 +118,21 @@ public final class FileUtil {
 		}
 		return fileExtension.toUpperCase();
 	}
-	
+
+	public static String getName(String fileName) {
+		int i = fileName.lastIndexOf(".");
+		if (i != -1) {
+			return fileName.substring(0, i);
+		}
+		return "";
+	}
+	public static String getExtension(String fileName) {
+		int i = fileName.lastIndexOf(".");
+		if (i != -1) {
+			return fileName.substring(i + 1);
+		}
+		return "";
+	}
 	/*
 	 * public static void main(String[] args) { File file = new
 	 * File("D:/FileUpload/GstFormFileUpload/Screenshot (1)-1");

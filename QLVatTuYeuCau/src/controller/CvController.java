@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.JOptionPane;
 
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.oreilly.servlet.MultipartRequest;
@@ -82,12 +83,6 @@ public class CvController extends HttpServlet{
     private String vanThuMa = "";
     private int vtCapVt = 0;
     
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException{
-    	request.setCharacterEncoding("UTF-8");
-    	response.setCharacterEncoding("UTF-8");
-    	chain.doFilter(request, response);
-    }
-    
     public ModelAndView getCongvan( HttpServletRequest request) {
     	truongPhongMa = context.getInitParameter("truongPhongMa");
     	vanThuMa = context.getInitParameter("vanThuMa");
@@ -118,8 +113,8 @@ public class CvController extends HttpServlet{
 		} else 
 			this.cvId = 0;
 		
-		orderBy.put("cvId", false);
-    	ArrayList<CongVan> congVanList = (ArrayList<CongVan>) congVanDAO.searchLimit(msnvTemp, conditions, null, 0, 3);
+		orderBy.put("cvId", true);
+    	ArrayList<CongVan> congVanList = (ArrayList<CongVan>) congVanDAO.searchLimit(msnvTemp, conditions, orderBy, 0, 3);
     	//chung
 		HashMap<Integer, File> fileHash = new HashMap<Integer, File>();
 		if (cdMa.equals(vanThuMa) || cdMa.equals(truongPhongMa) || cdMa.equals(adminMa)) {
@@ -206,7 +201,7 @@ public class CvController extends HttpServlet{
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		HttpSession session = request.getSession(false);
+		session = request.getSession(false);
 		NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoiDung");
 		if (nguoiDung == null)
 			response.sendRedirect("login.jsp");
@@ -293,7 +288,7 @@ public class CvController extends HttpServlet{
 		String trichYeu = multipartRequest.getParameter("trichYeu");
 		String butPhe = multipartRequest.getParameter("butPhe");
 		String moTa = multipartRequest.getParameter("moTa");
-		int soDen = congVanDAO.getSoDenMax();
+		int soDen = congVanDAO.getSoDenAdd(cvNgayNhan);
 		if (cvNgayNhan.getDate() == 1 && soDen != 1)
 			soDen = 1;
 		// upload file
@@ -384,12 +379,194 @@ public class CvController extends HttpServlet{
 		fileDAO.close();
 		return getCongvan(request);
     }
-    
+   
+    @RequestMapping(value="/addCongVanInfo", method=RequestMethod.POST, 
+			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody String addCongVanInfo(MultipartHttpServletRequest multipartRequest)  {
+    	String pathFile = context.getInitParameter("pathFile");
+    	try {
+			String cvSo = multipartRequest.getParameter("cvSo");
+			CongVanDAO congVanDAO = new CongVanDAO();
+			CongVan congVanAdd = new CongVan();
+			CongVan congVan = congVanDAO.getByCvSo(cvSo);
+			if (congVan == null || congVan.getDaXoa() == 1) {
+				Date cvNgayDi = DateUtil.parseDate(multipartRequest.getParameter("ngayGoi"));
+				Date cvNgayNhan = DateUtil.parseDate(multipartRequest.getParameter("ngayNhan"));
+				System.out.println(cvNgayNhan);
+				int soDen = congVanDAO.getSoDenAdd(cvNgayNhan);
+				
+//				if (cvNgayNhan.getDate() == 1 && soDen != 1)
+//					soDen = 1;
+				String mdMa = multipartRequest.getParameter("mucDich");
+				String dvMa = multipartRequest.getParameter("donVi");
+				String trichYeu = multipartRequest.getParameter("trichYeu");
+				String butPhe = multipartRequest.getParameter("butPhe");
+				String moTa = multipartRequest.getParameter("moTa");
+//				if (cvNgayNhan.getDate() == 1 && soDen != 1)
+//					soDen = 1;
+				
+				int cvId;
+				if (congVan == null) {
+					cvId = congVanDAO.getLastInsert();
+					congVanAdd = new CongVan (cvId, soDen, cvSo, cvNgayNhan, cvNgayDi, trichYeu, butPhe, new MucDich(mdMa), new TrangThai("CGQ",""), new DonVi(dvMa),0);
+					congVanDAO.addCongVan(congVanAdd);
+					
+				}
+				else {
+					congVan.setSoDen(soDen);
+					congVan.setCvSo(cvSo);
+					congVan.setButPhe(butPhe);
+					congVan.setCvNgayDi(cvNgayDi);
+					congVan.setCvNgayNhan(cvNgayNhan);
+					congVan.setDonVi(new DonVi(dvMa));
+					congVan.setMucDich(new MucDich(mdMa));
+					congVan.setTrangThai(new TrangThai("CGQ",""));
+					congVan.setTrichYeu(trichYeu);
+					congVan.setDaXoa(0);
+					congVanDAO.updateCongVan(congVan);
+					cvId = congVan.getCvId();
+					congVanAdd = congVan;
+				}
+				
+				MultipartFile fileUpload = multipartRequest.getFile("file");
+	        	String fileName = fileUpload.getOriginalFilename();
+	        	String fileExtension = FileUtil.getExtension(fileName);
+	        	String name = FileUtil.getName(fileName);
+				if(fileExtension.length() > 0) {
+					 fileName = name + "-" + cvId + "." + fileExtension;
+				 } else {
+					 fileName = name + "-" + cvId;
+				 }
+				String path = pathFile + fileName;
+	        	java.io.File file = new java.io.File(path);
+	        	System.out.println(file.getPath());
+	    		file.createNewFile();
+	    		fileUpload.transferTo(file);
+	    		FileDAO fileDAO = new FileDAO();
+	    		File f =  new File(path, moTa, cvId);
+	    		if (congVan == null)
+	    			fileDAO.addFile(f);
+	    		else
+	    			fileDAO.updateFile(f);
+	    		
+	    		fileDAO.disconnect();
+	    		congVanDAO.disconnect();
+	    		CongVanDAO congVanDAO2 = new CongVanDAO();
+	    		CongVan congVanResult = congVanDAO2.getCongVan(cvId);
+	    		congVanDAO2.disconnect();
+	    		System.out.println(congVanResult.getDonVi().getDvTen());
+	    		ArrayList<Object> objectList = new ArrayList<Object>();
+	    		objectList.add(congVanResult);
+	    		objectList.add(f);
+	    		System.out.println(JSonUtil.toJson(objectList));
+				return JSonUtil.toJson(objectList);
+//	    		getCongvan(multipartRequest);
+//	    		return JSonUtil.toJson("sucess");
+			} else {
+				return JSonUtil.toJson("exist");
+			}
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return JSonUtil.toJson("error");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return JSonUtil.toJson("error");
+		}
+	}
+    @RequestMapping(value="/updateCongVanInfo", method=RequestMethod.POST, 
+			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody String updateCongVanInfo(MultipartHttpServletRequest multipartRequest, HttpServletRequest request)  {
+    	String pathFile = context.getInitParameter("pathFile");
+//    	HttpSession session = request.getSession();
+    	int cvId = Integer.parseInt(multipartRequest.getParameter("cvId"));
+//    	System.out.println(cvId);
+    	try {
+			String cvSo = multipartRequest.getParameter("cvSo");
+			
+			Date cvNgayDi = DateUtil.parseDate(multipartRequest.getParameter("ngayGoiUpdate"));
+			Date cvNgayNhan = DateUtil.parseDate(multipartRequest.getParameter("ngayNhanUpdate"));
+			String mdMa = multipartRequest.getParameter("mucDichUpdate");
+			int soDen = Integer.parseInt(multipartRequest.getParameter("soDen"));
+			String dvMa = multipartRequest.getParameter("donViUpdate");
+			String trichYeu = multipartRequest.getParameter("trichYeuUpdate");
+			String butPhe = multipartRequest.getParameter("butPheUpdate");
+			System.out.println(soDen);
+			System.out.println(cvSo);
+			System.out.println(cvNgayDi);
+			System.out.println(cvNgayNhan);
+			System.out.println(mdMa);
+			System.out.println(dvMa);
+			System.out.println(trichYeu);
+			System.out.println(butPhe);
+//			String moTa = multipartRequest.getParameter("moTaUpdate");
+//			String ttMa = multipartRequest.getParameter("trangThaiUpdate");
+			CongVanDAO congVanDAO = new CongVanDAO();
+//			HashMap<String, Object> conditions =  new HashMap<String, Object>();
+//			conditions.put("soDen", soDen);
+//			conditions.put("cvNgayNhan", cvNgayNhan);
+			CongVan congVan = congVanDAO.getCongVan(cvId);
+			
+			
+			congVan.setSoDen(soDen);
+//			congVan.setCvSo(cvSo);
+			congVan.setButPhe(butPhe);
+			congVan.setCvNgayDi(cvNgayDi);
+			congVan.setCvNgayNhan(cvNgayNhan);
+			congVan.setDonVi(new DonVi(dvMa));
+			congVan.setMucDich(new MucDich(mdMa));
+			congVan.setTrichYeu(trichYeu);
+			congVan.setButPhe(butPhe);
+			congVan.setDaXoa(0);
+			congVanDAO.updateCongVan(congVan);
+			cvId = congVan.getCvId();
+			MultipartFile fileUpload = multipartRequest.getFile("file");
+        	String fileName = fileUpload.getOriginalFilename();
+        	String fileExtension = FileUtil.getExtension(fileName);
+        	String name = FileUtil.getName(fileName);
+			if(fileExtension.length() > 0) {
+				 fileName = name + "-" + cvId + "." + fileExtension;
+			 } else {
+				 fileName = name + "-" + cvId;
+			 }
+			String path = pathFile + fileName;
+        	java.io.File file = new java.io.File(path);
+        	System.out.println(file.getPath());
+    		file.createNewFile();
+    		fileUpload.transferTo(file);
+    		FileDAO fileDAO = new FileDAO();
+    		File f = fileDAO.getByCongVanId(cvId);
+    		f.setDiaChi(path);
+			fileDAO.updateFile(f);
+    		
+    		fileDAO.disconnect();
+    		congVanDAO.disconnect();
+    		CongVanDAO congVanDAO2 = new CongVanDAO();
+    		CongVan congVanResult = congVanDAO2.getCongVan(cvId);
+    		congVanDAO2.disconnect();
+    		System.out.println(congVanResult.getDonVi().getDvTen());
+    		ArrayList<Object> objectList = new ArrayList<Object>();
+    		objectList.add(congVanResult);
+    		objectList.add(f);
+    		System.out.println(JSonUtil.toJson(objectList));
+			return JSonUtil.toJson(objectList);
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return JSonUtil.toJson("error");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return JSonUtil.toJson("error");
+		}
+	}
     @RequestMapping(value="/preEditCongVan", method=RequestMethod.POST, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String changePass(@RequestParam("cvId") int cvId) {
+	public @ResponseBody String preEditCongVan(@RequestParam("cvId") int cvId) {
     	CongVanDAO congVanDAO = new CongVanDAO();
 		CongVan congVan = congVanDAO.getCongVan(cvId);
+		session.setAttribute("cvId", cvId);
 		congVanDAO.disconnect();
 		return JSonUtil.toJson(congVan);
 	}
