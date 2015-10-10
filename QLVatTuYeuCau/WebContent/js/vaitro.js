@@ -33,8 +33,9 @@ function showForm(formId, check){
 					success: function(vt){		
 						
 						$('input:text[name=vtTenUpdate]').val(vtId);
-					  	
+						
 					  	showForm(formId, check);
+					  	$('#vtUpFocus').focus();
 					}
 					
 				});
@@ -204,7 +205,7 @@ function showForm(formId, check){
  	 var key = e.which;
  	 if(key == 13)  // the enter key code
  	  {
- 	    updatevt();
+ 		confirmUpdatevt();
  	    return false;  
  	  }
  	});   

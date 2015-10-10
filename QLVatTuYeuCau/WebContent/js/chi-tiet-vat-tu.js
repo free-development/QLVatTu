@@ -26,30 +26,32 @@
 			if(vtMa != null){
 				showForm2('chitiet' ,'add-chitiet', check);
 			}
+			$('#noisanxuat').focus();
 		}
 		function addCTVattu() {
- 			vtMa = $('#add-chitiet input:text[name=vtMa]').val();
- 			vtTen = $('#add-chitiet input:text[name=vtTen]').val();
- 			dvt = $('#add-chitiet input:text[name=dvt]').val();
- 			noiSanXuat = $('#add-chitiet select[name=noiSanXuat]').val();
- 			chatLuong = $('#add-chitiet select[name=chatLuong]').val();
- 			dinhMuc = $('#add-chitiet input[name=dinhMuc]').val();
- 			soLuongTon = $('#add-chitiet input[name=soLuongTon]').val();
- 			if(dinhMuc == '') {
- 				$('#requireDM').html('Vui lòng nhập định mức');
- 			}
- 			else if(noiSanXuat == '') {
+ 			var vtMa = $('#add-chitiet input:text[name=vtMa]').val();
+ 			var vtTen = $('#add-chitiet input:text[name=vtTen]').val();
+ 			var dvt = $('#add-chitiet input:text[name=dvt]').val();
+ 			var noiSanXuat = $('#add-chitiet select[name=noiSanXuat]').val();
+ 			var chatLuong = $('#add-chitiet select[name=chatLuong]').val();
+ 			var dinhMuc = $('#add-chitiet input[name=dinhMuc]').val();
+ 			var soLuongTon = $('#add-chitiet input[name=soLuongTon]').val();
+ 			if(noiSanXuat == '') {
  				$('#requireNsx').html('Vui lòng chọn nơi sản xuất');
  			}
  			else if(chatLuong == '') {
  				$('#requireCl').html('Vui lòng chọn chất lượng');
  			}
+// 			else if(dinhMuc == ''){
+// 				dinhMuc = 0;
+// 			}
  			else if(soLuongTon == '') {
  				$('#requireSl').html('Vui lòng nhập số lượng');
  			}
- 			
  			else {
-
+ 				if(dinhMuc == ''){
+ 	 				dinhMuc = 0;
+ 				}
  			$.ajax({
  				url: getRoot() +  "/addCTVattu.html",	
 			  	type: "GET",
@@ -129,6 +131,7 @@
 						$('#update-chitiet input[name=soLuongTonUpdate]').val(vt.soLuongTon);
 					  	
 						showForm2('chitiet' ,'update-chitiet', check);
+						$('#dinhMucFocus').focus();
 					}
 					
 				});
@@ -143,16 +146,14 @@
 			var dvtUpdate = $('#update-chitiet input:text[name=dvtUpdate]').val();
 			var dinhMucUpdate = $('#update-chitiet input[name=dinhMucUpdate]').val();
 			var soLuongTonUpdate = $('#update-chitiet input[name=soLuongTonUpdate]').val();
-			if(dinhMucUpdate == '') {
- 				$('#requireDMUp').html('Vui lòng nhập định mức');
- 			}
- 			
- 			else if(soLuongTonUpdate == '') {
+			if(soLuongTonUpdate == '') {
  				$('#requireSlUp').html('Vui lòng nhập số lượng');
  			}
- 			
+			
  			else {
-		
+ 				 if(dinhMucUpdate == ''){
+ 	 				dinhMuc = 0;
+ 	 			}
 					if (confirm('Bạn có chắc thay đổi vật tư có mã ' + vtMaUpdate))
 						updateCTVattu(vtMaUpdate, vtTenUpdate, dvtUpdate, nsxUpdate, clUpdate, dinhMucUpdate, soLuongTonUpdate);
  			}
@@ -184,10 +185,10 @@
 						$('input:text[name=dvtUpdate]').val('');
 						$('input[name=dinhMucUpdate]').val('');
 						$('input[name=soLuongTonUpdate]').val('');
-						
+						showForm2('chitiet' ,'update-chitiet', false);
 				  		alert("Sửa thành công chi tiết vật tư có mã "+ vtMaUpdate+ " !");
 				  		$('input[name="ctvtId"]:checked').prop('checked',false);
-				  		showForm2('add-chitiet' ,'chitiet', true);
+				  	
 				  	}
 				});
  	}
@@ -238,9 +239,9 @@
   		$('#requireNSX').html('');
   		$('#add-chitiet select[name=noisanxuat]').focus();
  	}
-	function changeCL(){
+	function changeCl(){
   		$('#requireCl').html('');
-  		$('#add-chitiet select[name=chatluong]').focus();
+  		
  	}
 	function changeDMUp(){
   		$('#requireDM').html('');
@@ -338,21 +339,21 @@
  			});
     }
  	$(document).ready(function() {
-	$('#add-form').keypress(function(e) {
+	$('#add-chitiet').keypress(function(e) {
 	 var key = e.which;
 	 if(key == 13)  // the enter key code
 	  {
-		 addCTVatTu();
+		 addCTVattu();
 	    return false;  
 	  }
 	});   
 });   
 $(document).ready(function() {
-	$('#update-form').keypress(function(e) {
+	$('#update-chitiet').keypress(function(e) {
 	 var key = e.which;
 	 if(key == 13)  // the enter key code
 	  {
-	    updateCTVatTu();
+		 confirmUpdateCTVattu();
 	    return false;  
 	  }
 	});   

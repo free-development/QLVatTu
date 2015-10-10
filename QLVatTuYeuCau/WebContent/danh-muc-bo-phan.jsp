@@ -240,7 +240,7 @@
 							</tr>
 							<tr>
 								<td class="input"><label for="MBPSD">Tên BPSD</label></td>
-								<td><input name="dvTenUpdate" size="30px" align=left
+								<td><input id="dvTenFocus" name="dvTenUpdate" size="30px" align=left
 									type="text" class="text" required autofocus onkeypress="changedvTenUp();"
 									title="Tên bộ phận sử dụng không được để trống"><div id="requiredvTenUp" style="color: red"></div></td>
 							</tr>
