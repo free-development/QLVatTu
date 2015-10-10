@@ -88,11 +88,11 @@ adminMa = '<%=adminMa  %>';
 truongPhongMa = '<%=truongPhongMa  %>';
 hosting = '<%=hosting  %>';
 msnv = '<%=authentication.getMsnv()  %>';
-countAdd = '0';
+
 // || capPhatMa.equals(chucDanhMa)
 
 </script>
-<script type="text/javascript" src="js/cong-van.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/cong-van.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="Shortcut Icon" href="img/logo16.png" type="image/x-icon" />
 
@@ -109,13 +109,13 @@ countAdd = '0';
 			<div id="content-form">
 			<div id="title-content">Công văn</div>
 			
-				<table style="margin: 0 auto;width: 100%;">
+				<table style="margin: 0 auto;">
 				<tr>
 				<td>
 				 <form id="time-form">
 				<div class="left-content">
 				<table style="margin-bottom: 300px;">
-				<tr style="width: 150px;">
+				<tr>
 				<td>
 					<div id="scroll_time">
 						<ol class="tree">
@@ -134,7 +134,7 @@ countAdd = '0';
 					</div>
 					</td>
 					</tr>
-					<tr style="width: 150px;">
+					<tr>
 							<th style="text-align: center;">
 								--Văn bản đến--
 							</th>
@@ -164,14 +164,14 @@ countAdd = '0';
 								<td id = "type"><select class="select" name="filter" id="filter">
 										<option value =""> Tất cả </option>
 <!-- 										<option>Ngày đến</option> -->
-										<option value="soDen">Số nhận</option>
+										<option value="soDen">Số đến</option>
 										<option value="cvSo">Số công văn đến</option>
 										<option value="mdMa">Mục đích nhận</option>
-										<option value="cvNgayDi">Ngày nhận</option>
-										<option value="cvNgayNhan">Ngày đến</option>
+										<option value="cvNgayDi">Ngày gửi</option>
+										<option value="cvNgayNhan">Ngày nhận</option>
 										<option value="dvMa">Đơn vị gửi</option>
 <!-- 										<option>Nơi gửi</option> -->
-										<option value="trichYeu">Nội dung công tác</option>
+										<option value="trichYeu">Trích yếu</option>
 										<option value="butPhe">Bút phê</option>
 										
 <!-- 										<option>Nơi GQ chính</option> -->
@@ -215,16 +215,14 @@ countAdd = '0';
 
 
                      <form name="main-form" id = "main-form" method="get" action="<%=siteMap.ycvtManage%>">
-                     <div style="width: 100%; overflow:auto" class="scroll_content " id="scroll_content">
-                     <table>
+                     <div style="width: 810px; overflow:auto" class="scroll_content ">
 						<%
 					
                      	int count = 0;
                      	for(CongVan congVan : congVanList) {
                      		count ++;
                      %>
-                     <tr><td> 
-					<table class="tableContent" <%if (count % 2 == 1){ out.println("style=\"background : #CCFFFF; width: 100%; font-size: 18px;  \"");}else{out.println("style=\"background : #FFFFFF; width: 100%; font-size: 18px;\"");}%> class="border-congvan">
+					<table class="tableContent" <%if (count % 2 == 1){ out.println("style=\"background : #CCFFFF;\"");}else{out.println("style=\"background : #FFFFFF;\"");}%>style="font-size: 16px;width:900px;" class="border-congvan">
 						<tr >
 						<% if (chucDanhMa.equals(vanThuMa) || chucDanhMa.equals(adminMa)) {%>
 							<td class="column-check" rowspan="9" style="margin-right: 30px;">
@@ -232,9 +230,9 @@ countAdd = '0';
 							</td>
 							
 							<%} %>
-							<td class="left-column-soden" style="font-weight: bold;">Số nhận: &nbsp;&nbsp;</td>	
+							<td class="left-column-soden" style="font-weight: bold;">Số đến: &nbsp;&nbsp;</td>
 							<td class="column-so-den" style="text-align: left;"><%=congVan.getSoDen() %></td>
-							<td class="left-column-first" style="font-weight: bold;">Ngày nhận: &nbsp;&nbsp;</td>
+							<td class="left-column-first" style="font-weight: bold;">Ngày đến: &nbsp;&nbsp;</td>
 							<td class="column-date" style="text-align: left;color:blue;"><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td>
 							<td colspan="1" style="font-weight: bold;">Trạng thái:</td>
 							<td colspan="1" style="color: red;font-weight: bold;font-style: oblique;"><%=congVan.getTrangThai().getTtTen() %></td>
@@ -242,7 +240,7 @@ countAdd = '0';
 						<tr>	
 							<td  class="left-column-socv" style="font-weight: bold;">Số công văn đến: &nbsp;&nbsp;</td>
 							<td colspan ="3" class="column-socv" style="text-align: left;color:red;font-weight: bold;"><%=congVan.getCvSo() %></td>
-							<td class="left-column-ngdi" style="font-weight: bold;">Ngày của công văn đến:&nbsp;&nbsp;</td>
+							<td class="left-column-ngdi" style="font-weight: bold;">Ngày công văn đi:&nbsp;&nbsp;</td>
 							<td class="column-date" style="text-align: left;color:blue;"><%=DateUtil.toString(congVan.getCvNgayDi())%></td>
 							
 						</tr>
@@ -259,7 +257,7 @@ countAdd = '0';
 						</tr>
 						<tr>
 						
-							<td class="left-column-first" style="font-weight: bold;">Nội dung công tác: &nbsp;&nbsp;</td>
+							<td class="left-column-first" style="font-weight: bold;">Trích yếu: &nbsp;&nbsp;</td>
 							<td class="column-color" colspan="6" style="text-align: left;font-weight: bold;"><%= congVan.getTrichYeu()%></td>
 						</tr>
 						<tr>
@@ -286,7 +284,11 @@ countAdd = '0';
 										}%>
 									</td>
 <%-- 									<%if (chucDanh.equals(truongPhongMa)) { %> --%>
-									
+									<td colspan="2" style="float: right;">
+										<button  class="button" type="button" style="width: 170px; height: 30px;" onclick="location.href='<%=siteMap.cscvManage + "?action=chiaSeCv&congVan=" + congVan.getCvId()%>'">
+											<i class="fa fa-spinner"></i>&nbsp;&nbsp;Chia sẻ công văn
+										</button>
+									</td>
 <%-- 									<%} %> --%>
 								<%} else {%>
 									<td class="left-column-first" style="font-weight: bold;">Vai trò</td>
@@ -367,7 +369,7 @@ countAdd = '0';
 						<tr>
 							<th style="text-align: left"><label>Trạng
 									thái</label></th>
-							<td style="text-align: left; padding-left: 10px;" colspan = "3" id = "<%=congVan.getCvId() %>ttMaCongvan">
+							<td style="text-align: left; padding-left: 10px;" colspan = "5" id = "<%=congVan.getCvId() %>ttMaCongvan">
 							<% if(chucDanh.equals(truongPhongMa) || chucDanh.equals(vanThuMa)  || chucDanh.equals(adminMa)) { %>
 								<input type="radio" <%if ("CGQ".equals(congVan.getTrangThai().getTtMa())) out.println(" checked ");%> name="<%=congVan.getCvId() %>"  value="<%=congVan.getCvId()+"#"+"CGQ"%>"  class="ttMaUpdate"> 	
 								<label for="<%=congVan.getCvId()+"#"+"CGQ"%>">Chưa giải quyết</label>&nbsp;&nbsp;&nbsp;
@@ -377,21 +379,13 @@ countAdd = '0';
 								<label for="<%=congVan.getCvId()+"#"+"DaGQ"%>">Đã cấp đủ hàng</label>&nbsp;&nbsp;&nbsp;
 							<%} else out.print(congVan.getTrangThai().getTtTen());%>
 							</td>
-							<% if(chucDanh.equals(truongPhongMa) || chucDanh.equals(vanThuMa)  || chucDanh.equals(adminMa)) { %>
-							<td colspan="2" style="float: right;">
-										<button  class="button" type="button" style="width: 170px; height: 30px;" onclick="location.href='<%=siteMap.cscvManage + "?action=chiaSeCv&congVan=" + congVan.getCvId()%>'">
-											<i class="fa fa-spinner"></i>&nbsp;&nbsp;Chia sẻ công văn
-										</button>
-									</td>
-									<%} %>
 						</tr>	
 					</table>
 				
 					<br>
 					<hr>
-					</td></tr>
+
 							<%} %>
-							</table>
 					<script type="text/javascript">
 						$('.ttMaUpdate').bind('change', function() {
 							var trangThai = $(this).val(); 
@@ -439,7 +433,7 @@ countAdd = '0';
 								<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xóa
 							</button>
 							<button class="button" type="button" onclick="location.href='<%=siteMap.bccvManage+"?action=baocaocv"%>'">
-							<i class="fa fa-print"></i>&nbsp;&nbsp;Báo cáo
+							<i class="fa fa-print"></i>&nbsp;&nbsp;Xuất file
 							</button>
 							<%} %>
 <!-- 							<button class="button" "> -->
@@ -473,7 +467,7 @@ countAdd = '0';
 							<tr style="margin-bottom: 20px;">
 								<th style="text-align: left" colspan="1"> <label for="cvSo" style="text-align: left">Số công văn đến: </label></th>
 								<td colspan="1"><input type="text" class="text" name="cvSo" id="cvSo" onkeypress="changeSoCv();"><div id="requireSoCv" style="color: red"></div></td>
-								<th style="text-align: left"><label for="ngayGoi" class="input">Ngày công văn đến: </label></th>
+								<th style="text-align: left"><label for="ngayGoi" class="input">Ngày gởi: </label></th>
 								<td><input type="date" class="text" name="ngayGoi" id="ngayGoi" value=<%=DateUtil.convertToSqlDate(new java.util.Date()) %> ></td>
 							</tr>	
 							<tr style="margin-bottom: 20px;">	
@@ -499,7 +493,7 @@ countAdd = '0';
 										<%} %>
 								</select><div id="requireDonVi" style="color: red"></div></td>
 							<tr>
-								<th style="text-align: left;" colspan="1"><label id="trichYeu" class="input">Nội dung công tác</label>
+								<th style="text-align: left;" colspan="1"><label id="trichYeu" class="input">Trích yếu</label>
 								<td colspan="3"><textarea class="txtarea" name="trichYeu"></textarea></td>
 							</tr>
 							<tr>
@@ -541,15 +535,15 @@ countAdd = '0';
 						<div class="input-table">
 						<table>
 							<tr style="margin-bottom: 20px;">
-								<th colspan="1" style="text-align: left"><label for="soDen" style="text-align: left">Số nhận</label></th>
-								<td colspan="3"><input type = "text" class="text" value="123" readonly style="background: #D1D1E0;" sise="5" name="soDen"><input type = "hidden" value=""  name="cvId"></td>
+								<th colspan="1" style="text-align: left"><label for="soDen" style="text-align: left">Số đến</label></th>
+								<td colspan="3"><input type = "text" class="text" value="123" readonly style="background: #D1D1E0;" sise="5" name="soDen"></td>
 							</tr>
 							<tr style="margin-bottom: 20px;">
 								<th style="text-align: left" colspan="1"> <label for="cvSo" style="text-align: left">Số công văn đến: </label></th>
 								<td colspan="3"><input type="text" class="text" name="cvSo" id="cvSo" readonly style="background: #D1D1E0;"></td>
 							</tr>	
 							<tr style="margin-bottom: 20px;">	
-								<th style="text-align: left"><label for="ngayGoi" class="input">Ngày công văn đến: </label></th>
+								<th style="text-align: left"><label for="ngayGoi" class="input">Ngày gởi: </label></th>
 								<td><input type="date" class="text" name="ngayGoiUpdate" id="ngayGoi" value=<%=DateUtil.convertToSqlDate(new java.util.Date()) %>></td>
 								<th style="text-align: left"><label for="ngayNhan" class="input">Ngày nhận: </label></th>
 								<td><input onchange="changeNgayNhanUp();" type="date" class="text" name="ngayNhanUpdate" id="ngayNhan" value=<%=DateUtil.convertToSqlDate(new java.util.Date()) %>>
@@ -573,7 +567,7 @@ countAdd = '0';
 										<%} %>
 								</select><div id="requireDonViUp" style="color: red"></div></td>
 							<tr>
-								<th style="text-align: left;" colspan="1"><label id="trichYeu" class="input">Nội dung công tác</label>
+								<th style="text-align: left;" colspan="1"><label id="trichYeu" class="input">Trích yếu</label>
 								<td colspan="3"><textarea class="txtarea" name="trichYeuUpdate"></textarea></td>
 							</tr>
 							<tr>

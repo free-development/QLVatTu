@@ -66,7 +66,7 @@ display:none;
 						<i class="fa fa-print"></i>&nbsp;&nbsp;Tải file
 					</button>
 					&nbsp;&nbsp;
-					<button type="button" id="print_button" class="button"  onclick="location.href='<%=siteMap.clManage + "?action=manageCl"%>'">
+					<button type="button" id="print_button" class="button"  onclick="location.href='<%=siteMap.nsxManage + "?action=manageCl"%>'">
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 					</button>
 					<% } %>

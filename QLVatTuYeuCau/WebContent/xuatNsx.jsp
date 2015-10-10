@@ -79,6 +79,7 @@ display:none;
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 					</button>
 					<% } %>
+					 
 				</div>
 
 		<div style="text-align: center;font-size: 30px;font-weight: bold;color: solid black;margin-top:20px;">DANH MỤC NƠI SẢN XUẤT</div>

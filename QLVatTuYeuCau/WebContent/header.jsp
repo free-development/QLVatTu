@@ -8,9 +8,28 @@
 					<img src="img/logo.png" alt="" id="logo" width=80 height=80/><br/>
 					<img src="img/textlogo.png" alt="" id="logo" width=80 height=20/>
 	-->
-			<div id="top_title">Công Ty Điện Lực TP Cần Thơ</div>
-			<div id="bottom-title">Phòng Vật Tư</div>
-			
+			<div id="top_title">Văn phòng điện tử</div>
+			<div id="bottom-title">Công ty điện lực cần thơ</div>
+			<div class="search_form" id="search">
+				<form action="" method="post">
+					<!--
+							<span class="search-select">
+								<select name="" ><option disabled selected>--Tùy chọn kiếm kiềm--</option></select>
+								<option value=""></option>
+							</span>
+-->
+					<!--							<span class="bg-search">-->
+					<span class="search-text"> &nbsp; <input type="search"
+						class="search" name="search_box" name="search"
+						placeholder="Tìm kiếm" />
+					</span> <span class="search-button"> &nbsp;
+						<button class="btn-search">
+							<i class="fa fa-search"></i>
+						</button>
+					</span>
+					<!--                            </span>-->
+				</form>
+			</div>
 
 		</div>
 		<%
@@ -49,10 +68,10 @@
 						<%} %>
 							<li><a href="<%=siteMap.cvManage+ "?action=manageCv" %>">Công văn</a></li>
 							<%if (!chucDanh.equalsIgnoreCase(vanThuMa)){ %>
-							<li><a>Báo cáo vật tư thiếu</a>
+							<li><a>Báo cáo</a>
 								<ul>
-									<li><a href="<%=siteMap.bcvttManage+ "?action=manageBcvtt" %>"/>Báo cáo tổng hợp vật thiếu</li>
-									<li><a href="<%=siteMap.bcbdnManage+ "?action=manageBcbdn" %>"/>Báo cáo chi tiết vật tư thiếu</li>
+									<li><a href="<%=siteMap.bcvttManage+ "?action=manageBcvtt" %>"/>Báo cáo vật tư thiếu</li>
+									<li><a href="<%=siteMap.bcbdnManage+ "?action=manageBcbdn" %>"/>Báo cáo bảng đề nghị cấp vật tư</li>
 								</ul>
 							</li>
 							<%} %>
@@ -77,3 +96,4 @@
 					<div class="clear"></div>
 				</div>
 						<div id="greeting"style="color: #6600FF;height:20px;"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chào:&nbsp;<%=authentication.getHoTen() %></b></div>
+				<div id="main-content">		

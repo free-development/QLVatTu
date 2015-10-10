@@ -14,7 +14,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Công Ty Điện Lực TP.Cần Thơ Phòng Vật Tư</title>
+        <title>Văn phòng điện tử công ty điện lực Cần Thơ</title>
         <link rel="stylesheet" href="style/style-giao-dien-chinh.css" type="text/css">
 		<link rel="stylesheet" href="style/style.css" type="text/css">
     <link href="style/font-awesome-4.3.0/font-awesome-4.3.0/css/font-awesome.min.css" type="text/css" rel="stylesheet">

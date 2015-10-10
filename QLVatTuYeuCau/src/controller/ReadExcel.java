@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,39 +11,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import dao.CTVatTuDAO;
-import dao.ChatLuongDAO;
-import dao.NoiSanXuatDAO;
+import dao.ReadExcelBpsd;
+import dao.ReadExcelCT;
+import dao.ReadExcelCl;
+import dao.ReadExcelNsx;
 import dao.ReadExcelTon;
-import dao.VatTuDAO;
 import map.siteMap;
 import model.CTVatTu;
-import model.ChatLuong;
-import model.NoiSanXuat;
-import model.VatTu;
 import util.FileUtil;
-import dao.ReadExcelCT;
-import dao.ReadExcelBpsd;
-import dao.ReadExcelNsx;
-import dao.ReadExcelCl;
 
 /**
  * Servlet implementation class ReadExcel

@@ -6,16 +6,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Import file</title>
-<link rel="stylesheet" href="style/style-giao-dien-chinh.css"
-	type="text/css">
-<link rel="stylesheet" href="style/style-noi-san-xuat.css"
-	type="text/css">
-<link rel="stylesheet" href="style/style.css" type="text/css">
-<link href="style/style-muc-dich.css" type="text/css" rel="stylesheet">
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<link
-	href="style/font-awesome-4.3.0/font-awesome-4.3.0/css/font-awesome.min.css"
-	type="text/css" rel="stylesheet">
 </head>
 <body>
 	<%
@@ -29,6 +19,5 @@
 		<input type="file" name="file" accept=".xls, .xlsx">
 		<input value="uploadFile" name="action" type="submit">
 	</form>
-	
 </body>
 </html>

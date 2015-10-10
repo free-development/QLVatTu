@@ -78,8 +78,12 @@
     	%>
 	<div class="wrapper">
 		<jsp:include page="header.jsp" />
-			<div id="main-content">
-					<div id="title-content">Danh mục nơi sản xuất</div>
+				<div id="main-content">
+					<div id="title-content">
+		 Danh mục nơi sản xuất
+		</div>
+		<div id="main-content">
+			
 			<form id="main-form">
 				<div id="view-table" style=" margin: 0 auto;">
 					<table>
@@ -99,8 +103,19 @@
 							<td class="col"><%=noiSanXuat.getNsxTen() %></td>
 						</tr>
 						<%} }%>
-					</table>	
-					<div id = "paging" >
+<!-- 						<tr> -->
+<!-- 							<th colspan="3"> -->
+<%-- 								<% --%>
+
+<%-- 									for(int i = 0; i <= pageNum; i++) { %> --%>
+<%-- 										<input type="button" value="<%=i+1%>" class="page"> --%>
+<%-- 								<%} %> --%>
+<!-- 							</th> -->
+<!-- 						</tr> -->
+					</table>		
+				</div>				
+				
+				<div id = "paging" >
 							<table style ="border-style: none;">
 								<tr>
 								<%long pageNum = size / 10;
@@ -118,9 +133,6 @@
 							</table>
 						</div>
 				
-				
-				</div>				
-				
 				<div class="group-button">
 					<input type="hidden" name="action" value="deleteNsx">
 					<button type="button" class="button"  onclick="showForm('add-form', true);"><i class="fa fa-plus-circle"></i>&nbsp;Thêm</button>
@@ -132,7 +144,7 @@
 							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xóa
 						</button>&nbsp;
 						<button type="button" class="button" 
-							onclick="showForm2('main-form','import-formct', true)"> 
+							onclick="showForm2('view-table','import-formct', true)"> 
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Import 
 						</button>&nbsp;
 						<button class="button" type="button" onclick="location.href='<%=siteMap.xuatNsx+".jsp"%>'">
@@ -145,7 +157,7 @@
 						<button type="button" class="btn" onclick="location.href='<%=siteMap.home%>'">
 							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 						</button>
-				</div>	
+				</div>
 		</form>
 		
 		<!-------------- --add-form-------------- -->
@@ -215,13 +227,14 @@
 				</button>
 			</div>
 		</form>
-	<form id="import-formct" action="<%=siteMap.readExcelNsx %>" method="post" enctype="multipart/form-data" style="height: 200px;text-align: center;" onsubmit="document.body.style.cursor='wait'; return true;">
+	</div>
+	<form id="import-formct" action="<%=siteMap.readExcelNsx %>" method="post" enctype="multipart/form-data" style="height: 200px;text-align: center;">
 									<input type="file" name="file" accept=".xls, .xlsx" class="text" style="padding-left: 0px;">
 									<div class="group-button">
-										<input value="uploadFile" name="action" type="submit" class="button" style="width: 100px;font-size: 17px;text-align: center;" onclick="document.body.style.cursor='wait'; return true;">
-										<input value="Thoát" onclick="showForm2('main-form','import-formct', false);" type="button" class="button"  style="width: 70px;text-align: center;font-size: 17px;">
+										<input value="uploadFile" name="action" type="submit" class="button" style="width: 100px;font-size: 17px;text-align: center;">
+										<input value="Thoát" onclick="showForm2('view-table-bo-phan','import-formct', false);" type="button" class="button"  style="width: 70px;text-align: center;font-size: 17px;">
 									</div>
-	</form>
+						</form>
 	</div>
 
 	</div>

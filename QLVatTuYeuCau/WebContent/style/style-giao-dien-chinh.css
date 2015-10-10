@@ -38,7 +38,7 @@ body {
 	font-size: 30px;
 	text-transform: uppercase;
 	text-align: left;
-	margin-top: 30px;
+	margin-top: 15px;
 	margin-left: 5px;
 }
 
@@ -193,10 +193,10 @@ linear
 #bottom-title {
 	/*	padding-top: 10px;*/
 	color: red;
-	font-size: 35px;
+	font-size: 30px;
 	text-shadow: 2px 2px aliceblue;
 	font-weight: bold;
-	padding-left: 650px;
+	text-align: center;
 }
 
 .search_form {
@@ -237,9 +237,8 @@ linear
 	font-size: 40px;
 	text-shadow: 2px 2px aliceblue;
 	font-weight: bold;
-	/*text-align: center;*/
-	padding-top: 35px;
-	padding-left: 500px;
+	text-align: center;
+	/*	padding-top: 20px;*/
 }
 
 ul:first-child {

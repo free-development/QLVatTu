@@ -152,8 +152,7 @@
 						<td class="col" style="text-align: left;" ><%=vatTu.getVtMa() %></td>
 						<td class="col" style="text-align: left; width: 200px;"><%=vatTu.getVtTen() %></td>
 						<td class="col" style="text-align: center;"><%=vatTu.getDvt().getDvtTen() %></td>
-						<td style="text-align: center;">
-						<button type="button" class="button-xem" onclick="showCTVatTu(<%=vatTu.getVtMa()%>);">Xem</button></td>
+						<td style="text-align: center;"><button type="button" class="button-xem" value="Xem" onclick="showCTVatTu(<%=vatTu.getVtMa()%>);">Xem</button></td>
 					</tr>
 					<%} }%>
 				</table>
@@ -174,7 +173,7 @@
 <!-- 								</tr> -->
 <!-- 							</table> -->
 <!-- 						</div> -->
-						<div id ="paging" style="text-align: center;">
+						<div id = "paging" style="text-align: center;">
 						<table style ="border-style: none;">
 								<tr>
 									<td>Trang</td>
@@ -194,9 +193,13 @@
 								</td>
 								</tr>
 								</table>
-					</div>
+<!-- 									<input type="button" value="Next>>"></td> -->
+					
+			</div>
 				<div class="group-button" style="text-align: center;">	
-				<button type="button" class="button" onclick="showForm2('vattu','add-form', true)">
+				<input type="hidden" name="action" value="deleteVatTu">
+				<button type="button" class="button"
+					onclick="showForm2('vattu','add-form', true)">
 					<i class="fa fa-plus-circle"></i>&nbsp;Thêm
 				</button>
 				<button type="button" class="button"
@@ -272,6 +275,7 @@
 					</button>
 <!-- 					<button class="button" onclick="showForm('add-chitiet', true)" > -->
 <!-- 						<i class="fa fa-plus-circle"></i>&nbsp;Thêm chi tiết -->
+					</button> 
 					<button type="reset" class="button"><i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại</button>
 					<button type="button" class="button" onclick="loadAddVt();"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát</button>
 				</div>
@@ -284,13 +288,13 @@
 						<tr>
 							<th style="text-align: left"><label for="MVT">Mã vật
 									tư</label></th>
-							<td><input name="vtMaUpdate" size="5px" type="text" readonly style="background-color: #D1D1E0;"
+							<td><input name="vtMaUpdate" size="5px" align=right type="text" readonly style="background-color: #D1D1E0;"
 								class="text" value="10102345"></td>
 						</tr>
 						<tr>
 							<th style="text-align: left"><label for="MVT">Tên
 									vật tư</label></th>
-							<td><input name="vtTenUpdate" size="30px" type="text"  id="aa" onkeypress="changeVtTenUp();"
+							<td><input name="vtTenUpdate" size="30px" align=right type="text"  id="aa" onkeypress="changeVtTenUp();"
 								class="text" value="10102345"><div id="requireVtTenUp" style="color: red"></div></td>
 						</tr>
 <!-- 						<tr> -->
@@ -451,18 +455,18 @@
 						<tr>
 							<th style="text-align: left"><label for="MVT">Mã vật
 									tư</label></th>
-							<td><input name="vtMa" size="5px" type="text" readonly style="background-color: #D1D1E0;"
+							<td><input name="vtMa" size="5px" align=right type="text" readonly style="background-color: #D1D1E0;"
 								class="text"></td>
 						</tr>
 						<tr>
 							<th style="text-align: left"><label for="MVT">Tên vật
 									tư</label></th>
-							<td><input name="vtTen" size="30px" type="text" readonly style="background-color: #D1D1E0;"
+							<td><input name="vtTen" size="30px" align=right type="text" readonly style="background-color: #D1D1E0;"
 								class="text" ></td>
 						</tr>
 						<tr>
 							<th style="text-align: left"><label for="MVT">Đơn vị tính</label></th>
-							<td><input name="dvt" size="5px" type="text" readonly style="background-color: #D1D1E0;"
+							<td><input name="dvt" size="5px" align=right type="text" readonly style="background-color: #D1D1E0;"
 								class="text"></td>
 						</tr>
 						<tr>
@@ -486,7 +490,7 @@
 						
 						<tr>
 							<th style="text-align: left"><label for="DM">Định mức</label></th>
-							<td><input name="dinhMuc" style="width: 100px" type="number" onkeypress="changeDM();"
+							<td><input name="dinhMuc" style="width: 100px" align=right type="number" onkeypress="changeDM();"
 								class="text" required title="Định mức không được để trống"><div id="requireDM" style="color: red"></div></td>
 						</tr>
 						<tr>
