@@ -116,10 +116,10 @@
 				<div class="group-button">
 					<input type="hidden" name="action" value="deleteCl">
 					<button type="button" class="button"
-						onclick="showForm('add-form', true)">
+						onclick="showForm('add-form', true);$('#clMaFocus').focus();">
 						<i class="fa fa-plus-circle"></i>&nbsp;Thêm
 					</button>
-					<button type="button" onclick="preUpdateCl('update-form', true)"
+					<button type="button" onclick="preUpdateCl('update-form', true);"
 						class="button" title="Chọn 1 chất lượng để thay đổi">
 						<i class="fa fa-pencil fa-fw"></i>&nbsp;Thay đổi
 					</button>
@@ -153,7 +153,7 @@
 						<div class="form-title">Thêm chất lượng</div>
 						<tr>
 							<td class="input"><label for="MCL">Mã chất lượng:</label></td>
-							<td><input name="clMa" type="text" class="text" required
+							<td><input id="clMaFocus" name="clMa" type="text" class="text" required
 								autofocus size="2" onkeypress="changeClMa();" maxlength="3" pattern="[a-zA-Z0-9]{3}"
 								title="Mã chất lượng chỉ gồm 3 ký tự, không chứ khoảng trắng và ký tự đặc biệt"><div id="requireClMa" style="color: red"></div></td>
 						</tr>
@@ -194,7 +194,7 @@
 						</tr>
 						<tr>
 							<td class="input"><label for="MCL">Tên chất lượng</label></td>
-							<td><input name="clTenUpdate" size="30px" align=left
+							<td><input id="clTenFocus" name="clTenUpdate" size="30px" align=left
 								type="text" class="text" onkeypress="changeClTenUpdate();"
 								value="Hàng thu hồi có thể sử dụng được" required
 								title="Tên chất lượng không được để trống"><div id="requireClTenUpdate" style="color: red"></div></td>

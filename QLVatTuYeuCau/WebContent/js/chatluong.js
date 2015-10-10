@@ -45,7 +45,7 @@
 			  	$('input:text[name=clMaUpdate]').val(cl.clMa);
 			  	$('input:text[name=clTenUpdate]').val(cl.clTen);
 		  		showForm(formId, check);	
-		  		
+		  		$('#clTenFocus').focus();
 		  	}
 		});
 		}
@@ -223,7 +223,7 @@ $(document).ready(function() {
 	 var key = e.which;
 	 if(key == 13)  // the enter key code
 	  {
-	    updateCl();
+		 confirmUpdateCl();
 	    return false;  
 	  }
 	});   

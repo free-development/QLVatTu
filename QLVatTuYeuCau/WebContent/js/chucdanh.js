@@ -32,7 +32,7 @@ function preUpdateCd(formId, check) {
 		  	$('input:text[name=cdMaUpdate]').val(cd.cdMa);
 		  	$('input:text[name=cdTenUpdate]').val(cd.cdTen);
 	  		showForm(formId, check);	
-	  		
+	  		$('#cdTenUp').focus();
 	  	}
 	});
 	}
@@ -211,3 +211,23 @@ function confirmDeleteCd(){
 	function resetUpdateCD(){
 		$('#update-form input:text[name=cdTenUpdate]').val('');
 	}
+	$(document).ready(function() {
+	 	$('#add-form').keypress(function(e) {
+	 	 var key = e.which;
+	 	 if(key == 13)  // the enter key code
+	 	  {
+	 		addCd();
+	 	    return false;  
+	 	  }
+	 	});   
+	 	});   
+	 	$(document).ready(function() {
+	 	$('#update-form').keypress(function(e) {
+	 	 var key = e.which;
+	 	 if(key == 13)  // the enter key code
+	 	  {
+	 		confirmUpdateCd();
+	 	    return false;  
+	 	  }
+	 	});   
+	 	});

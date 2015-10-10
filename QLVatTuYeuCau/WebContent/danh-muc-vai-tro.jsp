@@ -112,7 +112,7 @@
 					
 					<div class="group-button">
 						<button type="button" class="button"
-							onclick="showForm('add-form', true)">
+							onclick="showForm('add-form', true); $('#vtFocus').focus();">
 							<i class="fa fa-plus-circle"></i>&nbsp;Thêm
 						</button>
 						<button type="button" class="button"
@@ -139,7 +139,7 @@
 							<div class="form-title">Thêm vai trò</div>
 							<tr>
 								<th class="label"><label for="tenvaitro">Tên vai trò</label></th>
-								<td><input name="vtTen" size="30px" type="text" onkeypress="changevtTen();"
+								<td><input id="vtFocus" name="vtTen" size="30px" type="text" onkeypress="changevtTen();"
 									class="text" required title="Tên vai trò không được để trống"><div id="requirevtTen" style="color: red"></div></td>
 							</tr>
 						</table>
@@ -165,7 +165,7 @@
 							<div class="form-title">Cập nhật vai trò</div>
 							<tr>
 								<th><label for="tenvaitro">Tên vai trò</label></th>
-								<td><input name="vtTenUpdate" size="30px" type="text" onkeypress="changevtTenUp();"
+								<td><input id="vtUpFocus" name="vtTenUpdate" size="30px" type="text" onkeypress="changevtTenUp();"
 									class="text" required title="Tên vai trò không được để trống"><div id="requirevtTenUp" style="color: red"></div></td>
 							</tr>
 						</table>
