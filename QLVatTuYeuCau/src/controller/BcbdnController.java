@@ -74,9 +74,9 @@ public class BcbdnController extends HttpServlet {
 			String ngaykt = request.getParameter("ngaykt");
 			String donvi = request.getParameter("donvi");
 			String trangthai = request.getParameter("trangthai");
-			System.out.println(ngaykt);
-			System.out.println(donvi);
-			System.out.println(trangthai);
+			//System.out.println(ngaykt);
+			//System.out.println(donvi);
+			//System.out.println(trangthai);
 			ArrayList<CongVan> congVanList = (ArrayList<CongVan>) congVanDAO.getTrangThai(ngaybd, ngaykt, donvi,
 					trangthai);
 			HashMap<Integer, ArrayList<YeuCau>> yeuCauHash = new HashMap<Integer, ArrayList<YeuCau>>();
@@ -105,9 +105,9 @@ public class BcbdnController extends HttpServlet {
 		String ngaykt = request.getParameter("ngaykt");
 		String donvi = request.getParameter("donvi");
 		String trangthai = request.getParameter("trangthai");
-		System.out.println(ngaykt);
-		System.out.println(donvi);
-		System.out.println(trangthai);
+		//System.out.println(ngaykt);
+		//System.out.println(donvi);
+		//System.out.println(trangthai);
 		HashMap<String, Object> conditions = new HashMap<String, Object>();
 		HashMap<String, Boolean> orderBy = new HashMap<String, Boolean>();
 		ArrayList<CongVan> congVanList = (ArrayList<CongVan>) congVanDAO.searchLimit(null, conditions, orderBy, 0, Integer.MAX_VALUE);

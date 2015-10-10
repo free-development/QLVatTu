@@ -209,8 +209,8 @@
 						<table style="width:1024px;"> 
 							<tr style="background-color: #199e5e;">
 
-								<th style="width: 100px;">Mã nhân viên</th>
-								<th style="width: 200px;">Tên nhân viên</th>
+								<th style="width: 50px;">Mã nhân viên</th>
+								<th style="width: 100px;">Tên nhân viên</th>
 								<%for (VaiTro vaiTro : vaiTroList) {%>
 								<th class="thead-vaitro" style="max-width: 300px;"><%=vaiTro.getVtTen() %></th>
 								<%} %>
@@ -225,8 +225,8 @@
 								String msnv = nguoiDung.getMsnv();
 							%>
 							<tr id=<%=nguoiDung.getMsnv() %> class = "rowContent" <% if (count % 2 == 0) out.println("style=\"background : #CCFFFF;\"");%> id="<%=nguoiDung.getMsnv() %>">
-								<td class="tbody-nguoidung"><%=nguoiDung.getMsnv() %></td>
-								<td class="tbody-nguoidung"><%=nguoiDung.getHoTen() %></td>
+								<td class="tbody-nguoidung" style="width: 50px;"><%=nguoiDung.getMsnv() %></td>
+								<td class="tbody-nguoidung" style="width: 100px;"><%=nguoiDung.getHoTen() %></td>
 								<% for(VaiTro vaiTro : vaiTroList) {
 									int vtId = vaiTro.getVtId();
 									HashMap<Integer, VaiTro> vtHash = vaiTroHash.get(msnv);

@@ -50,7 +50,7 @@ public class BccvController extends HttpServlet {
 		DonViDAO donViDAO = new DonViDAO();
 		MucDichDAO mucDichDAO = new MucDichDAO();
 		CongVanDAO congVanDAO = new CongVanDAO();
-		System.out.println(action);
+		//System.out.println(action);
 		if ("baocaocv".equalsIgnoreCase(action)) {
 	//		ArrayList<TrangThai> trangThaiList = (ArrayList<TrangThai>) trangThaiDAO.getAllTrangThai();
 			ArrayList<DonVi> donViList = (ArrayList<DonVi>) donViDAO.getAllDonVi();
@@ -84,8 +84,8 @@ public class BccvController extends HttpServlet {
 			 ) {
 		HashMap<String, Object> conditions = new HashMap<String, Object>();
 		HashMap<String, Boolean> orderBy = new HashMap<String, Boolean>();
-		System.out.println(eCvNgayDi);
-		System.out.println(sCvNgayDi);
+		//System.out.println(eCvNgayDi);
+		//System.out.println(sCvNgayDi);
 		if (eCvNgayNhan != null && eCvNgayNhan.length() > 0)
 			conditions.put("lecvNgayNhan", DateUtil.parseDate(eCvNgayNhan));
 		if (sCvNgayNhan != null && sCvNgayNhan.length() > 0)

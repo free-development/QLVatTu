@@ -13,7 +13,7 @@
 	type="text/css">
 <link rel="stylesheet" href="style/style.css" type="text/css">
 <link href="style/style-muc-dich.css" type="text/css" rel="stylesheet">
-<link href="style/style-chat-luong.css" type="text/css" rel="stylesheet">
+<!-- <link href="style/style-chat-luong.css" type="text/css" rel="stylesheet"> -->
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <link
 	href="style/font-awesome-4.3.0/font-awesome-4.3.0/css/font-awesome.min.css"
