@@ -242,7 +242,7 @@ countAdd = '0';
 						<tr>	
 							<td  class="left-column-socv" style="font-weight: bold;">Số công văn đến: &nbsp;&nbsp;</td>
 							<td colspan ="3" class="column-socv" style="text-align: left;color:red;font-weight: bold;"><%=congVan.getCvSo() %></td>
-							<td class="left-column-ngdi" style="font-weight: bold;">Ngày của công văn đến:&nbsp;&nbsp;</td>
+							<td class="left-column-ngdi" style="font-weight: bold;">Ngày công văn đến:&nbsp;&nbsp;</td>
 							<td class="column-date" style="text-align: left;color:blue;"><%=DateUtil.toString(congVan.getCvNgayDi())%></td>
 							
 						</tr>
