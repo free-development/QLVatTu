@@ -167,19 +167,6 @@ display:none;
 				<br>
 				<br>
 				<br>
-				<div style="width:800px;font-size: 18px;margin: auto;">
-						<table style="width:800px;font-size: 18px;;">
-								<table style="width:960px;font-size: 18px;;">
-								<tr>
-								<td></td>
-								<td style="font-size: 17px; text-align: center;">Cần Thơ, ngày...tháng...năm...</td>
-								</tr>
-								<tr>
-									<td style="padding-left: 50px;font-weight: bold;">Người lập biểu</td>
-									<td style="text-align: center;font-weight: bold;">Trưởng Phòng Vật Tư</td>
-								</tr>	
-						</table>
-				</div>
 
 					
 				<% if("tonghop".equalsIgnoreCase(loaiBc)){
@@ -195,7 +182,7 @@ display:none;
    				 %>
    				 <div class="group-button" style="position: fixed; right: 10px;">
 				<button class="button" type="button" id="print_button" onclick="window.print()">
-					<i class="fa fa-print"></i>&nbsp;&nbsp;In
+					<i class="fa fa-print"></i>&nbsp;&nbsp;In báo cáo
 				</button>
 				&nbsp;
 <!--     <a href="excel.jsp?exportToExcel=YES">Export to Excel</a> -->

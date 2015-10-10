@@ -70,84 +70,12 @@
     %>
   
 	<div class="wrapper">
-		<div class="header">
-			<div id="top_title">Văn phòng điện tử</div>
-			<div id="bottom-title">Công ty điện lực cần thơ</div>
-			<div class="search_form" id="search">
-				<form action="" method="post">
-					<span class="search-text"> &nbsp; <input type="search"
-						class="search" name="search_box" name="search"
-						placeholder="Tìm kiếm" />
-					</span> <span class="search-button"> &nbsp;
-						<button class="btn-search">
-							<i class="fa fa-search"></i>
-						</button>
-					</span>
-				</form>
-			</div>
-
-		</div>
-		<div class="main_menu">
-					<ul>
-						<li><a href="<%=siteMap.homePageManage%>">Trang chủ</a></li>
-						<%if (adminMa.equalsIgnoreCase(chucDanh)) {%>
-						
-						<li><a>Danh mục</a>
-							<ul>
-										<li><a href="<%=siteMap.nsxManage + "?action=manageNsx"%>">Danh
-												mục nơi sản xuất</a></li>
-										<li><a href="<%=siteMap.clManage + "?action=manageCl"%>">Danh
-												mục chất lượng</a></li>
-										<li><a href="<%=siteMap.vattuManage + "?action=manageVattu"%>">Danh
-												mục vật tư</a></li>
-										<li><a href="<%=siteMap.ctvtManage + "?action=manageCtvt"%>">Vật tư tồn kho</a></li>
-										<li><a href="<%=siteMap.bpsdManage +  "?action=manageBpsd"%>">Danh
-												mục bộ phận sử dụng</a></li>
-										<li><a href="<%=siteMap.mdManage + "?action=manageMd"%>">Danh
-												mục mục đích</a></li>
-										<li><a href="<%=siteMap.vtManage + "?action=manageVt"%>">Danh mục vai trò</a></li>
-										<li><a href="<%=siteMap.dvtManage + "?action=manageDvt"%>">Danh mục đơn vị tính</a></li>
-										<li><a href="<%=siteMap.cdManage + "?action=manageCd"%>">Danh
-												mục chức danh</a></li>
-										
-									</ul>
-						</li>
-						<%} %>
-							<li><a href="<%=siteMap.cvManage+ "?action=manageCv" %>">Công văn</a></li>
-							<%if (!chucDanh.equalsIgnoreCase(vanThuMa)){ %>
-							<li><a>Báo cáo vật tư thiếu</a>
-								<ul>
-									<li><a href="<%=siteMap.bcvttManage+ "?action=manageBcvtt" %>"/>Báo cáo tổng hợp vật tư thiếu</li>
-									<li><a href="<%=siteMap.bcbdnManage+ "?action=manageBcbdn" %>"/>Báo cáo chi tiết vật tư thiếu</li>
-								</ul>
-							</li>
-							<%} %>
-						<%if (adminMa.equalsIgnoreCase(chucDanh)) {%>
-						<li><a>Quản lý người dùng</a>
-							<ul>
-								<li><a href="<%=siteMap.ndManage + "?action=manageNd"%>">Thêm người dùng</li>
-								<li><a href="<%=siteMap.updateNguoiDung%>"/>Cập nhật thông tin</li>
-								<li><a href="<%=siteMap.resetPassword%>"/>Khôi phục mật khẩu</li>
-								<li><a href="<%=siteMap.lockNguoiDung%>"/>Khóa tài khoản</li>
-								<li><a href="<%=siteMap.resetNguoiDung%>"/>Khôi phục tài khoản</li>
-							</ul>
-						</li>
-						<%} %>
-						<li><a>Tài khoản</a>
-							<ul>
-								<li><a href="<%=siteMap.changePassPage + ".jsp"%>">Đổi mật khẩu</a></li>
-								<li><a href="<%=siteMap.logout + "?action=logout"%>">Đăng xuất</a></li>
-							</ul>
-						</li>		
-					</ul>
-					<div class="clear"></div>
-				</div>
-		<div id="greeting"style="color: #6600FF;height:20px;"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chào:&nbsp;<%=nguoiDung.getHoTen() %></b></div>
+		<jsp:include page="header.jsp" />
 		<div id="main-content">
 			<div id="title-content"style="margin-bottom: 10px;">Báo cáo chi tiết vật tư thiếu</div>
 			<div id="content">
 			<form id="option-form" method="get" action ="<%=siteMap.bcbdnManage %>">
-			<fieldset style="background-color:#dceaf5;width:750px;margin:0 auto;">
+			<fieldset style="background-color:#dceaf5;width:900px;margin:0 auto;">
 			
 				<table style="margin:0 auto; margin-top: 30px;">
 					<tr>
@@ -194,8 +122,8 @@
 				</fieldset>
 				</form>
 			</div>
-			<div id="view-table" style="smax-height: 420px;width: 1450px;display: auto;border: 1px solid #CCCCCC;margin: 0 auto;margin-top: 20px;overflow: scroll;">
-				<table style="width:1400px;" >
+			<div id="view-table" style="smax-height: 420px;width: 1250px;display: auto;border: 1px solid #CCCCCC;margin: 0 auto;margin-top: 20px;overflow: scroll;">
+				<table style="width:1224px;" >
 					<tr bgcolor="lightgreen">
 <!-- 						<th style="width: 50px;">Số đến</th> -->
 						<th style="width: 50px;">Ngày nhận</th>
