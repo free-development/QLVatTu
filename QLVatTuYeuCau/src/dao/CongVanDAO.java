@@ -420,6 +420,15 @@ public class CongVanDAO {
 				} else if (conditions.get(key) != null){ 
 					if (key.equals("cvId") || key.equals("soDen") || key.equals("cvNgayDi") || key.equals("cvNgayNhan"))
 						cr.add(Restrictions.eq(key, conditions.get(key)));
+					
+					else if (key.equals("gecvNgayNhan")) 
+						cr.add(Restrictions.ge("cvNgayNhan", object));
+					else if (key.equals("lecvNgayNhan")) 
+						cr.add(Restrictions.le("cvNgayNhan", object));
+					else if (key.equals("gecvNgayDi"))
+						cr.add(Restrictions.ge("cvNgayDi", object));
+					else if (key.equals("lecvNgayDi"))
+						cr.add(Restrictions.le("cvNgayDi", object));
 					else
 						cr.add(Restrictions.like(key, (String)conditions.get(key), MatchMode.START));
 //					cr.add(Restrictions.eq(key, conditions.get(key)));
@@ -494,9 +503,15 @@ public long size(String msnv, HashMap<String, Object> conditions) {
 //		return null;
 //	}
 	public static void main(String[] args) {
-		String d = "2015-12-09";
-		Date date = DateUtil.parseDate(d);
-		 int soDen = new CongVanDAO().getSoDenAdd(date);
-		System.out.println(soDen);
+		String d = "2015-10-01";
+		String d2 = "2015-10-10";
+		Date date1 = DateUtil.parseDate(d);
+		Date date2 = DateUtil.parseDate(d2);
+		HashMap<String, Object> conditions =  new HashMap<String, Object>();
+		conditions.put("lecvNgayNhan", date2);
+		conditions.put("gecvNgayNhan", date1);
+		ArrayList<CongVan> congVanList = new CongVanDAO().searchLimit(null, conditions, null, 0, Integer.MAX_VALUE);
+		for (CongVan congVan : congVanList)
+			System.out.println(congVan.getCvNgayNhan());
 	}
 }

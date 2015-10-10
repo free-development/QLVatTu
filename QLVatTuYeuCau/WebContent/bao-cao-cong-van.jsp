@@ -31,25 +31,13 @@
 <link href="style/style-bao-cao-bang-de-nghi.css" type="text/css"
 	rel="stylesheet">
 <link
-	href="style\font-awesome-4.3.0\font-awesome-4.3.0\css\font-awesome.min.css"
+	href="style/font-awesome-4.3.0/font-awesome-4.3.0/css/font-awesome.min.css"
 	type="text/css" rel="stylesheet">
-<script type="text/javascript">
-		function showForm(formId, check){
-			if (check)
-				document.getElementById(formId).style.display="block";
-			else document.getElementById(formId).style.display="none";
-			var f = document.getElementById('main-form'), s, opacity;
-			s = f.style;
-			opacity = check? '10' : '100';
-			s.opacity = s.MozOpacity = s.KhtmlOpacity = opacity/100;
-			s.filter = 'alpha(opacity='+opacity+')';
-			for(var i=0; i<f.length; i++) f[i].disabled = check;
-		}
-		function confirmDelete(){
-			return confirm('Bạn có chắc xóa');
-		}
-	</script>
-	<script type="text/javascript" src="js/location.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/date-util.js"></script>
+<script type="text/javascript" src="js/location.js"></script>
+<script type="text/javascript" src="js/bao-cao-cong-van.js"></script>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="Shortcut Icon" href="img/logo16.png" type="image/x-icon" />
 </head>
@@ -162,16 +150,16 @@
 		<div id="main-content">
 			<div id="title-content"style="margin-bottom: 10px;">Báo cáo công văn</div>
 			<div id="content">
-			<form id="option-form" method="get" action ="<%=siteMap.bcbdnManage %>">
+			<form id="option-form" method="get" action ="<%=siteMap.bccvManage %>?action=baocaocv">
 			<fieldset style="background-color:#dceaf5;width:750px;margin:0 auto;">
 			
 				<table style="margin:0 auto; margin-top: 30px;">
 					<tr>
-						<th style="text-align: left;margin-top: 10px;padding-right:10px;">Số đến:</th>
+						<th style="text-align: left;margin-top: 10px;padding-right:10px;">Số công văn đến:</th>
 						<td style="text-align: left">
 						<select 
-							title="" class="select" id="donvi" name="donvi" style="margin-top: 10px;">
-								<option disabled selected value="">-- Chọn số đến --</option>
+							title="" class="select" id="cvSo" name="cvSo" style="margin-top: 10px;">
+								<option value="" style = "padding: 0 auto;">-- Tất cả--</option>
 								<%						  
  								for (CongVan congVan : congVanList)
  								{%>  
@@ -186,8 +174,8 @@
 						<th style="text-align: left;margin-top: 10px;padding-right:10px;">Đơn vị:</th>
 						<td style="text-align: left">
 						<select 
-							title="" class="select" id="donvi" name="donvi" style="margin-top: 10px;">
-								<option disabled selected value="">-- Chọn đơn vị --</option>
+							title="" class="select" id="donVi" name="donVi" style="margin-top: 10px;">
+								<option selected value="" style = "padding: 0 auto;">-- Tất cả--</option>
 								<%						  
  								int count = 0;
  								for (DonVi donVi : listDonVi)
@@ -202,8 +190,8 @@
 						<th style="text-align: left;margin-top: 10px;padding-right:10px;">Mục đích:</th>
 						<td style="text-align: left">
 						<select 
-							title="" class="select" id="donvi" name="donvi" style="margin-top: 10px;">
-								<option disabled selected value="">-- Chọn Mục đích --</option>
+							title="" class="select" id="mucDich" name="mucDich" style="margin-top: 10px;">
+								<option value="" style = "padding: 0 auto;">-- Tất cả--</option>
 								<%						  
  								for (MucDich mucDich : listMucDich)
  								{%>  
@@ -216,32 +204,32 @@
 					<tr style="margin-top: 30px;">
                             <th style="text-align: left;margin-top: 10px;padding-right:10px;" >Ngày công văn đến:</th>
                             <td style="text-align: left;margin-top: 10px;" colspan="2" >Từ ngày &nbsp;
-                            <input type="date" class="text"name="ngaybd">
+                            <input type="date" class="text"name="sCvNgayNhan" id="sCvNgayNhan">
                             &nbsp;&nbsp;&nbsp;&nbsp; đến&nbsp;
-                            <input type="date" class="text"name="ngaykt"></td>
+                            <input type="date" class="text" name="eCvNgayNhan" id = "eCvNgayNhan" ></td>
                     </tr>
                     <tr style="margin-top: 30px;">
                             <th style="text-align: left;margin-top: 10px;padding-right:10px;" >Ngày công văn đi:</th>
                             <td style="text-align: left;margin-top: 10px;" colspan="2" >Từ ngày &nbsp;
-                            <input type="date" class="text"name="ngaybd">
+                            <input type="date" class="text"name="sCvNgayDi" id="sCvNgayDi">
                             &nbsp;&nbsp;&nbsp;&nbsp; đến&nbsp;
-                            <input type="date" class="text"name="ngaykt"></td>
+                            <input type="date" class="text"name="eCvNgayDi" id="eCvNgayDi"></td>
                     </tr>
 				<table class="radio" style="margin-top: 20px;margin-left: 40px;">
 					<th style="text-align: left;margin-top: 20px;padding-right:50px;">Trạng thái:</th>				  
  								
- 								<td style="text-align: right;"><input type="radio" name="trangthai" value="CGQ"></td>
+ 								<td style="text-align: right;"><input type="radio" name="trangThai" id = "CGQ" value="CGQ"></td>
 								<td style="text-align: left;"><label class="lable1" for="CGQ">Chưa giải quyết</label></td>
-								<td style="text-align: right;"><input type="radio" name="trangthai" value="DGQ"></td>
+								<td style="text-align: right;"><input type="radio" name="trangThai" id = "DGQ" value="DGQ"></td>
 								<td style="text-align: left;"><label class="lable1" for="CGQ">Đang giải quyết</label></td>
-								<td style="text-align: right;"><input type="radio" name="trangthai" value="DaGQ"></td>
-								<td style="text-align: left;"><label class="lable1" for="CGQ">Đã giải quyết</label></td>
+								<td style="text-align: right;"><input type="radio" name="trangThai" id = "DaGQ" value="DaGQ"></td>
+								<td style="text-align: left;"><label class="lable1" for="DaGQ">Đã giải quyết</label></td>
  						
-  					<td style="text-align: right;"><input type="radio"name="trangthai" value="all"></td>
-								<td style="text-align: left;"><label class="lable1" for="CGQ">Tất cả</label></td>
+  								<td style="text-align: right;"><input type="radio" name="trangThai" value="" id = "All"></td>
+								<td style="text-align: left;"><label class="lable1" for="All">Tất cả</label></td>
 				</table>
 				<input type="hidden" name="action" value="baocaobdn">
-				<input style="margin-top: 15px;"class="button" type="submit" value="Xem">
+				<input style="margin-top: 15px;" class="button" type="button" id="xem" value="Xem">
 <!-- 					<i class="fa fa-eye"></i>&nbsp;&nbsp;</> -->
 				<br>
 				<br>
@@ -251,7 +239,8 @@
 			<div id="view-table" style="height: 500px;width: 1224px;display: auto;border: 1px solid #CCCCCC;margin: 0 auto;margin-top: 20px;overflow: scroll;">
 				<table >
 					<tr bgcolor="lightgreen">
-						<th style="width: 50px;">Số công văn</th>
+						<th style="width: 50px;">Số công văn nhận</th>
+						<th style="width: 50px;">Số công văn đến</th>
 						<th style="width: 50px;">Ngày công văn đến</th>
 						<th style="width: 50px;">Ngày công văn đi</th>
 						<th style="width: 250px;">Mục đích</th>
@@ -267,10 +256,12 @@
 			                     	for(CongVan congVan : congVanList) {
 			                     		cnt ++;
 			                     %>
-					<tr
+					<tr class="rowContent"
 						<%if (cnt % 2 == 0) out.println("style=\"background : #CCFFFF;\"");%>>
-						<td style="width: 50px; text-align: center;"><%=congVan.getCvSo() %></td>
+						<td style="width: 50px; text-align: center;"><%=congVan.getSoDen() %></td>
 						<td style="width: 100px; text-align: center;"><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td>
+						<td style="width: 50px; text-align: center;"><%=congVan.getCvSo() %></td>
+						
 						<td style="width: 50px; text-align: center;"><%=DateUtil.toString(congVan.getCvNgayDi()) %></td>
 						<td style="text-align: left; width: 300px;"><%=congVan.getMucDich().getMdTen() %></td>
 						<td style="text-align: left; width: 100px;"><%=congVan.getDonVi().getDvTen() %></td>

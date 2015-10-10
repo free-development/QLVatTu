@@ -58,7 +58,6 @@ display:none;
    		}
    	%>
 		<% 
-		HashMap<Integer, File> fileHash = (HashMap<Integer, File>) session.getAttribute("fileHash");
 //     	ArrayList<DonVi> donViList = (ArrayList<DonVi>) request.getAttribute("donViList");
 //     	ArrayList<MucDich> mucDichList = (ArrayList<MucDich>) request.getAttribute("mucDichList");
     	ArrayList<CongVan> congVanList = (ArrayList<CongVan>) session.getAttribute("congVanList");
@@ -125,8 +124,10 @@ display:none;
 					<thead>
 						<tr bgcolor="#199e5e"  style= "border-style: solid;border-color:black;">
 <!-- 							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="a-column">Số đến</th> -->
-							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="b-column">Số công văn</th>
+							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="b-column">Số công văn nhận</th>
 							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="c-column">Ngày công văn đến</th>
+							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="b-column">Số công văn đến</th>
+							
 							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="d-column">Ngày công văn đi</th>
 							<th style="border: 1px solid black;font-size: 17px;width: 200px;" class="e-column">Mục đích</th>
 							<th style="border: 1px solid black;font-size: 17px;width: 250px;" class="f-column">Nơi gửi</th>
@@ -147,8 +148,10 @@ display:none;
 									<%if (cnt % 2 == 0) out.println("style=\"background : #CCFFFF;\"");%>
 									style= "border-style: solid;border-color:black black black black;">
 <%-- 									<td style="border: 1px solid black;font-size: 17px;" class="a-column"><%=congVan.getSoDen() %></td> --%>
-									<td style="border: 1px solid black;font-size: 17px;" class="a-column"><%=congVan.getCvSo() %></td>
+									<td style="border: 1px solid black;font-size: 17px;" class="a-column"><%=congVan.getSoDen() %></td>
 									<td style="border: 1px solid black;font-size: 17px;" class="b-column"><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td>
+									<td style="border: 1px solid black;font-size: 17px;" class="a-column"><%=congVan.getCvSo() %></td>
+									
 									<td style="border: 1px solid black;font-size: 17px;" class="b-column"><%=DateUtil.toString(congVan.getCvNgayDi()) %></td>
 									<td style="border: 1px solid black;font-size: 17px;text-align: left;" class="b-column"><%=congVan.getMucDich().getMdTen() %></td>
 									<td style="border: 1px solid black;font-size: 17px;text-align: left;" class="b-column"><%=congVan.getDonVi().getDvTen() %></td>

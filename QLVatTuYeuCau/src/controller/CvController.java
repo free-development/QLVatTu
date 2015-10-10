@@ -6,12 +6,9 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 
-import javax.servlet.FilterChain;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -384,7 +381,9 @@ public class CvController extends HttpServlet{
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody String addCongVanInfo(MultipartHttpServletRequest multipartRequest)  {
     	String pathFile = context.getInitParameter("pathFile");
+    	HttpSession session = multipartRequest.getSession(true);
     	try {
+    		
 			String cvSo = multipartRequest.getParameter("cvSo");
 			CongVanDAO congVanDAO = new CongVanDAO();
 			CongVan congVanAdd = new CongVan();
@@ -392,19 +391,12 @@ public class CvController extends HttpServlet{
 			if (congVan == null || congVan.getDaXoa() == 1) {
 				Date cvNgayDi = DateUtil.parseDate(multipartRequest.getParameter("ngayGoi"));
 				Date cvNgayNhan = DateUtil.parseDate(multipartRequest.getParameter("ngayNhan"));
-				System.out.println(cvNgayNhan);
 				int soDen = congVanDAO.getSoDenAdd(cvNgayNhan);
-				
-//				if (cvNgayNhan.getDate() == 1 && soDen != 1)
-//					soDen = 1;
 				String mdMa = multipartRequest.getParameter("mucDich");
 				String dvMa = multipartRequest.getParameter("donVi");
 				String trichYeu = multipartRequest.getParameter("trichYeu");
 				String butPhe = multipartRequest.getParameter("butPhe");
 				String moTa = multipartRequest.getParameter("moTa");
-//				if (cvNgayNhan.getDate() == 1 && soDen != 1)
-//					soDen = 1;
-				
 				int cvId;
 				if (congVan == null) {
 					cvId = congVanDAO.getLastInsert();
@@ -430,6 +422,7 @@ public class CvController extends HttpServlet{
 				
 				MultipartFile fileUpload = multipartRequest.getFile("file");
 	        	String fileName = fileUpload.getOriginalFilename();
+	        	String fileNameFull = fileName;
 	        	String fileExtension = FileUtil.getExtension(fileName);
 	        	String name = FileUtil.getName(fileName);
 				if(fileExtension.length() > 0) {
@@ -439,7 +432,6 @@ public class CvController extends HttpServlet{
 				 }
 				String path = pathFile + fileName;
 	        	java.io.File file = new java.io.File(path);
-	        	System.out.println(file.getPath());
 	    		file.createNewFile();
 	    		fileUpload.transferTo(file);
 	    		FileDAO fileDAO = new FileDAO();
@@ -454,12 +446,45 @@ public class CvController extends HttpServlet{
 	    		CongVanDAO congVanDAO2 = new CongVanDAO();
 	    		CongVan congVanResult = congVanDAO2.getCongVan(cvId);
 	    		congVanDAO2.disconnect();
-	    		System.out.println(congVanResult.getDonVi().getDvTen());
 	    		ArrayList<Object> objectList = new ArrayList<Object>();
 	    		objectList.add(congVanResult);
 	    		objectList.add(f);
-	    		System.out.println(JSonUtil.toJson(objectList));
-				return JSonUtil.toJson(objectList);
+	    		
+	    		String account  = context.getInitParameter("account");
+		    	String password = context.getInitParameter("password");
+		    	String truongPhongMa = context.getInitParameter("truongPhongMa");
+		    	String host = context.getInitParameter("hosting");
+		    	NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+				SendMail sendMail = new SendMail(account, password);
+				NguoiDungDAO nguoiDungDAO = new NguoiDungDAO();
+				ArrayList<NguoiDung> nguoiDungList = (ArrayList<NguoiDung>) nguoiDungDAO.getTruongPhong(truongPhongMa);
+				for (NguoiDung nguoiDung : nguoiDungList) {
+					Mail mail = new Mail();
+					mail.setFrom(account);
+					mail.setTo(nguoiDung.getEmail());
+					mail.setSubject("Công việc được chia sẻ");
+					String content = "Chào " + nguoiDung.getHoTen() +",\n";
+					content += " Công văn số " + " nhận ngày " + cvNgayNhan + " mới được cập nhật. Vui lòng vào hệ thống làm việc để kiểm tra.\n";
+					content += host + siteMap.searchCongVan + "?congVan=" + cvId;
+					mail.setContent(content);
+					sendMail.send(mail);
+				}
+				String content = "";
+				content += "&nbsp;&nbsp;+ Đơn vị: " + congVanResult.getDonVi().getDvTen() +"<b>";
+				content += "&nbsp;&nbsp;+ Ngày gởi " + cvNgayDi + "<br>";
+				content += "&nbsp;&nbsp;+ Mục đích: " + congVanResult.getMucDich().getMdTen() + "<br>";
+				content += "&nbsp;&nbsp;+ Ngày gởi: " + cvNgayNhan + "<br>";
+				content += "&nbsp;&nbsp;+ Trích yếu: " + trichYeu + "<br>";
+				content += "&nbsp;&nbsp;+ Bút phế: " + butPhe + "<br>";
+				if (fileNameFull != null) {
+					content += "&nbsp;&nbsp;+ Tên tệp: " + fileNameFull;
+				}
+				Date currentDate = DateUtil.convertToSqlDate(new java.util.Date ());
+				NhatKyDAO nhatKyDAO = new NhatKyDAO();
+				NhatKy nhatKy = new NhatKy(authentication.getMsnv(), cvId + "#Thêm công văn số " + soDen + " nhận ngày " + cvNgayNhan, currentDate, content);
+				nhatKyDAO.addNhatKy(nhatKy);
+				nhatKyDAO.disconnect();
+				return JSonUtil.toJson(objectList);	
 //	    		getCongvan(multipartRequest);
 //	    		return JSonUtil.toJson("sucess");
 			} else {
@@ -483,6 +508,7 @@ public class CvController extends HttpServlet{
     	int cvId = Integer.parseInt(multipartRequest.getParameter("cvId"));
 //    	System.out.println(cvId);
     	try {
+    		HttpSession session = multipartRequest.getSession(false);
 			String cvSo = multipartRequest.getParameter("cvSo");
 			
 			Date cvNgayDi = DateUtil.parseDate(multipartRequest.getParameter("ngayGoiUpdate"));
@@ -492,25 +518,9 @@ public class CvController extends HttpServlet{
 			String dvMa = multipartRequest.getParameter("donViUpdate");
 			String trichYeu = multipartRequest.getParameter("trichYeuUpdate");
 			String butPhe = multipartRequest.getParameter("butPheUpdate");
-			System.out.println(soDen);
-			System.out.println(cvSo);
-			System.out.println(cvNgayDi);
-			System.out.println(cvNgayNhan);
-			System.out.println(mdMa);
-			System.out.println(dvMa);
-			System.out.println(trichYeu);
-			System.out.println(butPhe);
-//			String moTa = multipartRequest.getParameter("moTaUpdate");
-//			String ttMa = multipartRequest.getParameter("trangThaiUpdate");
 			CongVanDAO congVanDAO = new CongVanDAO();
-//			HashMap<String, Object> conditions =  new HashMap<String, Object>();
-//			conditions.put("soDen", soDen);
-//			conditions.put("cvNgayNhan", cvNgayNhan);
 			CongVan congVan = congVanDAO.getCongVan(cvId);
-			
-			
 			congVan.setSoDen(soDen);
-//			congVan.setCvSo(cvSo);
 			congVan.setButPhe(butPhe);
 			congVan.setCvNgayDi(cvNgayDi);
 			congVan.setCvNgayNhan(cvNgayNhan);
@@ -523,6 +533,7 @@ public class CvController extends HttpServlet{
 			cvId = congVan.getCvId();
 			MultipartFile fileUpload = multipartRequest.getFile("file");
         	String fileName = fileUpload.getOriginalFilename();
+        	String fileNameFull = fileName;
         	String fileExtension = FileUtil.getExtension(fileName);
         	String name = FileUtil.getName(fileName);
 			if(fileExtension.length() > 0) {
@@ -532,7 +543,6 @@ public class CvController extends HttpServlet{
 			 }
 			String path = pathFile + fileName;
         	java.io.File file = new java.io.File(path);
-        	System.out.println(file.getPath());
     		file.createNewFile();
     		fileUpload.transferTo(file);
     		FileDAO fileDAO = new FileDAO();
@@ -545,11 +555,34 @@ public class CvController extends HttpServlet{
     		CongVanDAO congVanDAO2 = new CongVanDAO();
     		CongVan congVanResult = congVanDAO2.getCongVan(cvId);
     		congVanDAO2.disconnect();
-    		System.out.println(congVanResult.getDonVi().getDvTen());
     		ArrayList<Object> objectList = new ArrayList<Object>();
     		objectList.add(congVanResult);
     		objectList.add(f);
-    		System.out.println(JSonUtil.toJson(objectList));
+    		
+    		String account  = context.getInitParameter("account");
+	    	String password = context.getInitParameter("password");
+	    	String truongPhongMa = context.getInitParameter("truongPhongMa");
+	    	String host = context.getInitParameter("hosting");
+	    	NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+			SendMail sendMail = new SendMail(account, password);
+			NguoiDungDAO nguoiDungDAO = new NguoiDungDAO();
+			ArrayList<NguoiDung> nguoiDungList = (ArrayList<NguoiDung>) nguoiDungDAO.getTruongPhong(truongPhongMa);
+			
+			String content = "";
+			content += "&nbsp;&nbsp;+ Đơn vị: " + congVanResult.getDonVi().getDvTen() +"<b>";
+			content += "&nbsp;&nbsp;+ Ngày gởi " + cvNgayDi + "<br>";
+			content += "&nbsp;&nbsp;+ Mục đích: " + congVanResult.getMucDich().getMdTen() + "<br>";
+			content += "&nbsp;&nbsp;+ Ngày gởi: " + cvNgayNhan + "<br>";
+			content += "&nbsp;&nbsp;+ Trích yếu: " + trichYeu + "<br>";
+			content += "&nbsp;&nbsp;+ Bút phế: " + butPhe + "<br>";
+			if (fileNameFull != null) {
+				content += "&nbsp;&nbsp;+ Tên tệp: " + fileNameFull;
+			}
+			Date currentDate = DateUtil.convertToSqlDate(new java.util.Date ());
+			NhatKyDAO nhatKyDAO = new NhatKyDAO();
+			NhatKy nhatKy = new NhatKy(authentication.getMsnv(), cvId + "#Thêm công văn số " + soDen + " nhận ngày " + cvNgayNhan, currentDate, content);
+			nhatKyDAO.addNhatKy(nhatKy);
+			nhatKyDAO.disconnect();
 			return JSonUtil.toJson(objectList);
 		} catch (IllegalStateException e) {
 			// TODO Auto-generated catch block

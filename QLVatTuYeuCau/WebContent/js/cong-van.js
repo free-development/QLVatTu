@@ -51,11 +51,11 @@ function checkAdd(){
 	var file = $('#add-form input[name=file]').val();
 	var moTa = $('#add-form textarea[name=moTa]').val();
 
-	if(cvSo == ''){
-		$('#requireSoCv').html('Vui lòng nhập số công văn');
-		return false;
-	}
-	else if(ngayNhan == ''){
+//	if(cvSo == ''){
+//		$('#requireSoCv').html('Vui lòng nhập số công văn');
+//		return false;
+//	}
+	if(ngayNhan == ''){
 		$('#requireNgayNhan').html('Vui lòng chọn ngày nhận công văn');
 		return false;
 	}
