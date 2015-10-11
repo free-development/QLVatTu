@@ -21,7 +21,7 @@
 #view-table {
 	margin: 0 auto;
 	width: 600px;
-	max-height: 350px;
+	/*max-height: 350px;*/
 }
 
 .group-button {

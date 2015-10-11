@@ -1,4 +1,3 @@
-
 <%@page import="util.DateUtil"%>
 <%@page import="model.CTVatTu"%>
 <%@page import="javax.swing.JOptionPane"%>
@@ -14,7 +13,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Văn phòng điện tử công ty điện lực Cần Thơ</title>
+        <title>Công Ty Điện Lực TP.Cần Thơ Phòng Vật Tư</title>
         <link rel="stylesheet" href="style/style-giao-dien-chinh.css" type="text/css">
 		<link rel="stylesheet" href="style/style.css" type="text/css">
     <link href="style/font-awesome-4.3.0/font-awesome-4.3.0/css/font-awesome.min.css" type="text/css" rel="stylesheet">
@@ -41,7 +40,6 @@
 // 			$("body").css("cursor", "auto");		
 // 			Set the cursor ASAP to "Wait"
 // 		    document.body.style.cursor='wait';
-
 		    //When the window has finished loading, set it back to default...
 // 		    window.onload=function(){document.body.style.cursor='wait';
 // 		    } 
@@ -69,15 +67,12 @@
     		String nhanVienMa = request.getServletContext().getInitParameter("nhanVienMa");
     	%>
     	<script type="text/javascript">
-
 chucDanhMa = '<%=chucDanh  %>';
 vanThuMa = '<%=vanThuMa  %>';
 adminMa = '<%=adminMa  %>';
 truongPhongMa = '<%=truongPhongMa  %>';
 msnv = '<%=authentication.getMsnv()  %>';
-
 // || capPhatMa.equals(chucDanhMa)
-
 </script>
         <div class="wrapper">
 				<jsp:include page="header.jsp" />
@@ -256,7 +251,6 @@ msnv = '<%=authentication.getMsnv()  %>';
 					</td>
 					</tr>
 				</table>
-
 				
 				</div>
         </div>

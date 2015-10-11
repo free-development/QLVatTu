@@ -70,85 +70,9 @@
     %>
   
 	<div class="wrapper">
-<<<<<<< HEAD
-		<div class="header">
-			<div id="top_title">Văn phòng điện tử</div>
-			<div id="bottom-title">Công ty điện lực cần thơ</div>
-			<div class="search_form" id="search">
-				<form action="" method="post">
-					<span class="search-text"> &nbsp; <input type="search"
-						class="search" name="search_box" name="search"
-						placeholder="Tìm kiếm" />
-					</span> <span class="search-button"> &nbsp;
-						<button class="btn-search">
-							<i class="fa fa-search"></i>
-						</button>
-					</span>
-				</form>
-			</div>
-
-		</div>
-		<div class="main_menu">
-					<ul>
-						<li><a href="<%=siteMap.homePageManage%>">Trang chủ</a></li>
-						<%if (adminMa.equalsIgnoreCase(chucDanh)) {%>
-						
-						<li><a>Danh mục</a>
-							<ul>
-										<li><a href="<%=siteMap.nsxManage + "?action=manageNsx"%>">Danh
-												mục nơi sản xuất</a></li>
-										<li><a href="<%=siteMap.clManage + "?action=manageCl"%>">Danh
-												mục chất lượng</a></li>
-										<li><a href="<%=siteMap.vattuManage + "?action=manageVattu"%>">Danh
-												mục vật tư</a></li>
-										<li><a href="<%=siteMap.ctvtManage + "?action=manageCtvt"%>">Vật tư tồn kho</a></li>
-										<li><a href="<%=siteMap.bpsdManage +  "?action=manageBpsd"%>">Danh
-												mục bộ phận sử dụng</a></li>
-										<li><a href="<%=siteMap.mdManage + "?action=manageMd"%>">Danh
-												mục mục đích</a></li>
-										<li><a href="<%=siteMap.vtManage + "?action=manageVt"%>">Danh mục vai trò</a></li>
-										<li><a href="<%=siteMap.dvtManage + "?action=manageDvt"%>">Danh mục đơn vị tính</a></li>
-										<li><a href="<%=siteMap.cdManage + "?action=manageCd"%>">Danh
-												mục chức danh</a></li>
-										
-									</ul>
-						</li>
-						<%} %>
-							<li><a href="<%=siteMap.cvManage+ "?action=manageCv" %>">Công văn</a></li>
-							<%if (!chucDanh.equalsIgnoreCase(vanThuMa)){ %>
-							<li><a>Báo cáo</a>
-								<ul>
-									<li><a href="<%=siteMap.bcvttManage+ "?action=manageBcvtt" %>"/>Báo cáo vật tư thiếu</li>
-									<li><a href="<%=siteMap.bcbdnManage+ "?action=manageBcbdn" %>"/>Báo cáo bảng đề nghị cấp vật tư</li>
-								</ul>
-							</li>
-							<%} %>
-						<%if (adminMa.equalsIgnoreCase(chucDanh)) {%>
-						<li><a>Quản lý người dùng</a>
-							<ul>
-								<li><a href="<%=siteMap.ndManage + "?action=manageNd"%>">Thêm người dùng</li>
-								<li><a href="<%=siteMap.updateNguoiDung%>"/>Cập nhật thông tin</li>
-								<li><a href="<%=siteMap.resetPassword%>"/>Khôi phục mật khẩu</li>
-								<li><a href="<%=siteMap.lockNguoiDung%>"/>Khóa tài khoản</li>
-								<li><a href="<%=siteMap.resetNguoiDung%>"/>Khôi phục tài khoản</li>
-							</ul>
-						</li>
-						<%} %>
-						<li><a>Tài khoản</a>
-							<ul>
-								<li><a href="<%=siteMap.changePassPage + ".jsp"%>">Đổi mật khẩu</a></li>
-								<li><a href="<%=siteMap.logout + "?action=logout"%>">Đăng xuất</a></li>
-							</ul>
-						</li>		
-					</ul>
-					<div class="clear"></div>
-				</div>
-		<div id="greeting"style="color: #6600FF;height:20px;"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chào:&nbsp;<%=nguoiDung.getHoTen() %></b></div>
-=======
 		<jsp:include page="header.jsp" />
->>>>>>> adcc53a4b4393798f6741b6e0cfa4c87d3995da3
 		<div id="main-content">
-			<div id="title-content"style="margin-bottom: 10px;">Báo cáo bảng đề nghị cấp vật tư</div>
+			<div id="title-content"style="margin-bottom: 10px;">Báo cáo chi tiết vật tư thiếu</div>
 			<div id="content">
 			<form id="option-form" method="get" action ="<%=siteMap.bcbdnManage %>">
 			<fieldset style="background-color:#dceaf5;width:900px;margin:0 auto;">
@@ -198,24 +122,20 @@
 				</fieldset>
 				</form>
 			</div>
-<<<<<<< HEAD
-			<div id="view-table" style="smax-height: 420px;width: 1224px;display: auto;border: 1px solid #CCCCCC;margin: 0 auto;margin-top: 20px;overflow: scroll;">
-				<table >
-=======
 			<div id="view-table" style="smax-height: 420px;width: 1250px;display: auto;border: 1px solid #CCCCCC;margin: 0 auto;margin-top: 20px;overflow: scroll;">
 				<table style="width:1224px;" >
->>>>>>> adcc53a4b4393798f6741b6e0cfa4c87d3995da3
 					<tr bgcolor="lightgreen">
 <!-- 						<th style="width: 50px;">Số đến</th> -->
-						<th style="width: 100px;">Ngày nhận</th>
+						<th style="width: 50px;">Ngày nhận</th>
 						<th style="width: 50px;">Mã vật tư</th>
 						<th style="width: 350px;">Tên vật tư</th>
-						<th style="width: 100px;">Nơi sản xuất</th>
+<!-- 						<th style="width: 100px;">Nơi sản xuất</th> -->
 						<th style="width: 50px;">Đvt</th>
+						<th style="width: 50px;">Số lượng</th>
 						<th style="width: 100px;">Trạng thái</th>
-						<th style="width: 150px;">Đơn vị</th>
-						<th style="width: 100px;">Chất lượng</th>
-						<th style="width: 100px;">Số lượng</th>
+						<th style="width: 100px;">Đơn vị yêu cầu</th>
+						<th style="width: 200px;">Nội dung công tác</th>
+						
 						
 					</tr>
 							<%
@@ -229,17 +149,18 @@
 					<tr
 						<%if (cnt % 2 == 0) out.println("style=\"background : #CCFFFF;\"");%>>
 <%-- 						<td style="width: 50px; text-align: center;"><%=congVan.getSoDen() %></td> --%>
-						<td style="width: 100px; text-align: center;"><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td>
+						<td style="width: 50px; text-align: center;"><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td>
 <%-- 						<td style="width: 50px; text-align: center;"><%=congVan.getSoDen() %></td> --%>
 <%-- 						<td style="width: 100px; text-align: center;"><%=congVan.getCvNgayNhan() %></td> --%>
 						<td style="width: 50px; text-align: center;"><%=yeuCau.getCtVatTu().getVatTu().getVtMa() %></td>
 						<td style="text-align: left; width: 300px;"><%=yeuCau.getCtVatTu().getVatTu().getVtTen() %></td>
-						<td style="text-align: left; width: 100px;"><%=yeuCau.getCtVatTu().getNoiSanXuat().getNsxTen() %></td>
-						<td style="width: 50px;"><%=yeuCau.getCtVatTu().getVatTu().getDvt().getDvtTen() %></td>
+<%-- 						<td style="text-align: left; width: 100px;"><%=yeuCau.getCtVatTu().getNoiSanXuat().getNsxTen() %></td> --%>
+						<td style="width: 50px;text-align: center;"><%=yeuCau.getCtVatTu().getVatTu().getDvt().getDvtTen() %></td>
+						<td style="width: 50px; text-align: center;"><%=yeuCau.getYcSoLuong() %></td>
 						<td style="text-align: left; width: 100px;"><%=congVan.getTrangThai().getTtTen() %></td>
 						<td style="text-align: left; width: 150px;"><%=congVan.getDonVi().getDvTen()%></td>
-						<td style="text-align: left; width: 100px;"><%=yeuCau.getCtVatTu().getChatLuong().getClTen() %></td>
-						<td style="width: 50px; text-align: center;"><%=yeuCau.getYcSoLuong() %></td>
+						<td style="text-align: left; width: 100px;"><%=congVan.getTrichYeu()%></td>
+						
 
 					</tr>
 					<%} }}%>

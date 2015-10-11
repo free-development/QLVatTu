@@ -38,7 +38,7 @@ body {
 	font-size: 30px;
 	text-transform: uppercase;
 	text-align: left;
-	margin-top: 15px;
+	margin-top: 30px;
 	margin-left: 5px;
 }
 
@@ -196,11 +196,7 @@ linear
 	font-size: 30px;
 	text-shadow: 2px 2px aliceblue;
 	font-weight: bold;
-<<<<<<< HEAD
-	text-align: center;
-=======
 	padding-left: 45%;
->>>>>>> adcc53a4b4393798f6741b6e0cfa4c87d3995da3
 }
 
 .search_form {
@@ -241,14 +237,9 @@ linear
 	font-size: 35px;
 	text-shadow: 2px 2px aliceblue;
 	font-weight: bold;
-<<<<<<< HEAD
-	text-align: center;
-	/*	padding-top: 20px;*/
-=======
 	/*text-align: center;*/
 	padding-top: 2%;
 	padding-left: 35%;
->>>>>>> adcc53a4b4393798f6741b6e0cfa4c87d3995da3
 }
 
 ul:first-child {

@@ -31,7 +31,9 @@ display:none;
         {
             {
             size: auto A4 landscape;
-        	color: black; background: white; } }
+        	color: black; background: white; 
+        	
+        	} }
 	   table 
 	   { 
 	   		font-size: 70%; 
@@ -123,7 +125,7 @@ display:none;
 								<th style="border: 1px solid black;width: 100px;" class="three-column">Nơi sản xuất</th>
 								<th style="border: 1px solid black;width: 100px;" class="three-column">Chất lượng</th>
 								<th style="border: 1px solid black;width: 250px;" class="three-column">Đơn vị</th>
-								<th style="border: 1px solid black;width: 50px;" class="three-column">Đơn vị tính</th>
+<!-- 								<th style="border: 1px solid black;width: 50px;" class="three-column">Đơn vị tính</th> -->
 								<th style="border: 1px solid black;width: 50px;" class="three-column">Đvt</th>
 								<th style="border: 1px solid black;width: 50px;" class="one-column">Số lượng thiếu</th>
 								<th style="border: 1px solid black;width: 50px;" class="one-column">Số lượng tồn</th>

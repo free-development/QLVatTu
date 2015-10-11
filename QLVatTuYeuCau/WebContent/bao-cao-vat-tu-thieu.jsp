@@ -68,7 +68,7 @@
 	<div class="wrapper">
 		<jsp:include page="header.jsp" />
 		<div id="main-content">
-			<div id="title-content"style="margin-top: 20px;">Báo cáo vật tư thiếu</div>
+			<div id="title-content"style="margin-top: 20px;">Báo cáo tổng hợp vật tư thiếu</div>
 			<br>
 			<form id="option-form"  method="get" action="<%=siteMap.bcvttManage%>">
 				<fieldset style="background-color:#dceaf5;width:700px;margin:0 auto;">
@@ -84,82 +84,19 @@
                         </tr>
                         
                         <tr>
-							<th style="text-align: left; padding-right: 10px;">Chế độ báo cáo:</th>
-							<td style="font-size: 20px"><input name="action" type="radio" value="chitiet" required title="Bạn phải chọn chế độ báo cáo"/>&nbsp;&nbsp;Chi tiết</td>
-						<td style="font-size: 20px"><input name="action" type="radio" value="tonghop"/>&nbsp;&nbsp;Tổng hợp</td>
+<!-- 							<th style="text-align: left; padding-right: 10px;">Chế độ báo cáo:</th> -->
+<!-- 							<td style="font-size: 20px"><input name="action" type="radio" value="chitiet" required title="Bạn phải chọn chế độ báo cáo"/>&nbsp;&nbsp;Chi tiết</td> -->
+						<td style="font-size: 20px"><input name="action" type="hidden" value="tonghop"/>&nbsp;&nbsp;</td>
 	                    </tr>
 					</table>
 <!-- 					<input type="hidden" name="action" value="baocaovtt"> -->
-					<input style="margin-left: 300px;margin-bottom: 20px;"type="submit" value="Xem" class="button"/>
+					<input style="margin-left: 300px;margin-bottom: 20px;" type="submit" value="Xem" class="button"/>
 				</fieldset>
 				
 			</form>
 			<br>
 			<br>
-			<% if(loaiBc != null  &&  "chitiet".equalsIgnoreCase(loaiBc)){
-			
- 				ArrayList<CongVan> congVanList = (ArrayList<CongVan>) session.getAttribute("congVanList");			
-		   		HashMap<Integer, ArrayList<YeuCau>> yeuCauHash = (HashMap<Integer, ArrayList<YeuCau>>) session.getAttribute("yeuCau");
-		   		
-		    %>
-					<div style="text-align: center;font-size: 25px;color:firebrick;font-weight: bold;margin-top:10px;">Chi tiết vật tư thiếu</div>
-					<div id="view-table-bao-cao" style="max-height: 520px;width: 1200px;display: auto;border: 1px dotted #CCCCCC;margin: 0 auto;overflow: scroll;">
-					<table style="margin: 0 auto; width:1190px; border: 1px dotted black;">
-							<tr bgcolor="#199e5e"style="border: 1px dotted black;">
-								<th style="border: 1px dotted black;width: 50px;" class="one-column">Số đến</th>
-								<th style="border: 1px dotted black;width: 100px;" class="one-column">Số công văn</th>
-								<th style="border: 1px dotted black;width: 100px;" class="three-column">Ngày nhận</th>
-								<th style="border: 1px dotted black;width: 100px;" class="two-column">Mã vật tư</th>
-								<th style="border: 1px dotted black;width: 350px;" class="three-column">Tên vật tư</th>
-								<th style="border: 1px dotted black;width: 100px;" class="three-column">Nơi sản xuất</th>
-								<th style="border: 1px dotted black;width: 100px;" class="three-column">Chất lượng</th>
-								<th style="border: 1px dotted black;width: 250px;" class="three-column">Đơn vị xin</th>
-								<th style="border: 1px dotted black;width: 50px;" class="six-column">Đơn vị tính</th>
-								<th style="border: 1px dotted black;width: 50px;" class="one-column">Số lượng thiếu</th>
-								<th style="border: 1px dotted black;width: 50px;" class="one-column">Số lượng tồn</th>
-								
-<!-- 								<th style="border: 1px dotted black;">Link công văn</th> -->
-							</tr>
-						
-									<% 								
-										if(yeuCauHash != null){
-										int count = 0;	
-										for(CongVan congVan  : congVanList) { 
-										ArrayList<YeuCau> yeuCauList = yeuCauHash.get(congVan.getCvId());
-										for (YeuCau yeuCau : yeuCauList) { count++;
-									%>
-												
-									<tr
-										<%if (count % 2 == 0) out.println("style=\"background : #CCFFFF;\"");%>
-										style="border: 1px solid black;">
-										<td class="a-column"style="text-align: center;"><%=congVan.getSoDen() %></td>
-										<td class="a-column"style="text-align: center;"><%=congVan.getCvSo() %></td>
-										<td class="b-column"style="text-align: center;"><%=congVan.getCvNgayNhan() %></td>
-										<td class="a-column"style="text-align: center;"><%=yeuCau.getCtVatTu().getVatTu().getVtMa() %></td>
-										<td class="b-column"style="text-align: left;"><%=yeuCau.getCtVatTu().getVatTu().getVtTen() %></td>
-										<td class="c-column"style="text-align: left;"><%=yeuCau.getCtVatTu().getNoiSanXuat().getNsxTen() %></td>
-										<td class="d-column"style="text-align: left;"><%=yeuCau.getCtVatTu().getChatLuong().getClTen() %></td>
-										<td class="d-column"style="text-align: left;"><%=congVan.getDonVi().getDvTen()%></td>
-										<td class="e-column"style="text-align: center;"><%=yeuCau.getCtVatTu().getVatTu().getDvt().getDvtTen() %></td>
-										<td class="e-column"style="text-align: center;"><%=yeuCau.getYcSoLuong() %></td>
-										<td class="e-column"style="text-align: center;"><%=yeuCau.getCtVatTu().getSoLuongTon() %></td>
-<%-- 										<td style="text-align: center;"><a style="color: blue;text-decoration: underline;" href="<%=siteMap.cvManage + "?action=download&file=" + congVan.getCvId()%>">Xem</td> --%>
-									</tr>	
-								<%}} }%>			
-					</table>
-				</div>
-	
-				<div class="group-button"style ="text-align: center;margin-top:10px;">			 
-					<button class="button" type="button" onclick="location.href='<%=siteMap.xuatFile+ ".jsp"%>'">
-						<i class="fa fa-print"></i>&nbsp;&nbsp;Xuất file
-					</button>
-					&nbsp;
-					<button type="button" class="button" onclick="location.href='<%=siteMap.home%>'">
-						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
-					</button>
-				</div>
-			
-					<% }%>
+
 					
 				<% if(loaiBc != null && "tonghop".equalsIgnoreCase(loaiBc)){	
 	   		HashMap<Integer, CTVatTu> ctvtHash = (HashMap<Integer, CTVatTu>) session.getAttribute("ctvtHash");
@@ -177,7 +114,7 @@
 						<th style="border: 1px dotted black;width: 400px;" class="three-column">Tên vật tư</th>
 						<th style="border: 1px dotted black;width: 100px;" class="three-column">Nơi sản xuất</th>
 						<th style="border: 1px dottedblack;width: 100px;" class="three-column">Chất lượng</th>
-						<th style="border: 1px dottedblack;width: 350px;" class="three-column">Đơn vị</th>
+<!-- 						<th style="border: 1px dottedblack;width: 350px;" class="three-column">Đơn vị</th> -->
 						<th style="border: 1px dotted black;width: 50px;" class="six-column">Đvt</th>
 						<th style="border: 1px dotted black;width: 50px;" class="one-column">Tổng số lượng thiếu</th>
 						<th style="border: 1px dotted black;width: 50px;" class="one-column">Số lượng tồn</th>
@@ -200,7 +137,7 @@
 						<td class="b-column"style="text-align: left;"><%=ctvt.getVatTu().getVtTen() %></td>
 						<td class="c-column"style="text-align: left;"><%=ctvt.getNoiSanXuat().getNsxTen() %></td>
 						<td class="d-column"style="text-align: left;"><%=ctvt.getChatLuong().getClTen() %></td>
-						<td class="d-column"style="text-align: left;"><%=congVan.getDonVi().getDvTen()%></td>
+<%-- 						<td class="d-column"style="text-align: left;"><%=congVan.getDonVi().getDvTen()%></td> --%>
 						<td class="e-column"style="text-align: center;"><%=ctvt.getVatTu().getDvt().getDvtTen() %></td>
 						<td class="e-column"style="text-align: center;"><%=yeuCauHash.get(key) %></td>
 						<td class="d-column"style="text-align: center;"><%=ctvt.getSoLuongTon()%></td>

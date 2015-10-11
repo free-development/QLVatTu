@@ -388,8 +388,8 @@
 <!-- 						<i class="fa fa-search"></i></button></span></td>	 -->
 <!-- 					</tr>			 -->
 <!-- 				</table> -->
-				<form id="chitiet"> 	
-				<div id="view-table-chi-tiet" style="height: 500px; width: 1024px; margin: 0 auto;top:200px;">
+				<form id="chitiet" style="margin: 0 auto;"> 	
+				<div id="view-table-chi-tiet" style="margin: 0 auto;">
 
 				<table>
 					<tr style="background: #199e5e">
