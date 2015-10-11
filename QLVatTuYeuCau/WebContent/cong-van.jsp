@@ -240,7 +240,11 @@ msnv = '<%=authentication.getMsnv()  %>';
 						<tr>	
 							<td  class="left-column-socv" style="font-weight: bold;">Số công văn đến: &nbsp;&nbsp;</td>
 							<td colspan ="3" class="column-socv" style="text-align: left;color:red;font-weight: bold;"><%=congVan.getCvSo() %></td>
+<<<<<<< HEAD
 							<td class="left-column-ngdi" style="font-weight: bold;">Ngày công văn đi:&nbsp;&nbsp;</td>
+=======
+							<td class="left-column-ngdi" style="font-weight: bold;">Ngày công văn đến:&nbsp;&nbsp;</td>
+>>>>>>> b12edbd4f1e6c9a0131f564204ed4811c35ee063
 							<td class="column-date" style="text-align: left;color:blue;"><%=DateUtil.toString(congVan.getCvNgayDi())%></td>
 							
 						</tr>

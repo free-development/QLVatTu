@@ -125,7 +125,7 @@ msnv = '<%=authentication.getMsnv()  %>';
 						<%} %>
 						</div>
 						<div id = "work">
-						<table style="width:550px;">
+						<table style="width:100%;">
 						<tr style="background-color: #199e5e;">
 <!-- 							<td style="text-align: center;" colspan="2"> -->
 <!-- 							<i class="fa fa-sign-out"></i>&nbsp;Thông báo -->
@@ -164,7 +164,7 @@ msnv = '<%=authentication.getMsnv()  %>';
  				%> 
 					<div class="view-tbao"> 
 						<div id ="work">
- 						<table style="width:450px;"> 
+ 						<table style="width:100%;"> 
 						<tr ><th colspan = "2" style="text-align: center; width: 300px; font-size: 20px;color:red;"><i class="fa fa-sign-out"></i>&nbsp;Công việc</th></tr> 
 <!--  						<tr style="background: #CCFFFF">  -->
 <!--  							<td style="text-align: center;" colspan="2">  -->
@@ -200,7 +200,7 @@ msnv = '<%=authentication.getMsnv()  %>';
 				</td>
 				<td style="vertical-align:top ;">
 					<div class="view-nky" id ="nhatKy">
-						<table style="width:800px;">
+						<table style="width:100%;">
 						<tr>
 						<th colspan ="3" style="text-align: center; font-size: 20px;color:red;">
 							<i class="fa fa-sign-out"></i>&nbsp;Nhật ký hoạt động
