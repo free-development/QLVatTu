@@ -193,7 +193,7 @@ public class VattuController extends HttpServlet {
 		int page = Integer.parseInt(pageNumber);
 		ArrayList<Object> objectList = new ArrayList<Object>();
 		long sizevt = vatTuDAO.size();
-		ArrayList<VatTu> vatTuList = (ArrayList<VatTu>) vatTuDAO.limit((page - 1) * 10, 10);
+		ArrayList<VatTu> vatTuList = (ArrayList<VatTu>) vatTuDAO.limit(page * 10, 10);
 		//JOptionPane.showMessageDialog(null, vatTuList.size());
 		objectList.add(vatTuList);
 		objectList.add((sizevt - 1)/10);

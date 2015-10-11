@@ -131,7 +131,11 @@
 #view-table-chi-tiet table {
 	border-spacing: 0px;
 	margin: 0 auto;
+<<<<<<< HEAD
 	width: 1224px;
+=======
+	width: 100%;
+>>>>>>> 2b9a948e56ec1ad3b085caf63c707f1e73f2283c
 	/*height: 800px;*/
 	background: #FFF;
 }
@@ -338,6 +342,10 @@
 	position: absolute;
 	top:17%;
 	left:5%;
+<<<<<<< HEAD
+=======
+	width: 90%;
+>>>>>>> 2b9a948e56ec1ad3b085caf63c707f1e73f2283c
 	margin:0 auto;
 	border-radius: 10px;
 	background-color: #DCEAF5;

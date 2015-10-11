@@ -148,7 +148,7 @@
 
 					<tr class="rowContent"
 						<%if (count % 2 == 0) out.println("style=\"background : #CCFFFF;\"");%>>
-						<td class="left-column"><input type="checkbox" name="vtMa"
+						<td class="left-column" style="width: 20px;"><input type="checkbox" name="vtMa"
 							value="<%=vatTu.getVtMa() %>" class="checkbox"></td>
 						<td class="col" style="text-align: left;" ><%=vatTu.getVtMa() %></td>
 						<td class="col" style="text-align: left; width: 200px;"><%=vatTu.getVtTen() %></td>
@@ -393,7 +393,7 @@
 
 				<table>
 					<tr style="background: #199e5e">
-						<th class="left-column"><input type="checkbox" class="checkCTAll"></th>
+						<th class="left-column" style="width: 20px;"><input type="checkbox" class="checkCTAll"></th>
 						<th class="four-column">Mã vật tư</th>
 						<th class="three-col">Tên vật tư</th>
 						<th class="six-column">Nơi sản xuất</th>
