@@ -119,8 +119,10 @@ public class VattuController extends HttpServlet {
 		if(vt == null) 
 		{
 			vatTuDAO.addVatTu(new VatTu(vtMa, vtTen,dVT,0));
-			//System.out.println("success");
-			result = "success";	
+			VatTuDAO vatTuDAO2 = new VatTuDAO();
+			VatTu vatTu = vatTuDAO2.getVatTu(vtMa);
+			result = JSonUtil.toJson(vatTu);
+			return result;
 		}
 		else if(vt !=null && vt.getDaXoa()== 1){
 			vt.setVtMa(vtMa);
@@ -128,16 +130,18 @@ public class VattuController extends HttpServlet {
 			vt.setDvt(dVT);
 			vt.setDaXoa(0);
 			vatTuDAO.updateVatTu(vt);
-			//System.out.println("success");
-			result = "success";	
+			result = JSonUtil.toJson(vt);
+			vatTuDAO.disconnect();
+			return result;
 		}
 		else
 		{
-			//System.out.println("fail");
+			vatTuDAO.disconnect();
 			result = "fail";
-		}
-		vatTuDAO.disconnect();
 			return JSonUtil.toJson(result);
+		}
+		
+//			return JSonUtil.toJson(result);
 	}
 	@RequestMapping(value="/timKiemVattu", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

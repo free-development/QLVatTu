@@ -55,11 +55,19 @@ public class ReadExcel extends HttpServlet {
 			if ("xls".equalsIgnoreCase(extenstionFile)) {
 				if(!ReadExcelTon.readXls(file))
 					return new ModelAndView("import-excel", "status", "formatException");
+				if(ReadExcelTon.readXls(file)) {
+					multipartRequest.setAttribute("status", "success");
+					return new ModelAndView(siteMap.ctVatu);
+				}
 			}
 			else if ("xlsx".equalsIgnoreCase(extenstionFile)) {
 				file = new File("temp.xlsx");
 				if(!ReadExcelTon.readXlsx(file))
 					return new ModelAndView("import-excel", "status", "formatException");
+				if(ReadExcelTon.readXlsx(file)) {
+					multipartRequest.setAttribute("status", "success");
+					return new ModelAndView(siteMap.ctVatu);
+				}
 			}
 			else {
 				return new ModelAndView("import-excel", "status", "unknownFile");
