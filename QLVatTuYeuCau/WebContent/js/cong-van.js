@@ -346,10 +346,10 @@ function loadCongVan(congVanList, fileList, unknownList, vtCongVanList) {
 			var cvNgayDi = parseDate(congVan.cvNgayDi);   
 			var file = fileList[i];
 			if (i % 2 == 1)
-				style += 'background : #CCFFFF; ';
+				style += 'background : #CCFFFF; width: 1224px;';
 			else
-				style += 'background : #FFFFFF; ';
-			style += ' font-size: 16px; width: 900px;\"';
+				style += 'background : #FFFFFF; width: 1224px;';
+			style += ' font-size: 16px; width: 1224px;\"';
 			tables +=     '<table class=\"tableContent\" ' + style + ' class=\"border-congvan\">'
 						+ '<tr >';
 						if(chucDanhMa == vanThuMa || chucDanhMa == adminMa) {
@@ -357,9 +357,9 @@ function loadCongVan(congVanList, fileList, unknownList, vtCongVanList) {
 						+ 'Chọn <input title=\"Click để chọn công văn\" type=\"checkbox\" name=\"cvId\" value=\"' + congVan.cvId + '\">'
 						+ '</td>';
 						}
-						tables += '<td class=\"left-column-soden\" style=\"font-weight: bold;\">Số đến: &nbsp;&nbsp;</td>'
+						tables += '<td class=\"left-column-soden\" style=\"font-weight: bold;\">Số nhận: &nbsp;&nbsp;</td>'
 						+ '<td class=\"column-so-den\" style=\"text-align: left\">' + congVan.soDen + '</td>'
-						+ '<td class=\"left-column-first\" style=\"font-weight: bold;\">Ngày đến: &nbsp;&nbsp;</td>'
+						+ '<td class=\"left-column-first\" style=\"font-weight: bold;\">Ngày nhận: &nbsp;&nbsp;</td>'
 						+ '<td colspan =\"3\" class=\"column-date\" style=\"text-align: left;color:blue;\">' + cvNgayNhan + '</td>'
 //						+ '<td colspan=\"1\" style=\"font-weight: bold;\">Trạng thái</td>'
 //						+ '<td colspan=\"1\" style=\"color:red;font-weight: bold;font-style: oblique;\">' + congVan.trangThai.ttTen + '</td>'
@@ -367,7 +367,7 @@ function loadCongVan(congVanList, fileList, unknownList, vtCongVanList) {
 						+ '<tr>'
 						+ '<td class=\"left-column-socv\" style=\"font-weight: bold;\">Số công văn đến: &nbsp;&nbsp;</td>'
 						+ '<td colspan=\"3\" class=\"column-socv\" style=\"text-align: left;color:red;\">' + congVan.cvSo + '</td>'
-						+ '<th  class=\"left-column-ngdi\" style=\"font-weight: bold;\">Ngày công văn đi:&nbsp;&nbsp;</th>'
+						+ '<th  class=\"left-column-ngdi\" style=\"font-weight: bold;\">Ngày của công văn đến:&nbsp;&nbsp;</th>'
 						+ '<td class=\"column-date\" style=\"text-align: left;color:blue;\">' + cvNgayDi+ '</td>'
 						+ '</tr>'
 						+ '<tr>'
@@ -378,7 +378,7 @@ function loadCongVan(congVanList, fileList, unknownList, vtCongVanList) {
 						
 						+ '</tr>'
 						+ '<tr>'
-						+ '<td class=\"left-column-first\" style=\"font-weight: bold;\">Trích yếu: &nbsp;&nbsp;</td>'
+						+ '<td class=\"left-column-first\" style=\"font-weight: bold;\">Nội dung công tác: &nbsp;&nbsp;</td>'
 						+ '<td class=\"column-color\" colspan=\"6\" style=\"text-align: left;font-weight: bold;\">' +  congVan.trichYeu + '</td>'
 						+ '</tr>'
 						+ '<tr>'
@@ -410,12 +410,7 @@ function loadCongVan(congVanList, fileList, unknownList, vtCongVanList) {
 						}
 						tables += '<td class=\"left-column-first\" style=\"font-weight: bold;\">Người xử lý</td>'
 						+ '<td class=\"column-color\" colspan=\"3\">' + cellNguoiXl + '</td>';
-							tables += '<td colspan=\"3\" style=\"float: right;\">'
-							+ '<button  class=\"button\" id=\"chiaSe\" type=\"button\" style=\"width: 170px; height: 30px;\"' 
-							+ '  onclick=\"location.href=\'/QLVatTuYeuCau/cscvManage.html?action=chiaSeCv&congVan=' + congVan.cvId + '\'\">'
-							+ '<i class=\"fa fa-spinner\"></i>&nbsp;&nbsp;Chia sẻ công văn'
-							+ '</button>'
-							+ '</td>';
+							
 
 					} else {
 						var cellVaiTro = '';
@@ -483,7 +478,7 @@ function loadCongVan(congVanList, fileList, unknownList, vtCongVanList) {
 						
 				tables += '<tr>' 
 					+ '<th style="text-align: left"><label for=\"TT\">Trạng thái</label></th>'
-					+ '<td style=\"text-align: left; padding-left: 10px;\" colspan = \"5\" id =\"' + congVan.cvId  + 'ttMaCongVan\">';
+					+ '<td style=\"text-align: left; padding-left: 10px;\" colspan = \"3\" id =\"' + congVan.cvId  + 'ttMaCongVan\">';
 				if (chucDanhMa == truongPhongMa || chucDanhMa == vanThuMa || chucDanhMa == adminMa) {
 					tables += '<input type=\"radio\"' + ('CGQ'== congVan.trangThai.ttMa ? ' checked ' : '') + 'name=' + congVan.cvId  + ' value=\"' + congVan.cvId +'#' + 'CGQ\"' + ' class=\"ttMaUpdate\" >'; //onchange=\"changeTrangThai()\"
 					tables += '&nbsp;<label for=\"' + congVan.cvId + '#CGQ\">Chưa giải quyết</label>&nbsp;&nbsp;&nbsp';
@@ -491,6 +486,12 @@ function loadCongVan(congVanList, fileList, unknownList, vtCongVanList) {
 					tables += '&nbsp;<label for=\"' + congVan.cvId + '#DGQ\">Còn thiếu hàng</label>&nbsp;&nbsp;&nbsp';
 					tables += '<input type=\"radio\"' + ('DaGQ'== congVan.trangThai.ttMa ? ' checked ' : '') + 'name=' + congVan.cvId + ' value=\"' + congVan.cvId +'#' + 'DaGQ\"  class=\"ttMaUpdate\">';
 					tables += '&nbsp;<label for=\"' + congVan.cvId + '#DaGQ\">Đã cấp đủ hàng</label>&nbsp;&nbsp;&nbsp';
+					tables += '<td colspan=\"2\" style=\"float: right;\">'
+						+ '<button  class=\"button\" id=\"chiaSe\" type=\"button\" style=\"width: 170px; height: 30px;\"' 
+						+ '  onclick=\"location.href=\'/QLVatTuYeuCau/cscvManage.html?action=chiaSeCv&congVan=' + congVan.cvId + '\'\">'
+						+ '<i class=\"fa fa-spinner\"></i>&nbsp;&nbsp;Chia sẻ công văn'
+						+ '</button>'
+						+ '</td>';
 				}
 				else
 					tables += congVan.trangThai.ttTen;

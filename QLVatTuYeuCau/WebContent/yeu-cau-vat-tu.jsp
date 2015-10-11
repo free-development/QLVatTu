@@ -135,10 +135,10 @@
 						<%} %>
 							<li><a href="<%=siteMap.cvManage+ "?action=manaxgeCv" %>">Công văn</a></li>
 							<%if (!chucDanh.equalsIgnoreCase(vanThuMa)){ %>
-							<li><a>Báo cáo</a>
+							<li><a>Báo cáo vật tư thiếu</a>
 								<ul>
-									<li><a href="<%=siteMap.bcvttManage+ "?action=manageBcvtt" %>"/>Báo cáo vật tư thiếu</li>
-									<li><a href="<%=siteMap.bcbdnManage+ "?action=manageBcbdn" %>"/>Báo cáo bảng đề nghị cấp vật tư</li>
+									<li><a href="<%=siteMap.bcvttManage+ "?action=manageBcvtt" %>"/>Báo cáo tổng hợp vật tư thiếu</li>
+									<li><a href="<%=siteMap.bcbdnManage+ "?action=manageBcbdn" %>"/>Báo cáo chi tiết vật tư thiếu</li>
 								</ul>
 							</li>
 							<%} %>
@@ -254,7 +254,7 @@
 			</form>
 			<form id="main-form">
 			<div class="form-title-vat-tu" style="padding-top: 10px;">Yêu cầu vật tư còn thiếu cho công văn số <%=congVan.getSoDen() %> nhận ngày <%=DateUtil.toString(congVan.getCvNgayNhan()) %></div> 
-					<div id="view-table-yc" class="scroll-vat-tu">
+					<div id="view-table-yc" style="overflow: auto;width:1024px; margin: 0 auto;">
 							<table style= "width:1024px; margin: 0 auto;" >
 								<tr>
 									<th class="a-column"style= "text-align: center;">Chọn</th>

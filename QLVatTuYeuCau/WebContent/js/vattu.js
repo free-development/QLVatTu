@@ -373,9 +373,9 @@
  							if (i % 2 == 0)
  								style = 'style=\"background : #CCFFFF;\"';
 // 							str = '<tr class=\"rowContent\" ' + style + '>'
-		 					cells = 	'<td class=\"left-column\">' 
+		 					cells = 	'<td class=\"left-column\" style=\"width: 20px;\">' 
 		 								+'<input type=\"checkbox\" name=\"vtMa\" value=\"'+ vt.vtMa +'\" class=\"checkbox\"></td>'
-		 								+ '<td class=\"col\">' + vt.vtMa + '</td>'
+		 								+ '<td class=\"col\" style=\"text-align: left;\">' + vt.vtMa + '</td>'
 		 								+ '<td class=\"col\" style=\"text-align: left;\">' + vt.vtTen + '</td>'
 		 								+ '<td class=\"col\">' + vt.dvt.dvtTen + '</td>'
 		 								+ '<td style=\"text-align: center;\"><button type=\"button\" class=\"button-xem\" value=\"Xem\" onclick=\"showCTVatTu(\''
