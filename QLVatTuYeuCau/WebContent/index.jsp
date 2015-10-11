@@ -113,7 +113,7 @@
 							<li><a>Báo cáo vật tư thiếu</a>
 								<ul>
 									<li><a href="<%=siteMap.bcvttManage+ "?action=manageBcvtt" %>"/>Báo cáo tổng hợp vật thiếu</li>
-									<li><a href="<%=siteMap.bcbdnManage+ "?action=manageBcbdn" %>"/>Báo cáo chi tiết vật tư thiếu</li>
+									<li><a href="<%=siteMap.baoCaoChiTiet+ "?action=manageBcbdn" %>"/>Báo cáo chi tiết vật tư thiếu</li>
 								</ul>
 							</li>
 							<%}} %>

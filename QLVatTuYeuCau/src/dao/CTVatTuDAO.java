@@ -39,10 +39,9 @@ public class CTVatTuDAO {
 	public CTVatTuDAO(Session session) {
 		this.session = session;
 	}
-	public CTVatTu getCTVatTu(final String ctVatTu) {
+	public CTVatTu getCTVatTu(final int ctvtId) {
 		session.beginTransaction();
-		
-		CTVatTu ctvt = (CTVatTu) session.get(CTVatTu.class, ctVatTu);
+		CTVatTu ctvt = (CTVatTu) session.get(CTVatTu.class, ctvtId);
 		session.getTransaction().commit();
 		return ctvt;
 	}

@@ -72,6 +72,7 @@
 		ArrayList<NoiSanXuat> nsxList = (ArrayList<NoiSanXuat>) request.getAttribute("nsxList");
 		ArrayList<ChatLuong> chatLuongList = (ArrayList<ChatLuong>) request.getAttribute("chatLuongList");
 		ArrayList<CongVan> congVanList = (ArrayList<CongVan>) request.getAttribute("congVanList");
+		ArrayList<CTVatTu> ctVatTuYc = (ArrayList<CTVatTu>) request.getAttribute("ctVatTuYc");
 		Long pageNum = (Long) request.getAttribute("page");
 		Integer cvId = (Integer) session.getAttribute("cvId");
 		if (cvId == null)
@@ -138,7 +139,7 @@
 							<td style="text-align: center;"><%=nsx.getNsxTen() %></td>
 							<td style="text-align: center;"><%=chatLuong.getClTen() %></td>
 							<td style="text-align: center;"><%=vatTu.getDvt().getDvtTen() %></td>
-							<td style="text-align: center;"><%=ctVatTu.getSoLuongTon() %></td>
+							<td style="text-align: center;"><div id="soLuongTon<%=ctVatTu.getCtvtId()%>"><%=ctVatTu.getSoLuongTon() %></div></td>
 							<td style="text-align: center;"><input class="radio"  type="radio" id="a" name="ctvtId" value="<%=ctVatTu.getCtvtId() %>" onchange="preAddSoLuong();"> </td>
 							
 						</tr>
@@ -184,23 +185,23 @@
 								</tr>
 								<%
 									int count = 0;
-									for(YeuCau yeuCau : yeuCauList) {count++;
-									CTVatTu ctVatTu = yeuCau.getCtVatTu();
-									NoiSanXuat nsx = ctVatTu.getNoiSanXuat();
-									VatTu vatTu = ctVatTu.getVatTu();
-									ChatLuong chatLuong = ctVatTu.getChatLuong();
+									for(YeuCau yeuCau : yeuCauList) {
+										CTVatTu ctVatTu = ctVatTuYc.get(count);
+										NoiSanXuat nsx = ctVatTu.getNoiSanXuat();
+										VatTu vatTu = ctVatTu.getVatTu();
+										ChatLuong chatLuong = ctVatTu.getChatLuong();
 								%>
-								<tr <%if (count % 2 == 0) out.println("style=\"background : #CCFFFF;\"");%> id="<%=yeuCau.getYcId()	%>">
+								<tr <%if (count % 2 == 1) out.println("style=\"background : #CCFFFF;\"");%> id="<%=yeuCau.getYcId()	%>">
 									<td><input id="<%=yeuCau.getYcId() %>" type="checkbox" class="checkbox" name = "yeuCau" value=<%=yeuCau.getYcId()%>> </td>
 									<td><%=vatTu.getVtMa()%></td>
 									<td><%=vatTu.getVtTen()%></td>
 									<td><%=nsx.getNsxTen()%></td>
 									<td><%=chatLuong.getClTen()%></td>
 									<td><%=vatTu.getDvt().getDvtTen()%></td>
-									<td><%=yeuCau.getCtVatTu().getSoLuongTon()%></td>
+									<td id="soLuongTon<%=yeuCau.getYcId()%>"><%=ctVatTu.getSoLuongTon()%></td>
 									<td id="soLuong<%=yeuCau.getYcId()%>"><%=yeuCau.getYcSoLuong()%></td>
 									<td id="soLuongCap<%=yeuCau.getYcId()%>"><%=yeuCau.getCapSoLuong()%></td>
-								<%} %>
+								<% count++;} %>
 							</table>
 							</div>
 							<div class="group-button">

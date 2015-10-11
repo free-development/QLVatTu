@@ -84,11 +84,11 @@ function addSoLuong(){
 	  	contentType: 'application/json',
 	    mimeType: 'application/json',
 	  	
-	  	success: function(yeuCau) {
-	  			alert('Thêm số lượng thành công');
+	  	success: function(objectList) {
+	  		var yeuCau = objectList[0];
+	  		var ctVatTu = objectList[1];
 	  			$('input:radio[name=ctvtId]').prop('checked',false);
 	  			$('input[name=soLuongAdd]').val('0');
-	  			var ctVatTu = yeuCau.ctVatTu;
 	  			var cells = '<td><input id=\"'+ yeuCau.ycId + '\" type=\"checkbox\" name = \"yeuCau\" value=\"' + yeuCau.ycId + '\"</td>'
 					+ '<td>' + ctVatTu.vatTu.vtMa + '</td>'
 					+ '<td>' + ctVatTu.vatTu.vtTen + '</td>'
@@ -114,6 +114,7 @@ function addSoLuong(){
 	  			showForm('add-yeu-cau-form','add-so-luong-form',false);
 	  			$('#danh-sach-vat-tu').show();
 	  			$('#main-form').show();
+	  			alert('Thêm số lượng thành công');
 	  	}
 	});
 	
@@ -164,8 +165,9 @@ function preUpdateYc() {
 		  	data: { "yeuCau": ycList[0]},
 		  	contentType: 'application/json',
 		    mimeType: 'application/json',
-		  	success: function(yeuCau) {
-		  		var ctVatTu = yeuCau.ctVatTu;
+		  	success: function(objectList) {
+		  		var yeuCau = objectList[0];
+		  		var ctVatTu = objectList[1];
 		  		$('#vtMaUpdate').html(ctVatTu.vatTu.vtMa);
 		  		$('#vtTenUpdate').html(ctVatTu.vatTu.vtTen);
 		  		$('#nsxTenUpdate').html(ctVatTu.noiSanXuat.nsxTen);
@@ -229,8 +231,9 @@ function preCapVatTu() {
 		  	data: { "yeuCau": ycList[0]},
 		  	contentType: 'application/json',
 		    mimeType: 'application/json',
-		  	success: function(yeuCau) {
-		  		var ctVatTu = yeuCau.ctVatTu;
+		  	success: function(objectList) {
+		  		var yeuCau = objectList[0];
+		  		var ctVatTu = objectList[1];
 		  		$('#vtMaCap').html(ctVatTu.vatTu.vtMa);
 		  		$('#vtTenCap').html(ctVatTu.vatTu.vtTen);
 		  		$('#nsxTenCap').html(ctVatTu.noiSanXuat.nsxTen);
@@ -256,15 +259,20 @@ function capVatTu() {
 	  	contentType: 'application/json',
 	    mimeType: 'application/json',
 	  	
-	  	success: function(ycVatTu) {
+	  	success: function(objectList) {
+	  		var ycVatTu = objectList[0];
+	  		var ctVatTu = objectList[1];
 	  		if (ycVatTu == '-1')
 	  			alert('Số lương cấp phát không hợp lệ! Số lượng cấp phát phải nhỏ hơn hoặc bằng tổng số lượng thiếu!!');
 	  		else if (ycVatTu == '-2')
 	  			alert('Số lượng tồn không đủ để cấp. Vui lòng kiểm tra lại!!!');
 	  		else {
 	  			alert('Cấp phát vật tư thành công');
-	  			$('input[name=soLuongCap]').val('0')	;	
+	  			$('input[name=soLuongCap]').val('0')	;
+	  			$('#soLuongTon' + ycVatTu.ycId).html(ctVatTu.soLuongTon);
+				$('#soLuong' + ycVatTu.ycId).html(ycVatTu.ycSoLuong);
 				$('#soLuongCap' + ycVatTu.ycId).html(ycVatTu.capSoLuong);
+				$('#view-search #soLuongTon' + ctVatTu.ctvtId).html(ctVatTu.soLuongTon);
 //				$('#view-table-yc table tr td').has('input[name="yeuCau"]:checked').prop('checked',false);
 				$('input[name="yeuCau"]:checked').prop('checked',false);
 	  		}

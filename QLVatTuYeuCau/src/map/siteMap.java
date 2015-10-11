@@ -60,10 +60,14 @@ public class siteMap {
 	public static final String bcManage = home +  "manageBc.html";
 	public static final String baoCao = "bao-cao";
 	//map manage bao cao vat tu thieu
-	public static final String bcvttManage = home + "manageBcvtt.html";
+	public static final String bcvttManage = home + "manageBcct.html";
 	public static final String baoCaoVatTuThieu = "bao-cao-vat-tu-thieu";
+	public static final String baoCaoChiTiet = "bao-cao-chi-tiet";
+	
+	public static final String bcttManage = home + "manageBcvtt.html";
+	
 	//map manage bao cao bang de nghi cap vat tu
-	public static final String bcbdnManage = home + "manageBcbdn.html";
+//	public static final String bcvttManage = home + "manageBcct.html";
 	public static final String baoCaoBangDeNghi = "bao-cao-bang-de-nghi-cap-vat-tu";
 	public static final String bccvManage = home + "manageBccv.html";
 	
@@ -134,4 +138,6 @@ public class siteMap {
 	public static final String downloadExcelCl = home + "downloadExcelCl.html";
 	
 	public static final String downloadExcelDv = home + "downloadExcelDv.html";
+
+	
 }

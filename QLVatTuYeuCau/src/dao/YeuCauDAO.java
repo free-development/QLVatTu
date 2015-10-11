@@ -35,9 +35,9 @@ public class YeuCauDAO {
 	public YeuCau getYeuCau(final int ycId) {
 		session.beginTransaction();
 		Criteria cr = session.createCriteria(YeuCau.class, "yeuCau");
-		cr.createAlias("yeuCau.ctVatTu", "ctVatTu");
-		cr.createAlias("ctVatTu.vatTu", "vatTu");
-		cr.createAlias("vatTu.dvt", "dvt");
+//		cr.createAlias("yeuCau.ctVatTu", "ctVatTu");
+//		cr.createAlias("ctVatTu.vatTu", "vatTu");
+//		cr.createAlias("vatTu.dvt", "dvt");
 		cr.add(Restrictions.eq("ycId", ycId));
 		ArrayList<YeuCau> yeuCauList = (ArrayList<YeuCau>) cr.list();
 		YeuCau yeuCau = null;
@@ -48,10 +48,10 @@ public class YeuCauDAO {
 	}
 	public YeuCau getByYcId(final int ycId) {
 		session.beginTransaction();
-		Criteria cr = session.createCriteria(YeuCau.class, "yeuCau");
-		cr.createAlias("yeuCau.ctVatTu", "ctVatTu");
-		cr.createAlias("ctVatTu.vatTu", "vatTu");
-		cr.createAlias("vatTu.dvt", "dvt");
+		Criteria cr = session.createCriteria(YeuCau.class);
+//		cr.createAlias("yeuCau.ctVatTu", "ctVatTu");
+//		cr.createAlias("ctVatTu.vatTu", "vatTu");
+//		cr.createAlias("vatTu.dvt", "dvt");
 		cr.add(Restrictions.eq("ycId", ycId));
 		ArrayList<YeuCau> yeuCauList = (ArrayList<YeuCau>) cr.list();
 		YeuCau yeuCau = null;
@@ -76,6 +76,7 @@ public class YeuCauDAO {
 		session.beginTransaction();
 		session.update(yeuCau);
 		session.getTransaction().commit();
+		session.clear();
 	}
 	public void deleteYeuCau(int ycId){
 		session.beginTransaction();
@@ -144,9 +145,9 @@ public class YeuCauDAO {
 		*/
 		session.beginTransaction();
 		Criteria cr = session.createCriteria(YeuCau.class, "yeuCau");
-		cr.createAlias("yeuCau.ctVatTu", "ctVatTu");
-		cr.createAlias("ctVatTu.vatTu", "vatTu");
-		cr.createAlias("vatTu.dvt", "dvt");
+//		cr.createAlias("yeuCau.ctVatTu", "ctVatTu");
+//		cr.createAlias("ctVatTu.vatTu", "vatTu");
+//		cr.createAlias("vatTu.dvt", "dvt");
 		Criterion expCv = Restrictions.eq("yeuCau.cvId", cvId);
 		Criterion xoaYc = Restrictions.eq("yeuCau.daXoa", 0);
 		LogicalExpression andExp = Restrictions.and(expCv, xoaYc);
@@ -185,12 +186,12 @@ public class YeuCauDAO {
 	// get so luong yeu by 
 	public YeuCau getYeuCau(final int cvId, final int ctvtId) {
 		session.beginTransaction();
-		Criteria cr = session.createCriteria(YeuCau.class, "yeuCau");
-		cr.createAlias("yeuCau.ctVatTu", "ctVatTu");
-		cr.createAlias("ctVatTu.vatTu", "vatTu");
-		cr.createAlias("vatTu.dvt", "dvt");
-		Criterion expCv = Restrictions.eq("yeuCau.cvId", cvId);
-		Criterion expCtvt = Restrictions.eq("yeuCau.ctVatTu", new CTVatTu(ctvtId));
+		Criteria cr = session.createCriteria(YeuCau.class);
+//		cr.createAlias("yeuCau.ctVatTu", "ctVatTu");
+//		cr.createAlias("ctVatTu.vatTu", "vatTu");
+//		cr.createAlias("vatTu.dvt", "dvt");
+		Criterion expCv = Restrictions.eq("cvId", cvId);
+		Criterion expCtvt = Restrictions.eq("ctvtId", ctvtId);
 //		Criterion expDaXoa= Restrictions.eq("daXoa", 0);
 		cr.add(expCv);
 		cr.add(expCtvt);
@@ -223,7 +224,7 @@ public class YeuCauDAO {
 	public YeuCau addSoLuong(final int cvId, final int ctvtId, int soLuong) {
 		YeuCau yeuCau = getYeuCau(cvId, ctvtId);
 		if (yeuCau == null) {
-			yeuCau = new YeuCau(cvId, new CTVatTu(ctvtId), soLuong, 0,0);
+			yeuCau = new YeuCau(cvId, ctvtId, soLuong, 0,0);
 			addYeuCau(yeuCau);
 			int ycId = getLastInsert()-1;
 			yeuCau = new YeuCauDAO().getByYcId(ycId);
@@ -246,8 +247,9 @@ public class YeuCauDAO {
 	// function cap vat tu
 	public YeuCau capVatTu(YeuCau yeuCau, final int soLuongCap) {
 		int sl = yeuCau.getCapSoLuong();
-		if(yeuCau.getDaXoa() == 0)
+		if(yeuCau.getDaXoa() == 0) {
 			sl += soLuongCap;
+		}
 		yeuCau.setCapSoLuong(sl);
 //		CTVatTu ctvt = yeuCau.getCtVatTu();
 //		ctvt.setSoLuongTon(ctvt.getSoLuongTon() - soLuongCap);
@@ -255,6 +257,9 @@ public class YeuCauDAO {
 		updateYeuCau(yeuCau);
 //		session.refresh(YeuCau.class);
 		return yeuCau;
+	}
+	public void refresh(Object object) {
+		session.refresh(object);
 	}
 	// check before update so luong yeu cau
 	public boolean checkUpdateSoLuong(final int ycId, int soLuong) {
@@ -267,7 +272,9 @@ public class YeuCauDAO {
 		int capSoLuong = yeuCau.getCapSoLuong() + soLuong;
 		int ycSoLuong = yeuCau.getYcSoLuong();
 		int temp = ycSoLuong - capSoLuong;
-		int soLuongTon = yeuCau.getCtVatTu().getSoLuongTon();
+		CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
+		CTVatTu ctVatTu = ctVatTuDAO.getCTVatTu(yeuCau.getCtvtId());
+		int soLuongTon = ctVatTu.getSoLuongTon();
 		if (soLuongTon < soLuong)
 			return -2;
 		if (temp >= 0)
@@ -285,8 +292,8 @@ public class YeuCauDAO {
 	public static void main(String[] args) {
 //		ArrayList<CongVan> congVanList = new CongVanDAO().getTrangThai("", "", null, null);
 //		System.out.println(new YeuCauDAO().size(congVanList));
-		YeuCauDAO yeuCauDAO = new YeuCauDAO();
-		YeuCau yeuCau = yeuCauDAO.getYeuCau(2,1);
-		System.out.println(yeuCau.getCtVatTu().getVatTu().getDvt().getDvtTen());
+//		YeuCauDAO yeuCauDAO = new YeuCauDAO();
+//		YeuCau yeuCau = yeuCauDAO.getYeuCau(2,1);
+//		System.out.println(yeuCau.getCtVatTu().getVatTu().getDvt().getDvtTen());
 	}
 }

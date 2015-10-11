@@ -147,10 +147,10 @@ public class ReadExcelCl {
 					
 					ChatLuong cl = clList.get(i);
 
-					ChatLuong temp = clDAO.getByNameCl(cl.getClTen());
-						if (temp ==  null) {
-							clDAO.addChatLuong(temp);
-						}
+					ChatLuong temp = clDAO.getChatLuong(cl.getClMa());
+					if (temp ==  null) {
+						clDAO.addChatLuong(cl);
+					}
 				clDAO.close();
 				}
 			} catch (IOException e) {

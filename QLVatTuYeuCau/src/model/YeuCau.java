@@ -14,7 +14,7 @@ public class YeuCau implements Serializable{
 	private int ycId;
 	
 	private int cvId;
-	private CTVatTu ctVatTu;
+	private int ctvtId;
 	
 
 	/**
@@ -36,7 +36,7 @@ public class YeuCau implements Serializable{
 	
 	public YeuCau() {
 		this.cvId = 0;
-		this.ctVatTu = new CTVatTu();
+		this.ctvtId = 0;
 		this.ycSoLuong = 0;
 		this.daXoa = 0;
 		this.ycId = 0;
@@ -44,7 +44,7 @@ public class YeuCau implements Serializable{
 	}
 	/**
 	 * @param cvId
-	 * @param ctVatTu
+	 * @param ctvtId
 	 * @param ycSoLuong
 	 * @param daXoa
 	 */
@@ -54,13 +54,13 @@ public class YeuCau implements Serializable{
 
 	/**
 	 * @param cvId
-	 * @param ctVatTu
+	 * @param ctvtId
 	 * @param ycSoLuong
 	 * @param daXoa
 	 */
-	public YeuCau(int cvId, CTVatTu ctVatTu, int ycSoLuong, int capSoLuong, int daXoa) {
+	public YeuCau(int cvId, int ctvtId, int ycSoLuong, int capSoLuong, int daXoa) {
 		this.cvId = cvId;
-		this.ctVatTu = ctVatTu;
+		this.ctvtId = ctvtId;
 		this.ycSoLuong = ycSoLuong;
 		this.daXoa = daXoa;
 		this.capSoLuong =  capSoLuong;
@@ -68,14 +68,14 @@ public class YeuCau implements Serializable{
 	
 	/**
 	 * @param cvId
-	 * @param ctVatTu
+	 * @param ctvtId
 	 * @param ycSoLuong
 	 * @param daXoa
 	 */
-	public YeuCau(int ycId, int cvId, CTVatTu ctVatTu, int ycSoLuong, int capSoLuong, int daXoa) {
+	public YeuCau(int ycId, int cvId, int ctvtId, int ycSoLuong, int capSoLuong, int daXoa) {
 		this.ycId = ycId;
 		this.cvId = cvId;
-		this.ctVatTu = ctVatTu;
+		this.ctvtId = ctvtId;
 		this.ycSoLuong = ycSoLuong;
 		this.daXoa = daXoa;
 		this.capSoLuong =  capSoLuong;
@@ -116,17 +116,17 @@ public class YeuCau implements Serializable{
 	}
 
 	/**
-	 * @return the ctVatTu
+	 * @return the ctvtId
 	 */
-	public  CTVatTu getCtVatTu() {
-		return ctVatTu;
+	public  int getCtvtId() {
+		return ctvtId;
 	}
 
 	/**
-	 * @param ctVatTu the ctVatTu to set
+	 * @param ctvtId the ctvtId to set
 	 */
-	public  void setCtVatTu(CTVatTu ctVatTu) {
-		this.ctVatTu = ctVatTu;
+	public  void setCtvtId(int ctvtId) {
+		this.ctvtId = ctvtId;
 	}
 
 	/**

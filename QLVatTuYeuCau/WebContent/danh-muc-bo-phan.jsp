@@ -48,7 +48,7 @@
 		String adminMa = request.getServletContext().getInitParameter("adminMa");
    		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
    		if (authentication == null) {
-   			request.setAttribute("url", siteMap.bcbdnManage + "?action=manageBpsd");
+   			request.setAttribute("url", siteMap.baoCaoChiTiet + "?action=manageBpsd");
    			RequestDispatcher dispatcher = request.getRequestDispatcher(siteMap.login + ".jsp");
    			dispatcher.forward(request, response);
    			return;

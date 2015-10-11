@@ -98,9 +98,10 @@
 			<br>
 
 					
-				<% if(loaiBc != null && "tonghop".equalsIgnoreCase(loaiBc)){	
-	   		HashMap<Integer, CTVatTu> ctvtHash = (HashMap<Integer, CTVatTu>) session.getAttribute("ctvtHash");
-	   		HashMap<Integer, Integer> yeuCauHash = (HashMap<Integer, Integer>) session.getAttribute("yeuCau");
+				<% 
+// 				if(loaiBc != null && "tonghop".equalsIgnoreCase(loaiBc)){	
+	   		HashMap<Integer, CTVatTu> ctvtHash = (HashMap<Integer, CTVatTu>) session.getAttribute("ctVatTuHash");
+	   		HashMap<Integer, Integer> yeuCauHash = (HashMap<Integer, Integer>) session.getAttribute("yeuCauHash");
 	   		ArrayList<CongVan> congVanList = (ArrayList<CongVan>) session.getAttribute("congVanList");	
 	   		HashMap<Integer, ArrayList<Integer>> cvIdHash = (HashMap<Integer, ArrayList<Integer>>) session.getAttribute("cvIdHash");
 	   		HashMap<Integer, ArrayList<Integer>> soDenHash = (HashMap<Integer, ArrayList<Integer>>) session.getAttribute("soDenHash");
@@ -175,7 +176,6 @@
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 					</button>
 			</div>
-				<%}%>
 	</div>
 	</div>
 </body>

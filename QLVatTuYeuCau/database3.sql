@@ -54,7 +54,7 @@ drop table if exists YEUCAU;
 create table CHATLUONG
 (
    CLMA                 char(3) not null,
-   CLTEN                varchar(20),
+   CLTEN                varchar(200),
    DAXOA int(2) default 0,
    primary key (CLMA)
 ) ENGINE = InnoDB

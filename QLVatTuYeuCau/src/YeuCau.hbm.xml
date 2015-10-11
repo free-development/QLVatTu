@@ -26,8 +26,7 @@
  		<property name="cvId" type="int" lazy="true"> 
  			<column name="CVID" /> 
  		</property>
- 		<many-to-one name="ctVatTu" class="model.CTVatTu" fetch ="join"  > 
- 			<column name="CTVTID" /> 
- 		</many-to-one> 
+ 		<property name="ctvtId" type="int" column="CTVTID"> 
+ 		</property> 
  	</class> 
 </hibernate-mapping>

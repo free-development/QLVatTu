@@ -56,7 +56,11 @@
   </context-param>
   <context-param>
     <param-name>pathFile</param-name>
-    <param-value>/home/quoioln/File/</param-value>
+    <param-value>/home/quoioln/File/File</param-value>
+  </context-param>
+   <context-param>
+    <param-name>pathTemp</param-name>
+    <param-value>/home/quoioln/File/Temp/</param-value>
   </context-param>
   <jsp-config>
     <jsp-property-group>

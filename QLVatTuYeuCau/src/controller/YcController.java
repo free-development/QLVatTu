@@ -65,6 +65,11 @@ public class YcController extends HttpServlet {
     	CongVanDAO congVanDAO = new CongVanDAO();
     	ArrayList<CTVatTu> ctVatTuList = (ArrayList<CTVatTu>) ctvtDAO.limit((pageCtvt - 1)*10, 10);
     	ArrayList<YeuCau> yeuCauList = (ArrayList<YeuCau>) yeuCauDAO.getByCvId(cvId);
+    	ArrayList<CTVatTu> ctVatTuYc = new ArrayList<CTVatTu>();
+    	for (YeuCau yeuCau : yeuCauList) {
+    		CTVatTu ctVatTu = ctvtDAO.getCTVatTu(yeuCau.getCtvtId());
+    		ctVatTuYc.add(ctVatTu);
+    	}
     	ArrayList<NoiSanXuat> nsxList = (ArrayList<NoiSanXuat>) nsxDAO.getAllNoiSanXuat();
     	ArrayList<ChatLuong> chatLuongList = (ArrayList<ChatLuong>) chatLuongDAO.getAllChatLuong();
     	CongVan congVan = (CongVan)congVanDAO.getCongVan(cvId);
@@ -72,6 +77,7 @@ public class YcController extends HttpServlet {
     	long sizeCtvt = ctvtDAO.size();
     	request.setAttribute("page", sizeCtvt / 10);	
     	request.setAttribute("ctVatTuList", ctVatTuList);
+    	request.setAttribute("ctVatTuYc", ctVatTuYc);
     	request.setAttribute("yeuCauList", yeuCauList);
     	request.setAttribute("nsxList", nsxList);
     	request.setAttribute("chatLuongList", chatLuongList);
@@ -117,7 +123,7 @@ public class YcController extends HttpServlet {
 		CongVanDAO congVanDAO = new CongVanDAO();
 		CTVatTuDAO ctvtDAO = new CTVatTuDAO();
 //		CTVatTu ctVatTu = ctVatTuDAO.getCTVatTuById(ctVatTuId);
-		CTVatTu ctVatTu = yeuCau.getCtVatTu();
+		CTVatTu ctVatTu = ctvtDAO.getCTVatTu(yeuCau.getCtvtId());
 		CongVan congVan = congVanDAO.getCongVan(cvId);
 		congVanDAO.disconnect();
     	NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
@@ -138,8 +144,10 @@ public class YcController extends HttpServlet {
 //    		java.sql.Date currentDate = DateUtil.convertToSqlDate(new java.util.Date());
 //    		nhatKy = new NhatKy(authentication.getMsnv(), currentDate, cvId + "#Bạn đã cập nhật vật tư thiếu cho công văn có số đến " + congVan.getSoDen() + " nhận ngày " + congVan.getCvNgayNhan() + ":<br> ");
 //    	}
-    	
-		return JSonUtil.toJson(yeuCau);
+		ArrayList<Object> objectList = new ArrayList<Object>();
+		objectList.add(yeuCau);
+		objectList.add(ctVatTu);
+		return JSonUtil.toJson(objectList);
 	}
 	
 	@RequestMapping(value="/deleteYc", method=RequestMethod.GET, 
@@ -153,10 +161,11 @@ public class YcController extends HttpServlet {
 		CongVan congVan = congVanDAO.getCongVan(cvId);
 		StringBuilder content = new StringBuilder("Vật tư được đã xóa ra danh sách thiếu: ");
 		YeuCauDAO ycDAO = new YeuCauDAO();
+		CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
 		for (String s : ycIdList) {
 			int id = Integer.parseInt(s);
 			YeuCau yeuCau = ycDAO.getYeuCau(id);
-			CTVatTu ctVatTu = yeuCau.getCtVatTu();
+			CTVatTu ctVatTu = ctVatTuDAO.getCTVatTu(yeuCau.getCtvtId());
 			content.append("<br>&nbsp;&nbsp;+ Mã vật tư" + ctVatTu.getVatTu().getVtMa() + ", mã nơi sản xuất" + ctVatTu.getNoiSanXuat().getNsxMa() + ", mã chất lượng " + ctVatTu.getChatLuong().getClMa() + ".");
 			ycDAO.deleteYeuCau(id);
 		}
@@ -187,10 +196,15 @@ public class YcController extends HttpServlet {
 		int id = Integer.parseInt(yeuCau);
 //		session.setAttribute("ycIdUpdate", id);
 		YeuCauDAO ycDAO = new YeuCauDAO();
+		CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
 		YeuCau yc = ycDAO.getYeuCau(id);
+		CTVatTu ctVatTu = ctVatTuDAO.getCTVatTu(yc.getCtvtId());
 		session.setAttribute("yeuCauUpdate", yc);
 		ycDAO.disconnect();
-		return JSonUtil.toJson(yc); 
+		ArrayList<Object> objectList = new ArrayList<Object>();
+		objectList.add(yeuCau);
+		objectList.add(ctVatTu);
+		return JSonUtil.toJson(objectList); 
 	}
 	@RequestMapping(value="/updateSoLuong", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -203,8 +217,10 @@ public class YcController extends HttpServlet {
 			return JSonUtil.toJson("fail");
 		}
 		YeuCauDAO ycDAO2 = new YeuCauDAO();
+		CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
 		int cvId = (Integer) session.getAttribute("cvId");
-		CTVatTu ctVatTu = yeuCau.getCtVatTu();
+		CTVatTu ctVatTu = ctVatTuDAO.getCTVatTu(yeuCau.getCvId());
+		ctVatTuDAO.disconnect();
 		CongVanDAO congVanDAO = new CongVanDAO(); 
 		CongVan congVan = congVanDAO.getCongVan(cvId);
 		StringBuilder content = new StringBuilder("Vật tư có mã " + ctVatTu.getVatTu().getVtMa() + ", mã nơi sản xuất " + ctVatTu.getNoiSanXuat().getNsxMa() + ", mã chất lượng " + ctVatTu.getChatLuong().getClMa() + "của công văn có số đến " + congVan.getSoDen() +  " nhận ngày "+ congVan.getCvNgayNhan() +  " được đã được cập nhật " + yeuCau.getYcSoLuong());
@@ -230,15 +246,23 @@ public class YcController extends HttpServlet {
 //		session.setAttribute("ycIdUpdate", id);
 		YeuCauDAO ycDAO = new YeuCauDAO();
 		YeuCau yc = ycDAO.getYeuCau(id);
+		CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
+		CTVatTu ctVatTu = ctVatTuDAO.getCTVatTu(yc.getCtvtId());
+		
 		session.setAttribute("vatTuCap", yc);
 		ycDAO.disconnect();
-		return JSonUtil.toJson(yc); 
+		ctVatTuDAO.disconnect();
+		ArrayList<Object> objectList = new ArrayList<Object>();
+		objectList.add(yeuCau);
+		objectList.add(ctVatTu);
+		return JSonUtil.toJson(objectList); 
 	}
 	@RequestMapping(value="/capVatTu", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String capVatTu(@RequestParam("soLuong") String soLuong) {
 		YeuCauDAO ycDAO = new YeuCauDAO();
 		YeuCau yeuCau = (YeuCau) session.getAttribute("vatTuCap");
+		ycDAO.disconnect();
 		int sl = Integer.parseInt(soLuong);
 		int check = ycDAO.checkCapSoLuong(yeuCau.getYcId(), sl);
 		if (check == -1) {
@@ -249,16 +273,20 @@ public class YcController extends HttpServlet {
 			return JSonUtil.toJson("-2");
 		}
 //		yeuCau.setYcSoLuong(sl);
-		ycDAO.capVatTu(yeuCau, sl);
-		ycDAO.disconnect();
+		YeuCauDAO ycDAO2 = new YeuCauDAO();
+		ycDAO2.capVatTu(yeuCau, sl);
+		ycDAO2.disconnect();
 //		CTVatTu ctVatTu = yeuCau.getCtVatTu();
 		CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
-		CTVatTu ctVatTu = ctVatTuDAO.getCTVatTuById(yeuCau.getCtVatTu().getCtvtId());
+		CTVatTu ctVatTu = ctVatTuDAO.getCTVatTu(yeuCau.getCtvtId());
 		ctVatTu.setSoLuongTon(ctVatTu.getSoLuongTon() - sl);
 		ctVatTuDAO.updateCTVatTu(ctVatTu);
 		ctVatTuDAO.disconnect();
 		
-		return JSonUtil.toJson(yeuCau);
+		ArrayList<Object> objectList = new ArrayList<Object>();
+		objectList.add(yeuCau);
+		objectList.add(ctVatTu);
+		return JSonUtil.toJson(objectList);
 	}
 //	@RequestMapping(value="/loadPageCtvtYc", method=RequestMethod.GET, 
 //			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

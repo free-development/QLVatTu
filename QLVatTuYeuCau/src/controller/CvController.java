@@ -464,7 +464,7 @@ public class CvController extends HttpServlet{
 					mail.setTo(nguoiDung.getEmail());
 					mail.setSubject("Công việc được chia sẻ");
 					String content = "Chào " + nguoiDung.getHoTen() +",\n";
-					content += " Công văn số " + " nhận ngày " + cvNgayNhan + " mới được cập nhật. Vui lòng vào hệ thống làm việc để kiểm tra.\n";
+					content += " Công văn số " + " nhận ngày " + DateUtil.toString(cvNgayNhan) + " mới được cập nhật. Vui lòng vào hệ thống làm việc để kiểm tra.\n";
 					content += host + siteMap.searchCongVan + "?congVan=" + cvId;
 					mail.setContent(content);
 					sendMail.send(mail);
@@ -502,7 +502,7 @@ public class CvController extends HttpServlet{
 	}
     @RequestMapping(value="/updateCongVanInfo", method=RequestMethod.POST, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody String updateCongVanInfo(MultipartHttpServletRequest multipartRequest, HttpServletRequest request)  {
+    public @ResponseBody String updateCongVanInfo(MultipartHttpServletRequest multipartRequest)  {
     	String pathFile = context.getInitParameter("pathFile");
 //    	HttpSession session = request.getSession();
     	int cvId = Integer.parseInt(multipartRequest.getParameter("cvId"));
