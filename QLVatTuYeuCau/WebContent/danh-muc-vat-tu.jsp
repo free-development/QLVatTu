@@ -288,7 +288,7 @@
 				</div>
 			</form>
 			
-			<form id="update-form" style="top: 250px;">
+			<form id="update-form">
 				<div class="input-table">
 					<table>
 						<div class="form-title">Cập nhật Vật tư</div>

@@ -114,9 +114,10 @@
 	display: none;
 	width: 35%;;
 	left: 35%;
-	top: 15%;
-	height: 20%;
-	position: absolute;
+	top: 30%;
+	/*height: 20%;*/
+	z-index: 50;
+	position: fixed;
 	background-color: #DCEAF5;
 	border-radius: 10px;
 	padding-left: 10px;
@@ -129,12 +130,13 @@
 #update-form {
 	display: none;
 	width: 35%;
-	height: 20%;
+	/*height: 20%;*/
 	left: 35%;
 	right: 35%;
-	top: 15%;
+	top: 30%;
+	z-index: 50;
 	bottom: 65%;
-	position: absolute;
+	position: fixed;
 	background-color: #DCEAF5;
 	border-radius: 10px;
 	padding-left: 10px;

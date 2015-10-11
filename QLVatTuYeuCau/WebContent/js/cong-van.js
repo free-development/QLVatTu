@@ -100,7 +100,7 @@ function checkAdd(){
 		return false;
 	}
 //	return true;
-	return addCongVan();
+	addCongVan();
 }
 function changeSoCv(){
 	$('#requireSoCv').html('');
@@ -164,7 +164,7 @@ function checkUp(){
 		return false;
 	}
 //	return true;
-	return updateCongVan();
+	updateCongVan();
 }
 function checkCongVan() {
 	var congVanList = [];
@@ -221,12 +221,13 @@ function addCongVan() {
 		  		$('#add-form textarea[name=moTa]').val('');
 		  		$('#add-form textarea[name=butPhe]').val('');
 		  		hideAddForm();
-	  			alert('Thêm công văn mới thành công');
 	  		}
 	  		
 	  	}
 	});
-	return false;
+	
+	window.location.reload();
+	alert('Thêm công văn mới thành công');
 }
 function updateCongVan() {
 	var form = new FormData(document.getElementById('update-form'));
@@ -247,12 +248,12 @@ function updateCongVan() {
 		  		loadAddCongVan(objectList, "update");
 		  		hideUpdateForm();
 		  		$('#scroll_content table tr').has('input[name="cvId"]:checked').remove();
-	  			alert('Sửa đổi công văn thành công');
 	  		}
 	  		
 	  	}
 	});
-	return false;
+	window.location.reload();
+	alert('Sửa đổi công văn thành công');
 }
 function loadAddCongVan(objectList, action) {
 	var congVan = objectList[0];
