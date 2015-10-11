@@ -231,7 +231,7 @@ $(document).ready(function() {
 	 var key = e.which;
 	 if(key == 13)  // the enter key code
 	  {
-	    updateNsx();
+		 confirmUpdateNsx();
 	    return false;  
 	  }
 	});   

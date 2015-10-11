@@ -131,7 +131,7 @@ public class NdController extends HttpServlet {
 	@RequestMapping(value="/preUpdateNd", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String preUpdateNd(@RequestParam("msnv") String msnv) {
-		System.out.println(msnv);
+		//System.out.println(msnv);
 		NguoiDungDAO nguoiDungDAO = new NguoiDungDAO();
 		NguoiDung nd = nguoiDungDAO.getNguoiDung(msnv);
 		nguoiDungDAO.disconnect();
@@ -140,16 +140,16 @@ public class NdController extends HttpServlet {
 	@RequestMapping(value="/updateNd", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String updateNd(@RequestParam("msnv") String msnv, @RequestParam("hoten") String hoten, @RequestParam("chucdanh") String chucdanh, @RequestParam("email") String email, @RequestParam("diachi") String diachi, @RequestParam("sdt") String sdt) {
-		System.out.println(msnv);
+		/*System.out.println(msnv);
 		System.out.println(hoten);
 		System.out.println(chucdanh);
 		System.out.println(email);
 		System.out.println(diachi);
-		System.out.println(sdt);
+		System.out.println(sdt);*/
 		NguoiDung nd = new NguoiDung(msnv, hoten,diachi,email,sdt,new ChucDanh(chucdanh));
 		NguoiDungDAO nguoiDungDAO=new NguoiDungDAO();
 		nguoiDungDAO.updateNguoiDung(nd);
-		System.out.println(nd.getChucDanh().getCdTen());
+		//System.out.println(nd.getChucDanh().getCdTen());
 		nguoiDungDAO.disconnect();
 		return JSonUtil.toJson(nd);
 	}
@@ -169,7 +169,7 @@ public class NdController extends HttpServlet {
 		else
 		{
 			result = "fail";
-			System.out.println(result);
+			//System.out.println(result);
 		}
 		ctNguoiDungDAO.disconnect();
 		ctNguoiDungDAO.close();
@@ -351,8 +351,8 @@ public class NdController extends HttpServlet {
 		ArrayList<Object> objectList = new ArrayList<Object>();
 		CTNguoiDungDAO ctndDAO = new CTNguoiDungDAO();
 		long sizeNd = ctndDAO.size();
-		ArrayList<NguoiDung> ndList = (ArrayList<NguoiDung>) nguoiDungDAO.limit(page * 10, 10);
-		System.out.println("****************" + ndList.size() + "*************");
+		ArrayList<NguoiDung> ndList = (ArrayList<NguoiDung>) ctndDAO.limit(page * 10, 10);
+		//System.out.println("****************" + ndList.size() + "*************");
 		objectList.add(ndList);
 		objectList.add((sizeNd - 1)/10);
 		nguoiDungDAO.disconnect();
@@ -368,7 +368,7 @@ public class NdController extends HttpServlet {
 		CTNguoiDungDAO ctndDAO = new CTNguoiDungDAO();
 		long sizeNd = ctndDAO.sizeReset();
 		ArrayList<NguoiDung> ndList = (ArrayList<NguoiDung>) ctndDAO.limitReset(page * 10, 10);
-		System.out.println("****************" + ndList.size() + "*************");
+		//System.out.println("****************" + ndList.size() + "*************");
 		objectList.add(ndList);
 		objectList.add((sizeNd - 1)/10);
 		nguoiDungDAO.disconnect();
@@ -380,8 +380,8 @@ public class NdController extends HttpServlet {
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String timKiemNguoidung(@RequestParam("msnv") String msnv, @RequestParam("hoTen") String hoTen) {
 		NguoiDungDAO nguoiDungDAO = new NguoiDungDAO();
-		System.out.println("Ma goi qua " + msnv);
-		System.out.println("Ten goi qua " + hoTen);
+		//System.out.println("Ma goi qua " + msnv);
+		//System.out.println("Ten goi qua " + hoTen);
 		if(msnv != ""){
 			ArrayList<NguoiDung> ndList = (ArrayList<NguoiDung>) nguoiDungDAO.searchMsnv(msnv);
 			nguoiDungDAO.disconnect();

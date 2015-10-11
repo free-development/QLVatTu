@@ -51,7 +51,7 @@ public class BcvttController extends HttpServlet {
         				yeuCauHash.put(cvId,yeuCau);
         			}
         			if ((Integer)congVanList.get(0).getCvId() != null)
-        				System.out.println(yeuCauHash.size() + "*" + congVanList.get(0).getCvId());
+        			//System.out.println(yeuCauHash.size() + "*" + congVanList.get(0).getCvId());
         			session.setAttribute("ngaybd", DateUtil.parseDate(ngaybd));
         			session.setAttribute("ngaykt", DateUtil.parseDate(ngaykt));
         			session.setAttribute("action", action);
@@ -68,8 +68,8 @@ public class BcvttController extends HttpServlet {
     		String ngaybd = request.getParameter("ngaybd");
     		String ngaykt = request.getParameter("ngaykt");
     		//sString cvSo = request.getParameter("cvSo");
-    		System.out.println(ngaybd);
-    		System.out.println(ngaykt);
+    		//System.out.println(ngaybd);
+    		//System.out.println(ngaykt);
     		//CongVanDAO congVan = new CongVanDAO();
     		//YeuCauDAO yeuCauDAO = new YeuCauDAO();
     		ArrayList<CongVan> congVanList = (ArrayList<CongVan>)congVanDAO.getAllCongVan();
@@ -99,8 +99,8 @@ public class BcvttController extends HttpServlet {
     				ArrayList<Integer> soDenListCu = soDenHash.get(ctVtId);
     				int soDen = congVanDAO.getSoDen(cvId);
     				//String ngayden = congVanDAO.g
-    				System.out.println("CV:"+cvId);
-    				System.out.println("SOden:"+soDen);
+    				//System.out.println("CV:"+cvId);
+    				//System.out.println("SOden:"+soDen);
     				if (cvListCu != null) {
     					soDenList = soDenListCu;
     					cvList = cvListCu;
@@ -122,9 +122,9 @@ public class BcvttController extends HttpServlet {
         			session.setAttribute("ctvtHash", ctvtHash);
         			session.setAttribute("action", action);
         			session.setAttribute("cvIdHash", cvIdHash);
-        			System.out.print(cvIdHash.size());
+        			//System.out.print(cvIdHash.size());
         			session.setAttribute("soDenHash", soDenHash);
-        			System.out.print(soDenHash.size());
+        			//System.out.print(soDenHash.size());
         			session.setAttribute("congVanList", congVanList);
         			session.setAttribute("yeuCau", yeuCauHash);
 //        			session.setAttribute("soDenHash", soDenHash);

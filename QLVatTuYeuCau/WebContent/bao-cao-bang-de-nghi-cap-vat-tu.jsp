@@ -70,6 +70,7 @@
     %>
   
 	<div class="wrapper">
+<<<<<<< HEAD
 		<div class="header">
 			<div id="top_title">Văn phòng điện tử</div>
 			<div id="bottom-title">Công ty điện lực cần thơ</div>
@@ -143,11 +144,14 @@
 					<div class="clear"></div>
 				</div>
 		<div id="greeting"style="color: #6600FF;height:20px;"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chào:&nbsp;<%=nguoiDung.getHoTen() %></b></div>
+=======
+		<jsp:include page="header.jsp" />
+>>>>>>> adcc53a4b4393798f6741b6e0cfa4c87d3995da3
 		<div id="main-content">
 			<div id="title-content"style="margin-bottom: 10px;">Báo cáo bảng đề nghị cấp vật tư</div>
 			<div id="content">
 			<form id="option-form" method="get" action ="<%=siteMap.bcbdnManage %>">
-			<fieldset style="background-color:#dceaf5;width:750px;margin:0 auto;">
+			<fieldset style="background-color:#dceaf5;width:900px;margin:0 auto;">
 			
 				<table style="margin:0 auto; margin-top: 30px;">
 					<tr>
@@ -194,8 +198,13 @@
 				</fieldset>
 				</form>
 			</div>
+<<<<<<< HEAD
 			<div id="view-table" style="smax-height: 420px;width: 1224px;display: auto;border: 1px solid #CCCCCC;margin: 0 auto;margin-top: 20px;overflow: scroll;">
 				<table >
+=======
+			<div id="view-table" style="smax-height: 420px;width: 1250px;display: auto;border: 1px solid #CCCCCC;margin: 0 auto;margin-top: 20px;overflow: scroll;">
+				<table style="width:1224px;" >
+>>>>>>> adcc53a4b4393798f6741b6e0cfa4c87d3995da3
 					<tr bgcolor="lightgreen">
 <!-- 						<th style="width: 50px;">Số đến</th> -->
 						<th style="width: 100px;">Ngày nhận</th>

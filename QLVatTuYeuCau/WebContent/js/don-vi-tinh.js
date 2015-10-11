@@ -35,6 +35,7 @@ function showForm(formId, check){
 						$('input:text[name=dvtTenUpdate]').val(dvtId);
 					  	
 					  	showForm(formId, check);
+					  	$('#dvtUpFocus').focus();
 					}
 					
 				});
@@ -106,10 +107,10 @@ function showForm(formId, check){
 //					  		$('#add-form input[name=dvtId]').val('');
 							$('#add-form input:text[name=dvtTen]').val('');
 					  		showForm("add-form", false);	
-					  		alert("Đơn vị tính "+dvtTen + " đã được thêm ");	
+					  		alert("Đơn vị tính "+ dvtTen + " đã được thêm ");	
 						}
 				  		else{
-				  			alert("Đơn vị tính "+dvtTen + " đã tồn tại ");
+				  			alert("Đơn vị tính "+ dvtTen + " đã tồn tại ");
 				  		}
 					  	
 		 			  	}
@@ -217,7 +218,7 @@ function showForm(formId, check){
  	 var key = e.which;
  	 if(key == 13)  // the enter key code
  	  {
- 	    updatedvt();
+ 		confirmUpdatedvt();
  	    return false;  
  	  }
  	});   

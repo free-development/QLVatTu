@@ -44,7 +44,9 @@
 </head>
 <body>
 	<%
-
+		String status = (String) request.getAttribute("status");
+		if (status != null && status.equals("success"))
+			out.println("<script>alert('Import dữ liệu thành công!')</script>");
 		String adminMa = request.getServletContext().getInitParameter("adminMa");
 
    		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
@@ -63,7 +65,6 @@
     	response.getCharacterEncoding();
     	request.setCharacterEncoding("UTF-8");
     	response.setCharacterEncoding("UTF-8");
-    	
 
     		ArrayList<NoiSanXuat> listNoiSanXuat = (ArrayList<NoiSanXuat>) request.getAttribute("noiSanXuatList");
     		if (listNoiSanXuat ==  null) {
@@ -135,8 +136,8 @@
 				
 				<div class="group-button">
 					<input type="hidden" name="action" value="deleteNsx">
-					<button type="button" class="button"  onclick="showForm('add-form', true);"><i class="fa fa-plus-circle"></i>&nbsp;Thêm</button>
-					<button type="button" onclick="preUpdateNsx('update-form', true)"
+					<button type="button" class="button"  onclick="showForm('add-form', true); $('#nsxFocus').focus();"><i class="fa fa-plus-circle"></i>&nbsp;Thêm</button>
+					<button type="button" onclick="preUpdateNsx('update-form', true);$('#nsxTenFocus').focus();"
 							class="button">
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Thay đổi
 					</button> <!-- onclick="return confirmDelete()" -->
@@ -167,7 +168,7 @@
 					<div class="form-title">Thêm nơi sản xuất</div>
 					<tr>
 						<th><label for="MNSX">Mã NSX</label></th>
-						<td><input name="nsxMa" type="text" class="text" required onkeypress="changensxMa();"
+						<td><input id="nsxFocus" name="nsxMa" type="text" class="text" required onkeypress="changensxMa();"
 							autofocus size="2" maxlength="3" pattern="[a-zA-Z0-9]{3}"
 							title="Mã nơi sản xuất chỉ gồm 3 ký tự, không chứ khoảng trắng và ký tự đặc biệt"><div id="requirensxMa" style="color: red"></td>
 					</tr>
@@ -207,7 +208,7 @@
 					</tr>
 					<tr>
 						<th><label for="MNSX">Tên NSX</label></th>
-						<td><input name="nsxTenUpdate" size="30px" type="text" onkeypress="changensxTenUp();"
+						<td><input id= "nsxTenFocus" name="nsxTenUpdate" size="30px" type="text" onkeypress="changensxTenUp();"
 							class="text" required autofocus
 							title="Tên nơi sản xuất không được để trống"><div id="requirensxTenUp" style="color: red"></div></td>
 					</tr>

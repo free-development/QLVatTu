@@ -68,7 +68,7 @@ public class DvtController extends HttpServlet {
 	@RequestMapping(value="/preEditdvt", method=RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String preEditdvt(@RequestParam("dvtId") String dvt) {
-			System.out.println("****" + dvt + "****");
+			//System.out.println("****" + dvt + "****");
 			//JOptionPane.showMessageDialog(null, dvt);
 			dvtOld = dvt;
 			//int dvtId = Integer.parseInt(dvt);
@@ -80,14 +80,14 @@ public class DvtController extends HttpServlet {
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String adddvt(@RequestParam("dvtTen") String dvtTen) {
 		String result = "success";
-		System.out.println("Ten: "+dvtTen);
+		//System.out.println("Ten: "+dvtTen);
 //		int dvtId = Integer.parseInt(dvt);
 		DonViTinhDAO dvtDAO = new DonViTinhDAO();
 		DonViTinh dvt = dvtDAO.getDonViTinhByTen(dvtTen);
 		if(dvt == null)
 		{
 			dvtDAO.addDonViTinh(new DonViTinh(dvtTen,0));
-			System.out.println("success");
+			//System.out.println("success");
 			result = "success";
 		}
 		else if(dvt!=null && dvt.getDaXoa() == 1){
@@ -98,7 +98,7 @@ public class DvtController extends HttpServlet {
 		}
 		else 
 		{
-			System.out.println("fail");
+			//System.out.println("fail");
 			result = "fail";
 		}
 		dvtDAO.disconnect();
@@ -136,7 +136,7 @@ public class DvtController extends HttpServlet {
 	@RequestMapping(value="/loadPagedvt", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String loadPageDvt(@RequestParam("pageNumber") String pageNumber) {
-		System.out.println("MA: " + pageNumber);
+		//System.out.println("MA: " + pageNumber);
 		DonViTinhDAO dvtDAO = new DonViTinhDAO();
 		int page = Integer.parseInt(pageNumber);
 		ArrayList<DonViTinh> dvtList = (ArrayList<DonViTinh>) dvtDAO.limit((page -1 ) * 10, 10);

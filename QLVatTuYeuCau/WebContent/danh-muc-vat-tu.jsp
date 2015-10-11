@@ -20,8 +20,9 @@
 	type="text/css" rel="stylesheet">
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/location.js"></script>
-<script type="text/javascript" src="js/vattu.js"></script>
 <script type="text/javascript" src="js/chi-tiet-vat-tu.js"></script>
+<script type="text/javascript" src="js/vattu.js"></script>
+
 <!-- <script> -->
 
 <!-- 	</script> -->
@@ -251,7 +252,7 @@
 						<tr>
 							<th style="text-align: left"><label for="DVT">Đơn vị tính</label></th>
 							<td>
-									<select onkeypress="changedvt();"
+									<select onchange="changedvt();"
 									title="" class="select" id="donvitinh" name="dvt" style="margin-top: 10px;">
 										<option disabled selected value="">-- Chọn đơn vị tính --</option>
 										<%						  
@@ -309,7 +310,7 @@
 						<tr>
 							<th style="text-align: left"><label for="MVT">Đơn vị tính</label></th>
 								<td>
-									<select onkeypress="changedvtUp();"
+									<select onchange="changedvtUp();"
 									title="" class="select" id="donvitinhUp" name="dvtUpdate" style="margin-top: 10px;">
 										<option disabled selected value="">-- Chọn đơn vị tính --</option>
 										<%						  
@@ -473,7 +474,7 @@
 							<th style="text-align: left"><label for="MVT">Nơi
 									sản xuất</label></th>
 								<td>
-									<select onkeypress="changeNsx();"
+									<select onselect="changeNsx();"
 									title="" class="select" id="noisanxuat" name="noiSanXuat" style="margin-top: 10px;">
 										<option disabled selected value="">-- Chọn nơi sản xuất --</option>
 										<%						  
@@ -490,13 +491,17 @@
 						
 						<tr>
 							<th style="text-align: left"><label for="DM">Định mức</label></th>
+<<<<<<< HEAD
 							<td><input name="dinhMuc" style="width: 100px" align=right type="number" onkeypress="changeDM();"
+=======
+							<td><input name="dinhMuc" style="width: 100px" type="number"
+>>>>>>> adcc53a4b4393798f6741b6e0cfa4c87d3995da3
 								class="text" required title="Định mức không được để trống"><div id="requireDM" style="color: red"></div></td>
 						</tr>
 						<tr>
 							<th style="text-align: left"><label for="DVT">Chất lượng</label></th>
 								<td>
-									<select onkeypress="changeCl();" 
+									<select onselect="changeCl();" 
 											title="" class="select" id="chatluong" name="chatLuong" style="margin-top: 10px;">
 												<option disabled selected value="">-- Chọn chất lượng --</option>
 												<%						  
@@ -559,7 +564,7 @@
 						</tr>
 						<tr>
 							<th style="text-align: left"><label for="DM">Định mức</label></th>
-							<td><input name="dinhMucUpdate" size="5px" type="number" onkeypress="changeDMUp();"
+							<td><input id = "dinhMucFocus" name="dinhMucUpdate" size="5px" type="number"
 								class="text" required title="Định mức không được để trống"><div id="requireDMUp" style="color: red"></div></td>
 						</tr>
 						<tr>

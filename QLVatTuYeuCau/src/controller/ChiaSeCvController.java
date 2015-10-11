@@ -217,7 +217,7 @@ public class ChiaSeCvController extends HttpServlet {
 		String msnvUpdate = (String) session.getAttribute("msnvUpdate");
 		int cvId = congVan.getCvId();
 		vtCongVanDAO.delete(cvId, msnvUpdate);
-		System.out.println(msnvUpdate);
+		//System.out.println(msnvUpdate);
 		if (msnvUpdate == null || congVan == null)
 			res.sendRedirect(siteMap.cvManage + "?action=manageCv");
 		// return JSonUtil.toJson("delete");

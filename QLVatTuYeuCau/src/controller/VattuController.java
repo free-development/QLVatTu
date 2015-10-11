@@ -119,7 +119,7 @@ public class VattuController extends HttpServlet {
 		if(vt == null) 
 		{
 			vatTuDAO.addVatTu(new VatTu(vtMa, vtTen,dVT,0));
-			System.out.println("success");
+			//System.out.println("success");
 			result = "success";	
 		}
 		else if(vt !=null && vt.getDaXoa()== 1){
@@ -128,12 +128,12 @@ public class VattuController extends HttpServlet {
 			vt.setDvt(dVT);
 			vt.setDaXoa(0);
 			vatTuDAO.updateVatTu(vt);
-			System.out.println("success");
+			//System.out.println("success");
 			result = "success";	
 		}
 		else
 		{
-			System.out.println("fail");
+			//System.out.println("fail");
 			result = "fail";
 		}
 		vatTuDAO.disconnect();
@@ -143,8 +143,8 @@ public class VattuController extends HttpServlet {
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String timKiemVattu(@RequestParam("vtMa") String vtMa, @RequestParam("vtTen") String vtTen) {
 		VatTuDAO vatTuDAO = new VatTuDAO();
-		System.out.println("Ma goi qua " + vtMa);
-		System.out.println("Ten goi qua " + vtTen);
+		//System.out.println("Ma goi qua " + vtMa);
+		//System.out.println("Ten goi qua " + vtTen);
 		if(vtMa != ""){
 			ArrayList<VatTu> vtList = (ArrayList<VatTu>) vatTuDAO.searchVtMa(vtMa);
 			vatTuDAO.disconnect();
