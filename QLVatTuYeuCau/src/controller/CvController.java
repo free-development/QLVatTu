@@ -62,8 +62,8 @@ public class CvController extends HttpServlet{
 	 @Autowired
 	private   ServletContext context; 
 	
-	private final String tempPath = "D:/Goc Hoc Tap/free-deverlop/QLVatTu/File/File/"; 
-    private final String pathFile = "D:/Goc Hoc Tap/free-deverlop/QLVatTu/File/Temp/";
+	private final String tempPath = "D:/goc hoc tap/JAVA GST/.metadata/.plugins/org.eclipse.wst.server.core/tmp2/wtpwebapps/QLVatTuYeuCau/File/Temp/"; 
+    private final String pathFile = "D:/goc hoc tap/JAVA GST/.metadata/.plugins/org.eclipse.wst.server.core/tmp2/wtpwebapps/QLVatTuYeuCau/File/File/";
     private String root = "";
     private final int maxSize = 52428800;
     
@@ -262,7 +262,7 @@ public class CvController extends HttpServlet{
 			CongVanDAO congVanDAO = new CongVanDAO();
 			CongVan congVanAdd = new CongVan();
 			CongVan congVan = congVanDAO.getByCvSo(cvSo);
-			if (congVan == null || congVan.getDaXoa() == 1) {
+			if (congVan == null || congVan.getDaXoa() == 1 || cvSo.length() == 0) {
 				Date cvNgayDi = DateUtil.parseDate(multipartRequest.getParameter("ngayGoi"));
 				Date cvNgayNhan = DateUtil.parseDate(multipartRequest.getParameter("ngayNhan"));
 				int soDen = congVanDAO.getSoDenAdd(cvNgayNhan);
@@ -477,6 +477,91 @@ public class CvController extends HttpServlet{
 		congVanDAO.disconnect();
 		return JSonUtil.toJson(congVan);
 	}
+    @RequestMapping("updateCongVan")
+    public ModelAndView updateCongVan(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	root =  request.getRealPath("/");
+    //	root =  "/home/quoioln/DATA/";
+//    	request.getCharacterEncoding();
+//		response.getCharacterEncoding();
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+    	CongVanDAO congVanDAO = new CongVanDAO();
+    	FileDAO fileDAO = new FileDAO();
+    	// 
+    	
+    	MultipartRequest multipartRequest = new MultipartRequest(request, root + tempPath, maxSize);
+		String action = multipartRequest.getParameter("action");
+		String soDen = new String(multipartRequest.getParameter("soDen").getBytes("Windows-1252"), "UTF-8");
+		String cvSo =  new String(multipartRequest.getParameter("cvSo").getBytes("Windows-1252"), "UTF-8");
+		Date cvNgayGoi = DateUtil.parseDate(multipartRequest.getParameter("ngayGoiUpdate"));
+		Date cvNgayNhan = DateUtil.parseDate(multipartRequest.getParameter("ngayNhanUpdate"));
+		String mdMa =  new String(multipartRequest.getParameter("mucDichUpdate").getBytes("Windows-1252"), "UTF-8");
+		String dvMa =  new String(multipartRequest.getParameter("donViUpdate").getBytes("Windows-1252"), "UTF-8");
+		String trichYeu = new String(multipartRequest.getParameter("trichYeuUpdate").getBytes("Windows-1252"), "UTF-8");
+		
+		String butPhe =  new String(multipartRequest.getParameter("butPheUpdate").getBytes("Windows-1252"), "UTF-8");
+		String fileFullName = "";
+		CongVan congVan = congVanDAO.getByCvSo(cvSo);
+		int cvId = congVan.getCvId();
+		Enumeration<String> listFileName = multipartRequest.getFileNames();		
+		String fileName = "";
+		while(listFileName.hasMoreElements()) {
+			fileFullName = multipartRequest.getFilesystemName(listFileName.nextElement().toString());
+			java.io.File file = new java.io.File(root + tempPath + fileFullName);
+			fileName = FileUtil.getNameFile(file);
+			String fileExtension = FileUtil.getExtension(file);
+			if(fileExtension.length() > 0) {
+				 fileName = fileName + "-" + cvId + "." + fileExtension;
+			 } else {
+				 fileName = fileName + "-" + cvId;
+			 }
+				
+			file.renameTo(new java.io.File(root + pathFile + fileName));
+			
+		}
+		
+		congVan.setButPhe(butPhe);
+		congVan.setCvNgayDi(cvNgayGoi);
+		congVan.setCvNgayNhan(cvNgayNhan);
+		congVan.setDonVi(new DonVi(dvMa));
+		congVan.setMucDich(new MucDich(mdMa));
+		congVan.setTrichYeu(trichYeu);
+		congVanDAO.updateCongVan(congVan);
+//    	File
+		if (fileFullName != null) {
+			File file = fileDAO.getByCongVanId(cvId);
+			file.setDiaChi(root + pathFile + fileName);
+			fileDAO.updateFile(file);
+			fileDAO.close();
+		}
+		congVanDAO.close();
+		HttpSession session = request.getSession(false);
+    	NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+		NhatKyDAO nhatKyDAO = new NhatKyDAO();
+		Date currentDate = DateUtil.convertToSqlDate(new java.util.Date ());
+		String content = "";
+		DonViDAO donViDAO = new DonViDAO();
+		MucDichDAO mucDichDAO = new MucDichDAO();
+		MucDich mucDich = mucDichDAO.getMucDich(mdMa);
+		DonVi donVi = donViDAO.getDonVi(dvMa);
+		mucDichDAO.disconnect();
+		donViDAO.disconnect();
+		content += "&nbsp;&nbsp;+ Đơn vị: " + donVi.getDvTen() +"<br>";
+		content += "&nbsp;&nbsp;+ Ngày gởi " + cvNgayGoi + "<br>";
+		content += "&nbsp;&nbsp;+ Mục đích: " + mucDich.getMdTen() + "<br>";
+		content += "&nbsp;&nbsp;+ Ngày gởi: " + cvNgayNhan + "<br>";
+		content += "&nbsp;&nbsp;+ Trích yếu: " + trichYeu + "<br>";
+		content += "&nbsp;&nbsp;+ Bút phế: " + butPhe;
+		if (fileFullName != null)
+			content += "<br>&nbsp;&nbsp;+ Tên tệp: " + fileFullName;
+
+		NhatKy nhatKy = new NhatKy(authentication.getMsnv(), cvId + "#Thay đổi công văn số " + soDen + " nhận ngày " + cvNgayNhan, currentDate, content);
+		nhatKyDAO.addNhatKy(nhatKy);
+		nhatKyDAO.disconnect();
+		//System.out.println(trichYeu);
+		return getCongvan(request);
+    }
 	@RequestMapping(value="/deleteCv", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String deleteNsx(@RequestParam("cvId") String cvId, HttpServletRequest request,

@@ -1,4 +1,3 @@
-
 function showForm(formId1, formId2, check){
     if (check)
         document.getElementById(formId2).style.display="block";

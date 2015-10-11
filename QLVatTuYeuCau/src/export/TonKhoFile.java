@@ -110,14 +110,17 @@ public class TonKhoFile extends AbstractExcelView {
 		row2.getCell(1).setCellStyle(style);
 		
 		int rowCount = 3;
+		int stt = 1;
 		for (CTVatTu ctvtTon : listTon) {
 			HSSFRow aRow = sheet.createRow(rowCount++);
-			aRow.createCell(0).setCellValue(ctvtTon.getVatTu().getVtMa());
-			aRow.createCell(1).setCellValue(ctvtTon.getVatTu().getVtTen());
-			aRow.createCell(2).setCellValue(ctvtTon.getVatTu().getDvt().getDvtTen());
-			aRow.createCell(3).setCellValue(ctvtTon.getNoiSanXuat().getNsxTen());
+			aRow.createCell(0).setCellValue(stt);
+			aRow.createCell(1).setCellValue(ctvtTon.getVatTu().getVtMa());
+			aRow.createCell(2).setCellValue(ctvtTon.getVatTu().getVtTen());
+			aRow.createCell(3).setCellValue(ctvtTon.getVatTu().getDvt().getDvtTen());
+			aRow.createCell(4).setCellValue(ctvtTon.getNoiSanXuat().getNsxTen());
 			aRow.createCell(5).setCellValue(ctvtTon.getChatLuong().getClTen());
 			aRow.createCell(6).setCellValue(ctvtTon.getSoLuongTon());
+			stt++;
 		}
 	}
 

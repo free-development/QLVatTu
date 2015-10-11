@@ -90,11 +90,14 @@
 		 			    mimeType: 'application/json',
 					  	
 		 			  	success: function(result) {
-					  		if(result == "success")
+					  		if(result == "fail")
 			 				{
+					  			alert("Vật tư "+ vtMa + " đã tồn tại ");
+					  		}
+					  		else{
 							$('#view-table-vat-tu table tr:first').after('<tr><td class=\"left-column\"><input type=\"checkbox\" name=\"vtMa\" value=\"' +vtMa 
 									+ '\"</td><td class=\"col\">'+ vtMa +'</td><td class=\"col\" style=\"text-align: left; width: 200px;\">' + vtTen
-									+'</td><td class=\"col\" style=\"text-align: center;\">' + dvt
+									+'</td><td class=\"col\" style=\"text-align: center;\">' + result.dvt.dvtTen
 									+'</td><td style=\"text-align: center;\"><button type=\"button\" class=\"button-xem\" value=\"Xem\" onclick=\"showCTVatTu(\''
 									+vtMa+'\');\">Xem</button></td></tr>');
 					  		$('#add-form input:text[name=vtMa]').val('');
@@ -107,11 +110,7 @@
 //					  		showForm2('add-form','vattu', false);	
 							loadAddVt();
 					  		alert("Vật tư "+ vtMa + " đã được thêm ");
-						}
-				  		else{
-				  			alert("Vật tư "+ vtMa + " đã tồn tại ");
-				  		}
-					  	
+					  		}
 		 			  	}
 		 			});
  			}
@@ -256,7 +255,7 @@
 				if(listCTVatTu.vtMa != null) {
 					$('#add-chitiet input:text[name=vtMa]').val(listCTVatTu.vtMa);
 					$('#add-chitiet input:text[name=vtTen]').val(listCTVatTu.vtTen);
-					$('#add-chitiet input:text[name=dvt]').val(listCTVatTu.vattu.dvt.dvtTen);
+					$('#add-chitiet input:text[name=dvt]').val(listCTVatTu.dvt.dvtTen);
 					alert("Không có chi tiết vật tư!");
 				}
 				else {
