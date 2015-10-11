@@ -62,8 +62,8 @@ public class CvController extends HttpServlet{
 	 @Autowired
 	private   ServletContext context; 
 	
-	private final String tempPath = "File/Temp/"; 
-    private final String pathFile = "File/File/";
+	private final String tempPath = "D:/Goc Hoc Tap/free-deverlop/VTProject/File/Temp/"; 
+    private final String pathFile = "D:/Goc Hoc Tap/free-deverlop/VTProject/File/File/";
     private String root = "";
     private final int maxSize = 52428800;
     
@@ -155,7 +155,7 @@ public class CvController extends HttpServlet{
 		}
 		else if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa)) {
 			for(CongVan congVan : congVanList) {
-				System.out.println(congVan.getSoDen());
+				//System.out.println(congVan.getSoDen());
 				int cvId = congVan.getCvId();
 				fileHash.put(cvId, fileDAO.getByCongVanId(cvId));
 				
@@ -605,6 +605,7 @@ public class CvController extends HttpServlet{
 	}
     @RequestMapping("updateCongVan")
     public ModelAndView updateCongVan(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	//root =  request.getRealPath("/");
     	root =  "/home/quoioln/DATA/";
 //    	request.getCharacterEncoding();
 //		response.getCharacterEncoding();
@@ -684,7 +685,7 @@ public class CvController extends HttpServlet{
 		NhatKy nhatKy = new NhatKy(authentication.getMsnv(), cvId + "#Thay đổi công văn số " + soDen + " nhận ngày " + cvNgayNhan, currentDate, content);
 		nhatKyDAO.addNhatKy(nhatKy);
 		nhatKyDAO.disconnect();
-		System.out.println(trichYeu);
+		//System.out.println(trichYeu);
 		return getCongvan(request);
     }
 	@RequestMapping(value="/deleteCv", method=RequestMethod.GET, 
@@ -1200,8 +1201,8 @@ public class CvController extends HttpServlet{
 			objectList.add(vaiTroList);
 			objectList.add(vtCongVanList);
 		}
-		System.out.println(congVanList.size());
-		System.out.println(msnv);
+		//System.out.println(congVanList.size());
+		//System.out.println(msnv);
 		return JSonUtil.toJson(objectList);
 	}
 	@RequestMapping(value="/loadPageCongVan", method=RequestMethod.GET, 

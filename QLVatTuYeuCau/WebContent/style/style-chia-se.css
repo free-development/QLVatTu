@@ -175,9 +175,9 @@
 	padding-top: 20px;
 }
 .scroll-chia-se {
-	max-height: 300px;
+	/*max-height: 300px;*/
 	/*height: 300px;*/
-	width: 1024px;
+	width: 1250px;
 	display: auto;
 	margin: 0 auto;
 	overflow: scroll;
@@ -185,7 +185,7 @@
 .scroll-cs {
 	max-height: 200px;
 	/*height: 300px;*/
-	width: 1024px;
+	width: 1250px;
 	display: auto;
 	margin: 0 auto;
 	overflow: scroll;

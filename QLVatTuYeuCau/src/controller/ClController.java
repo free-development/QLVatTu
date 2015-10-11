@@ -88,7 +88,7 @@ public class ClController extends HttpServlet {
 		if(cl == null) 
 		{
 			chatLuongDAO.addChatLuong(new ChatLuong(clMa, clTen,0));
-			System.out.println("success");
+			//System.out.println("success");
 			result = "success";	
 		}
 		else if(cl !=null && cl.getDaXoa()== 1){
@@ -99,7 +99,7 @@ public class ClController extends HttpServlet {
 		}
 		else
 		{
-			System.out.println("fail");
+			//System.out.println("fail");
 			result = "fail";
 		}
 		chatLuongDAO.disconnect();
@@ -110,8 +110,8 @@ public class ClController extends HttpServlet {
 	@RequestMapping(value="/updateCl", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String updateCl(@RequestParam("clMaUpdate") String clMaUpdate, @RequestParam("clTenUpdate") String clTenUpdate) {
-		System.out.println(clMaUpdate);
-		System.out.println(clTenUpdate);
+		//System.out.println(clMaUpdate);
+		//System.out.println(clTenUpdate);
 		ChatLuong cl = new ChatLuong(clMaUpdate, clTenUpdate,0);
 		new ChatLuongDAO().updateChatLuong(cl);
 		
@@ -121,7 +121,7 @@ public class ClController extends HttpServlet {
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String loadPageCl(@RequestParam("pageNumber") String pageNumber) {
 		String result = "";
-		System.out.println("MA: " + pageNumber);
+		//System.out.println("MA: " + pageNumber);
 		ChatLuongDAO clDAO = new ChatLuongDAO();
 		int page = Integer.parseInt(pageNumber);
 		ArrayList<ChatLuong> clList = (ArrayList<ChatLuong>) clDAO.limit((page -1 ) * 10, 10);

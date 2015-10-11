@@ -70,6 +70,7 @@
     %>
   
 	<div class="wrapper">
+<<<<<<< HEAD
 		<div class="header">
 			<div id="top_title">Văn phòng điện tử</div>
 			<div id="bottom-title">Công ty điện lực cần thơ</div>
@@ -115,10 +116,10 @@
 						<%} %>
 							<li><a href="<%=siteMap.cvManage+ "?action=manageCv" %>">Công văn</a></li>
 							<%if (!chucDanh.equalsIgnoreCase(vanThuMa)){ %>
-							<li><a>Báo cáo vật tư thiếu</a>
+							<li><a>Báo cáo</a>
 								<ul>
-									<li><a href="<%=siteMap.bcvttManage+ "?action=manageBcvtt" %>"/>Báo cáo tổng hợp vật tư thiếu</li>
-									<li><a href="<%=siteMap.bcbdnManage+ "?action=manageBcbdn" %>"/>Báo cáo chi tiết vật tư thiếu</li>
+									<li><a href="<%=siteMap.bcvttManage+ "?action=manageBcvtt" %>"/>Báo cáo vật tư thiếu</li>
+									<li><a href="<%=siteMap.bcbdnManage+ "?action=manageBcbdn" %>"/>Báo cáo bảng đề nghị cấp vật tư</li>
 								</ul>
 							</li>
 							<%} %>
@@ -143,11 +144,14 @@
 					<div class="clear"></div>
 				</div>
 		<div id="greeting"style="color: #6600FF;height:20px;"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chào:&nbsp;<%=nguoiDung.getHoTen() %></b></div>
+=======
+		<jsp:include page="header.jsp" />
+>>>>>>> adcc53a4b4393798f6741b6e0cfa4c87d3995da3
 		<div id="main-content">
-			<div id="title-content"style="margin-bottom: 10px;">Báo cáo chi tiết vật tư thiếu</div>
+			<div id="title-content"style="margin-bottom: 10px;">Báo cáo bảng đề nghị cấp vật tư</div>
 			<div id="content">
 			<form id="option-form" method="get" action ="<%=siteMap.bcbdnManage %>">
-			<fieldset style="background-color:#dceaf5;width:750px;margin:0 auto;">
+			<fieldset style="background-color:#dceaf5;width:900px;margin:0 auto;">
 			
 				<table style="margin:0 auto; margin-top: 30px;">
 					<tr>
@@ -194,20 +198,24 @@
 				</fieldset>
 				</form>
 			</div>
-			<div id="view-table" style="smax-height: 420px;width: 1450px;display: auto;border: 1px solid #CCCCCC;margin: 0 auto;margin-top: 20px;overflow: scroll;">
-				<table style="width:1400px;" >
+<<<<<<< HEAD
+			<div id="view-table" style="smax-height: 420px;width: 1224px;display: auto;border: 1px solid #CCCCCC;margin: 0 auto;margin-top: 20px;overflow: scroll;">
+				<table >
+=======
+			<div id="view-table" style="smax-height: 420px;width: 1250px;display: auto;border: 1px solid #CCCCCC;margin: 0 auto;margin-top: 20px;overflow: scroll;">
+				<table style="width:1224px;" >
+>>>>>>> adcc53a4b4393798f6741b6e0cfa4c87d3995da3
 					<tr bgcolor="lightgreen">
 <!-- 						<th style="width: 50px;">Số đến</th> -->
-						<th style="width: 50px;">Ngày nhận</th>
+						<th style="width: 100px;">Ngày nhận</th>
 						<th style="width: 50px;">Mã vật tư</th>
 						<th style="width: 350px;">Tên vật tư</th>
-<!-- 						<th style="width: 100px;">Nơi sản xuất</th> -->
+						<th style="width: 100px;">Nơi sản xuất</th>
 						<th style="width: 50px;">Đvt</th>
-						<th style="width: 50px;">Số lượng</th>
 						<th style="width: 100px;">Trạng thái</th>
-						<th style="width: 100px;">Đơn vị yêu cầu</th>
-						<th style="width: 200px;">Nội dung công tác</th>
-						
+						<th style="width: 150px;">Đơn vị</th>
+						<th style="width: 100px;">Chất lượng</th>
+						<th style="width: 100px;">Số lượng</th>
 						
 					</tr>
 							<%
@@ -221,18 +229,17 @@
 					<tr
 						<%if (cnt % 2 == 0) out.println("style=\"background : #CCFFFF;\"");%>>
 <%-- 						<td style="width: 50px; text-align: center;"><%=congVan.getSoDen() %></td> --%>
-						<td style="width: 50px; text-align: center;"><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td>
+						<td style="width: 100px; text-align: center;"><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td>
 <%-- 						<td style="width: 50px; text-align: center;"><%=congVan.getSoDen() %></td> --%>
 <%-- 						<td style="width: 100px; text-align: center;"><%=congVan.getCvNgayNhan() %></td> --%>
 						<td style="width: 50px; text-align: center;"><%=yeuCau.getCtVatTu().getVatTu().getVtMa() %></td>
 						<td style="text-align: left; width: 300px;"><%=yeuCau.getCtVatTu().getVatTu().getVtTen() %></td>
-<%-- 						<td style="text-align: left; width: 100px;"><%=yeuCau.getCtVatTu().getNoiSanXuat().getNsxTen() %></td> --%>
-						<td style="width: 50px;text-align: center;"><%=yeuCau.getCtVatTu().getVatTu().getDvt().getDvtTen() %></td>
-						<td style="width: 50px; text-align: center;"><%=yeuCau.getYcSoLuong() %></td>
+						<td style="text-align: left; width: 100px;"><%=yeuCau.getCtVatTu().getNoiSanXuat().getNsxTen() %></td>
+						<td style="width: 50px;"><%=yeuCau.getCtVatTu().getVatTu().getDvt().getDvtTen() %></td>
 						<td style="text-align: left; width: 100px;"><%=congVan.getTrangThai().getTtTen() %></td>
 						<td style="text-align: left; width: 150px;"><%=congVan.getDonVi().getDvTen()%></td>
-						<td style="text-align: left; width: 100px;"><%=congVan.getTrichYeu()%></td>
-						
+						<td style="text-align: left; width: 100px;"><%=yeuCau.getCtVatTu().getChatLuong().getClTen() %></td>
+						<td style="width: 50px; text-align: center;"><%=yeuCau.getYcSoLuong() %></td>
 
 					</tr>
 					<%} }}%>

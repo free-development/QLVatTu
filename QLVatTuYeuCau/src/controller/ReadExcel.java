@@ -3,20 +3,13 @@ package controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.oreilly.servlet.MultipartRequest;
 
 import dao.ReadExcelBpsd;
 import dao.ReadExcelCT;
@@ -118,13 +110,14 @@ public class ReadExcel extends HttpServlet {
 				}
 			}
 			else {
-				return new ModelAndView("import-excelCt", "status", "unknownFile");
+				multipartRequest.setAttribute("status", "success");
+				return new ModelAndView(siteMap.vatTu);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			return new ModelAndView(siteMap.login);
 		}
-		multipartRequest.setAttribute("status", "success");
-		return new ModelAndView(siteMap.vatTu);
+		return new ModelAndView(siteMap.login);
 	}
 	
 	@RequestMapping("/readExcelBpsd")
@@ -177,9 +170,11 @@ public class ReadExcel extends HttpServlet {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			return new ModelAndView(siteMap.login);
+			
 		}
-		multipartRequest.setAttribute("status", "success");
-		return new ModelAndView(siteMap.noiSanXuat);
+		
+		return new ModelAndView(siteMap.login);
 		
 	}
 	@RequestMapping("/readExcelCl")
@@ -197,10 +192,11 @@ public class ReadExcel extends HttpServlet {
 					return new ModelAndView("import-excelCl", "status", "formatException");
 			}
 			else {
-				return new ModelAndView("import-excelCl", "status", "unknownFile");
+				return new ModelAndView(siteMap.chatLuong, "status", "unknownFile");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			return new ModelAndView(siteMap.login);
 		}
 		multipartRequest.setAttribute("status", "success");
 		return new ModelAndView(siteMap.chatLuong);
@@ -209,11 +205,7 @@ public class ReadExcel extends HttpServlet {
 		try {
 			String pathFile = context.getInitParameter("pathTemp");
 			MultipartFile fileUpload = multipartRequest.getFile("file");
-			String fileFullName = "";
 			String fileName = fileUpload.getOriginalFilename();
-	    	String fileNameFull = fileName;
-	    	String fileExtension = FileUtil.getExtension(fileName);
-	    	String name = FileUtil.getName(fileName);
 			String path = pathFile + fileName;
 	    	java.io.File file = new java.io.File(path);
 			file.createNewFile();
@@ -224,3 +216,4 @@ public class ReadExcel extends HttpServlet {
 		}
 	}
 }
+

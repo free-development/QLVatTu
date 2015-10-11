@@ -79,7 +79,7 @@ display:none;
         				if (exportToExcel == null) {
    				 	 %>
    				 	 <button class="button" id="print_button" type="button" onclick="window.print();">
-						<i class="fa fa-print"></i>&nbsp;&nbsp;In báo cáo
+						<i class="fa fa-print"></i>&nbsp;&nbsp;In
 					</button>
 					&nbsp;&nbsp;
 					<button class="button" id="print_button" type="button" onclick="location.href='<%=siteMap.xuatBangDeNghi+".jsp"+ "?exportToExel=YES" %>'">
@@ -111,7 +111,7 @@ display:none;
 		</tr>
 		</table>
 		<br>
-		<div style="text-align: center;font-size: 30px;font-weight: bold;color: solid black;margin-top:20px;">Báo cáo chi tiết vật tư thiếu</div>
+		<div style="text-align: center;font-size: 30px;font-weight: bold;color: solid black;margin-top:20px;">Báo cáo bảng đề nghị cấp vật tư</div>
 		<% if((ngaybd!=null)&&(ngaykt!=null)){%>
 			
 			<div style="text-align: center;font-size: 17px;">Từ ngày:&nbsp;&nbsp;<%=DateUtil.toString(ngaybd)%>&nbsp;&nbsp;đến ngày:&nbsp;&nbsp;<%=DateUtil.toString(ngaykt)%></div>
@@ -123,16 +123,15 @@ display:none;
 					<thead>
 						<tr bgcolor="#199e5e"  style= "border-style: solid;border-color:black;">
 <!-- 							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="a-column">Số đến</th> -->
-							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="b-column">Ngày nhận</th>
+							<th style="border: 1px solid black;font-size: 17px;width: 100px;" class="b-column">Ngày nhận</th>
 							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="c-column">Mã vật tư</th>
 							<th style="border: 1px solid black;font-size: 17px;width: 350px;" class="d-column">Tên vật tư</th>
-<!-- 							<th style="border: 1px solid black;font-size: 17px;width: 100px;" class="e-column">Nơi sản xuất</th> -->
+							<th style="border: 1px solid black;font-size: 17px;width: 100px;" class="e-column">Nơi sản xuất</th>
 							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="f-column">Đvt</th>
-								<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="m-column">Số lượng</th>
 							<th style="border: 1px solid black;font-size: 17px;width: 100px;" class="g-column">Trạng thái</th>
-							<th style="border: 1px solid black;font-size: 17px;width: 100px;" class="k-column">Đơn vị</th>
-							<th style="border: 1px solid black;font-size: 17px;width: 200px;" class="h-column">Nội dung công tác</th>
-						
+							<th style="border: 1px solid black;font-size: 17px;width: 200px;" class="k-column">Đơn vị</th>
+							<th style="border: 1px solid black;font-size: 17px;width: 100px;" class="h-column">Chất lượng</th>
+							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="m-column">Số lượng</th>
 							
 						</tr>
 						</thead>
@@ -153,13 +152,12 @@ display:none;
 <%-- 									<td style="border: 1px solid black;font-size: 17px;" class="b-column"><%=congVan.getCvNgayNhan() %></td> --%>
 									<td style="border: 1px solid black;font-size: 17px;" class="c-column"><%=yeuCau.getCtVatTu().getVatTu().getVtMa() %></td>
 									<td style="border: 1px solid black;font-size: 17px;text-align: left;" class="d-column"><%=yeuCau.getCtVatTu().getVatTu().getVtTen() %></td>
-<%-- 									<td style="border: 1px solid black;font-size: 17px;" class="e-column"><%=yeuCau.getCtVatTu().getNoiSanXuat().getNsxTen() %></td> --%>
+									<td style="border: 1px solid black;font-size: 17px;" class="e-column"><%=yeuCau.getCtVatTu().getNoiSanXuat().getNsxTen() %></td>
 									<td style="border: 1px solid black;font-size: 17px;" class="f-column"><%=yeuCau.getCtVatTu().getVatTu().getDvt().getDvtTen() %></td>
-									<td style="border: 1px solid black;font-size: 17px;" class="m-column"><%=yeuCau.getYcSoLuong() %></td>
 									<td style="border: 1px solid black;font-size: 17px;" class="g-column"><%=congVan.getTrangThai().getTtTen() %></td>
 									<td style="border: 1px solid black;font-size: 17px;" class="h-column"><%=congVan.getDonVi().getDvTen()%></td>
-									<td style="border: 1px solid black;font-size: 17px;" class="k-column"><%=congVan.getTrichYeu()%></td>
-									
+									<td style="border: 1px solid black;font-size: 17px;" class="k-column"><%=yeuCau.getCtVatTu().getChatLuong().getClTen() %></td>
+									<td style="border: 1px solid black;font-size: 17px;" class="m-column"><%=yeuCau.getYcSoLuong() %></td>
 	
 								</tr>
 									<%}} %>

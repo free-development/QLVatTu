@@ -31,9 +31,7 @@ display:none;
         {
             {
             size: auto A4 landscape;
-        	color: black; background: white; 
-        	
-        	} }
+        	color: black; background: white; } }
 	   table 
 	   { 
 	   		font-size: 70%; 
@@ -125,7 +123,7 @@ display:none;
 								<th style="border: 1px solid black;width: 100px;" class="three-column">Nơi sản xuất</th>
 								<th style="border: 1px solid black;width: 100px;" class="three-column">Chất lượng</th>
 								<th style="border: 1px solid black;width: 250px;" class="three-column">Đơn vị</th>
-<!-- 								<th style="border: 1px solid black;width: 50px;" class="three-column">Đơn vị tính</th> -->
+								<th style="border: 1px solid black;width: 50px;" class="three-column">Đơn vị tính</th>
 								<th style="border: 1px solid black;width: 50px;" class="three-column">Đvt</th>
 								<th style="border: 1px solid black;width: 50px;" class="one-column">Số lượng thiếu</th>
 								<th style="border: 1px solid black;width: 50px;" class="one-column">Số lượng tồn</th>
@@ -167,19 +165,6 @@ display:none;
 				<br>
 				<br>
 				<br>
-				<div style="width:800px;font-size: 18px;margin: auto;">
-						<table style="width:800px;font-size: 18px;;">
-								<table style="width:960px;font-size: 18px;;">
-								<tr>
-								<td></td>
-								<td style="font-size: 17px; text-align: center;">Cần Thơ, ngày...tháng...năm...</td>
-								</tr>
-								<tr>
-									<td style="padding-left: 50px;font-weight: bold;">Người lập biểu</td>
-									<td style="text-align: center;font-weight: bold;">Trưởng Phòng Vật Tư</td>
-								</tr>	
-						</table>
-				</div>
 
 					
 				<% if("tonghop".equalsIgnoreCase(loaiBc)){
@@ -195,7 +180,7 @@ display:none;
    				 %>
    				 <div class="group-button" style="position: fixed; right: 10px;">
 				<button class="button" type="button" id="print_button" onclick="window.print()">
-					<i class="fa fa-print"></i>&nbsp;&nbsp;In
+					<i class="fa fa-print"></i>&nbsp;&nbsp;In báo cáo
 				</button>
 				&nbsp;
 <!--     <a href="excel.jsp?exportToExcel=YES">Export to Excel</a> -->

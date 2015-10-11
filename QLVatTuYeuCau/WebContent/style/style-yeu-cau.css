@@ -263,7 +263,7 @@
 	display: auto;
 	border: 1px solid #CCCCCC;
 	margin: 1em 0;
-	overflow: scroll; /*chú ý dòng này*/
+	overflow: scroll; /*chÃº Ã½ dÃ²ng nÃ y*/
 }
 
 .scroll_content {
@@ -273,7 +273,7 @@
 	font-size: 16px;
 	border: 1px solid #CCCCCC;
 	margin: 1em 0;
-	overflow: scroll; /*chú ý dòng này*/
+	overflow: scroll; /*chÃº Ã½ dÃ²ng nÃ y*/
 }
 
 .chi-tiet {
@@ -450,7 +450,7 @@
 	display: auto;
 	border: 1px solid #CCCCCC;
 	margin: 0 auto;
-	overflow: scroll; /*chú ý dòng này*/
+	overflow: scroll; /*chÃº Ã½ dÃ²ng nÃ y*/
 }
 
 .file a {
@@ -711,10 +711,10 @@
 }
 
 */
-#main-content {
-	height: 1000px;;
+/*#main-content {
+	height: 1000px;
 	background-color: while;
-}
+}*/
 #paging {
 	text-align: center;
 	padding-top: 20px;

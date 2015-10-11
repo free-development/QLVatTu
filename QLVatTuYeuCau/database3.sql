@@ -130,7 +130,7 @@ DEFAULT CHARACTER SET = utf8;
 create table DONVI
 (
    DVMA                 varchar(10) not null,
-   DVTEN                varchar(100),
+   DVTEN                varchar(200),
    SDT                  varchar(12),
    EMAIL                varchar(50),
    DIACHI               varchar(100),

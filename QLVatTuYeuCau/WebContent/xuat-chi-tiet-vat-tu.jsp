@@ -95,7 +95,7 @@ display:none;
 <!-- 		<td style="font-size: 17px; text-align: center;">Cần Thơ, ngày...tháng...năm...</td> -->
 <!-- 		</tr> -->
 <!-- 		</table> -->
-<!-- 		<div style="text-align: center;font-size: 30px;font-weight: bold;color: solid black;margin-top:20px;">DANH MỤC VẬT TƯ</div> -->
+		<div style="text-align: center;font-size: 30px;font-weight: bold;color: solid black;margin-top:20px;">DANH MỤC VẬT TƯ</div>
 			
 <%-- 		<div style="margin-right: 10px;padding-left: 800px;font-size: 17px;">Ngày in:&nbsp;<%=DateUtil.toString(new java.util.Date())%></div> --%>
 			<div id="view-table-bao-cao">
@@ -132,17 +132,17 @@ display:none;
 									</tbody>
 				</table>
 				</div>
-				<div style="width:800px;font-size: 18px;margin: auto;">
-						<table style="width:800px;font-size: 18px;;">
-								<tr>
-								<td></td>
-								<td style="font-size: 17px; text-align: center;">Cần Thơ, ngày...tháng...năm...</td>
-								</tr>
-								<tr>
-									<td style="padding-left: 50px;font-weight: bold;">Người lập biểu</td>
-									<td style="text-align: center;font-weight: bold;">Trưởng Phòng Vật Tư</td>
-								</tr>
-						</table>
-				</div>
+<!-- 				<div style="width:800px;font-size: 18px;margin: auto;"> -->
+<!-- 						<table style="width:800px;font-size: 18px;;"> -->
+<!-- 								<tr> -->
+<!-- 								<td></td> -->
+<!-- 								<td style="font-size: 17px; text-align: center;">Cần Thơ, ngày...tháng...năm...</td> -->
+<!-- 								</tr> -->
+<!-- 								<tr> -->
+<!-- 									<td style="padding-left: 50px;font-weight: bold;">Người lập biểu</td> -->
+<!-- 									<td style="text-align: center;font-weight: bold;">Trưởng Phòng Vật Tư</td> -->
+<!-- 								</tr> -->
+<!-- 						</table> -->
+<!-- 				</div> -->
 		</body>
 		</html>

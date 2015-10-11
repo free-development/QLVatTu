@@ -84,7 +84,7 @@ public class ReadExcelCl {
 				
 				ChatLuong cl = clList.get(i);
 
-				ChatLuong temp = clDAO.getChatLuong(cl.getClTen());
+				ChatLuong temp = clDAO.getChatLuong(cl.getClMa());
 					if (temp ==  null) {
 						clDAO.addChatLuong(cl);
 					}
@@ -147,10 +147,10 @@ public class ReadExcelCl {
 					
 					ChatLuong cl = clList.get(i);
 
-					ChatLuong temp = clDAO.getByNameCl(cl.getClTen());
-						if (temp ==  null) {
-							clDAO.addChatLuong(cl);
-						}
+					ChatLuong temp = clDAO.getChatLuong(cl.getClMa());
+					if (temp ==  null) {
+						clDAO.addChatLuong(cl);
+					}
 				clDAO.close();
 				}
 			} catch (IOException e) {
