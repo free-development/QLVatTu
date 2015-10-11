@@ -346,16 +346,16 @@ public class NdController extends HttpServlet {
 	@RequestMapping(value="/loadPageNd", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String loadPageNd(@RequestParam("pageNumber") String pageNumber) {
-		NguoiDungDAO nguoiDungDAO = new NguoiDungDAO();
+		//NguoiDungDAO nguoiDungDAO = new NguoiDungDAO();
 		int page = Integer.parseInt(pageNumber);
 		ArrayList<Object> objectList = new ArrayList<Object>();
 		CTNguoiDungDAO ctndDAO = new CTNguoiDungDAO();
 		long sizeNd = ctndDAO.size();
-		ArrayList<NguoiDung> ndList = (ArrayList<NguoiDung>) nguoiDungDAO.limit(page * 10, 10);
+		ArrayList<NguoiDung> ndList = (ArrayList<NguoiDung>) ctndDAO.limit(page * 10, 10);
 		System.out.println("****************" + ndList.size() + "*************");
 		objectList.add(ndList);
 		objectList.add((sizeNd - 1)/10);
-		nguoiDungDAO.disconnect();
+	//	nguoiDungDAO.disconnect();
 		ctndDAO.disconnect();
 		return JSonUtil.toJson(objectList);
 	}

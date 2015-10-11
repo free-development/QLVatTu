@@ -204,14 +204,20 @@
 					onclick="preEditVattu('vattu','update-form', true);">
 					<i class="fa fa-pencil fa-fw"></i>&nbsp;Thay đổi
 				</button>
-				<button type="button" class="button" 
-							onclick="showForm2('vattu','import-formct', true)"> 
-							<i class="fa fa-pencil fa-fw"></i>&nbsp;Import 
-				</button>
+				&nbsp;
 				<button type="button" class="button" onclick="confirmDeleteVT();">
 					<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xóa
 				</button>
 				&nbsp;
+				<button type="button" class="button" 
+							onclick="showForm2('vattu','import-formct', true)"> 
+							<i class="fa fa-pencil fa-fw"></i>&nbsp;Import 
+				</button>
+				&nbsp;
+				<button class="button" type="button" onclick="location.href='<%=siteMap.xuatCTVatTu+".jsp"%>'">
+							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xuất File
+						</button>
+						&nbsp;
 				<button class="button" type="reset">
 					<i class="fa fa-spinner"></i>&nbsp;&nbsp;Bỏ qua
 				</button>

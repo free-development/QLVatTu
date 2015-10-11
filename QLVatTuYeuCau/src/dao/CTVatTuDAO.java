@@ -65,7 +65,15 @@ public class CTVatTuDAO {
 		return size;
 		
 	}
-	
+	public long sizeTon() {
+		session.beginTransaction();
+		String sql = "select count(ctvtId) from CTVatTu where daXoa = 0 and (soLuongTon >0 or dinhMuc >0)";
+		Query query =  session.createQuery(sql);
+		long size = (long) query.list().get(0);
+		session.getTransaction().commit();
+		return size;
+		
+	}
 	public void addCTVatTu(CTVatTu ctVatTu){
 		session.beginTransaction();
 		session.save(ctVatTu);
@@ -298,6 +306,48 @@ public class CTVatTuDAO {
 		cr.addOrder(Order.asc("vatTu.vtMa"));
 		cr.setFirstResult(first);
 		cr.setMaxResults(limit);
+		ArrayList<CTVatTu> list = (ArrayList<CTVatTu>) cr.list();
+		
+		session.getTransaction().commit();
+		return list;
+	}
+	public ArrayList<CTVatTu> limitTonKho(int first, int limit) {
+		session.beginTransaction();
+		Criteria cr = session.createCriteria(CTVatTu.class, "ctVatTu");
+		cr.createAlias("ctVatTu.noiSanXuat", "noiSanXuat");
+		cr.createAlias("ctVatTu.chatLuong", "chatLuong");
+		cr.createAlias("ctVatTu.vatTu", "vatTu");
+		cr.createAlias("vatTu.dvt", "dvt");
+		cr.addOrder(Order.asc("vatTu.vtMa"));
+		cr.setFirstResult(first);
+		cr.setMaxResults(limit);
+		
+		Criterion soLuong = Restrictions.gt("soLuongTon", 0);
+		
+		Criterion dinhMuc = Restrictions.gt("dinhMuc", 0);
+		
+		LogicalExpression orExp = Restrictions.or(soLuong, dinhMuc);
+		cr.add(orExp);
+		ArrayList<CTVatTu> list = (ArrayList<CTVatTu>) cr.list();
+		
+		session.getTransaction().commit();
+		return list;
+	}
+	public ArrayList<CTVatTu> TonKho() {
+		session.beginTransaction();
+		Criteria cr = session.createCriteria(CTVatTu.class, "ctVatTu");
+		cr.createAlias("ctVatTu.noiSanXuat", "noiSanXuat");
+		cr.createAlias("ctVatTu.chatLuong", "chatLuong");
+		cr.createAlias("ctVatTu.vatTu", "vatTu");
+		cr.createAlias("vatTu.dvt", "dvt");
+		cr.addOrder(Order.asc("vatTu.vtMa"));
+		
+		Criterion soLuong = Restrictions.gt("soLuongTon", 0);
+		
+		Criterion dinhMuc = Restrictions.gt("dinhMuc", 0);
+		
+		LogicalExpression orExp = Restrictions.or(soLuong, dinhMuc);
+		cr.add(orExp);
 		ArrayList<CTVatTu> list = (ArrayList<CTVatTu>) cr.list();
 		
 		session.getTransaction().commit();

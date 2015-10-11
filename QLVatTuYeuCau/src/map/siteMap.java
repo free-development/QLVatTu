@@ -124,6 +124,9 @@ public class siteMap {
 	//xuat chi tiet vat tu
 	public static final String  xuatCTVatTu = "xuat-chi-tiet-vat-tu";
 	
+	public static final String  xuatTonKho = "xuat-ton-kho";
+	
+	public static final String  xuatCTVatTuError = "import-excelError";
 	// map home page
 	public static final String homePageManage = home + "home.html";
 	public static final String homePage = "index";
@@ -134,4 +137,11 @@ public class siteMap {
 	public static final String downloadExcelCl = home + "downloadExcelCl.html";
 	
 	public static final String downloadExcelDv = home + "downloadExcelDv.html";
+	
+	public static final String downloadExcelCtvt = home + "downloadExcelCtvt.html";
+	
+	public static final String downloadExcelTon = home + "downloadExcelTon.html";
+	
+	public static final String downloadExcelError = home + "downloadExcelError.html";
+	
 }

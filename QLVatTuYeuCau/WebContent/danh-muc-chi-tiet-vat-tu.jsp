@@ -133,9 +133,9 @@
 							onclick="showForm('import-form', true)"> 
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Import
 						</button>
-						
-						<button class="button" type="button" onclick="location.href='<%=siteMap.xuatCTVatTu+".jsp"%>'">
-							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xuất File
+						&nbsp;
+						<button class="button" type="button" onclick="location.href='<%=siteMap.xuatTonKho+".jsp"%>'">
+							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Báo cáo tồn kho
 						</button>
 						&nbsp;
 						<button type="button" class="button" onclick="location.href='<%=siteMap.home%>'">

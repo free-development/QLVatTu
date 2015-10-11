@@ -168,7 +168,7 @@
 			</form>				
 			</form>
 			<form id="main-form">
-			<div class="form-title-vat-tu" style="padding-top: 10px;">Yêu cầu vật tư còn thiếu cho công văn số <%=congVan.getSoDen() %> nhận ngày <%=congVan.getCvNgayNhan() %></div> 
+			<div class="form-title-vat-tu" style="padding-top: 10px;">Yêu cầu vật tư còn thiếu cho công văn số <%=congVan.getSoDen() %> nhận ngày <%=DateUtil.toString(congVan.getCvNgayNhan()) %></div> 
 					<div id="view-table-yc" class="scroll-vat-tu">
 							<table style= "width:1024px; margin: 0 auto;" >
 								<tr>

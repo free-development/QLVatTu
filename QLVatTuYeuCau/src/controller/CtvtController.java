@@ -84,11 +84,13 @@ public class CtvtController extends HttpServlet {
 		}
 		if("manageCtvt".equalsIgnoreCase(action)) {
 			long size = ctVatTuDAO.size();
-			ArrayList<CTVatTu> ctVatTuList =  (ArrayList<CTVatTu>) ctVatTuDAO.limit(page - 1, 10);
+			ArrayList<CTVatTu> ctVatTuList =  (ArrayList<CTVatTu>) ctVatTuDAO.limitTonKho(page - 1, 10);
 			request.setAttribute("size", size);
 			session.setAttribute("ctVatTuList", ctVatTuList);
 			ArrayList<CTVatTu> allCTVatTuList =  (ArrayList<CTVatTu>) ctVatTuDAO.getAllCTVatTu();
 			session.setAttribute("allCTVatTuList", allCTVatTuList);
+			ArrayList<CTVatTu> tonKhoList =  (ArrayList<CTVatTu>) ctVatTuDAO.TonKho();
+			session.setAttribute("tonKhoList", tonKhoList);
 			ctVatTuDAO.disconnect();
 			vatTuDAO.disconnect();
 			return new ModelAndView(siteMap.ctVatu);
@@ -214,8 +216,8 @@ public class CtvtController extends HttpServlet {
 		CTVatTuDAO ctvtDAO = new CTVatTuDAO();
 		int page = Integer.parseInt(pageNumber);
 		ArrayList<Object> objectList = new ArrayList<Object>();
-		long sizevt = ctvtDAO.size();
-		ArrayList<CTVatTu> ctvatTuList = (ArrayList<CTVatTu>) ctvtDAO.limit((page - 1) * 10, 10);
+		long sizevt = ctvtDAO.sizeTon();
+		ArrayList<CTVatTu> ctvatTuList = (ArrayList<CTVatTu>) ctvtDAO.limitTonKho(page* 10, 10);
 		objectList.add(ctvatTuList);
 		objectList.add((sizevt - 1)/10);
 		ctvtDAO.disconnect();
