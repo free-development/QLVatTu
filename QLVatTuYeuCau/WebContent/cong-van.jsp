@@ -217,6 +217,7 @@ countAdd = '0';
                      <div style="width: 100%; overflow:auto" class="scroll_content " id="scroll_content">
                      <table>
 						<%
+					
                      	int count = 0;
                      	for(CongVan congVan : congVanList) {
                      		count ++;
@@ -389,15 +390,18 @@ countAdd = '0';
 					<hr>
 					</td></tr>
 							<%} %>
-					</table>
+							</table>
 					<script type="text/javascript">
 						$('.ttMaUpdate').bind('change', function() {
 							var trangThai = $(this).val(); 
 							changeTrangThaiCv(trangThai) ;
 						}); 
 					</script>	
-					</div>	
-				<div id="paging">
+
+
+						</div>
+					
+						<div id="paging">
 						<table style ="border-style: none;">
 								<tr>
 									<td>Trang</td>

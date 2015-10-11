@@ -62,8 +62,8 @@ public class CvController extends HttpServlet{
 	 @Autowired
 	private   ServletContext context; 
 	
-	private final String tempPath = "D:/Goc Hoc Tap/free-deverlop/VTProject/File/Temp/"; 
-    private final String pathFile = "D:/Goc Hoc Tap/free-deverlop/VTProject/File/File/";
+	private final String tempPath = "D:/goc hoc tap/JAVA GST/.metadata/.plugins/org.eclipse.wst.server.core/tmp2/wtpwebapps/QLVatTuYeuCau/File/Temp/"; 
+    private final String pathFile = "D:/goc hoc tap/JAVA GST/.metadata/.plugins/org.eclipse.wst.server.core/tmp2/wtpwebapps/QLVatTuYeuCau/File/File/";
     private String root = "";
     private final int maxSize = 52428800;
     
@@ -605,8 +605,8 @@ public class CvController extends HttpServlet{
 	}
     @RequestMapping("updateCongVan")
     public ModelAndView updateCongVan(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	//root =  request.getRealPath("/");
-    	root =  "/home/quoioln/DATA/";
+    	root =  request.getRealPath("/");
+    //	root =  "/home/quoioln/DATA/";
 //    	request.getCharacterEncoding();
 //		response.getCharacterEncoding();
 		request.setCharacterEncoding("UTF-8");
