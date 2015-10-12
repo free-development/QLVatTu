@@ -27,6 +27,10 @@
     <param-value>TP</param-value>
   </context-param>
   <context-param>
+    <param-name>phoPhongMa</param-name>
+    <param-value>PP</param-value>
+  </context-param>
+  <context-param>
     <param-name>vanThuMa</param-name>
     <param-value>VT</param-value>
   </context-param>
@@ -62,6 +66,7 @@
     <param-name>pathTemp</param-name>
     <param-value>/home/quoioln/File/Temp/</param-value>
   </context-param>
+   
   <jsp-config>
     <jsp-property-group>
       <url-pattern>*.jsp</url-pattern>

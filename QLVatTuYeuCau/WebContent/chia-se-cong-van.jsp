@@ -84,7 +84,7 @@
 	<div class="wrapper">
 		<jsp:include page="header.jsp" />
 		<div id="main-content">
-				<form id="main-form" action="<%=siteMap.updateChiaSeCv%>" method="get">
+				
 				<div id="title-content">Chia sẻ công văn</div>
 				
 					<div id="input-table" style="width: 1024px; margin: 0 auto;margin-top: 10px;">
@@ -106,14 +106,14 @@
 									<div class="search_form1" id="search">		
 										
 										
-										<form>												
+										<form id = "search-nguoiDung">												
 											<span> &nbsp; <input type="search" id="searchName" class="text-search" name="nguoidung"/>						
 														 												
 												<td><input type="checkbox" value="check" class="checkbox" style="text-align: center;" id="checkTen"/></td>
 												<td  style="text-align: center; color: black; font-size: 19px;">Theo tên</td>&nbsp;&nbsp;&nbsp;
 											</span>
 											
-												<td> <span class="search-button"> &nbsp; <button type="button" class="btn-search" style="background-color: #00A69B;" onclick="timKiemNguoidungCs()"><i class="fa fa-search"></i></button></span></td>						
+												<td> <span class="search-button"> &nbsp; <button type="submit" class="btn-search" style="background-color: #00A69B;" ><i class="fa fa-search"></i></button></span></td>						
 										</form>
 										<script>
 														$('#searchName').autocomplete("getdataMsnv.jsp");
@@ -123,14 +123,15 @@
 									</td>
 					</tr>					
 				</table>
+				<form id="main-form" action="<%=siteMap.updateChiaSeCv%>" method="get">
 					<div id="view-table" class="scroll-chia-se">
-						<table style="width:1024px;"> 
+						<table style="width:1224px;"> 
 							<tr style="background-color: #199e5e;">
 
-								<th style="width: 100px;">Mã nhân viên</th>
+								<th style="width: 50px;">Mã nhân viên</th>
 								<th style="width: 200px;">Tên nhân viên</th>
 								<%for (VaiTro vaiTro : vaiTroList) {%>
-								<th class="thead-vaitro" style="max-width: 300px;"><%=vaiTro.getVtTen() %></th>
+								<th class="thead-vaitro" style="width: 100px;"><%=vaiTro.getVtTen() %></th>
 								<%} %>
 <!-- 								<th class="four-column">Lập phiếu</th> -->
 <!-- 								<th class="five-column">Cập nhật vật tư</th> -->
@@ -143,8 +144,8 @@
 								String msnv = nguoiDung.getMsnv();
 							%>
 							<tr id=<%=nguoiDung.getMsnv() %> class = "rowContent" <% if (count % 2 == 0) out.println("style=\"background : #CCFFFF;\"");%> id="<%=nguoiDung.getMsnv() %>">
-								<td class="tbody-nguoidung"><%=nguoiDung.getMsnv() %></td>
-								<td class="tbody-nguoidung"><%=nguoiDung.getHoTen() %></td>
+								<td class="tbody-nguoidung" style="width: 50px;"><%=nguoiDung.getMsnv() %></td>
+								<td class="tbody-nguoidung" style="width: 200px;"><%=nguoiDung.getHoTen() %></td>
 								<% for(VaiTro vaiTro : vaiTroList) {
 									int vtId = vaiTro.getVtId();
 									HashMap<Integer, VaiTro> vtHash = vaiTroHash.get(msnv);
@@ -153,7 +154,7 @@
 										check = true;
 								%>
 								<td class="checkbox" style="text-align: center;">
-									<input type="checkbox" name="vaiTro" <%if (check) out.print("checked "); %> value="<%	out.print(msnv + "#" + vtId); %>" >
+									<input type="checkbox" name="vaiTro" <%if (check) out.print("checked "); %> value="<%	out.print(msnv + "#" + vtId); %>" id = "<%=msnv+vtId%>">
 								</td>
 								<%} %>
 							</tr>
@@ -194,7 +195,7 @@
 				%>
 				<div id="title-content">Công việc đã chia sẻ</div>
 				<div id="view-table-chia-se" class="scroll-cs">
-					<table style="width:1024px;">
+					<table style="width:1224px;">
 						<tr bgcolor= "#199e5e">
 						<th style="text-align: center;">Chọn</th>
 						<th>Msnv</th><th>Họ tên</th><th>Vai trò</th>

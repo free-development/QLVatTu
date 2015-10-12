@@ -98,19 +98,15 @@ public class SendMail {
 			}
 		});
 		try {
-
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(mail.getFrom()));
 			message.setRecipients(Message.RecipientType.TO,
 			InternetAddress.parse(mail.getTo()));
-			message.setSubject(mail.getSubject());
 			StandardCharsets.UTF_8.displayName();
-			message.setText(mail.getContent());
 			message.setSubject(mail.getSubject());
-//			message.setContent(mail.getContent(),"text/html; charset=UTF-8");
-			message.setSubject(mail.getSubject());//etSubject(mail.getSubject());
+			message.setHeader(mail.getSubject(), "text/html; charset=UTF-8"); //(arg0);(mail.getSubject());
+			message.setContent(mail.getContent(),"text/html; charset=UTF-8");
 			//message.setContent(mail.getContent(),"text/html; charset=UTF-8");
-			message.setText(mail.getContent());
 //			message.setContent(mail.getContent(),"text/html; charset=UTF-8");
 			Transport.send(message);
 			

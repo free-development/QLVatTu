@@ -1,4 +1,3 @@
-
 <%@page import="model.NguoiDung"%>
 <%@page import="util.DateUtil"%>
 <%@page import="java.util.Date"%>
@@ -83,7 +82,7 @@ display:none;
         				if (exportToExcel == null) {
    				 	 %>
    				 	 <button class="button" id="print_button" type="button" onclick="window.print();">
-						<i class="fa fa-print"></i>&nbsp;&nbsp;In
+						<i class="fa fa-print"></i>&nbsp;&nbsp;In báo cáo
 					</button>
 					&nbsp;&nbsp;
 					<button class="button" id="print_button" type="button" onclick="location.href='<%=siteMap.xuatCongVan+".jsp"+ "?exportToExel=YES" %>'">
@@ -125,8 +124,9 @@ display:none;
 						<tr bgcolor="#199e5e"  style= "border-style: solid;border-color:black;">
 <!-- 							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="a-column">Số đến</th> -->
 							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="b-column">Số công văn nhận</th>
-							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="c-column">Ngày công văn đến</th>
 							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="b-column">Số công văn đến</th>
+							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="c-column">Ngày công văn đến</th>
+<!-- 							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="b-column">Số công văn đến</th> -->
 							
 							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="d-column">Ngày công văn đi</th>
 							<th style="border: 1px solid black;font-size: 17px;width: 200px;" class="e-column">Mục đích</th>
@@ -149,8 +149,9 @@ display:none;
 									style= "border-style: solid;border-color:black black black black;">
 <%-- 									<td style="border: 1px solid black;font-size: 17px;" class="a-column"><%=congVan.getSoDen() %></td> --%>
 									<td style="border: 1px solid black;font-size: 17px;" class="a-column"><%=congVan.getSoDen() %></td>
-									<td style="border: 1px solid black;font-size: 17px;" class="b-column"><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td>
 									<td style="border: 1px solid black;font-size: 17px;" class="a-column"><%=congVan.getCvSo() %></td>
+									<td style="border: 1px solid black;font-size: 17px;" class="b-column"><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td>
+<%-- 									<td style="border: 1px solid black;font-size: 17px;" class="a-column"><%=congVan.getCvSo() %></td> --%>
 									
 									<td style="border: 1px solid black;font-size: 17px;" class="b-column"><%=DateUtil.toString(congVan.getCvNgayDi()) %></td>
 									<td style="border: 1px solid black;font-size: 17px;text-align: left;" class="b-column"><%=congVan.getMucDich().getMdTen() %></td>

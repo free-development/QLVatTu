@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="style/style-giao-dien-chinh.css"
 	type="text/css">
 <link rel="stylesheet" href="style/style.css" type="text/css">
-<link href="style/style-ctvt.css" type="text/css" rel="stylesheet">
+<link href="style/style-ctvt.css"css" type="text/css" rel="stylesheet">
 <link
 	href="style/font-awesome-4.3.0/font-awesome-4.3.0/css/font-awesome.min.css"
 	type="text/css" rel="stylesheet">
@@ -62,15 +62,16 @@
 	<%
     
     	ArrayList<CTVatTu> listCTVatTu = (ArrayList<CTVatTu>) session.getAttribute("ctVatTuList");
+		
+		if (listCTVatTu !=  null) {
+			int index = siteMap.ctvtManage.lastIndexOf("/");
+			String url = siteMap.ctvtManage.substring(index);
+			RequestDispatcher dispatcher =  request.getRequestDispatcher(url +  "?action=manageCtvt");
+			System.out.println(url +  "?action=manageCtvt");
+			dispatcher.forward(request, response);
+			return;
+		}
 		Long size = (Long) request.getAttribute("size");
-		if (listCTVatTu !=  null && size != null) {
-// 			int index = siteMap.ctvtManage.lastIndexOf("/");
-// 			String url = siteMap.ctvtManage.substring(index);
-// 			RequestDispatcher dispatcher =  request.getRequestDispatcher(url +  "?action=manageCtvt");
-// 			System.out.println(url +  "?action=manageCtvt");
-// 			dispatcher.forward(request, response);
-// 			return;
-		//}
 		Long pageNum = size/10;
    		
     %>
@@ -133,9 +134,9 @@
 							onclick="showForm('import-form', true)"> 
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Import
 						</button>
-						
-						<button class="button" type="button" onclick="location.href='<%=siteMap.xuatCTVatTu+".jsp"%>'">
-							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xuất File
+						&nbsp;
+						<button class="button" type="button" onclick="location.href='<%=siteMap.xuatTonKho+".jsp"%>'">
+							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Báo cáo tồn kho
 						</button>
 						&nbsp;
 						<button type="button" class="button" onclick="location.href='<%=siteMap.home%>'">
@@ -144,21 +145,13 @@
 					</div>			
 				</form>
 				</div>
-						<form id="import-form" action="<%=siteMap.readExcel %>" method="post" enctype="multipart/form-data" onsubmit="document.body.style.cursor='wait'; return true;">
+						<form id="import-form" action="<%=siteMap.readExcel %>" method="post" enctype="multipart/form-data" >
 								<input type="file" name="file" accept=".xls, .xlsx" class="text" style="padding-left: 0px;">
-<div class="button-group" style="margin-top: -40px;"><input value="uploadFile" name="action" type="submit" class="button" onclick="document.body.style.cursor='wait'; return true;">
+<div class="button-group" style="margin-top: -40px;"><input value="uploadFile" name="action" type="submit" class="button">
 								<input value="Thoát" onclick="showForm('import-form',false);" type="button" class="button">
 								</div>
 						</form>
 	
 	</div>
-	<%} else {
-			int index = siteMap.ctvtManage.lastIndexOf("/");
-			String url = siteMap.ctvtManage.substring(index);
-			RequestDispatcher dispatcher =  request.getRequestDispatcher(url +  "?action=manageCtvt");
-			System.out.println(url +  "?action=manageCtvt");
-			dispatcher.forward(request, response);
-			return;
-	} %>
 </body>
 </html>

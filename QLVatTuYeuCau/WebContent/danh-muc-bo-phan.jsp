@@ -137,7 +137,7 @@
 						</button>
 						&nbsp;&nbsp;
 						<button type="button" class="button" 
-							onclick="showForm2('main-form','import-formct', true)"> 
+							onclick="showForm2('view-table-bo-phan','import-formct', true)"> 
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Import 
 						</button>
 						&nbsp;&nbsp;
@@ -240,7 +240,7 @@
 							</tr>
 							<tr>
 								<td class="input"><label for="MBPSD">Tên BPSD</label></td>
-								<td><input name="dvTenUpdate" size="30px" align=left
+								<td><input id="dvTenFocus" name="dvTenUpdate" size="30px" align=left
 									type="text" class="text" required autofocus onkeypress="changedvTenUp();"
 									title="Tên bộ phận sử dụng không được để trống"><div id="requiredvTenUp" style="color: red"></div></td>
 							</tr>
@@ -295,11 +295,11 @@
 					</div>
 				</form>
 				
-				<form id="import-formct" action="<%=siteMap.readExcelBpsd %>" method="post" enctype="multipart/form-data" style="height: 200px;width:300px;text-align: center;" onsubmit="document.body.style.cursor='wait'; return true;" >
+				<form id="import-formct" action="<%=siteMap.readExcelBpsd %>" method="post" enctype="multipart/form-data" style="height: 200px;width:300px;text-align: center;">
 									<input type="file" name="file" accept=".xls, .xlsx" class="text" style="padding-left: 0px;">
 									<div class="group-button">
-										<input value="uploadFile" name="action" type="submit" class="button" style="width: 120px;font-size: 17px;text-align: center;" onclick="document.body.style.cursor='wait'; return true;">
-										<input value="Thoát" onclick="showForm2('main-form','import-formct', false);" type="button" class="button"  style="width: 100px;text-align: center;font-size: 17px;">
+										<input value="uploadFile" name="action" type="submit" class="button" style="width: 120px;font-size: 17px;text-align: center;">
+										<input value="Thoát" onclick="showForm2('view-table-bo-phan','import-formct', false);" type="button" class="button"  style="width: 100px;text-align: center;font-size: 17px;">
 									</div>
 						</form>
 			</div>

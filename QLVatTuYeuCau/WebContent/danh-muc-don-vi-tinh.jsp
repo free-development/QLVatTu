@@ -114,7 +114,7 @@
 					<div class="group-button">
 <!-- 						<input type="hidden" name="action" value="deleteVaiTro"> -->
 						<button type="button" class="button"
-							onclick="showForm('add-form', true)">
+							onclick="showForm('add-form', true); $('#dvtFocus').focus();">
 							<i class="fa fa-plus-circle"></i>&nbsp;Thêm
 						</button>
 						<button type="button" class="button"
@@ -141,7 +141,7 @@
 							<div class="form-title">Thêm đơn vị tính</div>
 							<tr>
 								<th class="label"><label for="tenvaitro">Tên đơn vị tính</label></th>
-								<td><input name="dvtTen" size="30px" type="text" onkeypress="changedvtTen();"
+								<td><input id="dvtFocus" name="dvtTen" size="30px" type="text" onkeypress="changedvtTen();"
 									class="text" required title="Tên đơn vị tính không được để trống"><div id="requiredvtTen" style="color: red"></div></td>
 							</tr>
 						</table>
@@ -172,7 +172,7 @@
 <!-- 							</tr> -->
 							<tr>
 								<th><label for="tenvaitro">Tên đơn vị tính</label></th>
-								<td><input name="dvtTenUpdate" size="30px" type="text" onkeypress="changedvtTenUp();"
+								<td><input id="dvtUpFocus" name="dvtTenUpdate" size="30px" type="text" onkeypress="changedvtTenUp();"
 									class="text" required title="Tên đơn vị tính không được để trống"><div id="requiredvtTenUp" style="color: red"></div></td>
 							</tr>
 						</table>

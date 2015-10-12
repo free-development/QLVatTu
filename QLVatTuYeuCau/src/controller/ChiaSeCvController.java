@@ -50,26 +50,39 @@ public class ChiaSeCvController extends HttpServlet {
 	// HttpSession session = null;
 	HttpSession session;
 	HttpServletResponse res = null;
-
+	String truongPhongMa  = "";
+	String phoPhongMa = "";
+	String adminMa = "";
+//	public void on() throws ServletException {
+//		truongPhongMa =  context.getInitParameter("truongPhongMa");
+//		phoPhongMa = context.getInitParameter("phoPhongMa");
+//		adminMa = context.getInitParameter("adminMa");
+//	};
+//	@Override
+//	public void onStartup(ServletContext context) throws ServletException {
+//		truongPhongMa =  context.getInitParameter("truongPhongMa");
+//		phoPhongMa = context.getInitParameter("phoPhongMa");
+//		adminMa = context.getInitParameter("adminMa");
+//	}
 	@RequestMapping("/cscvManage")
 	protected ModelAndView cscvManage(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = request.getParameter("action");
 		if ("chiaSeCv".equalsIgnoreCase(action)) {
 			session = request.getSession(false);
-			res = response;
 			String id = request.getParameter("congVan");
 			int cvId = Integer.parseInt(id);
 			CongVanDAO congVanDAO = new CongVanDAO();
 			VaiTroDAO vaiTroDAO = new VaiTroDAO();
 			NguoiDungDAO nguoiDungDAO = new NguoiDungDAO();
-
+			truongPhongMa =  context.getInitParameter("truongPhongMa");
+			phoPhongMa = context.getInitParameter("phoPhongMa");
+			adminMa = context.getInitParameter("adminMa");
 			CongVan congVan = congVanDAO.getCongVan(cvId);
 			ArrayList<VaiTro> vaiTroList = (ArrayList<VaiTro>) vaiTroDAO.getAllVaiTro();
 			ArrayList<String> ignoreList = new ArrayList<String>();
-			ignoreList.add("TP");
-			ignoreList.add("VT");
-			ignoreList.add("AD");
+			ignoreList.add(truongPhongMa);
+			ignoreList.add(adminMa);
 			ArrayList<NguoiDung> nguoiDungList = (ArrayList<NguoiDung>) nguoiDungDAO.getAllNguoiDung(ignoreList);
 			VTCongVanDAO vtCongVanDAO = new VTCongVanDAO();
 
@@ -217,7 +230,7 @@ public class ChiaSeCvController extends HttpServlet {
 		String msnvUpdate = (String) session.getAttribute("msnvUpdate");
 		int cvId = congVan.getCvId();
 		vtCongVanDAO.delete(cvId, msnvUpdate);
-		System.out.println(msnvUpdate);
+		//System.out.println(msnvUpdate);
 		if (msnvUpdate == null || congVan == null)
 			res.sendRedirect(siteMap.cvManage + "?action=manageCv");
 		// return JSonUtil.toJson("delete");
@@ -321,37 +334,39 @@ public class ChiaSeCvController extends HttpServlet {
 	@RequestMapping(value="/timKiemNguoidungCs", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String timKiemNguoidungCs(@RequestParam("msnv") String msnv, @RequestParam("hoTen") String hoTen) {
+		truongPhongMa =  context.getInitParameter("truongPhongMa");
+		phoPhongMa = context.getInitParameter("phoPhongMa");
+		adminMa = context.getInitParameter("adminMa");
 		NguoiDungDAO nguoiDungDAO = new NguoiDungDAO();
 		VTCongVanDAO vtCongVanDAO = new VTCongVanDAO();
 		VaiTroDAO vaiTroDAO = new VaiTroDAO();
 		CongVan congVan = (CongVan) session.getAttribute("congVan");
 		ArrayList<VaiTro> vaiTroList = (ArrayList<VaiTro>)vaiTroDAO.getAllVaiTro();
-		ArrayList<VTCongVan> vtCongVanList = vtCongVanDAO.getVTCongVan(congVan.getCvId(), msnv);
+		ArrayList<NguoiDung> nguoiDungList = new ArrayList<NguoiDung>();
+//		ArrayList<ArrayList<VTCongVan>> vtNguoiDungList = new ArrayList<ArrayList<VTCongVan>>();
+		ArrayList<VTCongVan> vtNguoiDungList = new ArrayList<VTCongVan>();
+		
 		ArrayList<Object> objectList = new ArrayList<Object>();
 		//ArrayList<VaiTro> list = new ArrayList<VaiTro>();
-		if(msnv != ""){
-			ArrayList<NguoiDung> ndList = (ArrayList<NguoiDung>) nguoiDungDAO.searchMsnv(msnv);
-			
-			objectList.add(vaiTroList);
-			objectList.add(ndList);
-			objectList.add(vtCongVanList);
-			nguoiDungDAO.disconnect();
-			vtCongVanDAO.disconnect();
-			vaiTroDAO.disconnect();
-			return JSonUtil.toJson(objectList);
-		}
+		ArrayList<String> ignoreList = new ArrayList<String>();
+		ignoreList.add(adminMa);
+		ignoreList.add(truongPhongMa);
+		if(msnv != "")
+			nguoiDungList = (ArrayList<NguoiDung>) nguoiDungDAO.searchMsnv(msnv, ignoreList);
 		else
-		{
-			ArrayList<NguoiDung> ndList = (ArrayList<NguoiDung>) nguoiDungDAO.searchHoten(hoTen);
-			//System.out.println("Ten: "+vtTen);
-//			nguoiDungDAO.disconnect();
-			objectList.add(vaiTroList);
-			objectList.add(ndList);
-			objectList.add(vtCongVanList);
-			nguoiDungDAO.disconnect();
-			vtCongVanDAO.disconnect();
-			vaiTroDAO.disconnect();
-			return JSonUtil.toJson(objectList);
+			nguoiDungList = (ArrayList<NguoiDung>) nguoiDungDAO.searchHoten(hoTen, ignoreList);
+		for (NguoiDung nguoiDung : nguoiDungList) {
+			ArrayList<VTCongVan> vtNguoiDung = vtCongVanDAO.getVTCongVan(congVan.getCvId(), nguoiDung.getMsnv());
+			vtNguoiDungList.addAll(vtNguoiDung);
 		}
+		
+		nguoiDungDAO.disconnect();
+		vtCongVanDAO.disconnect();
+		vaiTroDAO.disconnect();
+		objectList.add(vaiTroList);
+		objectList.add(nguoiDungList);
+		objectList.add(vtNguoiDungList);
+		return JSonUtil.toJson(objectList);
 	}
+	
 }

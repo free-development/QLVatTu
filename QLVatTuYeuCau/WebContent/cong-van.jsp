@@ -90,7 +90,6 @@ hosting = '<%=hosting  %>';
 msnv = '<%=authentication.getMsnv()  %>';
 countAdd = '0';
 // || capPhatMa.equals(chucDanhMa)
-
 </script>
 <script type="text/javascript" src="js/cong-van.js" charset="utf-8"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -242,7 +241,7 @@ countAdd = '0';
 						<tr>	
 							<td  class="left-column-socv" style="font-weight: bold;">Số công văn đến: &nbsp;&nbsp;</td>
 							<td colspan ="3" class="column-socv" style="text-align: left;color:red;font-weight: bold;"><%=congVan.getCvSo() %></td>
-							<td class="left-column-ngdi" style="font-weight: bold;">Ngày của công văn đến:&nbsp;&nbsp;</td>
+							<td class="left-column-ngdi" style="font-weight: bold;">Ngày công văn đến:&nbsp;&nbsp;</td>
 							<td class="column-date" style="text-align: left;color:blue;"><%=DateUtil.toString(congVan.getCvNgayDi())%></td>
 							
 						</tr>
@@ -520,8 +519,8 @@ countAdd = '0';
 					</div>
 					<div class="button-group">
 						<input type="hidden" name="action" value="addCongVan">
-						<button class="button" type="submit"
-							onclick="return checkAdd();">
+						<button class="button" type="button"
+							onclick="checkAdd();">
 							<i class="fa fa-plus-circle"></i>&nbsp;Lưu lại
 						</button>
 						<button type="reset" class="button">
@@ -598,8 +597,8 @@ countAdd = '0';
 					</div>
 					<div class="group-button">
 						<input type="hidden" name="action" value="updateCv">
-						<button class="button" type="submit"
-							onclick="return checkUp();">
+						<button class="button" type="button"
+							onclick="checkUp();">
 							<i class="fa fa-floppy-o"></i>&nbsp;Lưu lại
 						</button>
 						<button type="reset" class="button">

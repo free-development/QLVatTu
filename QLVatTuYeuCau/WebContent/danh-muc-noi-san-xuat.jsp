@@ -44,7 +44,9 @@
 </head>
 <body>
 	<%
-
+		String status = (String) request.getAttribute("status");
+		if (status != null && status.equals("success"))
+			out.println("<script>alert('Import dữ liệu thành công!')</script>");
 		String adminMa = request.getServletContext().getInitParameter("adminMa");
 
    		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
@@ -63,7 +65,6 @@
     	response.getCharacterEncoding();
     	request.setCharacterEncoding("UTF-8");
     	response.setCharacterEncoding("UTF-8");
-    	
 
     		ArrayList<NoiSanXuat> listNoiSanXuat = (ArrayList<NoiSanXuat>) request.getAttribute("noiSanXuatList");
     		if (listNoiSanXuat ==  null) {
@@ -78,8 +79,12 @@
     	%>
 	<div class="wrapper">
 		<jsp:include page="header.jsp" />
-			<div id="main-content">
-					<div id="title-content">Danh mục nơi sản xuất</div>
+				<div id="main-content">
+					<div id="title-content">
+		 Danh mục nơi sản xuất
+		</div>
+		<div id="main-content">
+			
 			<form id="main-form">
 				<div id="view-table" style=" margin: 0 auto;">
 					<table>
@@ -99,8 +104,19 @@
 							<td class="col"><%=noiSanXuat.getNsxTen() %></td>
 						</tr>
 						<%} }%>
-					</table>	
-					<div id = "paging" >
+<!-- 						<tr> -->
+<!-- 							<th colspan="3"> -->
+<%-- 								<% --%>
+
+<%-- 									for(int i = 0; i <= pageNum; i++) { %> --%>
+<%-- 										<input type="button" value="<%=i+1%>" class="page"> --%>
+<%-- 								<%} %> --%>
+<!-- 							</th> -->
+<!-- 						</tr> -->
+					</table>		
+				</div>				
+				
+				<div id = "paging" >
 							<table style ="border-style: none;">
 								<tr>
 								<%long pageNum = size / 10;
@@ -118,13 +134,10 @@
 							</table>
 						</div>
 				
-				
-				</div>				
-				
 				<div class="group-button">
 					<input type="hidden" name="action" value="deleteNsx">
-					<button type="button" class="button"  onclick="showForm('add-form', true);"><i class="fa fa-plus-circle"></i>&nbsp;Thêm</button>
-					<button type="button" onclick="preUpdateNsx('update-form', true)"
+					<button type="button" class="button"  onclick="showForm('add-form', true); $('#nsxFocus').focus();"><i class="fa fa-plus-circle"></i>&nbsp;Thêm</button>
+					<button type="button" onclick="preUpdateNsx('update-form', true);$('#nsxTenFocus').focus();"
 							class="button">
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Thay đổi
 					</button> <!-- onclick="return confirmDelete()" -->
@@ -132,7 +145,7 @@
 							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xóa
 						</button>&nbsp;
 						<button type="button" class="button" 
-							onclick="showForm2('main-form','import-formct', true)"> 
+							onclick="showForm2('view-table','import-formct', true)"> 
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Import 
 						</button>&nbsp;
 						<button class="button" type="button" onclick="location.href='<%=siteMap.xuatNsx+".jsp"%>'">
@@ -145,7 +158,7 @@
 						<button type="button" class="btn" onclick="location.href='<%=siteMap.home%>'">
 							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 						</button>
-				</div>	
+				</div>
 		</form>
 		
 		<!-------------- --add-form-------------- -->
@@ -155,7 +168,7 @@
 					<div class="form-title">Thêm nơi sản xuất</div>
 					<tr>
 						<th><label for="MNSX">Mã NSX</label></th>
-						<td><input name="nsxMa" type="text" class="text" required onkeypress="changensxMa();"
+						<td><input id="nsxFocus" name="nsxMa" type="text" class="text" required onkeypress="changensxMa();"
 							autofocus size="2" maxlength="3" pattern="[a-zA-Z0-9]{3}"
 							title="Mã nơi sản xuất chỉ gồm 3 ký tự, không chứ khoảng trắng và ký tự đặc biệt"><div id="requirensxMa" style="color: red"></td>
 					</tr>
@@ -195,7 +208,7 @@
 					</tr>
 					<tr>
 						<th><label for="MNSX">Tên NSX</label></th>
-						<td><input name="nsxTenUpdate" size="30px" type="text" onkeypress="changensxTenUp();"
+						<td><input id= "nsxTenFocus" name="nsxTenUpdate" size="30px" type="text" onkeypress="changensxTenUp();"
 							class="text" required autofocus
 							title="Tên nơi sản xuất không được để trống"><div id="requirensxTenUp" style="color: red"></div></td>
 					</tr>
@@ -215,13 +228,14 @@
 				</button>
 			</div>
 		</form>
-	<form id="import-formct" action="<%=siteMap.readExcelNsx %>" method="post" enctype="multipart/form-data" style="height: 200px;text-align: center;" onsubmit="document.body.style.cursor='wait'; return true;">
+	</div>
+	<form id="import-formct" action="<%=siteMap.readExcelNsx %>" method="post" enctype="multipart/form-data" style="height: 200px;text-align: center;">
 									<input type="file" name="file" accept=".xls, .xlsx" class="text" style="padding-left: 0px;">
 									<div class="group-button">
-										<input value="uploadFile" name="action" type="submit" class="button" style="width: 100px;font-size: 17px;text-align: center;" onclick="document.body.style.cursor='wait'; return true;">
-										<input value="Thoát" onclick="showForm2('main-form','import-formct', false);" type="button" class="button"  style="width: 70px;text-align: center;font-size: 17px;">
+										<input value="uploadFile" name="action" type="submit" class="button" style="width: 100px;font-size: 17px;text-align: center;">
+										<input value="Thoát" onclick="showForm2('view-table-bo-phan','import-formct', false);" type="button" class="button"  style="width: 70px;text-align: center;font-size: 17px;">
 									</div>
-	</form>
+						</form>
 	</div>
 
 	</div>

@@ -90,11 +90,14 @@
 		 			    mimeType: 'application/json',
 					  	
 		 			  	success: function(result) {
-					  		if(result == "success")
+					  		if(result == "fail")
 			 				{
+					  			alert("Vật tư "+ vtMa + " đã tồn tại ");
+					  		}
+					  		else{
 							$('#view-table-vat-tu table tr:first').after('<tr><td class=\"left-column\"><input type=\"checkbox\" name=\"vtMa\" value=\"' +vtMa 
 									+ '\"</td><td class=\"col\">'+ vtMa +'</td><td class=\"col\" style=\"text-align: left; width: 200px;\">' + vtTen
-									+'</td><td class=\"col\" style=\"text-align: center;\">' + dvt
+									+'</td><td class=\"col\" style=\"text-align: center;\">' + result.dvt.dvtTen
 									+'</td><td style=\"text-align: center;\"><button type=\"button\" class=\"button-xem\" value=\"Xem\" onclick=\"showCTVatTu(\''
 									+vtMa+'\');\">Xem</button></td></tr>');
 					  		$('#add-form input:text[name=vtMa]').val('');
@@ -107,11 +110,7 @@
 //					  		showForm2('add-form','vattu', false);	
 							loadAddVt();
 					  		alert("Vật tư "+ vtMa + " đã được thêm ");
-						}
-				  		else{
-				  			alert("Vật tư "+ vtMa + " đã tồn tại ");
-				  		}
-					  	
+					  		}
 		 			  	}
 		 			});
  			}
@@ -373,9 +372,9 @@
  							if (i % 2 == 0)
  								style = 'style=\"background : #CCFFFF;\"';
 // 							str = '<tr class=\"rowContent\" ' + style + '>'
-		 					cells = 	'<td class=\"left-column\">' 
+		 					cells = 	'<td class=\"left-column\" style=\"width: 20px;\">' 
 		 								+'<input type=\"checkbox\" name=\"vtMa\" value=\"'+ vt.vtMa +'\" class=\"checkbox\"></td>'
-		 								+ '<td class=\"col\">' + vt.vtMa + '</td>'
+		 								+ '<td class=\"col\" style=\"text-align: left;\">' + vt.vtMa + '</td>'
 		 								+ '<td class=\"col\" style=\"text-align: left;\">' + vt.vtTen + '</td>'
 		 								+ '<td class=\"col\">' + vt.dvt.dvtTen + '</td>'
 		 								+ '<td style=\"text-align: center;\"><button type=\"button\" class=\"button-xem\" value=\"Xem\" onclick=\"showCTVatTu(\''
@@ -428,7 +427,7 @@ $(document).ready(function() {
 	 var key = e.which;
 	 if(key == 13)  // the enter key code
 	  {
-	    updateVattu();
+		 confirmUpdateVattu();
 	    return false;  
 	  }
 	});   

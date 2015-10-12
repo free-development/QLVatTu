@@ -119,8 +119,10 @@ public class VattuController extends HttpServlet {
 		if(vt == null) 
 		{
 			vatTuDAO.addVatTu(new VatTu(vtMa, vtTen,dVT,0));
-			System.out.println("success");
-			result = "success";	
+			VatTuDAO vatTuDAO2 = new VatTuDAO();
+			VatTu vatTu = vatTuDAO2.getVatTu(vtMa);
+			result = JSonUtil.toJson(vatTu);
+			return result;
 		}
 		else if(vt !=null && vt.getDaXoa()== 1){
 			vt.setVtMa(vtMa);
@@ -128,23 +130,25 @@ public class VattuController extends HttpServlet {
 			vt.setDvt(dVT);
 			vt.setDaXoa(0);
 			vatTuDAO.updateVatTu(vt);
-			System.out.println("success");
-			result = "success";	
+			result = JSonUtil.toJson(vt);
+			vatTuDAO.disconnect();
+			return result;
 		}
 		else
 		{
-			System.out.println("fail");
+			vatTuDAO.disconnect();
 			result = "fail";
-		}
-		vatTuDAO.disconnect();
 			return JSonUtil.toJson(result);
+		}
+		
+//			return JSonUtil.toJson(result);
 	}
 	@RequestMapping(value="/timKiemVattu", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String timKiemVattu(@RequestParam("vtMa") String vtMa, @RequestParam("vtTen") String vtTen) {
 		VatTuDAO vatTuDAO = new VatTuDAO();
-		System.out.println("Ma goi qua " + vtMa);
-		System.out.println("Ten goi qua " + vtTen);
+		//System.out.println("Ma goi qua " + vtMa);
+		//System.out.println("Ten goi qua " + vtTen);
 		if(vtMa != ""){
 			ArrayList<VatTu> vtList = (ArrayList<VatTu>) vatTuDAO.searchVtMa(vtMa);
 			vatTuDAO.disconnect();
@@ -193,7 +197,7 @@ public class VattuController extends HttpServlet {
 		int page = Integer.parseInt(pageNumber);
 		ArrayList<Object> objectList = new ArrayList<Object>();
 		long sizevt = vatTuDAO.size();
-		ArrayList<VatTu> vatTuList = (ArrayList<VatTu>) vatTuDAO.limit((page - 1) * 10, 10);
+		ArrayList<VatTu> vatTuList = (ArrayList<VatTu>) vatTuDAO.limit(page * 10, 10);
 		//JOptionPane.showMessageDialog(null, vatTuList.size());
 		objectList.add(vatTuList);
 		objectList.add((sizevt - 1)/10);

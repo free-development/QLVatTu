@@ -36,10 +36,6 @@ display:none;
         {
             size: auto A4 landscape;
         	color: black; background: white; }
-	   table 
-	   { 
-	   		font-size: 70%; 
-	   			 }
 		
 </style>
 </head>
@@ -47,7 +43,7 @@ display:none;
 	<%
    		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
    		if (authentication == null) {
-   			request.setAttribute("url", siteMap.bcbdnManage+ "?action=manageBcbdn");
+   			request.setAttribute("url", siteMap.bcvttManage+ "?action=manageBcbdn");
    			RequestDispatcher dispatcher = request.getRequestDispatcher(siteMap.login + ".jsp");
    			dispatcher.forward(request, response);
    		}
@@ -68,40 +64,40 @@ display:none;
         				if (exportToExcel == null) {
    				 	 %>
    				 	 <button class="button" id="print_button" type="button" onclick="window.print();">
-						<i class="fa fa-print"></i>&nbsp;&nbsp;In
+						<i class="fa fa-print"></i>&nbsp;&nbsp;In báo cáo
 					</button>
 					&nbsp;&nbsp;
-					<button class="button" id="print_button" type="button" onclick="location.href='<%=siteMap.xuatCTVatTu+".jsp"+ "?exportToExel=YES" %>'">
+					<button class="button" id="print_button" type="button" onclick="location.href='<%=siteMap.downloadExcelCtvt%>'">
 						<i class="fa fa-print"></i>&nbsp;&nbsp;Tải file
 					</button>
 					&nbsp;&nbsp;
-					<button type="button" id="print_button" class="button"  onclick="location.href='<%=siteMap.ctvtManage + "?action=manageCtvt"%>'">
+					<button type="button" id="print_button" class="button"  onclick="location.href='<%=siteMap.vattuManage + "?action=manageVattu"%>'">
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 					</button>
 					<% } %>
 					 
 				</div>
-		<table style = "margin: 0 auto;width:960px;">
-		<tr>
-			<td style="text-align: right;font-size: 17px;width:350px;">CÔNG TY ĐIỆN LỰC TP CẦN THƠ</td>
-			<td style="text-align: center;font-size: 17px;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</td>
-		</tr>
-		<tr>
-			<td style="font-size: 17px; padding-left: 150px;">PHÒNG VẬT TƯ</td>
-			<td style="font-size: 17px; text-align: center;">Độc lập - Tự do - Hạnh phúc</td>
-		</tr>
-		<tr>
-		<td style="padding-left: 150px;">-----------------------</td>
-		<td style="text-align: center;">-----------------------</td>
-		</tr>
-		<tr>
-		<td></td>
-		<td style="font-size: 17px; text-align: center;">Cần Thơ, ngày...tháng...năm...</td>
-		</tr>
-		</table>
-		<div style="text-align: center;font-size: 30px;font-weight: bold;color: solid black;margin-top:20px;">BÁO CÁO VẬT TƯ TỒN KHO</div>
+<!-- 		<table style = "margin: 0 auto;width:960px;"> -->
+<!-- 		<tr> -->
+<!-- 			<td style="text-align: right;font-size: 17px;width:350px;">CÔNG TY ĐIỆN LỰC TP CẦN THƠ</td> -->
+<!-- 			<td style="text-align: center;font-size: 17px;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</td> -->
+<!-- 		</tr> -->
+<!-- 		<tr> -->
+<!-- 			<td style="font-size: 17px; padding-left: 150px;">PHÒNG VẬT TƯ</td> -->
+<!-- 			<td style="font-size: 17px; text-align: center;">Độc lập - Tự do - Hạnh phúc</td> -->
+<!-- 		</tr> -->
+<!-- 		<tr> -->
+<!-- 		<td style="padding-left: 150px;">-----------------------</td> -->
+<!-- 		<td style="text-align: center;">-----------------------</td> -->
+<!-- 		</tr> -->
+<!-- 		<tr> -->
+<!-- 		<td></td> -->
+<!-- 		<td style="font-size: 17px; text-align: center;">Cần Thơ, ngày...tháng...năm...</td> -->
+<!-- 		</tr> -->
+<!-- 		</table> -->
+		<div style="text-align: center;font-size: 30px;font-weight: bold;color: solid black;margin-top:20px;">DANH MỤC VẬT TƯ</div>
 			
-		<div style="margin-right: 10px;padding-left: 800px;font-size: 17px;">Ngày in:&nbsp;<%=DateUtil.toString(new java.util.Date())%></div>
+<%-- 		<div style="margin-right: 10px;padding-left: 800px;font-size: 17px;">Ngày in:&nbsp;<%=DateUtil.toString(new java.util.Date())%></div> --%>
 			<div id="view-table-bao-cao">
 					<table  style="border: solid 1px black;width:960px;font-size: 12px;">
 					<thead>
@@ -109,11 +105,11 @@ display:none;
 						<th style="border: 1px solid black;font-size: 17px;width: 5px;">STT</th>
 						<th style="border: 1px solid black;font-size: 17px;width: 10px;">Mã VT</th>
 						<th style="border: 1px solid black;font-size: 17px;width: 300px;">Tên vật tư</th>
+						<th style="border: 1px solid black;font-size: 17px;width: 5px;">ĐVT</th>
 						<th style="border: 1px solid black;font-size: 17px;width: 140px;">Nơi sản xuất</th>
 						<th style="border: 1px solid black;font-size: 17px;width: 140px;">Chất lượng</th>
-						<th style="border: 1px solid black;font-size: 17px;width: 5px;">ĐVT</th>
-						<th style="border: 1px solid black;font-size: 17px;width: 80px;">Định mức</th>
-						<th style="border: 1px solid black;font-size: 17px;width: 110px;">Số lượng tồn</th>
+<!-- 						<th style="border: 1px solid black;font-size: 17px;width: 80px;">Định mức</th> -->
+<!-- 						<th style="border: 1px solid black;font-size: 17px;width: 110px;">Số lượng tồn</th> -->
 						</tr>
 						</thead>
 									<tbody>
@@ -126,27 +122,27 @@ display:none;
 													<td style="border: 1px solid black;font-size: 17px;"><%=i++%></td>
 													<td style="border: 1px solid black;font-size: 17px;text-align: center;"><%=ctVatTu.getVatTu().getVtMa() %></td>
 													<td style="border: 1px solid black;font-size: 17px;text-align: left"><%=ctVatTu.getVatTu().getVtTen() %></td>
+													<td style="border: 1px solid black;font-size: 17px;text-align: center;"><%=ctVatTu.getVatTu().getDvt().getDvtTen() %></td>
 													<td style="border: 1px solid black;font-size: 17px;width: 40px;text-align: center;"><%=ctVatTu.getNoiSanXuat().getNsxTen() %></td>
 													<td style="border: 1px solid black;font-size: 17px;text-align: center;"><%=ctVatTu.getChatLuong().getClTen() %></td>
-													<td style="border: 1px solid black;font-size: 17px;text-align: center;"><%=ctVatTu.getVatTu().getDvt().getDvtTen() %></td>
-													<td style="border: 1px solid black;font-size: 17px;text-align: center;"><%=ctVatTu.getDinhMuc() %></td>
-													<td style="border: 1px solid black;font-size: 17px;text-align: center;"><%=ctVatTu.getSoLuongTon() %></td>
+<%-- 													<td style="border: 1px solid black;font-size: 17px;text-align: center;"><%=ctVatTu.getDinhMuc() %></td> --%>
+<%-- 													<td style="border: 1px solid black;font-size: 17px;text-align: center;"><%=ctVatTu.getSoLuongTon() %></td> --%>
 												</tr>
 												<%} }%>
 									</tbody>
 				</table>
 				</div>
-				<div style="width:800px;font-size: 18px;margin: auto;">
-						<table style="width:800px;font-size: 18px;;">
-								<tr>
-								<td></td>
-								<td style="font-size: 17px; text-align: center;">Cần Thơ, ngày...tháng...năm...</td>
-								</tr>
-								<tr>
-									<td style="padding-left: 50px;font-weight: bold;">Người lập biểu</td>
-									<td style="text-align: center;font-weight: bold;">Trưởng Phòng Vật Tư</td>
-								</tr>
-						</table>
-				</div>
+<!-- 				<div style="width:800px;font-size: 18px;margin: auto;"> -->
+<!-- 						<table style="width:800px;font-size: 18px;;"> -->
+<!-- 								<tr> -->
+<!-- 								<td></td> -->
+<!-- 								<td style="font-size: 17px; text-align: center;">Cần Thơ, ngày...tháng...năm...</td> -->
+<!-- 								</tr> -->
+<!-- 								<tr> -->
+<!-- 									<td style="padding-left: 50px;font-weight: bold;">Người lập biểu</td> -->
+<!-- 									<td style="text-align: center;font-weight: bold;">Trưởng Phòng Vật Tư</td> -->
+<!-- 								</tr> -->
+<!-- 						</table> -->
+<!-- 				</div> -->
 		</body>
 		</html>

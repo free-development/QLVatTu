@@ -20,8 +20,9 @@
 	type="text/css" rel="stylesheet">
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/location.js"></script>
-<script type="text/javascript" src="js/vattu.js"></script>
 <script type="text/javascript" src="js/chi-tiet-vat-tu.js"></script>
+<script type="text/javascript" src="js/vattu.js"></script>
+
 <!-- <script> -->
 
 <!-- 	</script> -->
@@ -147,13 +148,12 @@
 
 					<tr class="rowContent"
 						<%if (count % 2 == 0) out.println("style=\"background : #CCFFFF;\"");%>>
-						<td class="left-column"><input type="checkbox" name="vtMa"
+						<td class="left-column" style="width: 20px;"><input type="checkbox" name="vtMa"
 							value="<%=vatTu.getVtMa() %>" class="checkbox"></td>
 						<td class="col" style="text-align: left;" ><%=vatTu.getVtMa() %></td>
 						<td class="col" style="text-align: left; width: 200px;"><%=vatTu.getVtTen() %></td>
 						<td class="col" style="text-align: center;"><%=vatTu.getDvt().getDvtTen() %></td>
-						<td style="text-align: center;">
-						<button type="button" class="button-xem" onclick="showCTVatTu(<%=vatTu.getVtMa()%>);">Xem</button></td>
+						<td style="text-align: center;"><button type="button" class="button-xem" value="Xem" onclick="showCTVatTu(<%=vatTu.getVtMa()%>);">Xem</button></td>
 					</tr>
 					<%} }%>
 				</table>
@@ -174,7 +174,7 @@
 <!-- 								</tr> -->
 <!-- 							</table> -->
 <!-- 						</div> -->
-						<div id ="paging" style="text-align: center;">
+						<div id = "paging" style="text-align: center;">
 						<table style ="border-style: none;">
 								<tr>
 									<td>Trang</td>
@@ -194,23 +194,33 @@
 								</td>
 								</tr>
 								</table>
-					</div>
+<!-- 									<input type="button" value="Next>>"></td> -->
+					
+			</div>
 				<div class="group-button" style="text-align: center;">	
-				<button type="button" class="button" onclick="showForm2('vattu','add-form', true)">
+				<input type="hidden" name="action" value="deleteVatTu">
+				<button type="button" class="button"
+					onclick="showForm2('vattu','add-form', true)">
 					<i class="fa fa-plus-circle"></i>&nbsp;Thêm
 				</button>
 				<button type="button" class="button"
 					onclick="preEditVattu('vattu','update-form', true);">
 					<i class="fa fa-pencil fa-fw"></i>&nbsp;Thay đổi
 				</button>
-				<button type="button" class="button" 
-							onclick="showForm2('vattu','import-formct', true)"> 
-							<i class="fa fa-pencil fa-fw"></i>&nbsp;Import 
-				</button>
+				&nbsp;
 				<button type="button" class="button" onclick="confirmDeleteVT();">
 					<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xóa
 				</button>
 				&nbsp;
+				<button type="button" class="button" 
+							onclick="showForm2('vattu','import-formct', true)"> 
+							<i class="fa fa-pencil fa-fw"></i>&nbsp;Import 
+				</button>
+				&nbsp;
+				<button class="button" type="button" onclick="location.href='<%=siteMap.danhMucVatTu%>'">
+							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xuất File
+						</button>
+						&nbsp;
 				<button class="button" type="reset">
 					<i class="fa fa-spinner"></i>&nbsp;&nbsp;Bỏ qua
 				</button>
@@ -248,7 +258,7 @@
 						<tr>
 							<th style="text-align: left"><label for="DVT">Đơn vị tính</label></th>
 							<td>
-									<select onkeypress="changedvt();"
+									<select onchange="changedvt();"
 									title="" class="select" id="donvitinh" name="dvt" style="margin-top: 10px;">
 										<option disabled selected value="">-- Chọn đơn vị tính --</option>
 										<%						  
@@ -272,25 +282,26 @@
 					</button>
 <!-- 					<button class="button" onclick="showForm('add-chitiet', true)" > -->
 <!-- 						<i class="fa fa-plus-circle"></i>&nbsp;Thêm chi tiết -->
+					</button> 
 					<button type="reset" class="button"><i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại</button>
 					<button type="button" class="button" onclick="loadAddVt();"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát</button>
 				</div>
 			</form>
 			
-			<form id="update-form" style="top: 250px;">
+			<form id="update-form">
 				<div class="input-table">
 					<table>
 						<div class="form-title">Cập nhật Vật tư</div>
 						<tr>
 							<th style="text-align: left"><label for="MVT">Mã vật
 									tư</label></th>
-							<td><input name="vtMaUpdate" size="5px" type="text" readonly style="background-color: #D1D1E0;"
+							<td><input name="vtMaUpdate" size="5px" align=right type="text" readonly style="background-color: #D1D1E0;"
 								class="text" value="10102345"></td>
 						</tr>
 						<tr>
 							<th style="text-align: left"><label for="MVT">Tên
 									vật tư</label></th>
-							<td><input name="vtTenUpdate" size="30px" type="text"  id="aa" onkeypress="changeVtTenUp();"
+							<td><input name="vtTenUpdate" size="30px" align=right type="text"  id="aa" onkeypress="changeVtTenUp();"
 								class="text" value="10102345"><div id="requireVtTenUp" style="color: red"></div></td>
 						</tr>
 <!-- 						<tr> -->
@@ -305,7 +316,7 @@
 						<tr>
 							<th style="text-align: left"><label for="MVT">Đơn vị tính</label></th>
 								<td>
-									<select onkeypress="changedvtUp();"
+									<select onchange="changedvtUp();"
 									title="" class="select" id="donvitinhUp" name="dvtUpdate" style="margin-top: 10px;">
 										<option disabled selected value="">-- Chọn đơn vị tính --</option>
 										<%						  
@@ -377,12 +388,12 @@
 <!-- 						<i class="fa fa-search"></i></button></span></td>	 -->
 <!-- 					</tr>			 -->
 <!-- 				</table> -->
-				<form id="chitiet"> 	
-				<div id="view-table-chi-tiet" style="height: 500px; width: 1024px; margin: 0 auto;top:200px;">
+				<form id="chitiet" style="margin: 0 auto;"> 	
+				<div id="view-table-chi-tiet" style="margin: 0 auto;">
 
 				<table>
 					<tr style="background: #199e5e">
-						<th class="left-column"><input type="checkbox" class="checkCTAll"></th>
+						<th class="left-column" style="width: 20px;"><input type="checkbox" class="checkCTAll"></th>
 						<th class="four-column">Mã vật tư</th>
 						<th class="three-col">Tên vật tư</th>
 						<th class="six-column">Nơi sản xuất</th>
@@ -451,25 +462,25 @@
 						<tr>
 							<th style="text-align: left"><label for="MVT">Mã vật
 									tư</label></th>
-							<td><input name="vtMa" size="5px" type="text" readonly style="background-color: #D1D1E0;"
+							<td><input name="vtMa" size="5px" align=right type="text" readonly style="background-color: #D1D1E0;"
 								class="text"></td>
 						</tr>
 						<tr>
 							<th style="text-align: left"><label for="MVT">Tên vật
 									tư</label></th>
-							<td><input name="vtTen" size="30px" type="text" readonly style="background-color: #D1D1E0;"
+							<td><input name="vtTen" size="30px" align=right type="text" readonly style="background-color: #D1D1E0;"
 								class="text" ></td>
 						</tr>
 						<tr>
 							<th style="text-align: left"><label for="MVT">Đơn vị tính</label></th>
-							<td><input name="dvt" size="5px" type="text" readonly style="background-color: #D1D1E0;"
+							<td><input name="dvt" size="5px" align=right type="text" readonly style="background-color: #D1D1E0;"
 								class="text"></td>
 						</tr>
 						<tr>
 							<th style="text-align: left"><label for="MVT">Nơi
 									sản xuất</label></th>
 								<td>
-									<select onkeypress="changeNsx();"
+									<select onselect="changeNsx();"
 									title="" class="select" id="noisanxuat" name="noiSanXuat" style="margin-top: 10px;">
 										<option disabled selected value="">-- Chọn nơi sản xuất --</option>
 										<%						  
@@ -486,13 +497,12 @@
 						
 						<tr>
 							<th style="text-align: left"><label for="DM">Định mức</label></th>
-							<td><input name="dinhMuc" style="width: 100px" type="number" onkeypress="changeDM();"
-								class="text" required title="Định mức không được để trống"><div id="requireDM" style="color: red"></div></td>
+							<td><input name="dinhMuc" style="width: 100px" type="number" onkeypress="changeDM();"></td>
 						</tr>
 						<tr>
 							<th style="text-align: left"><label for="DVT">Chất lượng</label></th>
 								<td>
-									<select onkeypress="changeCl();" 
+									<select onselect="changeCl();" 
 											title="" class="select" id="chatluong" name="chatLuong" style="margin-top: 10px;">
 												<option disabled selected value="">-- Chọn chất lượng --</option>
 												<%						  
@@ -555,7 +565,7 @@
 						</tr>
 						<tr>
 							<th style="text-align: left"><label for="DM">Định mức</label></th>
-							<td><input name="dinhMucUpdate" size="5px" type="number" onkeypress="changeDMUp();"
+							<td><input id = "dinhMucFocus" name="dinhMucUpdate" size="5px" type="number"
 								class="text" required title="Định mức không được để trống"><div id="requireDMUp" style="color: red"></div></td>
 						</tr>
 						<tr>

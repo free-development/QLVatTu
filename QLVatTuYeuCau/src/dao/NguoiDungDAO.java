@@ -116,19 +116,28 @@ public class NguoiDungDAO {
 		session.getTransaction().commit();
 		return list;
 	}
-	public ArrayList<NguoiDung> searchHoten(String i) {
+	public ArrayList<NguoiDung> searchHoten(String i, ArrayList<String> cdIgnoreList) {
 		session.beginTransaction();
 		Criteria cr = session.createCriteria(NguoiDung.class);
 		cr.add(Restrictions.like("hoTen", i+"%"));
+		if (cdIgnoreList != null) {
+			Criterion ignoreExpression = Restrictions.in("cdMa", cdIgnoreList);
+			cr.add(Restrictions.not(ignoreExpression));
+		}
 		ArrayList<NguoiDung> list = (ArrayList<NguoiDung>) cr.list();
+		
 		session.getTransaction().commit();
 		return list;
 	}
 	
-	public ArrayList<NguoiDung> searchMsnv(String i) {
+	public ArrayList<NguoiDung> searchMsnv(String i, ArrayList<String> cdIgnoreList) {
 		session.beginTransaction();
 		Criteria cr = session.createCriteria(NguoiDung.class);
 		cr.add(Restrictions.like("msnv", i+"%"));
+		if (cdIgnoreList != null) {
+			Criterion ignoreExpression = Restrictions.in("cdMa", cdIgnoreList);
+			cr.add(Restrictions.not(ignoreExpression));
+		}
 		ArrayList<NguoiDung> list = (ArrayList<NguoiDung>) cr.list();
 		session.getTransaction().commit();
 		return list;
@@ -172,6 +181,6 @@ public class NguoiDungDAO {
 			session.disconnect();
 	}
 	public static void main(String[] args) {
-		System.out.println(new NguoiDungDAO().searchHoten("V"));
+		System.out.println(new NguoiDungDAO().searchHoten("V", null));
 	}
 }

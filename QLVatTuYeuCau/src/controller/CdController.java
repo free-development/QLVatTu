@@ -94,7 +94,7 @@ public class CdController extends HttpServlet {
 		if(cd == null) 
 		{
 			chucDanhDAO.addChucDanh(new ChucDanh(cdMa, cdTen,0));
-			System.out.println("success");
+			//System.out.println("success");
 			result = "success";	
 		}
 		else if(cd !=null && cd.getDaXoa()== 1){
@@ -105,7 +105,7 @@ public class CdController extends HttpServlet {
 		}
 		else
 		{
-			System.out.println("fail");
+			//System.out.println("fail");
 			result = "fail";
 		}
 		chucDanhDAO.disconnect();
@@ -116,8 +116,8 @@ public class CdController extends HttpServlet {
 	produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String updateCd(@RequestParam("cdMaUpdate") String cdMaUpdate, @RequestParam("cdTenUpdate") String cdTenUpdate) {
 		ChucDanhDAO chucDanhDAO = new ChucDanhDAO();
-		System.out.println(cdMaUpdate);
-		System.out.println(cdTenUpdate);
+		//System.out.println(cdMaUpdate);
+		//System.out.println(cdTenUpdate);
 		ChucDanh cd = new ChucDanh(cdMaUpdate, cdTenUpdate,0);
 		chucDanhDAO.updateChucDanh(cd);
 		chucDanhDAO.disconnect();
@@ -128,7 +128,7 @@ public class CdController extends HttpServlet {
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String loadPageCd(@RequestParam("pageNumber") String pageNumber) {
 		String result = "";
-		System.out.println("MA: " + pageNumber);
+		//System.out.println("MA: " + pageNumber);
 		ChucDanhDAO cdDAO = new ChucDanhDAO();
 		int page = Integer.parseInt(pageNumber);
 		ArrayList<ChucDanh> cdList = (ArrayList<ChucDanh>) cdDAO.limit((page -1 ) * 10, 10);

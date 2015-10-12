@@ -39,7 +39,7 @@ public class MdController extends HttpServlet {
 			if(new MucDichDAO().getMucDich1(mdMa)!=0)
 			{
 				request.setAttribute("error","Mục đích đã tồn tại");
-				System.out.println("Mục đích đã tồn tại");
+				//System.out.println("Mục đích đã tồn tại");
 				return new ModelAndView("danh-muc-muc-dich");
 			}
 			else
@@ -99,7 +99,7 @@ public class MdController extends HttpServlet {
 		if(md == null) 
 		{
 			mucDichDAO.addMucDich(new MucDich(mdMa, mdTen,0));
-			System.out.println("success");
+			//System.out.println("success");
 			result = "success";	
 		}
 		else if(md !=null && md.getDaXoa()== 1){
@@ -110,7 +110,7 @@ public class MdController extends HttpServlet {
 		}
 		else
 		{
-			System.out.println("fail");
+			//System.out.println("fail");
 			result = "fail";
 		}
 		mucDichDAO.disconnect();
@@ -120,8 +120,8 @@ public class MdController extends HttpServlet {
 	@RequestMapping(value="/updateMd", method=RequestMethod.GET, 
 	produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String updateMd(@RequestParam("mdMaUpdate") String mdMaUpdate, @RequestParam("mdTenUpdate") String mdTenUpdate) {
-		System.out.println(mdMaUpdate);
-		System.out.println(mdTenUpdate);
+		//System.out.println(mdMaUpdate);
+		//System.out.println(mdTenUpdate);
 		MucDichDAO mucDichDAO = new MucDichDAO();
 		MucDich md = new MucDich(mdMaUpdate, mdTenUpdate,0);
 		mucDichDAO.updateMucDich(md);
@@ -132,7 +132,7 @@ public class MdController extends HttpServlet {
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String loadPageMd(@RequestParam("pageNumber") String pageNumber) {
 		String result = "";
-		System.out.println("MA: " + pageNumber);
+		//System.out.println("MA: " + pageNumber);
 		MucDichDAO mdDAO = new MucDichDAO();
 		int page = Integer.parseInt(pageNumber);
 		ArrayList<MucDich> mdList = (ArrayList<MucDich>) mdDAO.limit((page -1 ) * 10, 10);

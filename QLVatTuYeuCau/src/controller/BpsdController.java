@@ -69,12 +69,12 @@ public class BpsdController extends HttpServlet {
 		if((donViDAO.getDonVi(dvMa)==null) || (donViDAO.getDonVi(dvMa)!=null && donViDAO.getDonVi(dvMa).getDaXoa() == 1))
 		{
 			donViDAO.addOrUpdateDonVi(new DonVi(dvMa, dvTen, sdt, diaChi, email,0 ));
-			System.out.println("success");
+			//System.out.println("success");
 			result = "success";	
 		}
 		else
 		{
-			System.out.println("fail");
+			//System.out.println("fail");
 			result = "fail";
 		}
 		donViDAO.disconnect();
@@ -110,7 +110,7 @@ public class BpsdController extends HttpServlet {
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String loadPageDv(@RequestParam("pageNumber") String pageNumber) {
 		String result = "";
-		System.out.println("MA: " + pageNumber);
+		//System.out.println("MA: " + pageNumber);
 		DonViDAO dvDAO = new DonViDAO();
 		int page = Integer.parseInt(pageNumber);
 		ArrayList<DonVi> dvList = (ArrayList<DonVi>) dvDAO.limit((page -1 ) * 10, 10);		

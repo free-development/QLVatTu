@@ -21,7 +21,7 @@
 #view-table {
 	margin: 0 auto;
 	width: 600px;
-	max-height: 350px;
+	/*max-height: 350px;*/
 }
 
 .group-button {
@@ -113,9 +113,9 @@
 	display: none;
 	width: 30%;;
 	left: 35%;
-	top: 15%;
-	height: 20%;
-	position: absolute;
+	top: 30%;
+	/*height: 30%;*/
+	position: fixed;
 	background-color: #DCEAF5;
 	border-radius: 10px;
 	padding-left: 10px;
@@ -130,10 +130,10 @@
 	width: 30%;
 	left: 35%;
 	right: 35%;
-	top: 15%;
-	height: 20%;
+	top: 30%;
+	/*height: 20%;*/
 	bottom: 65%;
-	position: absolute;
+	position: fixed;
 	background-color: #DCEAF5;
 	border-radius: 10px;
 	padding-left: 10px;

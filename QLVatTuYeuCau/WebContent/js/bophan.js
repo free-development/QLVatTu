@@ -109,6 +109,7 @@ function showForm2(formId1, formId2, check){
 					  	$('input:text[name=diaChiUpdate]').val(dv.diaChi);
 					  	$('input:text[name=emailUpdate]').val(dv.email);
 					  	showForm(formId, check);
+					  	 $('#dvTenFocus').focus();
 					}
 				});
 			}
@@ -323,7 +324,7 @@ function showForm2(formId1, formId2, check){
  		 var key = e.which;
  		 if(key == 13)  // the enter key code
  		  {
- 		    updateBp();
+ 			confirmUpdateBp();
  		    return false;  
  		  }
  		});   

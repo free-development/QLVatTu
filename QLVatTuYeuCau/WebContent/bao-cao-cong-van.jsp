@@ -1,3 +1,4 @@
+
 ﻿<%@page import="model.NguoiDung"%>
 <%@page import="util.DateUtil"%>
 <%@page import="java.util.Date"%>
@@ -164,7 +165,7 @@
 				</fieldset>
 				</form>
 			</div>
-			<div id="view-table" style="height: 500px;width: 1224px;display: auto;border: 1px solid #CCCCCC;margin: 0 auto;margin-top: 20px;overflow: scroll;">
+			<div id="view-table" style="height: 500px;width: 1250px;display: auto;border: 1px solid #CCCCCC;margin: 0 auto;margin-top: 20px;overflow: scroll;">
 				<table >
 					<tr bgcolor="lightgreen">
 						<th style="width: 50px;">Số công văn nhận</th>
@@ -187,8 +188,9 @@
 					<tr class="rowContent"
 						<%if (cnt % 2 == 0) out.println("style=\"background : #CCFFFF;\"");%>>
 						<td style="width: 50px; text-align: center;"><%=congVan.getSoDen() %></td>
+						<td style="width: 50px; text-align: center;"><%=congVan.getCvSo()%></td>
 						<td style="width: 100px; text-align: center;"><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td>
-						<td style="width: 50px; text-align: center;"><%=congVan.getCvSo() %></td>
+<%-- 						<td style="width: 50px; text-align: center;"><%=congVan.getCvSo() %></td> --%>
 						
 						<td style="width: 50px; text-align: center;"><%=DateUtil.toString(congVan.getCvNgayDi()) %></td>
 						<td style="text-align: left; width: 300px;"><%=congVan.getMucDich().getMdTen() %></td>

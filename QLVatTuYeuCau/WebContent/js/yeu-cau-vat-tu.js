@@ -262,10 +262,12 @@ function capVatTu() {
 	  	success: function(objectList) {
 	  		var ycVatTu = objectList[0];
 	  		var ctVatTu = objectList[1];
-	  		if (ycVatTu == '-1')
+	  		if (objectList == '-1')
 	  			alert('Số lương cấp phát không hợp lệ! Số lượng cấp phát phải nhỏ hơn hoặc bằng tổng số lượng thiếu!!');
-	  		else if (ycVatTu == '-2')
+	  		else if (objectList == '-2')
 	  			alert('Số lượng tồn không đủ để cấp. Vui lòng kiểm tra lại!!!');
+	  		else if (objectList == '0')
+	  			alert('Đã cấp đủ hàng!!');
 	  		else {
 	  			alert('Cấp phát vật tư thành công');
 	  			$('input[name=soLuongCap]').val('0')	;

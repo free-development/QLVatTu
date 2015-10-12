@@ -206,7 +206,7 @@
 
 					<tr>
 						<td class="input"><label for="diachi">Địa chỉ</label></td>
-						<td><input type="text" required size="20" maxlength="50" placeholder="Địa chỉ"
+						<td><input type="text" required size="25" maxlength="50" placeholder="Địa chỉ"
 							title="Địa chỉ phải được nhập" class="text" name="diachi"
 							id="diachi" onkeypress="changeDiachi();"><div id="requireDiachi" style="color: red"></div></td>
 					</tr>

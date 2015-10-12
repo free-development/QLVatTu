@@ -224,17 +224,20 @@ function timKiemNguoidungCs(){
 	  		var vtCongVanList = objectList[2];
 	  		var content = '';
 	  		var count = 0;
+	  		$('.rowContent').remove();
 	  		for(var i = 0; i < ndList.length; i++) { 
-	  			content += '<td class=\"tbody-nguoidung\">'+ndList[i].msnv+'</td><td class=\"tbody-nguoidung\">'+ndList.hoTen
+	  			content += '<tr class=\"rowContent\"><td class=\"tbody-nguoidung\">'+ndList[i].msnv+'</td><td class=\"tbody-nguoidung\">'+ndList[i].hoTen
 				+'</td>';
+	  			for(var j = 0; j < vaiTroList.length; j++) {
+					content += '<td><input type=\"checkbox\" class=\"checkbox\" name=\"vaiTro\" value=\"' + vaiTroList[j].vtId + '\" id=\"' + ndList[i].msnv + vaiTroList[j].vtId + '\"></td>';
+				}
+	  			content += '</tr>';
 	  		}
-			for(var j = 0; j < vaiTroList.length; j++) {
-				content += '<td><input type=\"checkbox\" class=\"checkbox\" name=\"vaiTro\" value=\"' + vaiTroList[i].vtId + '\" id=\"' + vaiTroList[i].vtId + '\"></td>';
-			}
-			content = '<tr>'+ content + '</tr>';
+			$('#view-table table tr:first').after(content);
+//			content = '<tr>'+ 
 			for (var i = 0; i < vtCongVanList.length; i++) {
 //	  			alert('#update #'+vtCongVanList[i].vtId);
-	  			$('#'+vtCongVanList[i].vtId).prop('checked',true);
+	  			$('#' + vtCongVanList[i].msnv + vtCongVanList[i].vtId).prop('checked',true);
 	  		}	
 			
 //			
@@ -272,3 +275,9 @@ function timKiemNguoidungCs(){
 //		//$('#mail-form').show();
 //	});   
 //});
+$(document).ready(function(){
+	$('#search-nguoiDung').submit(function(){
+		timKiemNguoidungCs();
+		return false;
+	})
+});

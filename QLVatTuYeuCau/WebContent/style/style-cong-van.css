@@ -211,15 +211,17 @@
 	display: auto;
 	border: 1px solid #CCCCCC;
 	margin: 1em 0;
-	overflow: scroll; /*chú ý dòng này*/
+	overflow: scroll; /*ch� � d�ng n�y*/
 	
 }
 
 .scroll_content {
 	height: 500px;
+	width: 810px;
 	display: auto;
 	font-size: 16px;
 	border: 1px solid #CCCCCC;
+	margin: 0 auto;
 }
 
 .chi-tiet {
@@ -297,7 +299,7 @@
 	text-align: left;
 }
 
-.four-column {
+.fonr-column {
 	width: 100px;
 	text-align: left;
 }
@@ -382,11 +384,12 @@
 	display: none;
 	width: 63%;
 	/*    height: 36%*/
-	position: fixed;
+	position: absolute;
 	left: 17%;
 	right: 17% /*	margin: 0 auto;*/ 
 	 float: left;
-	top: 21%;
+	top: 20%;
+	z-index: 50;
 	/*    bottom: 32%;*/
 	background-color: #dceaf5;
 	border-radius: 10px;
@@ -399,13 +402,14 @@
 
 #update-form {
 	display: none;
-	width: 66%;
+	width: 66%;1111
 	width: 63%;
 	/*    height: 36%*/
-	position: fixed;
+	position: absolute;
 	left: 17%;
 	right: 17%;
-	top: 21%;
+	top: 20%;
+	z-index: 50;
 	/*    bottom: 32%;*/
 	/*	margin: 0 auto;*/
 	background-color: #dceaf5;
@@ -420,7 +424,7 @@
 #update-yc-vat-tu {
 	display: none;
 	width: 58%;
-	position: fixed;
+	position: absolute;
 	left: 20%;
 	right: 20%;
 	top: 35%;
@@ -433,10 +437,9 @@
 }
 
 #add-form-ycvt, #update-form-ycvt {
-	
 	display: none;
 	width: 30%;
-	position: fixed;
+	position: absolute;
 	left: 20%;
 	right: 20%;
 	margin: 0 auto;
@@ -472,7 +475,7 @@
 	display: auto;
 	border: 1px solid #CCCCCC;
 	margin: 1em 0;
-	overflow: scroll; /*chú ý dòng này*/
+	overflow: scroll; /*ch� � d�ng n�y*/
 }
 
 .date a {
@@ -560,7 +563,7 @@
 	padding-right: 10px;
 	padding-top: 5px;
 	padding-bottom: 5px;
-	font-family: "Times New Roman";
+	font-family: sans-serif;
 }
 
 .input-table-vt {

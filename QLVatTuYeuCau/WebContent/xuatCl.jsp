@@ -38,7 +38,7 @@ display:none;
 	<%
    		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
    		if (authentication == null) {
-   			request.setAttribute("url", siteMap.bcbdnManage+ "?action=manageBcbdn");
+   			request.setAttribute("url", siteMap.clManage+ "?action=manageBcbdn");
    			RequestDispatcher dispatcher = request.getRequestDispatcher(siteMap.login + ".jsp");
    			dispatcher.forward(request, response);
    		}
@@ -59,14 +59,14 @@ display:none;
         				if (exportToExcel == null) {
    				 	 %>
    				 	 <button class="button" id="print_button" type="button" onclick="window.print();">
-						<i class="fa fa-print"></i>&nbsp;&nbsp;In
+						<i class="fa fa-print"></i>&nbsp;&nbsp;In báo cáo
 					</button>
 					&nbsp;&nbsp;
 					<button class="button" id="print_button" type="button" onclick="location.href='<%=siteMap.downloadExcelCl%>'">
 						<i class="fa fa-print"></i>&nbsp;&nbsp;Tải file
 					</button>
 					&nbsp;&nbsp;
-					<button type="button" id="print_button" class="button"  onclick="location.href='<%=siteMap.clManage + "?action=manageCl"%>'">
+					<button type="button" id="print_button" class="button"  onclick="location.href='<%=siteMap.nsxManage + "?action=manageCl"%>'">
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 					</button>
 					<% } %>

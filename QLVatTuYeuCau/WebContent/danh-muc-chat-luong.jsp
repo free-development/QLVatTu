@@ -59,6 +59,7 @@
 			if (listChatLuong ==  null) {
 				int index = siteMap.clManage.lastIndexOf("/");
 				String url = siteMap.clManage.substring(index);
+				System.out.println(url + "?action=manageCl");
 				RequestDispatcher dispatcher =  request.getRequestDispatcher(url + "?action=manageCl");
 				dispatcher.forward(request, response);
 				return;
@@ -116,10 +117,10 @@
 				<div class="group-button">
 					<input type="hidden" name="action" value="deleteCl">
 					<button type="button" class="button"
-						onclick="showForm('add-form', true)">
+						onclick="showForm('add-form', true);$('#clMaFocus').focus();">
 						<i class="fa fa-plus-circle"></i>&nbsp;Thêm
 					</button>
-					<button type="button" onclick="preUpdateCl('update-form', true)"
+					<button type="button" onclick="preUpdateCl('update-form', true);"
 						class="button" title="Chọn 1 chất lượng để thay đổi">
 						<i class="fa fa-pencil fa-fw"></i>&nbsp;Thay đổi
 					</button>
@@ -128,7 +129,7 @@
 					</button>
 					&nbsp;
 					<button type="button" class="button" 
-							onclick="showForm2('main-form','import-formct', true)"> 
+							onclick="showForm2('view-table','import-formct', true)"> 
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Import 
 						</button>&nbsp;
 						<button class="button" type="button" onclick="location.href='<%=siteMap.xuatCl+".jsp"%>'">
@@ -153,7 +154,7 @@
 						<div class="form-title">Thêm chất lượng</div>
 						<tr>
 							<td class="input"><label for="MCL">Mã chất lượng:</label></td>
-							<td><input name="clMa" type="text" class="text" required
+							<td><input id="clMaFocus" name="clMa" type="text" class="text" required
 								autofocus size="2" onkeypress="changeClMa();" maxlength="3" pattern="[a-zA-Z0-9]{3}"
 								title="Mã chất lượng chỉ gồm 3 ký tự, không chứ khoảng trắng và ký tự đặc biệt"><div id="requireClMa" style="color: red"></div></td>
 						</tr>
@@ -166,6 +167,7 @@
 					</table>
 				</div>
 				<div class="button-group">
+					<!-- 				<input type="hidden" name="action" value = "AddCl">   -->
 					<button class="button" onclick="addCl();" type="button">
 						<i class="fa fa-plus-circle"></i>&nbsp;Thêm
 					</button>
@@ -194,7 +196,7 @@
 						</tr>
 						<tr>
 							<td class="input"><label for="MCL">Tên chất lượng</label></td>
-							<td><input name="clTenUpdate" size="30px" align=left
+							<td><input id="clTenFocus" name="clTenUpdate" size="30px" align=left
 								type="text" class="text" onkeypress="changeClTenUpdate();"
 								value="Hàng thu hồi có thể sử dụng được" required
 								title="Tên chất lượng không được để trống"><div id="requireClTenUpdate" style="color: red"></div></td>
@@ -215,14 +217,15 @@
 					</button>
 				</div>
 			</form>
-			<form id="import-formct" action="<%=siteMap.readExcelCl %>" method="post" enctype="multipart/form-data" style="height: 200px;text-align: center;" onsubmit="document.body.style.cursor='wait'; return true;">
+			<form id="import-formct" action="<%=siteMap.readExcelCl %>" method="post" enctype="multipart/form-data" style="height: 200px;text-align: center;">
 									<input type="file" name="file" accept=".xls, .xlsx" class="text" style="padding-left: 0px;">
 									<div class="group-button">
-										<input value="uploadFile" name="action" type="submit" class="button" style="width: 100px;font-size: 17px;text-align: center;" onclick="document.body.style.cursor='wait'; return true;">
-										<input value="Thoát" onclick="showForm2('main-form','import-formct', false);" type="button" class="button"  style="width: 70px;text-align: center;font-size: 17px;">
+										<input value="uploadFile" name="action" type="submit" class="button" style="width: 100px;font-size: 17px;text-align: center;">
+										<input value="Thoát" onclick="showForm2('view-table-bo-phan','import-formct', false);" type="button" class="button"  style="width: 70px;text-align: center;font-size: 17px;">
 									</div>
 						</form>
 		</div>
 	</div>
+	
 </body>
 </html>

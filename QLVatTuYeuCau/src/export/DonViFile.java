@@ -35,12 +35,12 @@ public class DonViFile extends AbstractExcelView {
 		// create a new Excel sheet
 		HSSFSheet sheet = workbook.createSheet("Đơn vị");
 		//sheet.setDefaultColumnWidth(30);
-		sheet.setColumnWidth(0, 30);
-		sheet.setColumnWidth(1, 100);
-		sheet.setColumnWidth(2, 30);
-		sheet.setColumnWidth(3, 100);
-		sheet.setColumnWidth(4, 50);
-		
+//		sheet.setColumnWidth(0, 30);
+//		sheet.setColumnWidth(1, 100);
+//		sheet.setColumnWidth(2, 30);
+//		sheet.setColumnWidth(3, 100);
+//		sheet.setColumnWidth(4, 50);
+//		
 		// create style for header cells
 		CellStyle style = workbook.createCellStyle();
 		Font font = workbook.createFont();

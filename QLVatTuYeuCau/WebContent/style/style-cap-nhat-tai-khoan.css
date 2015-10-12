@@ -59,8 +59,9 @@
 }
 #add-form{
 	display: none;
-	position: absolute;
-	top:35%;
+	position: fixed;
+	z-index: 50;
+	top:30%;
 	left:30%;
 	width:35%;
 	background-color: #DCEAF5;

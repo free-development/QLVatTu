@@ -79,7 +79,8 @@
 			response.sendRedirect(siteMap.congVan);
     %>
 	<div class="wrapper">
-		<jsp:include page="header.jsp" />
+		<jsp:include page="header.jsp" /> 
+
 		<div id="main-content">
 			<form id="add-yeu-cau-form">
 <%--  			<div style="color: #CC3333;height:20px;text-align: right;margin-right: 40px;">Số công văn:&nbsp;<%=congVan.getCvSo() %></div> --%>
@@ -169,8 +170,8 @@
 			</form>				
 			</form>
 			<form id="main-form">
-			<div class="form-title-vat-tu" style="padding-top: 10px;">Yêu cầu vật tư còn thiếu cho công văn số <%=congVan.getSoDen() %> nhận ngày <%=congVan.getCvNgayNhan() %></div> 
-					<div id="view-table-yc" class="scroll-vat-tu">
+			<div class="form-title-vat-tu" style="padding-top: 10px;">Yêu cầu vật tư còn thiếu cho công văn số <%=congVan.getSoDen() %> nhận ngày <%=DateUtil.toString(congVan.getCvNgayNhan()) %></div> 
+					<div id="view-table-yc" style="overflow: auto;width:1024px; margin: 0 auto;">
 							<table style= "width:1024px; margin: 0 auto;" >
 								<tr>
 									<th class="a-column"style= "text-align: center;">Chọn</th>

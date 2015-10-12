@@ -272,6 +272,10 @@ public class YcController extends HttpServlet {
 			ycDAO.disconnect();
 			return JSonUtil.toJson("-2");
 		}
+		else if (check == 0) {
+			ycDAO.disconnect();
+			return JSonUtil.toJson("0");
+		}
 //		yeuCau.setYcSoLuong(sl);
 		YeuCauDAO ycDAO2 = new YeuCauDAO();
 		ycDAO2.capVatTu(yeuCau, sl);

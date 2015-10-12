@@ -118,7 +118,7 @@
 								<i class="fa fa-plus-circle"></i>&nbsp;Thêm
 							</button>
 							<button type="button" class="button"
-								onclick="preUpdateMd('update-form', true)">
+								onclick="preUpdateMd('update-form', true); $('#mdTenFocus').focus();">
 								<i class="fa fa-pencil fa-fw"></i>&nbsp;Thay đổi
 							</button>
 							<button class="button" type="button" onclick="confirmDeleteMd();">
@@ -184,8 +184,8 @@
 								</tr>
 								<tr>
 									<th style="width:100px;"><label for="MMD">Tên mục đích: </label></th>
-									<td><input name="mdTenUpdate" autofocus size="30px"
-										align=left type="text" class="text" onkeypress="changeMdTen();" required
+									<td><input id="mdTenFocus" name="mdTenUpdate" autofocus size="30px"
+										 type="text" class="text" onkeypress="changeMdTen();" required
 										title="Tên mục đích không được để trống"><div id="requireMdTenUpdate" style="color: red"></div></td>
 								</tr>
 							</table>

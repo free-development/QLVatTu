@@ -57,7 +57,7 @@ public class VtController extends HttpServlet {
 		if("manageVt".equalsIgnoreCase(action)) {
 			long size = vaiTroDAO.size();
 			ArrayList<VaiTro> vaiTroList =  (ArrayList<VaiTro>) vaiTroDAO.limit(page - 1, 10);
-			System.out.println(size);
+			//System.out.println(size);
 			request.setAttribute("size", size);
 			vaiTroDAO.disconnect();
 			return new ModelAndView("danh-muc-vai-tro", "vaiTroList", vaiTroList);
@@ -68,7 +68,7 @@ public class VtController extends HttpServlet {
 	@RequestMapping(value="/preEditvt", method=RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String preEditvt(@RequestParam("vtId") String vt) {
-			System.out.println("****" + vt + "****");
+			//System.out.println("****" + vt + "****");
 			//JOptionPane.showMessageDialog(null, vt);
 			vtOld = vt;
 			return JSonUtil.toJson(vt);
@@ -77,13 +77,13 @@ public class VtController extends HttpServlet {
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String addvt(@RequestParam("vtTen") String vtTen) {
 		String result = "success";
-		System.out.println("Ten: "+ vtTen);
+		//System.out.println("Ten: "+ vtTen);
 		VaiTroDAO vtDAO = new VaiTroDAO();
 		VaiTro vt = vtDAO.getVaiTroByTen(vtTen);
 		if(vt == null)
 		{
 			vtDAO.addVaiTro(new VaiTro(vtTen,0));
-			System.out.println("success");
+			//System.out.println("success");
 			result = "success";
 		}
 		else if(vt!=null && vt.getDaXoa() == 1){
@@ -94,7 +94,7 @@ public class VtController extends HttpServlet {
 		}
 		else 
 		{
-			System.out.println("fail");
+			//System.out.println("fail");
 			result = "fail";
 		}
 		vtDAO.disconnect();
@@ -128,7 +128,7 @@ public class VtController extends HttpServlet {
 	@RequestMapping(value="/loadPagevt", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String loadPagevt(@RequestParam("pageNumber") String pageNumber) {
-		System.out.println("MA: " + pageNumber);
+		//System.out.println("MA: " + pageNumber);
 		VaiTroDAO vtDAO = new VaiTroDAO();
 		int page = Integer.parseInt(pageNumber);
 		ArrayList<VaiTro> vtList = (ArrayList<VaiTro>) vtDAO.limit((page -1 ) * 10, 10);
