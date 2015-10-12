@@ -118,10 +118,11 @@ public class NguoiDungDAO {
 	}
 	public ArrayList<NguoiDung> searchHoten(String i, ArrayList<String> cdIgnoreList) {
 		session.beginTransaction();
-		Criteria cr = session.createCriteria(NguoiDung.class);
+		Criteria cr = session.createCriteria(NguoiDung.class, "nguoiDung");
+		cr.createAlias("nguoiDung.chucDanh", "chucDanh");
 		cr.add(Restrictions.like("hoTen", i+"%"));
 		if (cdIgnoreList != null) {
-			Criterion ignoreExpression = Restrictions.in("cdMa", cdIgnoreList);
+			Criterion ignoreExpression = Restrictions.in("chucDanh.cdMa", cdIgnoreList);
 			cr.add(Restrictions.not(ignoreExpression));
 		}
 		ArrayList<NguoiDung> list = (ArrayList<NguoiDung>) cr.list();
@@ -132,10 +133,11 @@ public class NguoiDungDAO {
 	
 	public ArrayList<NguoiDung> searchMsnv(String i, ArrayList<String> cdIgnoreList) {
 		session.beginTransaction();
-		Criteria cr = session.createCriteria(NguoiDung.class);
+		Criteria cr = session.createCriteria(NguoiDung.class, "nguoiDung");
+		cr.createAlias("nguoiDung.chucDanh", "chucDanh");
 		cr.add(Restrictions.like("msnv", i+"%"));
 		if (cdIgnoreList != null) {
-			Criterion ignoreExpression = Restrictions.in("cdMa", cdIgnoreList);
+			Criterion ignoreExpression = Restrictions.in("chucDanh.cdMa", cdIgnoreList);
 			cr.add(Restrictions.not(ignoreExpression));
 		}
 		ArrayList<NguoiDung> list = (ArrayList<NguoiDung>) cr.list();
