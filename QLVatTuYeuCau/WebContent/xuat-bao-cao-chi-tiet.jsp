@@ -59,10 +59,18 @@ display:none;
 // 		Date dbd = new SimpleDateFormat ("dd-MM-yyyy").parse(ngaybd);
 // 		Date dkt = new SimpleDateFormat ("dd-MM-yyyy").parse(ngaykt);
 // 		Date dht = new SimpleDateFormat ("dd-MM-yyyy").parse(new Date().toString());
-		ArrayList<DonVi> listDonVi = (ArrayList<DonVi>) session.getAttribute("donViList");
-		ArrayList<TrangThai> listTrangThai = (ArrayList<TrangThai>) session.getAttribute("trangThaiList");
 		ArrayList<CongVan> congVanList = (ArrayList<CongVan>) session.getAttribute("congVanList");
-		HashMap<Integer, ArrayList<YeuCau>> yeuCauHash = (HashMap<Integer, ArrayList<YeuCau>>) session.getAttribute("yeuCau");
+		
+		
+		if (congVanList ==  null) {
+			int index = siteMap.baoCaoChiTiet.lastIndexOf("/");
+			String url = siteMap.cvManage.substring(index);
+			RequestDispatcher dispatcher =  request.getRequestDispatcher(url + "?action=manageBcbdn");
+			dispatcher.forward(request, response);
+			return;
+		}
+		HashMap<Integer, ArrayList<YeuCau>> yeuCauHash = (HashMap<Integer, ArrayList<YeuCau>>) session.getAttribute("yeuCauHash");
+		HashMap<Integer, ArrayList<CTVatTu>> ctVatTuHash = (HashMap<Integer, ArrayList<CTVatTu>>) session.getAttribute("ctVatTuHash");
 	       %>
 	     <% 
 		String exportToExcel = request.getParameter("exportToExel");
@@ -82,11 +90,11 @@ display:none;
 						<i class="fa fa-print"></i>&nbsp;&nbsp;In báo cáo
 					</button>
 					&nbsp;&nbsp;
-					<button class="button" id="print_button" type="button" onclick="location.href='<%=siteMap.xuatBangDeNghi+".jsp"+ "?exportToExel=YES" %>'">
+					<button class="button" id="print_button" type="button" onclick="location.href='<%=siteMap.xuatBcChiTiet+".jsp"+ "?exportToExel=YES" %>'">
 						<i class="fa fa-print"></i>&nbsp;&nbsp;Tải file
 					</button>
 					&nbsp;&nbsp;
-					<button type="button" id="print_button" class="button"  onclick="location.href='<%=siteMap.baoCaoBangDeNghi+".jsp" %>'">
+					<button type="button" id="print_button" class="button"  onclick="location.href='<%=siteMap.baoCaoChiTiet+".jsp" %>'">
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 					</button>
 					<% } %>
@@ -140,8 +148,10 @@ display:none;
 								if(yeuCauHash != null) {
 								 int cnt = 0;
 								for(CongVan congVan  : congVanList) {
-								ArrayList<YeuCau> yeuCauList = yeuCauHash.get(congVan.getCvId());
-								for (YeuCau yeuCau : yeuCauList) {cnt++;
+									ArrayList<YeuCau> yeuCauList = yeuCauHash.get(congVan.getCvId());
+									ArrayList<CTVatTu> ctVatTuList = ctVatTuHash.get(congVan.getCvId());
+									for (YeuCau yeuCau : yeuCauList) {
+										CTVatTu ctVatTu = ctVatTuList.get(cnt);
 								%>
 								<tr 
 									<%if (cnt % 2 == 0) out.println("style=\"background : #CCFFFF;\"");%>
@@ -150,17 +160,17 @@ display:none;
 									<td style="border: 1px solid black;font-size: 17px;" class="b-column"><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td>
 <%-- 									<td style="border: 1px solid black;font-size: 17px;" class="a-column"><%=congVan.getSoDen() %></td> --%>
 <%-- 									<td style="border: 1px solid black;font-size: 17px;" class="b-column"><%=congVan.getCvNgayNhan() %></td> --%>
-									<td style="border: 1px solid black;font-size: 17px;" class="c-column"><%=yeuCau.getCtVatTu().getVatTu().getVtMa() %></td>
-									<td style="border: 1px solid black;font-size: 17px;text-align: left;" class="d-column"><%=yeuCau.getCtVatTu().getVatTu().getVtTen() %></td>
-									<td style="border: 1px solid black;font-size: 17px;" class="e-column"><%=yeuCau.getCtVatTu().getNoiSanXuat().getNsxTen() %></td>
-									<td style="border: 1px solid black;font-size: 17px;" class="f-column"><%=yeuCau.getCtVatTu().getVatTu().getDvt().getDvtTen() %></td>
+									<td style="border: 1px solid black;font-size: 17px;" class="c-column"><%=ctVatTu.getVatTu().getVtMa() %></td>
+									<td style="border: 1px solid black;font-size: 17px;text-align: left;" class="d-column"><%=ctVatTu.getVatTu().getVtTen() %></td>
+									<td style="border: 1px solid black;font-size: 17px;" class="e-column"><%=ctVatTu.getNoiSanXuat().getNsxTen() %></td>
+									<td style="border: 1px solid black;font-size: 17px;" class="f-column"><%=ctVatTu.getVatTu().getDvt().getDvtTen() %></td>
 									<td style="border: 1px solid black;font-size: 17px;" class="g-column"><%=congVan.getTrangThai().getTtTen() %></td>
 									<td style="border: 1px solid black;font-size: 17px;" class="h-column"><%=congVan.getDonVi().getDvTen()%></td>
-									<td style="border: 1px solid black;font-size: 17px;" class="k-column"><%=yeuCau.getCtVatTu().getChatLuong().getClTen() %></td>
+									<td style="border: 1px solid black;font-size: 17px;" class="k-column"><%=ctVatTu.getChatLuong().getClTen() %></td>
 									<td style="border: 1px solid black;font-size: 17px;" class="m-column"><%=yeuCau.getYcSoLuong() %></td>
 	
 								</tr>
-									<%}} %>
+									<%cnt++;}} %>
 							</tbody>
 							<%} %>
 				</table>

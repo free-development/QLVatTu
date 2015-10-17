@@ -2,27 +2,29 @@ package dao;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
 
 import model.CTVatTu;
 import model.CongVan;
-import model.DonVi;
-import model.TrangThai;
+import model.VatTu;
 import model.YeuCau;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 
-import util.DateUtil;
 import util.HibernateUtil;
+import util.JSonUtil;
 
 public class YeuCauDAO {
 	
@@ -285,7 +287,74 @@ public class YeuCauDAO {
 		
 		return -1;
 	}
-	
+	public ArrayList<CTVatTu> distinctCtvt(HashMap<String, Object> conditions) {
+		session.beginTransaction();
+		ArrayList<CTVatTu> ctVatTuList = new ArrayList<CTVatTu>();
+		String sql = "select c.* from CTVATTU c join YEUCAU a join CONGVAN b where a.cvId = b.cvId and c.ctvtId = a.ctvtId and a.ycSoLuong > a.capSoLuong and a.daXoa = 0 ";
+		SQLQuery query;
+		ArrayList<Integer> ctvtIdList = new ArrayList<Integer> ();
+		if (conditions != null) {
+			for (String key : conditions.keySet()) {
+				if (key.equalsIgnoreCase("leCvNgayNhan"))
+					sql += " and b.cvNgayNhan <= :" + key;
+				else if (key.equalsIgnoreCase("geCvNgayNhan"))
+					sql += " and b.cvNgayNhan >= :" + key;
+				else if (key.equalsIgnoreCase("leCvNgayDi"))
+					sql += " and b.cvNgayDi <= :" + key;
+				else if (key.equalsIgnoreCase("leCvNgayDi"))
+					sql += " and b.cvNgayDi >= :" + key;
+			}
+			query = session.createSQLQuery(sql);
+			
+			for (String key : conditions.keySet()) {
+				query.setParameter(key, conditions.get(key));
+			}
+		} else {
+			query = session.createSQLQuery(sql);
+		}
+		query.addEntity("ctVatTu", CTVatTu.class);
+		ArrayList<CTVatTu> ctvatTuList = (ArrayList<CTVatTu>) query.list();
+		session.getTransaction().commit();
+		return ctvatTuList;
+	}
+	public long sumByCtvtId(int ctvtId) {
+		session.beginTransaction();
+		String sql = "select sum(ycSoLuong) - sum(capSoLuong) from YeuCau where ctvtId = " + ctvtId;
+		Query query = session.createQuery(sql);
+		/*
+		Criteria crYeuCau = session.createCriteria(YeuCau.class);
+		crYeuCau.add(Restrictions.eq("ctvtId", ctvtId));
+		crYeuCau.setProjection(Projections.groupProperty("ctvtId"));
+		crYeuCau.setProjection(Projections.sum("ycSoLuong"));
+		long sumSoLuong = (long) crYeuCau.uniqueResult();
+		*/
+		long sumSoLuong = (long) query.uniqueResult();
+		session.getTransaction().commit();
+		return sumSoLuong;
+	}
+	public ArrayList<CongVan> getCongVanByCtvtId(int ctvtId) {
+		session.beginTransaction();
+		String sql = "select distinct a.* from CONGVAN a join YEUCAU b where a.cvId = b.cvId and b.ctvtId = " +ctvtId;
+		/*
+		// get distinct cvId of yeuCau have ctvtId = ctvtId and capsoLuong < ycSoLuong
+		Criteria crYeuCau = session.createCriteria(YeuCau.class);
+		crYeuCau.setProjection(Projections.distinct(Projections.property("cvId")));
+		crYeuCau.add(Restrictions.eq("ctvtId", ctvtId));
+		ArrayList<Integer> cvIdList = (ArrayList<Integer>) crYeuCau.list();
+		// get cong van list have cvId in cvIdList
+		ArrayList<CongVan> congVanList = new ArrayList<CongVan>();
+		if (cvIdList.size() > 0) {
+			Criteria crCongVan = session.createCriteria(CongVan.class, "congVan");
+			crCongVan.createAlias("congVan.trangThai", "trangThai");
+			crCongVan.add(Restrictions.in("cvId", cvIdList));
+			congVanList = (ArrayList<CongVan>) crCongVan.list();
+		}*/
+		SQLQuery query = session.createSQLQuery(sql);
+		query.addEntity("CongVan", CongVan.class);
+		ArrayList<CongVan> congVanList = (ArrayList<CongVan>) query.list();
+		session.getTransaction().commit();
+		return congVanList;
+	}
 	public void close() {
 		session.close();
 	}
@@ -297,6 +366,14 @@ public class YeuCauDAO {
 //		System.out.println(new YeuCauDAO().size(congVanList));
 //		YeuCauDAO yeuCauDAO = new YeuCauDAO();
 //		YeuCau yeuCau = yeuCauDAO.getYeuCau(2,1);
-//		System.out.println(yeuCau.getCtVatTu().getVatTu().getDvt().getDvtTen());
+		HashMap<String, Object> condtions = new HashMap<String, Object>();
+		condtions.put("geCvNgayNhan", new Date(115,7, 28));
+		condtions.put("leCvNgayNhan", new Date(115,9, 28));
+		
+//		condtions.put("geCvNgayNhan", new Date(115,8, 28));
+//		condtions.put("leCvNgayNhan", new Date(115,9, 28));
+//		System.out.println(new YeuCauDAO().getCongVanByCtvtId(26).get(0).getTrangThai().getTtTen());
+		System.out.println(new YeuCauDAO().sumByCtvtId(26));
+		System.out.println(new YeuCauDAO().distinctCtvt(null));
 	}
 }

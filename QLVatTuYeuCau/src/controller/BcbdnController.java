@@ -65,7 +65,7 @@ public class BcbdnController extends HttpServlet {
 			congVanDAO.disconnect();
 			donViDAO.disconnect();
 			
-			return new ModelAndView(siteMap.baoCaoBangDeNghi);
+			return new ModelAndView(siteMap.baoCaoChiTiet);
 		}
 		if ("baocaobdn".equalsIgnoreCase(action)) {
 			ArrayList<TrangThai> trangThaiList = (ArrayList<TrangThai>) trangThaiDAO.getAllTrangThai();
@@ -96,7 +96,7 @@ public class BcbdnController extends HttpServlet {
 			yeuCauDAO.disconnect();
 			congVanDAO.disconnect();
 			donViDAO.disconnect();
-			return new ModelAndView(siteMap.baoCaoBangDeNghi);
+			return new ModelAndView(siteMap.baoCaoChiTiet);
 		}
 	if ("baocaocv".equalsIgnoreCase(action)) {
 		ArrayList<TrangThai> trangThaiList = (ArrayList<TrangThai>) trangThaiDAO.getAllTrangThai();
@@ -128,7 +128,7 @@ public class BcbdnController extends HttpServlet {
 		yeuCauDAO.disconnect();
 		congVanDAO.disconnect();
 		donViDAO.disconnect();
-		return new ModelAndView(siteMap.baoCaoBangDeNghi);
+		return new ModelAndView(siteMap.baoCaoChiTiet);
 		
 	}
 	return new ModelAndView("login");

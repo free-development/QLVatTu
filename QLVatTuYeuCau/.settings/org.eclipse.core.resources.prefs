@@ -18,6 +18,7 @@ encoding//src/dao/CTNguoiDungDAO.java=UTF-8
 encoding//src/dao/ChatLuongDAO.java=UTF-8
 encoding//src/dao/NoiSanXuatDAO.java=UTF-8
 encoding//src/dao/ReadExcelCT.java=UTF-8
+encoding//src/dao/ReadExcelCongVan.java=UTF-8
 encoding//src/export/CTVatTuFile.java=UTF-8
 encoding//src/export/ChatLuongFile.java=UTF-8
 encoding//src/export/DonViFile.java=UTF-8

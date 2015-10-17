@@ -146,8 +146,10 @@
 							for(CongVan congVan  : congVanList) { 
 							ArrayList<YeuCau> yeuCauList = yeuCauHash.get(congVan.getCvId());
 							ArrayList<CTVatTu> ctVatTuList = ctVatTuHash.get(congVan.getCvId());
+							int i = 0;
 							for (YeuCau yeuCau : yeuCauList) {
-								CTVatTu ctVatTu = ctVatTuList.get(cnt);
+								CTVatTu ctVatTu = ctVatTuList.get(i);
+								i++;
 							%>
 									
 					<tr
@@ -173,7 +175,7 @@
 				
 				<div class="group-button">
 					&nbsp;&nbsp;
-					<button class="button" type="button" onclick="location.href='<%=siteMap.xuatBangDeNghi+".jsp"%>'">
+					<button class="button" type="button" onclick="location.href='<%=siteMap.xuatBcChiTiet+".jsp"%>'">
 						<i class="fa fa-print"></i>&nbsp;&nbsp;Xuất file
 					</button>
 					&nbsp;&nbsp;
