@@ -60,7 +60,7 @@
   </context-param>
   <context-param>
     <param-name>pathFile</param-name>
-    <param-value>/home/quoioln/File/File</param-value>
+    <param-value>/home/quoioln/File/File/</param-value>
   </context-param>
    <context-param>
     <param-name>pathTemp</param-name>

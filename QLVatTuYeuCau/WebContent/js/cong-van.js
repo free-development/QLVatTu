@@ -203,10 +203,14 @@ function addCongVan() {
 		  type: 'POST',
 	  	
 	  	success: function(result) {
-	  		if (result == "\"exist\"")
+	  		if (result == "exist")
 	  			alert('Công văn đã tồn tại');
-	  		else if (status == "\"error\"") 
+	  		else if (result == "error") 
 	  			alert('Có lỗi khi thêm công văn');
+	  		else if (result == "file error") {
+	  			alert('Tệp đính kèm không hợp lệ. Vui lòng kiểm tra và cập nhật lại!!!');
+	  			window.location.assign("cong-van-error.jsp")
+	  		}
 	  		else {
 	  			var objectList = JSON.parse(result);
 		  		loadAddCongVan(objectList, "add");
@@ -220,13 +224,15 @@ function addCongVan() {
 		  		$('#add-form textarea[name=moTa]').val('');
 		  		$('#add-form textarea[name=butPhe]').val('');
 		  		hideAddForm();
+		  		alert('Thêm công văn mới thành công');
+		  		window.location.reload();
+		  		
 	  		}
 	  		
 	  	}
 	});
 	
-	window.location.reload();
-	alert('Thêm công văn mới thành công');
+	
 }
 function updateCongVan() {
 	var form = new FormData(document.getElementById('update-form'));
@@ -240,19 +246,25 @@ function updateCongVan() {
 		  type: 'POST',
 	  	
 	  	success: function(result) {
-	  		if (status == "\"error\"") 
+	  		if (result == "error") 
 	  			alert('Có lỗi khi sửa công văn');
+	  		else if (result == "file error") {
+	  			alert('Tệp đính kèm không hợp lệ. Vui lòng kiểm tra và cập nhật lại!!!');
+	  			window.location.assign("cong-van-error.jsp")
+	  		}
 	  		else {
 	  			var objectList = JSON.parse(result);
 		  		loadAddCongVan(objectList, "update");
 		  		hideUpdateForm();
 		  		$('#scroll_content table tr').has('input[name="cvId"]:checked').remove();
+		  		alert('Sửa đổi công văn thành công');
+		  		window.location.reload();
 	  		}
 	  		
 	  	}
 	});
-	window.location.reload();
-	alert('Sửa đổi công văn thành công');
+	
+	
 }
 function loadAddCongVan(objectList, action) {
 	var congVan = objectList[0];
