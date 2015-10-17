@@ -112,20 +112,18 @@ public class ReadExcelCongVan {
 						nsxMaList.add(nsxMa);
 						clMaList.add(clMa);
 						soLuongList.add((int)soLuong);
-						System.out.println("sai ham");
 					} else {
 						vtMaError.add(vtMa);
 						nsxMaError.add(nsxMa);
 						clMaError.add(clMa);
 						soLuongError.add((int)soLuong);
 						statusError.add("Vật tư không tồn tại");
-						System.out.println("Vật tư không tồn tại");
 					}
 					ctvtDAO.disconnect();
 				}
 			}
-			if (vtMaError.size() == 0 && nsxMaError.size() == 0 
-					&& clMaError.size() == 0 && soLuongError.size() == 0) {
+//			if (vtMaError.size() == 0 && nsxMaError.size() == 0 
+//					&& clMaError.size() == 0 && soLuongError.size() == 0) {
 				ArrayList<Object> importList = new ArrayList<Object>();
 				importList.add(vtMaList);
 				importList.add(nsxMaList);
@@ -133,21 +131,21 @@ public class ReadExcelCongVan {
 				importList.add(soLuongList);
 				importList.add(cvId);
 				write(importList);
-				return objectList;
+//				return objectList;
 				
-			}
+//			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		if (vtMaError.size() == 0 || nsxMaError.size() == 0 
-//				|| clMaError.size() == 0 || soLuongError.size() == 0) {
+		if (vtMaError.size() > 0 || nsxMaError.size() > 0 
+				|| clMaError.size() > 0 || soLuongError.size() > 0) {
 			objectList.add(vtMaError);
 			objectList.add(nsxMaError);
 			objectList.add(clMaError);
 			objectList.add(soLuongError);
 			objectList.add(statusError);
-//		}
+		}
 		return objectList;
 	}
 	
@@ -240,8 +238,8 @@ public class ReadExcelCongVan {
 					ctvtDAO.disconnect();
 				}
 			}
-			if (vtMaError.size() == 0 && nsxMaError.size() == 0 
-					&& clMaError.size() != 0 && soLuongError.size() == 0) {
+//			if (vtMaError.size() == 0 && nsxMaError.size() == 0 
+//					&& clMaError.size() != 0 && soLuongError.size() == 0) {
 				ArrayList<Object> importList = new ArrayList<Object>();
 				importList.add(vtMaList);
 				importList.add(nsxMaList);
@@ -249,21 +247,21 @@ public class ReadExcelCongVan {
 				importList.add(soLuongList);
 				importList.add(cvId);
 				write(importList);
-				return objectList;
+//				return objectList;
 				
-			}
+//			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		if (vtMaError.size() != 0 || nsxMaError.size() != 0 
-//				|| clMaError.size() != 0 || soLuongError.size() != 0) {
+		if (vtMaError.size() > 0 || nsxMaError.size() > 0 
+				|| clMaError.size() > 0 || soLuongError.size() > 0) {
 			objectList.add(vtMaError);
 			objectList.add(nsxMaError);
 			objectList.add(clMaError);
 			objectList.add(soLuongError);
 			objectList.add(statusError);
-//		}
+		}
 		return objectList;
 	}
 	// method write yeuCau to database

@@ -21,6 +21,7 @@ encoding//src/dao/ReadExcelCT.java=UTF-8
 encoding//src/dao/ReadExcelCongVan.java=UTF-8
 encoding//src/export/CTVatTuFile.java=UTF-8
 encoding//src/export/ChatLuongFile.java=UTF-8
+encoding//src/export/CongVanError.java=UTF-8
 encoding//src/export/DonViFile.java=UTF-8
 encoding//src/export/ImportVatTuError.java=UTF-8
 encoding//src/export/NoiSanXuatFile.java=UTF-8

@@ -475,6 +475,7 @@ public class CvController extends HttpServlet{
 			} else if(fileExtension.equalsIgnoreCase("xls")) {
 				ArrayList<Object> errorList = ReadExcelCongVan.readXls(cvId, file);
 				if (errorList.size() > 0) {
+					multipartRequest.setAttribute("status", "formatException");
 					session.setAttribute("errorList", errorList);
 					return "file error";
 				}

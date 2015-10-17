@@ -150,4 +150,6 @@ public class siteMap {
 	
 	public static final String downloadExcelError = home + "downloadExcelError.html";
 	
+	public static final String  downloadCvError = home + "downloadCvError.html";
+	
 }

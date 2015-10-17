@@ -72,7 +72,7 @@ display:none;
 					</button>
 					&nbsp;&nbsp;
 					<button class="button" id="print_button" type="button" onclick="location.href='<%=siteMap.downloadExcelTon%>'">
-						<i class="fa fa-print"></i>&nbsp;&nbsp;Tải file
+						<i class="fa fa-download"></i>&nbsp;&nbsp;Tải file
 					</button>
 					&nbsp;&nbsp;
 					<button type="button" id="print_button" class="button"  onclick="location.href='<%=siteMap.ctvtManage + "?action=manageCtvt"%>'">

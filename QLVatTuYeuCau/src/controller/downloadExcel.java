@@ -98,14 +98,23 @@ public class downloadExcel extends HttpServlet {
 	 
 	 @RequestMapping(value = "/downloadExcelError", method = RequestMethod.GET)
 	 public ModelAndView downloadExcelError(HttpServletRequest request) {
-	        // create some sample data
-		 	HttpSession session = request.getSession(false);
-		 	List<CTVatTu> listError = (List<CTVatTu>) session.getAttribute("ctvtListError");
-		 	List<String> statusError = (List<String>) session.getAttribute("statusError");
-		 	ArrayList<Object> objectList = new ArrayList<Object>();
-		 	objectList.add(listError);
-		 	objectList.add(statusError);
-	        // return a view which will be resolved by an excel view resolver
-	        return new ModelAndView("excelError", "objectList", objectList);
-	    }
+        // create some sample data
+	 	HttpSession session = request.getSession(false);
+	 	List<CTVatTu> listError = (List<CTVatTu>) session.getAttribute("ctvtListError");
+	 	List<String> statusError = (List<String>) session.getAttribute("statusError");
+	 	ArrayList<Object> objectList = new ArrayList<Object>();
+	 	objectList.add(listError);
+	 	objectList.add(statusError);
+        // return a view which will be resolved by an excel view resolver
+        return new ModelAndView("excelError", "objectList", objectList);
+    }
+	 @RequestMapping(value = "/downloadCvError", method = RequestMethod.GET)
+	 public ModelAndView downloadCvError(HttpServletRequest request) {
+        // create some sample data
+	 	HttpSession session = request.getSession(false);
+	 	List<Object> errorList = (List<Object>) session.getAttribute("errorList");
+	 	
+        // return a view which will be resolved by an excel view resolvervError
+        return new ModelAndView("cvError", "errorList", errorList);
+    }
 }
