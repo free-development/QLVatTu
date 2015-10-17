@@ -44,7 +44,6 @@ public class NsxController extends HttpServlet {
     	request.setCharacterEncoding("UTF-8");
     	response.setCharacterEncoding("UTF-8");  
 		HttpSession session = request.getSession(false);
-		String action = request.getParameter("action");
 //		if("AddNsx".equalsIgnoreCase(action)) {
 //			String nsxMa = request.getParameter("nsxMa");
 //			String nsxTen = request.getParameter("nsxTen");
@@ -63,7 +62,6 @@ public class NsxController extends HttpServlet {
 //			noiSanXuatDAO.disconnect();
 //			return new ModelAndView("danh-muc-noi-san-xuat", "noiSanXuatList", noiSanXuatList);
 //		}
-		if("manageNsx".equalsIgnoreCase(action)) {
 			long size = noiSanXuatDAO.size();
 			ArrayList<NoiSanXuat> noiSanXuatList =  (ArrayList<NoiSanXuat>) noiSanXuatDAO.limit(page - 1, 10);
 			//System.out.println(size);
@@ -72,9 +70,6 @@ public class NsxController extends HttpServlet {
 			request.setAttribute("size", size);
 			noiSanXuatDAO.disconnect();
 			return new ModelAndView("danh-muc-noi-san-xuat", "noiSanXuatList", noiSanXuatList);
-		}
-		noiSanXuatDAO.disconnect();
-		return new ModelAndView("login");
 	}
 	
 	@RequestMapping(value="/preEditNsx", method=RequestMethod.GET, 

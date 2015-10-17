@@ -39,7 +39,7 @@ public class ClController extends HttpServlet {
 		
 		String action = request.getParameter("action");
 		
-		if("manageCl".equalsIgnoreCase(action)) {
+//		if("manageCl".equalsIgnoreCase(action)) {
 			ChatLuongDAO chatLuongDAO = new ChatLuongDAO();
 			request.getCharacterEncoding();
 	    	response.getCharacterEncoding();
@@ -52,10 +52,11 @@ public class ClController extends HttpServlet {
 			session.setAttribute("allChatLuongList", allChatLuongList);
 			request.setAttribute("size", size);
 			chatLuongDAO.disconnect();
+			System.out.println("OK");
 			return new ModelAndView("danh-muc-chat-luong", "chatLuongList", chatLuongList);
-		}
-		
-		return new ModelAndView("login");
+//		}
+//		System.out.println("NO");
+//		return new ModelAndView("login");
 	}
 
 	@RequestMapping(value="/preUpdateCl", method=RequestMethod.GET, 

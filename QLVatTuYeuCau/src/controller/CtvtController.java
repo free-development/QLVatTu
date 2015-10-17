@@ -71,18 +71,17 @@ public class CtvtController extends HttpServlet {
 //			}
 //			
 //		}
-		if("deleteVatTu".equalsIgnoreCase(action)) {
-			String[] vtIdList = request.getParameterValues("vtMa");
-			for(String s : vtIdList) {
-				
-					ctVatTuDAO.deleteCTVatTu(Integer.parseInt(s));
-			}
-			ArrayList<VatTu> vatTuList =  (ArrayList<VatTu>) vatTuDAO.getAllVatTu();
-			vatTuDAO.disconnect();
-			ctVatTuDAO.disconnect();
-			return new ModelAndView("danh-muc-vat-tu", "vatTuList", vatTuList);
-		}
-		if("manageCtvt".equalsIgnoreCase(action)) {
+//		if("deleteVatTu".equalsIgnoreCase(action)) {
+//			String[] vtIdList = request.getParameterValues("vtMa");
+//			for(String s : vtIdList) {
+//				
+//					ctVatTuDAO.deleteCTVatTu(Integer.parseInt(s));
+//			}
+//			ArrayList<VatTu> vatTuList =  (ArrayList<VatTu>) vatTuDAO.getAllVatTu();
+//			vatTuDAO.disconnect();
+//			ctVatTuDAO.disconnect();
+//			return new ModelAndView("danh-muc-vat-tu", "vatTuList", vatTuList);
+//		}
 			long size = ctVatTuDAO.size();
 			ArrayList<CTVatTu> ctVatTuList =  (ArrayList<CTVatTu>) ctVatTuDAO.limitTonKho(page - 1, 10);
 			request.setAttribute("size", size);
@@ -94,11 +93,7 @@ public class CtvtController extends HttpServlet {
 			ctVatTuDAO.disconnect();
 			vatTuDAO.disconnect();
 			return new ModelAndView(siteMap.ctVatu);
-		}
 		
-		vatTuDAO.disconnect();
-		ctVatTuDAO.disconnect();
-		return new ModelAndView("login");
 	}
    
    @RequestMapping(value="/showCTVatTu", method=RequestMethod.GET,

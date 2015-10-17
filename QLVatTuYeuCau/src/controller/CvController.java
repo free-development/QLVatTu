@@ -336,7 +336,7 @@ public class CvController extends HttpServlet{
 					sendMail.send(mail);
 				}
 				String content = "";
-				content += "&nbsp;&nbsp;+ Đơn vị: " + congVanResult.getDonVi().getDvTen() +"<b>";
+				content += "&nbsp;&nbsp;+ Đơn vị: " + congVanResult.getDonVi().getDvTen() +"<br>";
 				content += "&nbsp;&nbsp;+ Ngày gởi " + cvNgayDi + "<br>";
 				content += "&nbsp;&nbsp;+ Mục đích: " + congVanResult.getMucDich().getMdTen() + "<br>";
 				content += "&nbsp;&nbsp;+ Ngày gởi: " + cvNgayNhan + "<br>";
@@ -450,7 +450,7 @@ public class CvController extends HttpServlet{
 			ArrayList<NguoiDung> nguoiDungList = (ArrayList<NguoiDung>) nguoiDungDAO.getTruongPhong(truongPhongMa);
 			
 			String content = "";
-			content += "&nbsp;&nbsp;+ Đơn vị: " + congVanResult.getDonVi().getDvTen() +"<b>";
+			content += "&nbsp;&nbsp;+ Đơn vị: " + congVanResult.getDonVi().getDvTen() +"<br>";
 			content += "&nbsp;&nbsp;+ Ngày gởi " + cvNgayDi + "<br>";
 			content += "&nbsp;&nbsp;+ Mục đích: " + congVanResult.getMucDich().getMdTen() + "<br>";
 			content += "&nbsp;&nbsp;+ Ngày gởi: " + cvNgayNhan + "<br>";

@@ -31,9 +31,7 @@ public class BpsdController extends HttpServlet {
 	@RequestMapping("/manageBpsd")
 	public ModelAndView manageBpsd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String action = request.getParameter("action");
 	
-		if("manageBpsd".equalsIgnoreCase(action)) {
 			DonViDAO donViDAO = new DonViDAO();
 			request.getCharacterEncoding();
 	    	response.getCharacterEncoding();
@@ -47,8 +45,6 @@ public class BpsdController extends HttpServlet {
 			request.setAttribute("size", size);
 			donViDAO.disconnect();
 			return new ModelAndView("danh-muc-bo-phan", "donViList", donViList);
-		}
-		return new ModelAndView("login");
 	}
 	@RequestMapping(value="/preEditBp", method=RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
