@@ -25,6 +25,7 @@ encoding//src/export/CongVanError.java=UTF-8
 encoding//src/export/DonViFile.java=UTF-8
 encoding//src/export/ImportVatTuError.java=UTF-8
 encoding//src/export/NoiSanXuatFile.java=UTF-8
+encoding//src/export/TonKhoErrorFile.java=UTF-8
 encoding//src/export/TonKhoFile.java=UTF-8
 encoding//src/model/SendMailTLS.java=UTF-8
 encoding/database3.sql=UTF-8

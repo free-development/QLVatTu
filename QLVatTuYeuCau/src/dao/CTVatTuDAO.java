@@ -332,7 +332,7 @@ public class CTVatTuDAO {
 		session.getTransaction().commit();
 		return list;
 	}
-	public ArrayList<CTVatTu> TonKho() {
+	public ArrayList<CTVatTu> tonKho() {
 		session.beginTransaction();
 		Criteria cr = session.createCriteria(CTVatTu.class, "ctVatTu");
 		cr.createAlias("ctVatTu.noiSanXuat", "noiSanXuat");

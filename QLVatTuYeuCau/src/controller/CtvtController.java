@@ -46,56 +46,36 @@ public class CtvtController extends HttpServlet {
 		CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
 		HttpSession session = request.getSession(false);
 		String action = request.getParameter("action");
-//		if("addVatTu".equalsIgnoreCase(action)) {
-//			
-//			String vtMa = request.getParameter("vtMa");
-//			String vtTen = request.getParameter("vtTen");
-//			String dvt = request.getParameter("dvt");
-//			String nsxMa = request.getParameter("nsxMa");
-//			String clMa = request.getParameter("clMa");
-//			int dinhMuc = Integer.parseInt(request.getParameter("dinhMuc"));
-//			int soLuongTon = Integer.parseInt(request.getParameter("soLuongTon"));
-//
-//			if(new CTVatTuDAO().getCTVatTu(vtMa, nsxMa, clMa) != null){
-//
-//				request.setAttribute("error", "Váº­t tÆ° Ä‘Ã£ tá»“n táº¡i");
-//				System.out.println("Vat tu da ton tai");
-//				return new ModelAndView("danh-muc-vat-tu");
-//			}
-//			else{
-//				vatTuDAO.addVatTu(new VatTu(vtMa,vtTen,dvt));
-//				ctVatTuDAO.addCTVatTu(new CTVatTu(new VatTu(vtMa,vtTen,dvt), new NoiSanXuat(nsxMa), new ChatLuong(clMa), dinhMuc, soLuongTon));
-//				ArrayList<VatTu> vatTuList =  (ArrayList<VatTu>) new VatTuDAO().getAllVatTu();
-//				ArrayList<CTVatTu> ctVatTuList =  (ArrayList<CTVatTu>) new CTVatTuDAO().getAllCTVatTu();
-//				return new ModelAndView("danh-muc-vat-tu", "ctVatTuList", ctVatTuList);
-//			}
-//			
-//		}
-//		if("deleteVatTu".equalsIgnoreCase(action)) {
-//			String[] vtIdList = request.getParameterValues("vtMa");
-//			for(String s : vtIdList) {
-//				
-//					ctVatTuDAO.deleteCTVatTu(Integer.parseInt(s));
-//			}
-//			ArrayList<VatTu> vatTuList =  (ArrayList<VatTu>) vatTuDAO.getAllVatTu();
-//			vatTuDAO.disconnect();
-//			ctVatTuDAO.disconnect();
-//			return new ModelAndView("danh-muc-vat-tu", "vatTuList", vatTuList);
-//		}
 			long size = ctVatTuDAO.size();
 			ArrayList<CTVatTu> ctVatTuList =  (ArrayList<CTVatTu>) ctVatTuDAO.limitTonKho(page - 1, 10);
 			request.setAttribute("size", size);
 			session.setAttribute("ctVatTuList", ctVatTuList);
-			ArrayList<CTVatTu> allCTVatTuList =  (ArrayList<CTVatTu>) ctVatTuDAO.getAllCTVatTu();
-			session.setAttribute("allCTVatTuList", allCTVatTuList);
-			ArrayList<CTVatTu> tonKhoList =  (ArrayList<CTVatTu>) ctVatTuDAO.TonKho();
-			session.setAttribute("tonKhoList", tonKhoList);
+//			ArrayList<CTVatTu> allCTVatTuList =  (ArrayList<CTVatTu>) ctVatTuDAO.getAllCTVatTu();
+//			session.setAttribute("allCTVatTuList", allCTVatTuList);
+			
 			ctVatTuDAO.disconnect();
 			vatTuDAO.disconnect();
-			return new ModelAndView(siteMap.ctVatu);
+			return new ModelAndView(siteMap.vatTuTonKho);
 		
 	}
-   
+   @RequestMapping("/exportCTVatTu")
+	protected ModelAndView exportCTVatTu(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
+		HttpSession session = request.getSession(false);
+		ArrayList<CTVatTu> allCTVatTuList =  (ArrayList<CTVatTu>) ctVatTuDAO.getAllCTVatTu();
+		session.setAttribute("allCTVatTuList", allCTVatTuList);
+		ctVatTuDAO.disconnect();
+		return new ModelAndView(siteMap.xuatCTVatTu);
+	}
+   @RequestMapping("/manageXuatTonKho")
+	protected ModelAndView manageXuatTonKho(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
+		HttpSession session = request.getSession(false);
+		ArrayList<CTVatTu> tonKhoList =  (ArrayList<CTVatTu>) ctVatTuDAO.tonKho();
+		session.setAttribute("tonKhoList", tonKhoList);
+		ctVatTuDAO.disconnect();
+		return new ModelAndView(siteMap.xuatTonKho);
+	}
    @RequestMapping(value="/showCTVatTu", method=RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String showCTVatTu(@RequestParam("vtMa")  String vtMa) {

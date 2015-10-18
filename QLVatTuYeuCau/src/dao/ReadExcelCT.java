@@ -182,8 +182,10 @@ public class ReadExcelCT {
 			e.printStackTrace();
 		}
 		ArrayList<Object> objectList = new ArrayList<Object>();
-		objectList.add(ctvtListError);
-		objectList.add(statusError);
+		if (ctvtListError.size() > 0) {
+			objectList.add(ctvtListError);
+			objectList.add(statusError);
+		}
 		return objectList;
 	}
 	

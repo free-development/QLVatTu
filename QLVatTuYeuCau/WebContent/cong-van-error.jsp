@@ -58,14 +58,16 @@
 		
 						</table>
 					</div>
-						<div class="group-button" style="text-align: center;">		
-						<button type="button" class="button" onclick="location.href='<%=siteMap.home%>'">
-							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
-						</button>
+						
+					<div class="group-button" style="text-align: center;">		
 						<button type="button" class="button" onclick="location.href='<%=siteMap.downloadCvError%>'">
 							<i class="fa fa-download"></i>&nbsp;&nbsp;Tải xuống
 						</button>
-					</div>			
+						<button type="button" class="button" onclick="location.href='<%=siteMap.home%>'">
+							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
+						</button>
+					
+				</div>			
 				</form>
 				</div>
 	</div>

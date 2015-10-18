@@ -50,17 +50,19 @@
 	String status = (String) request.getAttribute("status");
 	if (status != null && status.equals("success"))
 		out.println("<script>alert('Import dữ liệu thành công!')</script>");
-		String adminMa = request.getServletContext().getInitParameter("adminMa");
-   		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
-   		if (authentication == null) {
-   			request.setAttribute("url", siteMap.vattuManage + "?action=manageVattu");
-   			RequestDispatcher dispatcher = request.getRequestDispatcher(siteMap.login + ".jsp");
-   			dispatcher.forward(request, response);
-   			return;
-   		}
-		String chucDanh = authentication.getChucDanh().getCdMa();
-		String truongPhongMa = request.getServletContext().getInitParameter("truongPhongMa");
-		String vanThuMa = request.getServletContext().getInitParameter("vanThuMa");
+	else if (status != null && status.equals("formatException"))
+		out.println("<script>alert('Tệp import không đúng đinh dạng!')</script>");
+	String adminMa = request.getServletContext().getInitParameter("adminMa");
+	NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+	if (authentication == null) {
+		request.setAttribute("url", siteMap.vattuManage + "?action=manageVattu");
+		RequestDispatcher dispatcher = request.getRequestDispatcher(siteMap.login + ".jsp");
+		dispatcher.forward(request, response);
+		return;
+	}
+	String chucDanh = authentication.getChucDanh().getCdMa();
+	String truongPhongMa = request.getServletContext().getInitParameter("truongPhongMa");
+	String vanThuMa = request.getServletContext().getInitParameter("vanThuMa");
    	%>
 	<%
     	ArrayList<VatTu> listVatTu = (ArrayList<VatTu>) request.getAttribute("vatTuList");
@@ -217,7 +219,7 @@
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Import 
 				</button>
 				&nbsp;
-				<button class="button" type="button" onclick="location.href='<%=siteMap.danhMucVatTu%>'">
+				<button class="button" type="button" onclick="location.href='<%=siteMap.exportCTVatTuMn%>'">
 							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xuất File
 						</button>
 						&nbsp;

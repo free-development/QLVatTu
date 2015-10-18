@@ -54,18 +54,23 @@ display:none;
    	%>
 		<% 
     	ArrayList<CTVatTu> listCTVatTu = (ArrayList<CTVatTu>) session.getAttribute("tonKhoList");
-		String exportToExcel = request.getParameter("exportToExel");
+		if (listCTVatTu ==  null) {
+			int index = siteMap.xuatTonKhoMn.lastIndexOf("/");
+			String url = siteMap.nsxManage.substring(index);
+			RequestDispatcher dispatcher =  request.getRequestDispatcher(url);
+			dispatcher.forward(request, response);
+			return;
+		}
 	        response.setCharacterEncoding("UTF-8");
 	        request.setCharacterEncoding("UTF-8");
-	        if (exportToExcel != null && exportToExcel.toString().equalsIgnoreCase("YES")) {
-	            response.setContentType("application/vnd.ms-excel");
-	            response.setHeader("Content-Disposition", "inline; filename=" + "vatTuTonKho.xls");
+// 	        if (exportToExcel != null && exportToExcel.toString().equalsIgnoreCase("YES")) {
+// 	            response.setContentType("application/vnd.ms-excel");
+// 	            response.setHeader("Content-Disposition", "inline; filename=" + "vatTuTonKho.xls");
 	            
-	        }
+// 	        }
 		%>
 		<div class="group-button" style="position: fixed; right: 10px;">
 					<%
-        				if (exportToExcel == null) {
    				 	 %>
    				 	 <button class="button" id="print_button" type="button" onclick="window.print();">
 						<i class="fa fa-print"></i>&nbsp;&nbsp;In báo cáo
@@ -78,7 +83,6 @@ display:none;
 					<button type="button" id="print_button" class="button"  onclick="location.href='<%=siteMap.ctvtManage + "?action=manageCtvt"%>'">
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 					</button>
-					<% } %>
 					 
 				</div>
 		<table style = "margin: 0 auto;width:960px;">

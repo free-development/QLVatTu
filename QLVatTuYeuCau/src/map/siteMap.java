@@ -28,7 +28,11 @@ public class siteMap {
 		public static final String donViTinh = "danh-muc-don-vi-tinh";
 	// map manage chi tiet vat tu 
 	public static final String ctvtManage = home +  "manageCtvt.html";
-	public static final String ctVatu = "danh-muc-chi-tiet-vat-tu";
+	public static final String xuatTonKhoMn = home +  "manageXuatTonKho.html";
+	public static final String exportCTVatTuMn = home +  "exportCTVatTu.html";
+	public static final String importTonKhoError = "import-ton-kho-error";
+	public static final String importVatTuError = "import-vat-tu-error";
+	public static final String vatTuTonKho = "vat-tu-ton-kho";
 	
 	//
 	public static final String danhMucVatTu = home +  "danhMucVatTu.html";
@@ -118,7 +122,7 @@ public class siteMap {
 	//map home
 		
 	//map readExel
-	public static final String readExcel = home + "readExcel.html";
+	public static final String readExcelTonkho = home + "readExcelTonkho.html";
 	
 	public static final String readExcelCt = home + "readExcelCt.html";
 	
@@ -151,5 +155,7 @@ public class siteMap {
 	public static final String downloadExcelError = home + "downloadExcelError.html";
 	
 	public static final String  downloadCvError = home + "downloadCvError.html";
+	public static final String  downloadVatTuError = home + "downloadVatTuError.html";
+	public static final String  downloadTonKhoError = home + "downloadTonKhoError.html";
 	
 }

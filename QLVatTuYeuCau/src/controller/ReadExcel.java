@@ -35,38 +35,39 @@ public class ReadExcel extends HttpServlet {
 
 	 @Autowired
 		private   ServletContext context; 
-	@RequestMapping("/readExcel")
-	protected ModelAndView readExcel(MultipartHttpServletRequest multipartRequest, HttpServletResponse response)
+	@RequestMapping("/readExcelTonkho")
+	protected ModelAndView readExcelTonkho(MultipartHttpServletRequest multipartRequest, HttpServletResponse response)
 			throws ServletException, IOException {
 		
 		try {
+			HttpSession session = multipartRequest.getSession();
 			java.io.File file = uploadFile(multipartRequest);
 			String extenstionFile = FileUtil.getExtension(file);
+			ArrayList<Object> objectListError = new ArrayList<Object>();
 			if ("xls".equalsIgnoreCase(extenstionFile)) {
-				if(!ReadExcelTon.readXls(file))
-					return new ModelAndView("import-excel", "status", "formatException");
-				if(ReadExcelTon.readXls(file)) {
-					multipartRequest.setAttribute("status", "success");
-					return new ModelAndView(siteMap.ctVatu);
+				objectListError = ReadExcelTon.readXls(file);
+				if(objectListError.size() > 0) {
+					session.setAttribute("objectListError", objectListError);
+					return new ModelAndView(siteMap.importTonKhoError, "status", "formatException");
 				}
+				
 			}
 			else if ("xlsx".equalsIgnoreCase(extenstionFile)) {
-				file = new File("temp.xlsx");
-				if(!ReadExcelTon.readXlsx(file))
-					return new ModelAndView("import-excel", "status", "formatException");
-				if(ReadExcelTon.readXlsx(file)) {
-					multipartRequest.setAttribute("status", "success");
-					return new ModelAndView(siteMap.ctVatu);
+				objectListError = ReadExcelTon.readXlsx(file);
+				if(objectListError.size() > 0) {
+					session.setAttribute("objectListError", objectListError);
+					return new ModelAndView(siteMap.importTonKhoError, "status", "formatException");
 				}
 			}
 			else {
-				return new ModelAndView("import-excel", "status", "unknownFile");
+				return new ModelAndView(siteMap.vatTuTonKho, "status", "unknownFile");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		multipartRequest.setAttribute("status", "success");
-		return new ModelAndView(siteMap.ctVatu);
+		
+		return new ModelAndView(siteMap.vatTuTonKho);
 		
 	}
 	@RequestMapping("/readExcelCt")
@@ -79,35 +80,32 @@ public class ReadExcel extends HttpServlet {
 				ArrayList<Object> objectListError = ReadExcelCT.readXls(file);
 				ArrayList<CTVatTu> ctvtListError = (ArrayList<CTVatTu>) objectListError.get(0);
 				ArrayList<String> statusError = (ArrayList<String>) objectListError.get(1);
-				if(ctvtListError.size() != 0)
+				if(ctvtListError.size() > 0)
 				{
-					long size = ctvtListError.size();
-					multipartRequest.setAttribute("size", size);
-					multipartRequest.setAttribute("ctvtListError", ctvtListError);
-					multipartRequest.setAttribute("statusError", statusError);
 					HttpSession session = multipartRequest.getSession(false);
-					session.setAttribute("ctvtListError", ctvtListError);
-					session.setAttribute("statusError", statusError);
-					return new ModelAndView("import-excelError", "status", "formatException");
+//					session.setAttribute("ctvtListError", ctvtListError);
+//					session.setAttribute("statusError", statusError);
+					session.setAttribute("errorListVatTu", objectListError);
+					return new ModelAndView(siteMap.importVatTuError, "statusError", "list import error");
 				}
 			}
 			else if ("xlsx".equalsIgnoreCase(extenstionFile)) {
 				ArrayList<Object> objectListError = ReadExcelCT.readXlsx(file);
-				ArrayList<CTVatTu> ctvtListError = (ArrayList<CTVatTu>) objectListError.get(0);
-				ArrayList<String> statusError = (ArrayList<String>) objectListError.get(1);
-				if(ctvtListError.size() != 0)
+//				ArrayList<CTVatTu> ctvtListError = (ArrayList<CTVatTu>) objectListError.get(0);
+//				ArrayList<String> statusError = (ArrayList<String>) objectListError.get(1);
+				if(objectListError.size() > 0)
 				{
-					long size = ctvtListError.size();
-					multipartRequest.setAttribute("size", size);
+//					long size = ctvtListError.size();
+//					multipartRequest.setAttribute("size", size);
 					HttpSession session = multipartRequest.getSession(false);
-					session.setAttribute("ctvtListError", ctvtListError);
-					session.setAttribute("statusError", statusError);
-					return new ModelAndView("import-excelError", "status", "formatException");
+//					session.setAttribute("ctvtListError", ctvtListError);
+//					session.setAttribute("statusError", statusError);
+					session.setAttribute("errorListVatTu", objectListError);
+					return new ModelAndView(siteMap.importVatTuError, "statusError", "list import error");
 				}
 			}
 			else {
-				multipartRequest.setAttribute("status", "success");
-				return new ModelAndView(siteMap.vatTu);
+				return new ModelAndView(siteMap.vatTu, "status", "formatException");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -47,6 +47,8 @@
 		String status = (String) request.getAttribute("status");
 		if (status != null && status.equals("success"))
 			out.println("<script>alert('Import dữ liệu thành công!')</script>");
+		else if (status != null && status.equals("unknownFile"))
+			out.println("<script>alert('Tệp import không đúng đinh dạng!')</script>");
 		String adminMa = request.getServletContext().getInitParameter("adminMa");
    		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
    		if (authentication == null) {
@@ -63,7 +65,7 @@
     
     	ArrayList<CTVatTu> listCTVatTu = (ArrayList<CTVatTu>) session.getAttribute("ctVatTuList");
 		
-		if (listCTVatTu !=  null) {
+		if (listCTVatTu ==  null) {
 			int index = siteMap.ctvtManage.lastIndexOf("/");
 			String url = siteMap.ctvtManage.substring(index);
 			RequestDispatcher dispatcher =  request.getRequestDispatcher(url +  "?action=manageCtvt");
@@ -135,7 +137,7 @@
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Import
 						</button>
 						&nbsp;
-						<button class="button" type="button" onclick="location.href='<%=siteMap.xuatTonKho+".jsp"%>'">
+						<button class="button" type="button" onclick="location.href='<%=siteMap.xuatTonKhoMn%>'">
 							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Báo cáo tồn kho
 						</button>
 						&nbsp;
@@ -145,7 +147,7 @@
 					</div>			
 				</form>
 				</div>
-						<form id="import-form" action="<%=siteMap.readExcel %>" method="post" enctype="multipart/form-data" >
+						<form id="import-form" action="<%=siteMap.readExcelTonkho %>" method="post" enctype="multipart/form-data" >
 								<input type="file" name="file" accept=".xls, .xlsx" class="text" style="padding-left: 0px;">
 <div class="button-group" style="margin-top: -40px;"><input value="uploadFile" name="action" type="submit" class="button">
 								<input value="Thoát" onclick="showForm('import-form',false);" type="button" class="button">

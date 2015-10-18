@@ -87,21 +87,28 @@ public class downloadExcel extends HttpServlet {
 	    }
 	 
 	 @RequestMapping(value = "/downloadExcelTon", method = RequestMethod.GET)
-	 public ModelAndView downloadExcelTon() {
-	        // create some sample data
-		 	CTVatTuDAO ctvtDAO = new CTVatTuDAO(); 
-	        List<CTVatTu> listTon = new ArrayList<CTVatTu>();
-	        listTon = ctvtDAO.TonKho();
-	        // return a view which will be resolved by an excel view resolver
-	        return new ModelAndView("excelTon", "listTon", listTon);
-	    }
-	 
+	 public ModelAndView downloadExcelTon(HttpServletRequest request) {
+        // create some sample data
+	 	HttpSession session = request.getSession(false);
+        List<CTVatTu> listTon = (List<CTVatTu>) session.getAttribute("tonKhoList");
+        // return a view which will be resolved by an excel view resolver
+        return new ModelAndView("excelTon", "listTon", listTon);
+	 }
+	 @RequestMapping(value = "/downloadTonKhoError", method = RequestMethod.GET)
+	 public ModelAndView downloadTonKhoError(HttpServletRequest request) {
+        // create some sample data
+	 	HttpSession session = request.getSession(false);
+        List<Object> objectListError = (List<Object>) session.getAttribute("objectListError");
+        // return a view which will be resolved by an excel view resolver
+        return new ModelAndView("excelTonError", "objectListError", objectListError);
+	 }
 	 @RequestMapping(value = "/downloadExcelError", method = RequestMethod.GET)
 	 public ModelAndView downloadExcelError(HttpServletRequest request) {
         // create some sample data
 	 	HttpSession session = request.getSession(false);
-	 	List<CTVatTu> listError = (List<CTVatTu>) session.getAttribute("ctvtListError");
-	 	List<String> statusError = (List<String>) session.getAttribute("statusError");
+	 	ArrayList<Object> errorListVatTu = (ArrayList<Object>) session.getAttribute("errorListVatTu");
+		List<CTVatTu> listError = (List<CTVatTu>) errorListVatTu.get(0);
+		List<String> statusError = (List<String>) errorListVatTu.get(1);
 	 	ArrayList<Object> objectList = new ArrayList<Object>();
 	 	objectList.add(listError);
 	 	objectList.add(statusError);
@@ -117,4 +124,13 @@ public class downloadExcel extends HttpServlet {
         // return a view which will be resolved by an excel view resolvervError
         return new ModelAndView("cvError", "errorList", errorList);
     }
+//	 @RequestMapping(value = "/downloadVatTuError", method = RequestMethod.GET)
+//	 public ModelAndView downloadVatTuError(HttpServletRequest request) {
+//        // create some sample data
+//	 	HttpSession session = request.getSession(false);
+//	 	List<Object> errorList = (List<Object>) session.getAttribute("errorListVatTu");
+//	 	
+//        // return a view which will be resolved by an excel view resolvervError
+//        return new ModelAndView("vatTuError", "errorList", errorList);
+//    }
 }

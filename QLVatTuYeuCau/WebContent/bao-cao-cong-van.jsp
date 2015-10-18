@@ -84,7 +84,7 @@
 			
 				<table style="margin:0 auto; margin-top: 30px;">
 					<tr>
-						<th style="text-align: left;margin-top: 10px;padding-right:10px;">Số công văn đến:</th>
+						<th style="text-align: left;margin-top: 10px;padding-right:10px;" colspan="2">Số công văn đến:</th>
 						<td style="text-align: left">
 						<select 
 							title="" class="select" id="cvSo" name="cvSo" style="margin-top: 10px;">
@@ -100,7 +100,7 @@
 					</tr>
 					
 					<tr>
-						<th style="text-align: left;margin-top: 10px;padding-right:10px;">Đơn vị:</th>
+						<th style="text-align: left;margin-top: 10px;padding-right:10px;" colspan="2">Đơn vị:</th>
 						<td style="text-align: left">
 						<select 
 							title="" class="select" id="donVi" name="donVi" style="margin-top: 10px;">
@@ -116,7 +116,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th style="text-align: left;margin-top: 10px;padding-right:10px;">Mục đích:</th>
+						<th style="text-align: left;margin-top: 10px;padding-right:10px;" colspan="2">Mục đích:</th>
 						<td style="text-align: left">
 						<select 
 							title="" class="select" id="mucDich" name="mucDich" style="margin-top: 10px;">
@@ -131,31 +131,33 @@
 						</td>
 					</tr>
 					<tr style="margin-top: 30px;">
-                            <th style="text-align: left;margin-top: 10px;padding-right:10px;" >Ngày công văn đến:</th>
-                            <td style="text-align: left;margin-top: 10px;" colspan="2" >Từ ngày &nbsp;
-                            <input type="date" class="text"name="sCvNgayNhan" id="sCvNgayNhan">
+                            <th style="text-align: left;margin-top: 10px;padding-right:10px;" colspan="1" >Ngày công văn nhận:</th>
+                            <td style="text-align: left;margin-top: 10px;"  >Từ ngày &nbsp;</td/>
+                            <td><input type="date" class="text"name="sCvNgayNhan" id="sCvNgayNhan">
                             &nbsp;&nbsp;&nbsp;&nbsp; đến&nbsp;
                             <input type="date" class="text" name="eCvNgayNhan" id = "eCvNgayNhan" ></td>
                     </tr>
                     <tr style="margin-top: 30px;">
-                            <th style="text-align: left;margin-top: 10px;padding-right:10px;" >Ngày công văn đi:</th>
-                            <td style="text-align: left;margin-top: 10px;" colspan="2" >Từ ngày &nbsp;
-                            <input type="date" class="text"name="sCvNgayDi" id="sCvNgayDi">
+                            <th style="text-align: left;margin-top: 10px;padding-right:10px;" colspan="1"  >Ngày công văn đến:</th>
+                            <td style="text-align: left;margin-top: 10px;" >Từ ngày &nbsp;</td>
+                            <td><input type="date" class="text"name="sCvNgayDi" id="sCvNgayDi">
                             &nbsp;&nbsp;&nbsp;&nbsp; đến&nbsp;
                             <input type="date" class="text"name="eCvNgayDi" id="eCvNgayDi"></td>
                     </tr>
-				<table class="radio" style="margin-top: 20px;margin-left: 40px;">
-					<th style="text-align: left;margin-top: 20px;padding-right:50px;">Trạng thái:</th>				  
+<!-- 				<table class="radio" style="margin-top: 20px;margin-left: 40px;"> -->
+					<tr>
+					<th style="text-align: left;margin-top: 20px;padding-right:50px;" colspan="2">Trạng thái:</th>				  
  								
- 								<td style="text-align: right;"><input type="radio" name="trangThai" id = "CGQ" value="CGQ"></td>
-								<td style="text-align: left;"><label class="lable1" for="CGQ">Chưa giải quyết</label></td>
-								<td style="text-align: right;"><input type="radio" name="trangThai" id = "DGQ" value="DGQ"></td>
-								<td style="text-align: left;"><label class="lable1" for="CGQ">Đang giải quyết</label></td>
-								<td style="text-align: right;"><input type="radio" name="trangThai" id = "DaGQ" value="DaGQ"></td>
-								<td style="text-align: left;"><label class="lable1" for="DaGQ">Đã giải quyết</label></td>
+ 								<td style="text-align: left;"><input type="radio" name="trangThai" id = "CGQ" value="CGQ">
+								<label class="lable1" for="CGQ">Chưa giải quyết</label>
+								<input type="radio" name="trangThai" id = "DGQ" value="DGQ">
+								<label class="lable1" for="CGQ">Đang giải quyết</label>
+								<input type="radio" name="trangThai" id = "DaGQ" value="DaGQ">
+								<label class="lable1" for="DaGQ">Đã giải quyết</label>
  						
-  								<td style="text-align: right;"><input type="radio" name="trangThai" value="" id = "All"></td>
-								<td style="text-align: left;"><label class="lable1" for="All">Tất cả</label></td>
+  								<input type="radio" name="trangThai" value="" id = "All">
+								<label class="lable1" for="All">Tất cả</label></td>
+								</tr>
 				</table>
 				<input type="hidden" name="action" value="baocaobdn">
 				<input style="margin-top: 15px;" class="button" type="button" id="xem" value="Xem">
@@ -168,8 +170,8 @@
 			<div id="view-table" style="height: 500px;width: 1250px;display: auto;border: 1px solid #CCCCCC;margin: 0 auto;margin-top: 20px;overflow: scroll;">
 				<table >
 					<tr bgcolor="lightgreen">
-						<th style="width: 50px;">Số công văn nhận</th>
-						<th style="width: 50px;">Số công văn đến</th>
+						<th style="width: 100px;">Số công văn nhận</th>
+						<th style="width: 100px;">Số công văn đến</th>
 						<th style="width: 50px;">Ngày công văn đến</th>
 						<th style="width: 50px;">Ngày công văn đi</th>
 						<th style="width: 250px;">Mục đích</th>

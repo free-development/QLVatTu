@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.swing.JOptionPane;
 
 import model.CTVatTu;
@@ -46,6 +47,8 @@ public class VattuController extends HttpServlet {
 		NoiSanXuatDAO noiSanXuatDAO = new NoiSanXuatDAO();
 		ChatLuongDAO chatLuongDAO = new ChatLuongDAO();
 		DonViTinhDAO donViTinhDAO = new DonViTinhDAO();
+		HttpSession session = request.getSession(false);
+//		session.removeAttribute("status");
 		String action = request.getParameter("action");
 //		if("addVatTu".equalsIgnoreCase(action)) {
 //			

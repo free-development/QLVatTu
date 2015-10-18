@@ -50,6 +50,13 @@ display:none;
    	%>
 		<% 
     	ArrayList<CTVatTu> listCTVatTu = (ArrayList<CTVatTu>) session.getAttribute("allCTVatTuList");
+		if (listCTVatTu ==  null) {
+			int index = siteMap.exportCTVatTuMn.lastIndexOf("/");
+			String url = siteMap.nsxManage.substring(index);
+			RequestDispatcher dispatcher =  request.getRequestDispatcher(url);
+			dispatcher.forward(request, response);
+			return;
+		}
 		String exportToExcel = request.getParameter("exportToExel");
 	        response.setCharacterEncoding("UTF-8");
 	        request.setCharacterEncoding("UTF-8");
