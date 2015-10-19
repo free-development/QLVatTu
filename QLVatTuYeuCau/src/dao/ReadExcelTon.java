@@ -192,7 +192,7 @@ public class ReadExcelTon {
 			Cell cell;
 			Iterator rows = sheet.rowIterator();
 			int j = 0;
-			while (j < 4 && rows.hasNext()) {
+			while (j < 3 && rows.hasNext()) {
 				rows.next();
 				j++;
 			}

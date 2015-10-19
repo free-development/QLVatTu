@@ -68,12 +68,12 @@
 		if (listCTVatTu ==  null) {
 			int index = siteMap.ctvtManage.lastIndexOf("/");
 			String url = siteMap.ctvtManage.substring(index);
-			RequestDispatcher dispatcher =  request.getRequestDispatcher(url +  "?action=manageCtvt");
-			System.out.println(url +  "?action=manageCtvt");
+			RequestDispatcher dispatcher =  request.getRequestDispatcher(url);
+			System.out.println(url);
 			dispatcher.forward(request, response);
 			return;
 		}
-		Long size = (Long) request.getAttribute("size");
+		Long size = (Long) session.getAttribute("size");
 		Long pageNum = size/10;
    		
     %>

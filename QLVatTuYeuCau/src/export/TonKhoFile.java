@@ -101,6 +101,9 @@ public class TonKhoFile extends AbstractExcelView {
 		
 		header.createCell(6).setCellValue("Số lượng");
 		header.getCell(6).setCellStyle(style);
+		
+		header.createCell(7).setCellValue("Định mức");
+		header.getCell(7).setCellStyle(style);
 		//create row 2
 		HSSFRow row2 = sheet.createRow(2);
 		row2.createCell(0).setCellValue("D01");
@@ -120,6 +123,7 @@ public class TonKhoFile extends AbstractExcelView {
 			aRow.createCell(4).setCellValue(ctvtTon.getNoiSanXuat().getNsxTen());
 			aRow.createCell(5).setCellValue(ctvtTon.getChatLuong().getClTen());
 			aRow.createCell(6).setCellValue(ctvtTon.getSoLuongTon());
+			aRow.createCell(6).setCellValue(ctvtTon.getDinhMuc());
 			stt++;
 		}
 	}

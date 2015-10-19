@@ -116,7 +116,7 @@ display:none;
 						<th style="border: 1px solid black;font-size: 17px;width: 5px;">ĐVT</th>
 						<th style="border: 1px solid black;font-size: 17px;width: 140px;">Nơi sản xuất</th>
 						<th style="border: 1px solid black;font-size: 17px;width: 140px;">Chất lượng</th>
-<!-- 						<th style="border: 1px solid black;font-size: 17px;width: 80px;">Định mức</th> -->
+						<th style="border: 1px solid black;font-size: 17px;width: 80px;">Định mức</th>
 						<th style="border: 1px solid black;font-size: 17px;width: 110px;">Số lượng tồn</th>
 						</tr>
 						</thead>
@@ -133,7 +133,7 @@ display:none;
 													<td style="border: 1px solid black;font-size: 17px;text-align: center;"><%=ctVatTu.getVatTu().getDvt().getDvtTen() %></td>
 													<td style="border: 1px solid black;font-size: 17px;width: 40px;text-align: center;"><%=ctVatTu.getNoiSanXuat().getNsxTen() %></td>
 													<td style="border: 1px solid black;font-size: 17px;text-align: center;"><%=ctVatTu.getChatLuong().getClTen() %></td>
-<%-- 													<td style="border: 1px solid black;font-size: 17px;text-align: center;"><%=ctVatTu.getDinhMuc() %></td> --%>
+													<td style="border: 1px solid black;font-size: 17px;text-align: center;"><%=ctVatTu.getDinhMuc() %></td>
 													<td style="border: 1px solid black;font-size: 17px;text-align: center;"><%=ctVatTu.getSoLuongTon() %></td>
 												</tr>
 												<%} }%>

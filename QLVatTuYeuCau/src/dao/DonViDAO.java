@@ -38,7 +38,7 @@ public class DonViDAO {
 		Criteria cr = session.createCriteria(DonVi.class);
 		Criterion xoaDv = Restrictions.eq("daXoa", 0);
 		cr.add(xoaDv);
-		List<DonVi> donViList = (List<DonVi>) session.createCriteria(DonVi.class).list();
+		List<DonVi> donViList = (List<DonVi>) cr.list();
 		session.getTransaction().commit();
 		return donViList;
 	}
