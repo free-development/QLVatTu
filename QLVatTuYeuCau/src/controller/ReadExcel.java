@@ -125,20 +125,27 @@ public class ReadExcel extends HttpServlet {
 			if ("xls".equalsIgnoreCase(extenstionFile)) {
 				ArrayList<Object> errorList = new ArrayList<Object>();
 				errorList = ReadExcelBpsd.readXls(file);
-				if(errorList.size() > 0)
+				if(errorList.size() > 0) {
+					HttpSession session = multipartRequest.getSession(false);
+					session.setAttribute("errorList", errorList);
 					return new ModelAndView(siteMap.importBpsdError, "status", "formatException");
+				}
 			}
 			else if ("xlsx".equalsIgnoreCase(extenstionFile)) {
 				ArrayList<Object> errorList = new ArrayList<Object>();
 				errorList = ReadExcelBpsd.readXlsx(file);
-				if(errorList.size() > 0)
+				if(errorList.size() > 0) {
+					HttpSession session = multipartRequest.getSession(false);
+					session.setAttribute("errorList", errorList);
 					return new ModelAndView(siteMap.importBpsdError, "status", "formatException");
+				}
 			}
 			else {
 				return new ModelAndView(siteMap.boPhanSuDung, "status", "unknownFile");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			return new ModelAndView(siteMap.login);
 		}
 		multipartRequest.setAttribute("status", "success");
 		return new ModelAndView(siteMap.boPhanSuDung);
@@ -147,23 +154,29 @@ public class ReadExcel extends HttpServlet {
 	@RequestMapping("/readExcelNsx")
 	protected ModelAndView readExcelNsx(MultipartHttpServletRequest multipartRequest, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+		HttpSession session = multipartRequest.getSession();
 		try {
 			java.io.File file = uploadFile(multipartRequest);
 			String extenstionFile = "";
 			extenstionFile = FileUtil.getExtension(file);
 			if ("xls".equalsIgnoreCase(extenstionFile)) {
-				if(!ReadExcelNsx.readXls(file)) {
-					
-				return new ModelAndView("import-excelNsx", "status", "formatException");
+				ArrayList<Object> errorList = new ArrayList<Object>();
+				errorList = ReadExcelNsx.readXls(file);
+				if(errorList.size() > 0) {
+					session.setAttribute("errorList", errorList);
+					return new ModelAndView(siteMap.importErrorNsx, "status", "formatException");
 				}
 			}
 			else if ("xlsx".equalsIgnoreCase(extenstionFile)) {
-				if(!ReadExcelNsx.readXlsx(file))
-					return new ModelAndView("import-excelNsx", "status", "formatException");
+				ArrayList<Object> errorList = new ArrayList<Object>();
+				errorList = ReadExcelNsx.readXlsx(file);
+				if(errorList.size() > 0) {
+					session.setAttribute("errorList", errorList);
+					return new ModelAndView(siteMap.importErrorNsx, "status", "formatException");
+				}
 			}
 			else {
-				return new ModelAndView("import-excelNsx", "status", "unknownFile");
+				return new ModelAndView(siteMap.noiSanXuat, "status", "unknownFile");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

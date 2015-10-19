@@ -7,6 +7,8 @@ public class siteMap {
 	
 	public static final String nsxManage = home +  "manageNsx.html";
 	public static final String noiSanXuat = "danh-muc-noi-san-xuat";
+	public static final String importErrorNsx = "import-nsx-error";
+	
 	
 	// map danh muc chat luong
 	public static final String clManage = home +  "manageCl.html";
@@ -159,5 +161,6 @@ public class siteMap {
 	public static final String  downloadCvError = home + "downloadCvError.html";
 	public static final String  downloadVatTuError = home + "downloadVatTuError.html";
 	public static final String  downloadTonKhoError = home + "downloadTonKhoError.html";
+	public static final String  downloadBpsdError = home + "downloadBpsdError.html";
 	
 }

@@ -23,24 +23,23 @@ import model.DonVi;
  * @author www.codejava.net
  *
  */
-public class DonViFile extends AbstractExcelView {
+public class ImportDonViError extends AbstractExcelView {
 
 	@Override
 	protected void buildExcelDocument(Map<String, Object> model,
 			HSSFWorkbook workbook, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		// get data model which is passed by the Spring container
-		List<DonVi> listDv = (List<DonVi>) model.get("listDv");
+		List<Object> errorList = (List<Object>) model.get("errorList");
+		List<DonVi> donViError = (List<DonVi>) errorList.get(0);
+		List<String> statusError = (List<String>) errorList.get(1);
 		
 		// create a new Excel sheet
-		HSSFSheet sheet = workbook.createSheet("Đơn vị");
+		HSSFSheet sheet = workbook.createSheet("Bộ phận sử dụng bị lỗi import");
 		// create style for header cells
 		CellStyle style = workbook.createCellStyle();
 		Font font = workbook.createFont();
 		font.setFontName("Times New Roman");
-		style.setFillPattern(CellStyle.SOLID_FOREGROUND);
-		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-		font.setColor(HSSFColor.WHITE.index);
 		style.setFont(font);
 		
 		HSSFRow row2 = sheet.createRow(0);
@@ -52,7 +51,7 @@ public class DonViFile extends AbstractExcelView {
 		
 		// create header row
 		HSSFRow header = sheet.createRow(1);
-		response.setHeader("Content-Disposition", "inline; filename=" + "Bophansudung.xls");
+		response.setHeader("Content-Disposition", "inline; filename=" + "BophansudungError.xls");
 		
 		header.createCell(0).setCellValue("Mã Bộ phận sử dụng");
 		header.getCell(0).setCellStyle(style);
@@ -69,18 +68,22 @@ public class DonViFile extends AbstractExcelView {
 		header.createCell(4).setCellValue("Email");
 		header.getCell(4).setCellStyle(style);
 		
+		header.createCell(5).setCellValue("Lỗi");
+		header.getCell(5).setCellStyle(style);
+		
 		
 		
 		// create data rows
-		int rowCount = 1;
-		
-		for (DonVi dv : listDv) {
+		int rowCount = 2;
+		int i = 0;
+		for (DonVi dv : donViError) {
 			HSSFRow aRow = sheet.createRow(rowCount++);
 			aRow.createCell(0).setCellValue(dv.getDvMa());
 			aRow.createCell(1).setCellValue(dv.getDvTen());
 			aRow.createCell(2).setCellValue(dv.getDiaChi());
 			aRow.createCell(3).setCellValue(dv.getSdt());
 			aRow.createCell(4).setCellValue(dv.getEmail());
+			aRow.createCell(5).setCellValue(statusError.get(i++));
 		}
 	}
 

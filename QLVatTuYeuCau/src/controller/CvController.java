@@ -401,6 +401,7 @@ public class CvController extends HttpServlet{
 			String dvMa = multipartRequest.getParameter("donViUpdate");
 			String trichYeu = multipartRequest.getParameter("trichYeuUpdate");
 			String butPhe = multipartRequest.getParameter("butPheUpdate");
+			String moTa = multipartRequest.getParameter("moTa");
 			CongVanDAO congVanDAO = new CongVanDAO();
 			CongVan congVan = congVanDAO.getCongVan(cvId);
 			congVan.setSoDen(soDen);
@@ -413,6 +414,7 @@ public class CvController extends HttpServlet{
 			congVan.setButPhe(butPhe);
 			congVan.setDaXoa(0);
 			congVanDAO.updateCongVan(congVan);
+			
 			cvId = congVan.getCvId();
 			MultipartFile fileUpload = multipartRequest.getFile("file");
         	String fileName = fileUpload.getOriginalFilename();
@@ -425,14 +427,17 @@ public class CvController extends HttpServlet{
 				 fileName = name + "-" + cvId;
 			 }
 			String path = pathFile + fileName;
-        	java.io.File file = new java.io.File(path);
+			FileDAO fileDAO = new FileDAO();
+			File f = fileDAO.getByCongVanId(cvId);
+			fileDAO.disconnect();
+			java.io.File file = new java.io.File(path);
     		file.createNewFile();
     		fileUpload.transferTo(file);
-    		FileDAO fileDAO = new FileDAO();
-    		File f = fileDAO.getByCongVanId(cvId);
-    		f.setDiaChi(path);
-			fileDAO.updateFile(f);
-    		
+			f.setMoTa(moTa);
+			f.setDiaChi(path);
+			FileDAO fileDAO2 = new FileDAO();
+			fileDAO2.updateFile(f);
+			fileDAO2.disconnect();
     		fileDAO.disconnect();
     		congVanDAO.disconnect();
     		CongVanDAO congVanDAO2 = new CongVanDAO();

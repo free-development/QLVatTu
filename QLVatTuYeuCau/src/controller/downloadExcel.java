@@ -61,19 +61,11 @@ public class downloadExcel extends HttpServlet {
 	        return new ModelAndView("excelCl", "listBooksCl", listCl);
 	    }
 	 @RequestMapping(value = "/downloadExcelDv", method = RequestMethod.GET)
-	 public ModelAndView downloadExcelDv() {
+	 public ModelAndView downloadExcelDv(HttpServletRequest request) {
 	        // create some sample data
-		 	DonViDAO dvDAO = new DonViDAO();
-//	        List<DonVi> listBooksDv = new ArrayList<DonVi>();
-	        List<DonVi> listDv = new ArrayList<DonVi>();
-	        listDv = dvDAO.getAllDonVi();
-//	        int length = listDv.size();
-//	        for ( int i = 0; i < length ; i++)
-//	        {
-//	        	listBooksDv.add(new DonVi(listDv.get(i).getDvMa(), listDv.get(i).getDvTen(), listDv.get(i).getSdt(), listDv.get(i).getDiaChi(), listDv.get(i).getEmail()));
-//	        }
-	        // return a view which will be resolved by an excel view resolver
-	        return new ModelAndView("excelDv", "listBooksDv", listDv);
+		 HttpSession session = request.getSession(false);
+		 List<DonVi> listDonVi = (List<DonVi>) session.getAttribute("allDonViList");
+	        return new ModelAndView("excelDv", "listDv", listDonVi);
 	    }
 	 
 	 @RequestMapping(value = "/downloadExcelCtvt", method = RequestMethod.GET)
@@ -124,13 +116,13 @@ public class downloadExcel extends HttpServlet {
         // return a view which will be resolved by an excel view resolvervError
         return new ModelAndView("cvError", "errorList", errorList);
     }
-//	 @RequestMapping(value = "/downloadVatTuError", method = RequestMethod.GET)
-//	 public ModelAndView downloadVatTuError(HttpServletRequest request) {
-//        // create some sample data
-//	 	HttpSession session = request.getSession(false);
-//	 	List<Object> errorList = (List<Object>) session.getAttribute("errorListVatTu");
-//	 	
-//        // return a view which will be resolved by an excel view resolvervError
-//        return new ModelAndView("vatTuError", "errorList", errorList);
-//    }
+	 @RequestMapping(value = "/downloadBpsdError", method = RequestMethod.GET)
+	 public ModelAndView downloadVatTuError(HttpServletRequest request) {
+        // create some sample data
+	 	HttpSession session = request.getSession(false);
+	 	List<Object> errorList = (List<Object>) session.getAttribute("errorList");
+	 	
+        // return a view which will be resolved by an excel view resolvervError
+        return new ModelAndView("importBpsdError", "errorList", errorList);
+    }
 }

@@ -34,84 +34,83 @@ import model.VatTu;
  *
  */
 public class ReadExcelNsx {
-	public static boolean readXlsx(File file) {
+	public static ArrayList<Object> readXlsx(File file) {
+		ArrayList<NoiSanXuat> nsxError = new ArrayList<NoiSanXuat>();
+		ArrayList<String> statusError = new ArrayList<String>();
 		try {
 			XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream(file));
 			XSSFSheet sheet = wb.getSheetAt(0);
 			Row row;
 			Cell cell;
 			Iterator rows = sheet.rowIterator();
-			int j = 0;
-			ArrayList<NoiSanXuat> nsxList = new ArrayList<NoiSanXuat>();
-			
+			if (rows.hasNext())
+				rows.next();
 			while (rows.hasNext()) {
 				row = (XSSFRow) rows.next();
-				j++;
-				if (j == 1)
-					continue;
 				Iterator cells = row.cellIterator();
 				int count = 0;
 				String nsxMa = "";
 				String nsxTen = "";
-				while (cells.hasNext()) {
-					cell = (XSSFCell) cells.next();
-					if (cell.getCellType() == XSSFCell.CELL_TYPE_STRING) {
-						switch (count) {
-						case 0:
-							nsxMa = cell.getStringCellValue();
-							break;
-						case 1:
-							nsxTen = cell.getStringCellValue();
-							break;
-						}
-					} 
-					count++;
-				}
-				if (nsxMa.length() == 0 && nsxTen.length() == 0)
-					break;
-				if (nsxMa.length() == 0 || nsxTen.length() == 0)
-					return false;
-			
-				NoiSanXuat nsx = new NoiSanXuat(nsxMa, nsxTen,0);
-				
-				nsxList.add(nsx);
-			}
-			int lenght = nsxList.size();
-			
-			for (int i = 0; i< lenght; i++) {
-				
-				NoiSanXuatDAO nsxDAO = new NoiSanXuatDAO();
-				
-				NoiSanXuat nsx = nsxList.get(i);
-
-				NoiSanXuat temp = nsxDAO.getNoiSanXuat(nsx.getNsxMa());
-					if (temp ==  null) {
-						nsxDAO.addNoiSanXuat(nsx);
+					while (cells.hasNext()) {
+						cell = (XSSFCell) cells.next();
+						if (cell.getCellType() == XSSFCell.CELL_TYPE_STRING) {
+							switch (count) {
+							case 0:
+								nsxMa = cell.getStringCellValue();
+								break;
+							case 1:
+								nsxTen = cell.getStringCellValue();
+								break;
+							}
+						} 
+						count++;
 					}
-			nsxDAO.close();
+					if (nsxMa.length() == 0 && nsxTen.length() == 0)
+						break;
+					NoiSanXuat nsx = new NoiSanXuat(nsxMa, nsxTen,0);
+					if (nsxMa.length() == 0 || nsxTen.length() == 0) {
+						nsxError.add(nsx);
+						statusError.add("Lỗi dữ liệu");
+					} else {
+						NoiSanXuatDAO nsxDAO = new NoiSanXuatDAO();
+						NoiSanXuat temp = nsxDAO.getNoiSanXuat(nsx.getNsxMa());
+						if (temp ==  null) {
+							nsxDAO.addNoiSanXuat(nsx);
+						} else {
+							nsxError.add(nsx);
+							statusError.add("Đã tồn tại");
+						}
+						nsxDAO.close();
+					}
+					
+				}
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return true;
+			ArrayList<Object> errorList = new ArrayList<Object>();
+			if (nsxError.size() > 0) {
+				errorList.add(nsxError);
+				errorList.add(statusError);
+			}
+			return errorList;
 	}
 	
 	// read xls
-	public static boolean readXls(File file) {
+	public static ArrayList<Object> readXls(File file) {
+		ArrayList<NoiSanXuat> nsxError = new ArrayList<NoiSanXuat>();
+		ArrayList<String> statusError = new ArrayList<String>();
 		try {
 			HSSFWorkbook wb = new HSSFWorkbook(new FileInputStream(file));
 			HSSFSheet sheet = wb.getSheetAt(0);
 			Row row;
 			Cell cell;
 			Iterator rows = sheet.rowIterator();
-			int j = 0;
-			ArrayList<NoiSanXuat> nsxList = new ArrayList<NoiSanXuat>(); 
+			if (rows.hasNext())
+				rows.next();
 			while (rows.hasNext()) {
 				row = (HSSFRow) rows.next();
-				j++;
-				if (j == 1)
-					continue;
 				Iterator cells = row.cellIterator();
 				int count = 0;
 				String nsxMa = "";
@@ -132,31 +131,33 @@ public class ReadExcelNsx {
 					}
 					if (nsxMa.length() == 0 && nsxTen.length() == 0)
 						break;
-					if (nsxMa.length() == 0 || nsxTen.length() == 0)
-						return false;
-				
 					NoiSanXuat nsx = new NoiSanXuat(nsxMa, nsxTen,0);
-					
-					nsxList.add(nsx);
-				}
-				int lenght = nsxList.size();
-				
-				for (int i = 0; i< lenght; i++) {
-					
-					NoiSanXuatDAO nsxDAO = new NoiSanXuatDAO();
-					
-					NoiSanXuat nsx = nsxList.get(i);
-
-					NoiSanXuat temp = nsxDAO.getNoiSanXuat(nsx.getNsxMa());
+					if (nsxMa.length() == 0 || nsxTen.length() == 0) {
+						nsxError.add(nsx);
+						statusError.add("Lỗi dữ liệu");
+					} else {
+						NoiSanXuatDAO nsxDAO = new NoiSanXuatDAO();
+						NoiSanXuat temp = nsxDAO.getNoiSanXuat(nsx.getNsxMa());
 						if (temp ==  null) {
 							nsxDAO.addNoiSanXuat(nsx);
+						} else {
+							nsxError.add(nsx);
+							statusError.add("Đã tồn tại");
 						}
-				nsxDAO.close();
+						nsxDAO.close();
+					}
+					
 				}
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			return true;
+			ArrayList<Object> errorList = new ArrayList<Object>();
+			if (nsxError.size() > 0) {
+				errorList.add(nsxError);
+				errorList.add(statusError);
+			}
+			return errorList;
 	}
 }
