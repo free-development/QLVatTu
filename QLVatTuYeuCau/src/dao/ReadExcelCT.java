@@ -105,6 +105,7 @@ public class ReadExcelCT {
 					{
 						clMa = "000";
 					}
+					/*
 					DonViTinh donViTinh = new DonViTinh(dvt, 0);
 					dvtList.add(donViTinh);
 					VatTu vatTu = new VatTu(vtMa, vtTen, donViTinh, 0);
@@ -114,69 +115,13 @@ public class ReadExcelCT {
 					nsxList.add(nsxMa);
 					chatLuongList.add(clMa);
 					ctvtList.add(ctvt);
+					*/
 				}
 			}
-			int lenght = vatTuList.size();
+//			int lenght = vatTuList.size();
 	//		ArrayList<CTVatTu> ctvtListError1 = new ArrayList<CTVatTu>();//danh sach ctvt da ton tai
-			for (int i = 0; i< lenght; i++) {
 				
-				VatTuDAO vtDAO = new VatTuDAO();
-				CTVatTuDAO ctvtDAO = new CTVatTuDAO();
-				DonViTinhDAO dvtDAO = new DonViTinhDAO();
-				NoiSanXuatDAO nsxDAO = new NoiSanXuatDAO();
-				ChatLuongDAO clDAO = new ChatLuongDAO();
-				VatTu vatTu = vatTuList.get(i);
-				String nsxMa = nsxList.get(i);
-				String clMa = chatLuongList.get(i);
-				DonViTinh dvt = dvtList.get(i);
-				//System.out.println("count = " + i + " \n  VTMa = "+vatTu.getVtMa()+ "\n vtTen = "+ vatTu.getVtTen() + "\n dvt = " + dvt.getDvtTen() + "\n nsxMa = "+ nsxMa + "\n clMa = " + clMa);
 				
-				NoiSanXuat noisx = nsxDAO.getNoiSanXuat(nsxMa);
-				ChatLuong chatluong = clDAO.getChatLuong(clMa);
-				if ((noisx != null) && (chatluong != null))
-				{
-					DonViTinh temp = dvtDAO.getDonViTinhByTen(dvt.getDvtTen());
-					if (temp ==  null) {
-						dvtDAO.addDonViTinh(dvt);
-						dvt.setDvtId(new DonViTinhDAO().lastInsertId());
-					}
-					else {
-						dvt.setDvtId(temp.getDvtId());
-					}
-					VatTu vt = vtDAO.getVatTu(vatTu.getVtMa());
-					VatTu vtTemp = vatTuList.get(i);
-					vtTemp.setDvt(dvt);
-					if (vt == null) {
-						//System.out.println("VTMa = "+vtTemp.getVtMa()+ "\n vtTen = "+ vtTemp.getVtTen());
-						vtDAO.addVatTu(vtTemp);
-						
-					} 
-					CTVatTu ctvt = ctvtDAO.getCTVatTu(vatTu.getVtMa(), nsxMa, clMa);
-					CTVatTu ctvtTemp = ctvtList.get(i);
-					if (ctvt == null) {
-					}
-					else {
-						ctvtListError.add(ctvtTemp);
-						statusError.add("Đã tồn tại");
-					}
-				}
-				else 
-				{
-					CTVatTu ctvt = ctvtDAO.getCTVatTu(vatTu.getVtMa(), nsxMa, clMa);
-					CTVatTu ctvtTemp = ctvtList.get(i);
-					ctvtListError.add(ctvtTemp);
-					if (noisx == null)
-						statusError.add("Nơi sản xuất không tồn tại");
-					if (chatluong == null)
-						statusError.add("Chất lượng không tồn tại");
-				}
-				
-			vtDAO.close();
-			nsxDAO.close();
-			clDAO.close();
-			ctvtDAO.close();
-			dvtDAO.close();
-			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -200,17 +145,6 @@ public class ReadExcelCT {
 			Cell cell;
 			Iterator rows = sheet.rowIterator();
 			int j = 0;
-			ArrayList<VatTu> vatTuList = new ArrayList<VatTu>();
-			ArrayList<String> nsxList = new ArrayList<String>();
-			ArrayList<String> chatLuongList = new ArrayList<String>();
-			ArrayList<CTVatTu> ctvtList = new ArrayList<CTVatTu>();
-			ArrayList<DonViTinh> dvtList = new ArrayList<DonViTinh>(); 
-			
-//			ArrayList<VatTu> vatTuListError = new ArrayList<VatTu>();
-//			ArrayList<String> nsxListError = new ArrayList<String>();
-//			ArrayList<String> chatLuongListError = new ArrayList<String>();
-//			ArrayList<CTVatTu> ctvtListError = new ArrayList<CTVatTu>();
-//			ArrayList<DonViTinh> dvtListError = new ArrayList<DonViTinh>(); 
 			while (rows.hasNext()) {
 				row = (HSSFRow) rows.next();
 				j++;
@@ -250,32 +184,12 @@ public class ReadExcelCT {
 					}
 					if (vtMa.length() == 0 && vtTen.length() == 0 && dvt.length() == 0 && nsxMa.length() == 0 && clMa.length() == 0 )
 						break;
-//					System.out.println("VTMa = "+vtMa+ "\n vtTen = "+ vtTen + "\n nsxMa = "+ nsxMa + "\n clMa = " + clMa);
-					if (vtTen.length() == 0 || dvt.length() == 0 )
+					if (vtMa.length() == 0 || vtTen.length() == 0 || dvt.length() == 0 )
 					{
-				//	System.out.println("VTMa = "+vtMa+ "\n vtTen = "+ vtTen + "\n dvt = "+dvt+ "\n nsxMa = "+ nsxMa + "\n clMa = " + clMa);
-						//if (vtMa.length() == 0) vtMa = "";
-//						if (vtTen.length() == 0) vtTen = "";
-						
-//						if (nsxMa.length() == 0) nsxMa = "";
-//						if (clMa.length() == 0) clMa = "";
-//						if (dvt.length() == 0 || vtMa.length() == 0 || nsxMa.length() == 0 || clMa.length() == 0)
-//						{
-							VatTu vatTuError = new VatTu(vtMa, vtTen, new DonViTinh(dvt, 0), 0);
-							CTVatTu ctvtError = new CTVatTu(vatTuError, new NoiSanXuat(nsxMa), new ChatLuong(clMa),(int) dinhMuc, (int) soLuong, 0);
-							ctvtListError.add(ctvtError);
-							statusError.add("Lỗi dữ liệu");
-//						}
-//						else if (dvt.length() != 0)
-//						{
-//							DonViTinh donViTinhError = new DonViTinh(dvt, 0);
-//							VatTu vatTuError = new VatTu(vtMa, vtTen,donViTinhError,0);
-//							CTVatTu ctvtError = new CTVatTu(vatTuError, new NoiSanXuat(nsxMa), new ChatLuong(clMa),(int) dinhMuc, (int) soLuong, 0);
-//							ctvtListError.add(ctvtError);
-//						}
-							
-						
-								System.out.println(ctvtListError.size());
+						VatTu vatTuError = new VatTu(vtMa, vtTen, new DonViTinh(dvt, 0), 0);
+						CTVatTu ctvtError = new CTVatTu(vatTuError, new NoiSanXuat(nsxMa), new ChatLuong(clMa),(int) dinhMuc, (int) soLuong, 0);
+						ctvtListError.add(ctvtError);
+						statusError.add("Lỗi dữ liệu");
 					}
 					else
 					{
@@ -288,90 +202,70 @@ public class ReadExcelCT {
 							clMa = "000";
 						}
 						DonViTinh donViTinh = new DonViTinh(dvt, 0);
-						dvtList.add(donViTinh);
 						VatTu vatTu = new VatTu(vtMa, vtTen, donViTinh, 0);
 						CTVatTu ctvt = new CTVatTu(vatTu, new NoiSanXuat(nsxMa), new ChatLuong(clMa),
 								(int) dinhMuc, (int) soLuong, 0);
-						vatTuList.add(vatTu);
-						nsxList.add(nsxMa);
-						chatLuongList.add(clMa);
-						ctvtList.add(ctvt);
-					}
-				}
-				int lenght = vatTuList.size();
-		//		ArrayList<CTVatTu> ctvtListError1 = new ArrayList<CTVatTu>();//danh sach ctvt da ton tai
-				for (int i = 0; i< lenght; i++) {
-					
-					VatTuDAO vtDAO = new VatTuDAO();
-					CTVatTuDAO ctvtDAO = new CTVatTuDAO();
-					DonViTinhDAO dvtDAO = new DonViTinhDAO();
-					NoiSanXuatDAO nsxDAO = new NoiSanXuatDAO();
-					ChatLuongDAO clDAO = new ChatLuongDAO();
-					VatTu vatTu = vatTuList.get(i);
-					String nsxMa = nsxList.get(i);
-					String clMa = chatLuongList.get(i);
-					DonViTinh dvt = dvtList.get(i);
-					//System.out.println("count = " + i + " \n  VTMa = "+vatTu.getVtMa()+ "\n vtTen = "+ vatTu.getVtTen() + "\n dvt = " + dvt.getDvtTen() + "\n nsxMa = "+ nsxMa + "\n clMa = " + clMa);
-					
-					NoiSanXuat noisx = nsxDAO.getNoiSanXuat(nsxMa);
-					ChatLuong chatluong = clDAO.getChatLuong(clMa);
-					if ((noisx != null) && (chatluong != null))
-					{
-						DonViTinh temp = dvtDAO.getDonViTinhByTen(dvt.getDvtTen());
-						if (temp ==  null) {
-							dvtDAO.addDonViTinh(dvt);
-							dvt.setDvtId(new DonViTinhDAO().lastInsertId());
-						}
-						else {
-							dvt.setDvtId(temp.getDvtId());
-						}
-						VatTu vt = vtDAO.getVatTu(vatTu.getVtMa());
-						VatTu vtTemp = vatTuList.get(i);
-						vtTemp.setDvt(dvt);
-						if (vt == null) {
-							//System.out.println("VTMa = "+vtTemp.getVtMa()+ "\n vtTen = "+ vtTemp.getVtTen());
-							vtDAO.addVatTu(vtTemp);
+						VatTuDAO vtDAO = new VatTuDAO();
+						CTVatTuDAO ctvtDAO = new CTVatTuDAO();
+						DonViTinhDAO dvtDAO = new DonViTinhDAO();
+						NoiSanXuatDAO nsxDAO = new NoiSanXuatDAO();
+						ChatLuongDAO clDAO = new ChatLuongDAO();
+						
+						NoiSanXuat noisx = nsxDAO.getNoiSanXuat(nsxMa);
+						ChatLuong chatluong = clDAO.getChatLuong(clMa);
+						if ((noisx != null) && (chatluong != null))
+						{
 							
-						} 
-						CTVatTu ctvt = ctvtDAO.getCTVatTu(vatTu.getVtMa(), nsxMa, clMa);
-						CTVatTu ctvtTemp = ctvtList.get(i);
-						if (ctvt == null) {
-							//System.out.println("CTVT them duoc!");
-							//System.out.println("VTMa = "+ctvtTemp.getVatTu().getVtMa()+ "\n vtTen = "+ ctvtTemp.getVatTu().getVtTen() + "\n dvt = "+dvt.getDvtTen()+ "\n nsxMa = "+ nsxMa + "\n clMa = " + clMa);
-							ctvtDAO.addCTVatTu(ctvtTemp);
-						}
-						else {
-							//System.out.println("CTVT bi loi!");
-							//System.out.println("VTMa = "+ctvtTemp.getVatTu().getVtMa()+ "\n vtTen = "+ ctvtTemp.getVatTu().getVtTen() + "\n dvt = "+dvt.getDvtTen()+ "\n nsxMa = "+ nsxMa + "\n clMa = " + clMa);
+							VatTu vt = vtDAO.getVatTu(vatTu.getVtMa());
 							
-							ctvtListError.add(ctvtTemp);
-							statusError.add("Đã tồn tại");
+							if (vt == null) {
+								DonViTinh temp = dvtDAO.getDonViTinhByTen(dvt);
+								if (temp ==  null) {
+									dvtDAO.addDonViTinh(donViTinh);
+									DonViTinhDAO donViTinhDAO2 = new DonViTinhDAO();
+									donViTinh.setDvtId(donViTinhDAO2.lastInsertId());
+									donViTinhDAO2.disconnect();
+								}
+								else {
+									donViTinh.setDvtId(temp.getDvtId());
+								}
+								vtDAO.addVatTu(vatTu);
+							}
+							vatTu.setDvt(donViTinh);
+							CTVatTu ctvtTemp = ctvtDAO.getCTVatTu(vatTu.getVtMa(), nsxMa, clMa);
+							if (ctvtTemp == null) {
+								ctvtDAO.addCTVatTu(ctvt);
+							}
+							else {
+								ctvtListError.add(ctvtTemp);
+								statusError.add("Đã tồn tại");
+							}
 						}
+						else 
+						{
+							ctvtListError.add(ctvt);
+							if (noisx == null)
+								statusError.add("Nơi sản xuất không tồn tại");
+							if (chatluong == null)
+								statusError.add("Chất lượng không tồn tại");
+						}
+						
+					vtDAO.close();
+					nsxDAO.close();
+					clDAO.close();
+					ctvtDAO.close();
+					dvtDAO.close();
 					}
-					else 
-					{
-						CTVatTu ctvt = ctvtDAO.getCTVatTu(vatTu.getVtMa(), nsxMa, clMa);
-						CTVatTu ctvtTemp = ctvtList.get(i);
-						ctvtListError.add(ctvtTemp);
-						if (noisx == null)
-							statusError.add("Nơi sản xuất không tồn tại");
-						if (chatluong == null)
-							statusError.add("Chất lượng không tồn tại");
-					}
-					
-				vtDAO.close();
-				nsxDAO.close();
-				clDAO.close();
-				ctvtDAO.close();
-				dvtDAO.close();
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			ArrayList<Object> objectList = new ArrayList<Object>();
-			objectList.add(ctvtListError);
-			objectList.add(statusError);
+			if (ctvtListError.size() > 0) {
+				objectList.add(ctvtListError);
+				objectList.add(statusError);
+			}
 			return objectList;
 		}
 }

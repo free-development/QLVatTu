@@ -123,15 +123,19 @@ public class ReadExcel extends HttpServlet {
 			java.io.File file = uploadFile(multipartRequest);
 			String extenstionFile = FileUtil.getExtension(file);
 			if ("xls".equalsIgnoreCase(extenstionFile)) {
-				if(!ReadExcelBpsd.readXls(file))
-					return new ModelAndView("import-excelBpsd", "status", "formatException");
+				ArrayList<Object> errorList = new ArrayList<Object>();
+				errorList = ReadExcelBpsd.readXls(file);
+				if(errorList.size() > 0)
+					return new ModelAndView(siteMap.importBpsdError, "status", "formatException");
 			}
 			else if ("xlsx".equalsIgnoreCase(extenstionFile)) {
-				if(!ReadExcelBpsd.readXlsx(file))
-					return new ModelAndView("import-excelBpsd", "status", "formatException");
+				ArrayList<Object> errorList = new ArrayList<Object>();
+				errorList = ReadExcelBpsd.readXlsx(file);
+				if(errorList.size() > 0)
+					return new ModelAndView(siteMap.importBpsdError, "status", "formatException");
 			}
 			else {
-				return new ModelAndView("import-excelBpsd", "status", "unknownFile");
+				return new ModelAndView(siteMap.boPhanSuDung, "status", "unknownFile");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

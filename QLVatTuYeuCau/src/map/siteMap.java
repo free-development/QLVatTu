@@ -15,6 +15,8 @@ public class siteMap {
 	// ma manage bo phan
 	public static final String bpsdManage = home +  "manageBpsd.html";
 	public static final String boPhanSuDung = "danh-muc-bo-phan";
+	public static final String importBpsdError = "import-bpsd-error";
+	
 	
 	// map manage muc dich
 	public static final String mdManage = home +  "manageMd.html";

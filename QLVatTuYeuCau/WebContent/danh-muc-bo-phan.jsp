@@ -45,6 +45,8 @@
 	String status = (String) request.getAttribute("status");
 	if (status != null && status.equals("success"))
 		out.println("<script>alert('Import dữ liệu thành công!')</script>");
+	else if (status != null && status.equals("unknownFile"))
+		out.println("<script>alert('Định dạng import không hỗ trợ!')</script>");
 		String adminMa = request.getServletContext().getInitParameter("adminMa");
    		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
    		if (authentication == null) {

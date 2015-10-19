@@ -68,7 +68,7 @@ public class ReadExcelTon {
 				String dvt = "";
 				String nsxTen = "";
 				String clTen = "";
-				double soLuong = -1;
+				int soLuong = -1;
 				while (cells.hasNext()) {
 					cell = (XSSFCell) cells.next();
 					if (cell.getCellType() == XSSFCell.CELL_TYPE_STRING) {
@@ -92,7 +92,7 @@ public class ReadExcelTon {
 					} else if (cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC) {
 						switch (count) {
 							case 6:
-								soLuong = cell.getNumericCellValue();
+								soLuong = (int)cell.getNumericCellValue();
 								break;
 						}
 					}
@@ -111,59 +111,54 @@ public class ReadExcelTon {
 					soLuongError.add((int)soLuong);
 					statusError.add("Lỗi dữ liệu");
 				} else {
-//				DonViTinh donViTinh = new DonViTinh(dvt, 0);
-//				VatTu vatTu = new VatTu(vtMa, vtTen, donViTinh, 0);
-					vtMaList.add(vtMa);
-					vtTenList.add(vtTen);
-					dvtTenList.add(dvt);
-					nsxList.add(nsxTen);
-					chatLuongList.add(clTen);
-					soLuongTonList.add((int)soLuong);
-				}
-			}
-			int lenght = vtMaList.size();
-			
-			for (int i = 0; i< lenght; i++) {
-				NoiSanXuatDAO nsxDAO = new NoiSanXuatDAO();
-				ChatLuongDAO clDAO = new ChatLuongDAO();
-				CTVatTuDAO ctvtDAO = new CTVatTuDAO();
-				
-				String vtMa = vtMaList.get(i);
-				String nsxTen = nsxList.get(i);
-				String clTen = chatLuongList.get(i);
-				int soLuongTon = (int)soLuongTonList.get(i);
-				
-				NoiSanXuat nsxTemp = nsxDAO.getByNameNsx(nsxTen);
-				ChatLuong chatLuongTemp = clDAO.getByNameCl(clTen);
-				
-//				System.out.println("VTMa = "+ctvt.getCtvtId()+ "\n vtTen = "+ vtTen + "\n nsxMa = "+ nsxMa + "\n clMa = " + clMa);
-				if (nsxTemp == null || chatLuongTemp == null) {
-					vtMaError.add(vtMa);
-					vtTenError.add(vtTenList.get(i));
-					dvtTenError.add(dvtTenList.get(i));
-					nsxTenError.add(nsxTen);
-					clTenError.add(clTen);
-					soLuongError.add(soLuongTon);
-					statusError.add("Vật tư không tồn tại");
+					String nsxMa = "";
+					String clMa = "";
+					if (nsxTen.length() == 0)
+						nsxMa = "VIE";
+					else {
+						NoiSanXuatDAO nsxDAO = new NoiSanXuatDAO();
+						NoiSanXuat nsxTemp = nsxDAO.getByNameNsx(nsxTen);
+						if (nsxTemp != null)
+							nsxMa = nsxTemp.getNsxMa();
+						nsxDAO.close();
+					}
+					if (clTen.length() == 0)
+						nsxMa = "000";
+					else {
+						ChatLuongDAO clDAO = new ChatLuongDAO();
+						ChatLuong clTemp = clDAO.getByNameCl(clTen);
+						if (clTemp != null)
+							clMa = clTemp.getClMa();
+						clDAO.close();
+					}
 					
-				} else {
-					CTVatTu ctvt = ctvtDAO.getCTVatTu(vtMa , nsxTemp.getNsxMa(), chatLuongTemp.getClMa());
-					if (ctvt == null) {
+					CTVatTuDAO ctvtDAO = new CTVatTuDAO();
+					if (nsxMa.length() == 0 || clMa.length() == 0) {
 						vtMaError.add(vtMa);
-						vtTenError.add(vtTenList.get(i));
-						dvtTenError.add(dvtTenList.get(i));
+						vtTenError.add(vtTen);
+						dvtTenError.add(dvt);
 						nsxTenError.add(nsxTen);
 						clTenError.add(clTen);
-						soLuongError.add(soLuongTon);
+						soLuongError.add(soLuong);
 						statusError.add("Vật tư không tồn tại");
+						
 					} else {
-						ctvt.setSoLuongTon(soLuongTon);
-						ctvtDAO.updateCTVatTu(ctvt);
+						CTVatTu ctvt = ctvtDAO.getCTVatTu(vtMa , nsxMa, clMa);
+						if (ctvt == null) {
+							vtMaError.add(vtMa);
+							vtTenError.add(vtTen);
+							dvtTenError.add(dvt);
+							nsxTenError.add(nsxTen);
+							clTenError.add(clTen);
+							soLuongError.add(soLuong);
+							statusError.add("Vật tư không tồn tại");
+						} else {
+							ctvt.setSoLuongTon(soLuong);
+							ctvtDAO.updateCTVatTu(ctvt);
+						}
 					}
+					ctvtDAO.close();
 				}
-				nsxDAO.close();
-				clDAO.close();
-				ctvtDAO.close();
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -190,14 +185,6 @@ public class ReadExcelTon {
 		ArrayList<Integer> soLuongError = new ArrayList<Integer>();
 		ArrayList<String> statusError = new ArrayList<String>();
 		
-		ArrayList<String> vtMaList = new ArrayList<String>();
-		ArrayList<String> vtTenList = new ArrayList<String>();
-		ArrayList<String> dvtTenList = new ArrayList<String>();
-		ArrayList<String> nsxList = new ArrayList<String>();
-		ArrayList<String> chatLuongList = new ArrayList<String>();
-		ArrayList<CTVatTu> ctvtList = new ArrayList<CTVatTu>();
-//		ArrayList<DonViTinh> dvtList = new ArrayList<DonViTinh>();
-		ArrayList<Integer> soLuongTonList = new ArrayList<Integer>();
 		try {
 			HSSFWorkbook wb = new HSSFWorkbook(new FileInputStream(file));
 			HSSFSheet sheet = wb.getSheetAt(0);
@@ -218,7 +205,7 @@ public class ReadExcelTon {
 				String dvt = "";
 				String nsxTen = "";
 				String clTen = "";
-				double soLuong = -1;
+				int soLuong = -1;
 				while (cells.hasNext()) {
 					cell = (HSSFCell) cells.next();
 					if (cell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
@@ -243,12 +230,11 @@ public class ReadExcelTon {
 					} else if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
 						switch (count) {
 							case 6:
-								soLuong = cell.getNumericCellValue();
+								soLuong = (int)cell.getNumericCellValue();
 								break;
 						}
 					}
 					count++;
-					System.out.println("nsx Ten = " + nsxTen + "\tcl Ten = " + clTen);
 				}
 				if (vtMa.length() == 0 && vtTen.length() == 0 && dvt.length() == 0 && nsxTen.length() == 0 && clTen.length() == 0 && soLuong == -1)
 					break;
@@ -261,65 +247,55 @@ public class ReadExcelTon {
 					soLuongError.add((int)soLuong);
 					statusError.add("Lỗi dữ liệu");
 				} else {
-//				DonViTinh donViTinh = new DonViTinh(dvt, 0);
-//				VatTu vatTu = new VatTu(vtMa, vtTen, donViTinh, 0);
-					vtMaList.add(vtMa);
-					vtTenList.add(vtTen);
-					dvtTenList.add(dvt);
+					String nsxMa = "";
+					String clMa = "";
 					if (nsxTen.length() == 0)
-						nsxList.add("Việt Nam");
-					else	
-						nsxList.add(nsxTen);
+						nsxMa = "VIE";
+					else {
+						NoiSanXuatDAO nsxDAO = new NoiSanXuatDAO();
+						NoiSanXuat nsxTemp = nsxDAO.getByNameNsx(nsxTen);
+						if (nsxTemp != null)
+							nsxMa = nsxTemp.getNsxMa();
+						nsxDAO.close();
+					}
 					if (clTen.length() == 0)
-						chatLuongList.add("Không xác định");
-					else	
-						chatLuongList.add(nsxTen);
-					soLuongTonList.add((int)soLuong);
-				}
-			}
-			int lenght = vtMaList.size();
-			
-			for (int i = 0; i< lenght; i++) {
-				NoiSanXuatDAO nsxDAO = new NoiSanXuatDAO();
-				ChatLuongDAO clDAO = new ChatLuongDAO();
-				CTVatTuDAO ctvtDAO = new CTVatTuDAO();
-				
-				String vtMa = vtMaList.get(i);
-				String nsxTen = nsxList.get(i);
-				String clTen = chatLuongList.get(i);
-				int soLuongTon = (int)soLuongTonList.get(i);
-				
-				NoiSanXuat nsxTemp = nsxDAO.getByNameNsx(nsxTen);
-				ChatLuong chatLuongTemp = clDAO.getByNameCl(clTen);
-				
-//				System.out.println("VTMa = "+ctvt.getCtvtId()+ "\n vtTen = "+ vtTen + "\n nsxMa = "+ nsxMa + "\n clMa = " + clMa);
-				if (nsxTemp == null || chatLuongTemp == null) {
-					vtMaError.add(vtMa);
-					vtTenError.add(vtTenList.get(i));
-					dvtTenError.add(dvtTenList.get(i));
-					nsxTenError.add(nsxTen);
-					clTenError.add(clTen);
-					soLuongError.add(soLuongTon);
-					statusError.add("Vật tư không tồn tại");
+						nsxMa = "000";
+					else {
+						ChatLuongDAO clDAO = new ChatLuongDAO();
+						ChatLuong clTemp = clDAO.getByNameCl(clTen);
+						if (clTemp != null)
+							clMa = clTemp.getClMa();
+						clDAO.close();
+					}
 					
-				} else {
-					CTVatTu ctvt = ctvtDAO.getCTVatTu(vtMa , nsxTemp.getNsxMa(), chatLuongTemp.getClMa());
-					if (ctvt == null) {
+					CTVatTuDAO ctvtDAO = new CTVatTuDAO();
+					if (nsxMa.length() == 0 || clMa.length() == 0) {
 						vtMaError.add(vtMa);
-						vtTenError.add(vtTenList.get(i));
-						dvtTenError.add(dvtTenList.get(i));
+						vtTenError.add(vtTen);
+						dvtTenError.add(dvt);
 						nsxTenError.add(nsxTen);
 						clTenError.add(clTen);
-						soLuongError.add(soLuongTon);
+						soLuongError.add(soLuong);
 						statusError.add("Vật tư không tồn tại");
+						
 					} else {
-						ctvt.setSoLuongTon(soLuongTon);
-						ctvtDAO.updateCTVatTu(ctvt);
+						CTVatTu ctvt = ctvtDAO.getCTVatTu(vtMa , nsxMa, clMa);
+						if (ctvt == null) {
+							vtMaError.add(vtMa);
+							vtTenError.add(vtTen);
+							dvtTenError.add(dvt);
+							nsxTenError.add(nsxTen);
+							clTenError.add(clTen);
+							soLuongError.add(soLuong);
+							statusError.add("Vật tư không tồn tại");
+						} else {
+							ctvt.setSoLuongTon(soLuong);
+							ctvtDAO.updateCTVatTu(ctvt);
+						}
 					}
+					
+					ctvtDAO.close();
 				}
-				nsxDAO.close();
-				clDAO.close();
-				ctvtDAO.close();
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -328,7 +304,6 @@ public class ReadExcelTon {
 		ArrayList<Object> objectListError = new ArrayList<Object>();
 		
 		if (vtMaError.size() > 0) {
-			System.out.println(clTenError);
 			objectListError.add(vtMaError);
 			objectListError.add(vtTenError);
 			objectListError.add(dvtTenError);
