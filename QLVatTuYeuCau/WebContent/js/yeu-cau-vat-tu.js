@@ -333,7 +333,7 @@ function searchCtVt(){
 								break;
 						}
 						if (size > 10)
-							strPage = '<input type=\"button\" name="\page\" class=\"page\" value=\"<< Trước\" onclick=\"loadPageCtvtYc(' + '\"Next\"' + ')\">  ' +strPage + ' <input type=\"button\" name="\page\" class=\"page\" value=\">> Sau\" onclick=\"loadPageCtvtYc(' + '\"Next\"' + ')\">'
+							strPage = '<input type=\"button\" name="\page\" class=\"pageMove\" style = \"width: 90px;\" value=\"<< Trước\" onclick= \"loadPageCtvtYc(\'Previous\');\")\">  ' +strPage + ' <input type=\"button\" name="\page\" class=\"page\" style = \"width: 60px;\" value=\">> Sau\" onclick= \"loadPageCtvtYc(\'Next\');\")\">'
 						$('#paging').html(strPage);
 		  		} else {
 	  				alert("Không tìm thấy vật tư!");
@@ -354,8 +354,11 @@ function loadPageCtvtYc(pageNumber) {
 	}
 	else if (pageNumber == 'Previous') {
 		var firstPage = document.getElementsByClassName('page')[0].value;
-		p = (firstPage -1) / 5;
+		
+		p = (firstPage - 1) / 5;
 		page =  (p * 5) - 1;
+		alert(p);
+		alert(page);
 	}
 	else {
 		page = pageNumber;
@@ -397,9 +400,9 @@ function loadPageCtvtYc(pageNumber) {
 							if (t > size)
 								break;
 						}
-						button = '<input type=\"button\" value=\"<<\" onclick= \"loadPageCtvtYc(\'Previous\')\">&nbsp;'  + button;
+						button = '<input type=\"button\" class=\"pageMove\" style = \"width: 90px;\" value=\"<< Trước\" onclick= \"loadPageCtvtYc(\'Previous\')\">&nbsp;'  + button;
 						if ((p + 1) * 5 < size)
-							button += '<input type=\"button\" value=\">>\" onclick= \"loadPageCtvtYc(\'Next\');\">';
+							button += '<input type=\"button\" class=\"page\" style = \"width: 60px;\" value=\"Sau >>\" onclick= \"loadPageCtvtYc(\'Next\');\">';
 						$('#paging').html(button);
 					} else if (pageNumber == 'Previous'){
 						if (p > 0)
@@ -407,9 +410,9 @@ function loadPageCtvtYc(pageNumber) {
 						for (var i = 0; i < 10; i++)
 							button += '<input type=\"button\" value=\"' + (p * 5 + i + 1) + '\" class=\"page\" onclick= \"loadPageCtvtYc(' + (p * 5 + i)  +')\">&nbsp;';
 						
-						button = button + '<input type=\"button\" value=\"Next>>\" onclick= \"loadPageCtvtYc(\'Next\');\">';
+						button = button + '<input type=\"button\" value=\"Next>>\" class="\pageMove\" style = \"width: 60px;\" onclick= \"loadPageCtvtYc(\'Next\');\">';
 						if (p >= 1)
-							button = '<input type=\"button\" value=\"<<Previous\" onclick= \"loadPageCtvtYc(\'Previous\')\">&nbsp;' + button;
+							button = '<input type=\"button\" class="\pageMove\" style = \"width: 90px;\" value=\"<<Previous\" onclick= \"loadPageCtvtYc(\'Previous\')\">&nbsp;' + button;
 						$('#paging').html(button);	
 					}
 	  	}

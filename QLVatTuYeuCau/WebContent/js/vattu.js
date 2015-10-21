@@ -41,10 +41,13 @@
  			  		if(vtList.length>0){
  			  			$('#view-table-vat-tu table .rowContent').remove();
 						for(i = 0;i < vtList.length; i++ ) {
+							style = '';
+							if (i % 2 == 0)
+								style = 'style=\"background : #CCFFFF;\"';
 							vattu = vtList[i];
 							//alert(vtList[i].vtMa);
 		 			  		
-					  				$('#view-table-vat-tu table tr:first').after('<tr class=\"rowContent\"><td class=\"left-column\"><input type=\"checkbox\" name=\"vtMa\" value=\"' +vattu.vtMa 
+					  				$('#view-table-vat-tu table tr:first').after('<tr class=\"rowContent\"' + style +  '><td class=\"left-column\"><input type=\"checkbox\" name=\"vtMa\" value=\"' +vattu.vtMa 
 									+ '\"</td><td class=\"col\">'+ vattu.vtMa +'</td><td class=\"col\" style=\"text-align: left;\">' + vattu.vtTen
 									+'</td><td class=\"col\" style=\"text-align: center;width: 200px;\">' + vattu.dvt.dvtTen
 									+'</td><td style=\"text-align: center;\"><button type=\"button\" class=\"button-xem\" value=\"Xem\" onclick=\"showCTVatTu(\''

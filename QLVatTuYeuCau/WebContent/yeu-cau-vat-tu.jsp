@@ -160,7 +160,7 @@
 										str += "<input type=\"button\" value=\"" + (i+1) + "\" class=\"page\" onclick= \"loadPageCtvtYc(" + i +")\">&nbsp;";
 									}
 									if (pageNum > 10)
-								str += "<input type=\"button\" value=\">>\" onclick= \"loadPageCtvtYc(\'Next\');\">";
+								str += "<input type=\"button\" class=\"pageMove\" style = \"width: 60px;\" value=\"Sau >>\" onclick= \"loadPageCtvtYc(\'Next\');\">";
 									out.println(str);	
 								%>
 								</td>
