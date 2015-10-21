@@ -38,9 +38,15 @@ public class ReadExcel extends HttpServlet {
 	protected ModelAndView readExcelTonkho(MultipartHttpServletRequest multipartRequest, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = multipartRequest.getSession();
+<<<<<<< HEAD
+=======
+		session.removeAttribute("ctVatTuList");
+		session.removeAttribute("size");
+>>>>>>> 3fef32231878850e1afd90c36601943ae54eaf3d
 		try {
 			
 			java.io.File file = uploadFile(multipartRequest);
+			System.out.println(file.getName());
 			String extenstionFile = FileUtil.getExtension(file);
 			ArrayList<Object> objectListError = new ArrayList<Object>();
 			if ("xls".equalsIgnoreCase(extenstionFile)) {
@@ -98,7 +104,11 @@ public class ReadExcel extends HttpServlet {
 				{
 //					long size = ctvtListError.size();
 //					multipartRequest.setAttribute("size", size);
+<<<<<<< HEAD
 //					session.setAttribute("ctvtListError", ctvtListError);
+=======
+					HttpSession session = multipartRequest.getSession(false);
+>>>>>>> 3fef32231878850e1afd90c36601943ae54eaf3d
 //					session.setAttribute("statusError", statusError);
 					session.setAttribute("errorListVatTu", objectListError);
 					return new ModelAndView(siteMap.importVatTuError, "statusError", "list import error");

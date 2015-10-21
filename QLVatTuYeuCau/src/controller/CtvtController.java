@@ -45,10 +45,9 @@ public class CtvtController extends HttpServlet {
 		VatTuDAO vatTuDAO = new VatTuDAO();
 		CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
 		HttpSession session = request.getSession(false);
-		String action = request.getParameter("action");
 			long size = ctVatTuDAO.size();
 			ArrayList<CTVatTu> ctVatTuList =  (ArrayList<CTVatTu>) ctVatTuDAO.limitTonKho(page - 1, 10);
-			request.setAttribute("size", size);
+			session.setAttribute("size", size);
 			session.setAttribute("ctVatTuList", ctVatTuList);
 //			ArrayList<CTVatTu> allCTVatTuList =  (ArrayList<CTVatTu>) ctVatTuDAO.getAllCTVatTu();
 //			session.setAttribute("allCTVatTuList", allCTVatTuList);
