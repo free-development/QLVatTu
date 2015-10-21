@@ -107,7 +107,7 @@ public class ReadExcelCongVan {
 					}
 					CTVatTuDAO ctvtDAO = new CTVatTuDAO();
 					CTVatTu ctVatTu = ctvtDAO.getCTVatTu(vtMa, nsxMa, clMa);
-					if (ctVatTu != null) {
+					if (ctVatTu != null || ctVatTu.getDaXoa() == 1) {
 						vtMaList.add(vtMa);
 						nsxMaList.add(nsxMa);
 						clMaList.add(clMa);
@@ -223,7 +223,7 @@ public class ReadExcelCongVan {
 					}
 					CTVatTuDAO ctvtDAO = new CTVatTuDAO();
 					CTVatTu ctVatTu = ctvtDAO.getCTVatTu(vtMa, nsxMa, clMa);
-					if (ctVatTu != null) {
+					if (ctVatTu != null || ctVatTu.getDaXoa() == 0) {
 						vtMaList.add(vtMa);
 						nsxMaList.add(nsxMa);
 						clMaList.add(clMa);

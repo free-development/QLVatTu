@@ -116,7 +116,7 @@ public class downloadExcel extends HttpServlet {
         // return a view which will be resolved by an excel view resolvervError
         return new ModelAndView("cvError", "errorList", errorList);
     }
-	 @RequestMapping(value = "/downloadBpsdError", method = RequestMethod.GET)
+	@RequestMapping(value = "/downloadBpsdError", method = RequestMethod.GET)
 	 public ModelAndView downloadVatTuError(HttpServletRequest request) {
         // create some sample data
 	 	HttpSession session = request.getSession(false);
@@ -125,4 +125,22 @@ public class downloadExcel extends HttpServlet {
         // return a view which will be resolved by an excel view resolvervError
         return new ModelAndView("importBpsdError", "errorList", errorList);
     }
+	@RequestMapping(value = "/downloadNsxError", method = RequestMethod.GET)
+	 public ModelAndView downloadNsxError(HttpServletRequest request) {
+       // create some sample data
+	 	HttpSession session = request.getSession(false);
+	 	List<Object> errorList = (List<Object>) session.getAttribute("errorList");
+	 	
+       // return a view which will be resolved by an excel view resolvervError
+       return new ModelAndView("importNsxError", "errorList", errorList);
+   }
+	@RequestMapping(value = "/downloadClError", method = RequestMethod.GET)
+	 public ModelAndView downloadClError(HttpServletRequest request) {
+      // create some sample data
+	 	HttpSession session = request.getSession(false);
+	 	List<Object> errorList = (List<Object>) session.getAttribute("errorList");
+	 	
+      // return a view which will be resolved by an excel view resolvervError
+      return new ModelAndView("importClError", "errorList", errorList);
+  }
 }

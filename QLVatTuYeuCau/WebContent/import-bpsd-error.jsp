@@ -71,7 +71,7 @@
 						<button type="button" class="button" onclick="location.href='<%=siteMap.downloadBpsdError%>'">
 							<i class="fa fa-download"></i>&nbsp;&nbsp;Tải xuống
 						</button>
-						<button type="button" class="button" onclick="location.href='<%=siteMap.home%>'">
+						<button type="button" class="button" onclick="location.href='<%=siteMap.boPhanSuDung + ".jsp"%>'">
 							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 						</button>
 					</div>			

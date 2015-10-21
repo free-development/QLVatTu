@@ -118,9 +118,4 @@ public class ChatLuongDAO {
 		session.getTransaction().commit();
 		return cl;
 	}
-	public static void main(String[] args) {
-		System.out.println(new ChatLuongDAO().getByNameCl("Hàng mới"));
-		
-	
-	}
 }

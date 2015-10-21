@@ -40,7 +40,8 @@ import dao.DonViTinhDAO;
 public class VattuController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	int page = 1;
-
+	private String filter = "";
+	private String filterValue = "";
    @RequestMapping("/manageVattu")
 	protected ModelAndView manageCtvt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		VatTuDAO vatTuDAO = new VatTuDAO();
@@ -48,58 +49,24 @@ public class VattuController extends HttpServlet {
 		ChatLuongDAO chatLuongDAO = new ChatLuongDAO();
 		DonViTinhDAO donViTinhDAO = new DonViTinhDAO();
 		HttpSession session = request.getSession(false);
-//		session.removeAttribute("status");
 		String action = request.getParameter("action");
-//		if("addVatTu".equalsIgnoreCase(action)) {
-//			
-//			String vtMa = request.getParameter("vtMa");
-//			String vtTen = request.getParameter("vtTen");
-//			String dvt = request.getParameter("dvt");
-//
-//			if(new VatTuDAO().getVatTu(vtMa) != null){
-//				request.setAttribute("error", "Vật tư đã tồn tại");
-//				System.out.println("Vat tu da ton tai");
-//				return new ModelAndView("danh-muc-vat-tu");
-//			}
-//			else{
-//				vatTuDAO.addVatTu(new VatTu(vtMa,vtTen,dvt,0));
-//				ArrayList<VatTu> vatTuList =  (ArrayList<VatTu>) new VatTuDAO().getAllVatTu();
-//				return new ModelAndView("danh-muc-vat-tu", "vatTuList", vatTuList);
-//			}
-//			
-//		}
-//		if("deleteVatTu".equalsIgnoreCase(action)) {
-//			String[] vtMaList = request.getParameterValues("vtMa");
-//			for(String s : vtMaList) {
-//				
-//					vatTuDAO.deleteVatTu(s);
-//			}
-//			ArrayList<VatTu> vatTuList =  (ArrayList<VatTu>) vatTuDAO.getAllVatTu();
-//			return new ModelAndView("danh-muc-vat-tu", "vatTuList", vatTuList);
-//
-//		}
-		if("manageVattu".equalsIgnoreCase(action)) {
-			long size = vatTuDAO.size();
-			ArrayList<VatTu> vatTuList =  (ArrayList<VatTu>) vatTuDAO.limit(page - 1, 10);
-			request.setAttribute("size", size);
-			ArrayList<NoiSanXuat> noiSanXuatList =  (ArrayList<NoiSanXuat>) noiSanXuatDAO.getAllNoiSanXuat();
-			ArrayList<ChatLuong> chatLuongList =  (ArrayList<ChatLuong>) chatLuongDAO.getAllChatLuong();
-			ArrayList<DonViTinh> donViTinhList =  (ArrayList<DonViTinh>) donViTinhDAO.getAllDonViTinh();
-			request.setAttribute("noiSanXuatList", noiSanXuatList);
-			request.setAttribute("chatLuongList", chatLuongList);
-			request.setAttribute("donViTinhList", donViTinhList);
-			request.setAttribute("vatTuList", vatTuList);
-			vatTuDAO.disconnect();
-			noiSanXuatDAO.disconnect();
-			chatLuongDAO.disconnect();
-			donViTinhDAO.disconnect();
-			return new ModelAndView("danh-muc-vat-tu");
-		}
+		this.filter = "";
+		this.filterValue = "";
+		long size = vatTuDAO.size();
+		ArrayList<VatTu> vatTuList =  (ArrayList<VatTu>) vatTuDAO.limit(page - 1, 10);
+		request.setAttribute("size", size);
+		ArrayList<NoiSanXuat> noiSanXuatList =  (ArrayList<NoiSanXuat>) noiSanXuatDAO.getAllNoiSanXuat();
+		ArrayList<ChatLuong> chatLuongList =  (ArrayList<ChatLuong>) chatLuongDAO.getAllChatLuong();
+		ArrayList<DonViTinh> donViTinhList =  (ArrayList<DonViTinh>) donViTinhDAO.getAllDonViTinh();
+		request.setAttribute("noiSanXuatList", noiSanXuatList);
+		request.setAttribute("chatLuongList", chatLuongList);
+		request.setAttribute("donViTinhList", donViTinhList);
+		request.setAttribute("vatTuList", vatTuList);
 		vatTuDAO.disconnect();
 		noiSanXuatDAO.disconnect();
 		chatLuongDAO.disconnect();
 		donViTinhDAO.disconnect();
-		return new ModelAndView("login");
+		return new ModelAndView("danh-muc-vat-tu");
 	}
    @RequestMapping(value="/preEditVattu", method=RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -150,19 +117,34 @@ public class VattuController extends HttpServlet {
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String timKiemVattu(@RequestParam("vtMa") String vtMa, @RequestParam("vtTen") String vtTen) {
 		VatTuDAO vatTuDAO = new VatTuDAO();
-		//System.out.println("Ma goi qua " + vtMa);
-		//System.out.println("Ten goi qua " + vtTen);
 		if(vtMa != ""){
-			ArrayList<VatTu> vtList = (ArrayList<VatTu>) vatTuDAO.searchVtMa(vtMa);
+			ArrayList<VatTu> vtList = (ArrayList<VatTu>) vatTuDAO.searchVtMaLimit(vtMa, 0, 10);
+			this.filter = "vtMa";
+			this.filterValue = vtMa;
+			long size = vatTuDAO.size(filter, filterValue);
+			System.out.println(size);
+			ArrayList<Object> objectList = new ArrayList<Object>();
+			int page = ((int)size % 10 == 0 ? (int)size/10 : ((int)size/10) + 1);
+			objectList.add(vtList);
+			objectList.add(page);
+			System.out.println(page);
 			vatTuDAO.disconnect();
-			return JSonUtil.toJson(vtList);
+			return JSonUtil.toJson(objectList);
 		}
 		else
 		{
-			ArrayList<VatTu> vtList = (ArrayList<VatTu>) vatTuDAO.searchVtTen(vtTen);
-			//System.out.println("Ten: "+vtTen);
+			ArrayList<VatTu> vtList = (ArrayList<VatTu>) vatTuDAO.searchVtTenLimit(vtTen, 0, 10);
+			this.filter = "vtTen";
+			this.filterValue = vtTen;
+			long size = vatTuDAO.size(filter, filterValue);
+			System.out.println(size);
+			ArrayList<Object> objectList = new ArrayList<Object>();
+			int page = ((int)size % 10 == 0 ? (int)size/10 : ((int)size/10) + 1);
+			objectList.add(vtList);
+			objectList.add(page);
+			System.out.println(page);
 			vatTuDAO.disconnect();
-			return JSonUtil.toJson(vtList);
+			return JSonUtil.toJson(objectList);
 		}
 		
 	}
@@ -194,16 +176,14 @@ public class VattuController extends HttpServlet {
 	@RequestMapping(value="/loadPageVatTu", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String loadPageVatTu(@RequestParam("pageNumber") String pageNumber) {
-//		String result = "";
-//		System.out.println("MA: " + pageNumber);
 		VatTuDAO vatTuDAO = new VatTuDAO();
 		int page = Integer.parseInt(pageNumber);
 		ArrayList<Object> objectList = new ArrayList<Object>();
-		long sizevt = vatTuDAO.size();
-		ArrayList<VatTu> vatTuList = (ArrayList<VatTu>) vatTuDAO.limit(page * 10, 10);
-		//JOptionPane.showMessageDialog(null, vatTuList.size());
+		long size = vatTuDAO.size(filter, filterValue);
+		ArrayList<VatTu> vatTuList = (ArrayList<VatTu>) vatTuDAO.searchLimit(filter, filterValue, page * 10, 10);
 		objectList.add(vatTuList);
-		objectList.add((sizevt - 1)/10);
+		int p = ((int)size % 10 == 0 ? (int)size/10 : ((int)size/10) + 1);
+		objectList.add(p);
 		vatTuDAO.disconnect();
 		return JSonUtil.toJson(objectList);
 	}

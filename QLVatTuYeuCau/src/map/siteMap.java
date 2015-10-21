@@ -13,6 +13,7 @@ public class siteMap {
 	// map danh muc chat luong
 	public static final String clManage = home +  "manageCl.html";
 	public static final String chatLuong = "danh-muc-chat-luong";
+	public static final String importErrorCl = "import-chat-luong-error";
 	
 	// ma manage bo phan
 	public static final String bpsdManage = home +  "manageBpsd.html";
@@ -162,5 +163,7 @@ public class siteMap {
 	public static final String  downloadVatTuError = home + "downloadVatTuError.html";
 	public static final String  downloadTonKhoError = home + "downloadTonKhoError.html";
 	public static final String  downloadBpsdError = home + "downloadBpsdError.html";
+	public static final String  downloadNsxError = home + "downloadNsxError.html";
+	public static final String  downloadClError = home + "downloadClError.html";
 	
 }

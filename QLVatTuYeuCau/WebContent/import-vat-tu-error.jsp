@@ -55,11 +55,11 @@
 							<tr class="rowContent"
 								<%if (count % 2 == 0) out.println("style=\"background : #CCFFFF;\"");%>>
 								<td><%=i++ %></td>
-								<td class="col"><%String vtMa = ctVatTu.getVatTu().getVtMa(); if (vtMa != null) out.println(vtMa); else out.println("");%></td>
-								<td class="col" style="text-align: left;"><%String vtTen = ctVatTu.getVatTu().getVtTen(); if (vtTen != null) out.println(vtTen); else out.println("");%></td>
-								<td class="col" style="text-align: left;"><%String nsxMa = ctVatTu.getNoiSanXuat().getNsxMa(); if (nsxMa != null) out.println(nsxMa); else out.println(""); %></td>
-								<td class="col" style="text-align: left;"><%String clMa = ctVatTu.getChatLuong().getClMa(); if (clMa != null) out.println(clMa); else out.println("");%></td>
-								<td class="col"><%String dvt = ctVatTu.getVatTu().getDvt().getDvtTen(); if (dvt != null) out.println(dvt);else out.println(""); %></td>
+								<td class="col"><%=ctVatTu.getVatTu().getVtMa()%></td>
+								<td class="col" style="text-align: left;"><%=ctVatTu.getVatTu().getVtTen()%></td>
+								<td class="col" style="text-align: left;"><%=ctVatTu.getNoiSanXuat().getNsxMa() %></td>
+								<td class="col" style="text-align: left;"><%=ctVatTu.getChatLuong().getClMa()%></td>
+								<td class="col"><%=ctVatTu.getVatTu().getDvt().getDvtTen() %></td>
 								<td class="col"><%=statusError.get(count - 1) %></td>
 							</tr>
 							<%} }%>
@@ -70,7 +70,7 @@
 						<button type="button" class="button" onclick="location.href='<%=siteMap.downloadExcelError%>'">
 							<i class="fa fa-download"></i>&nbsp;&nbsp;Tải xuống
 						</button>
-						<button type="button" class="button" onclick="location.href='<%=siteMap.home%>'">
+						<button type="button" class="button" onclick="location.href='<%=siteMap.vatTu + ".jsp"%>'">
 							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 						</button>
 					</div>			

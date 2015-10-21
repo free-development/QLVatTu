@@ -69,7 +69,6 @@
 			int index = siteMap.ctvtManage.lastIndexOf("/");
 			String url = siteMap.ctvtManage.substring(index);
 			RequestDispatcher dispatcher =  request.getRequestDispatcher(url);
-			System.out.println(url);
 			dispatcher.forward(request, response);
 			return;
 		}

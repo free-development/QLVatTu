@@ -41,13 +41,6 @@ public class ReadExcelTon {
 		ArrayList<Integer> soLuongError = new ArrayList<Integer>();
 		ArrayList<String> statusError = new ArrayList<String>();
 		
-		ArrayList<String> vtMaList = new ArrayList<String>();
-		ArrayList<String> vtTenList = new ArrayList<String>();
-		ArrayList<String> dvtTenList = new ArrayList<String>();
-		ArrayList<String> nsxList = new ArrayList<String>();
-		ArrayList<String> chatLuongList = new ArrayList<String>();
-//		ArrayList<DonViTinh> dvtList = new ArrayList<DonViTinh>();
-		ArrayList<Integer> soLuongTonList = new ArrayList<Integer>();
 		try {
 			XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream(file));
 			XSSFSheet sheet = wb.getSheetAt(0);
@@ -144,7 +137,7 @@ public class ReadExcelTon {
 						
 					} else {
 						CTVatTu ctvt = ctvtDAO.getCTVatTu(vtMa , nsxMa, clMa);
-						if (ctvt == null) {
+						if (ctvt == null || ctvt.getDaXoa() == 0) {
 							vtMaError.add(vtMa);
 							vtTenError.add(vtTen);
 							dvtTenError.add(dvt);
@@ -280,7 +273,7 @@ public class ReadExcelTon {
 						
 					} else {
 						CTVatTu ctvt = ctvtDAO.getCTVatTu(vtMa , nsxMa, clMa);
-						if (ctvt == null) {
+						if (ctvt == null || ctvt.getDaXoa() == 0) {
 							vtMaError.add(vtMa);
 							vtTenError.add(vtTen);
 							dvtTenError.add(dvt);

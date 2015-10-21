@@ -28,11 +28,6 @@
 				vtTen = $('#search input[name=vattu]').val();
 			else 
 				vtMa = $('#search input[name=vattu]').val();
-			/*
-			alert(check);
-			alert(vtTen);
-			alert(vtMa);
-			*/
 			$.ajax({
 				url: getRoot() +  "/timKiemVattu.html",	
 			  	type: "GET",
@@ -40,9 +35,9 @@
  			  	data: { "vtMa": vtMa, "vtTen": vtTen},
  			  	contentType: 'application/json',
  			    mimeType: 'application/json',
-			  	
- 			  	success: function(vtList){
- 			  		
+ 			  	success: function(objectList){
+ 			  		var vtList = objectList[0];
+ 			  		var size = objectList[1];
  			  		if(vtList.length>0){
  			  			$('#view-table-vat-tu table .rowContent').remove();
 						for(i = 0;i < vtList.length; i++ ) {
@@ -55,14 +50,23 @@
 									+'</td><td style=\"text-align: center;\"><button type=\"button\" class=\"button-xem\" value=\"Xem\" onclick=\"showCTVatTu(\''
 									+vattu.vtMa+'\');\">Xem</button></td></tr>');
 						}
+						var strPage = '';
+						for (i = 0; i < size; i++) {
+							strPage += '<input type=\"button\" class=\"page\" name="\page\" value=\"' + (i + 1) + '\"  onclick=\"loadPageVatTu(' + i + ')\">  ';
+							if (i == 10)
+								break;
+						}
+						if (size > 10) {
+							strPage = '<input type=\"button\" name="\page\" class=\"page\" value=\"<< Trước\" onclick= \"loadPageVatTu(\'Previous\');\">  ' 
+							+ strPage + ' <input type=\"button\" name="\page\" class=\"page\" value=\">> Sau\" onclick= \"loadPageVatTu(\'Next\');\"> ';
+						}
+						$('#paging').html(strPage);
  			  		}
- 			  		else
- 			  			{
+ 			  		else {
  			  				alert("Không tìm thấy vật tư!");
- 			  			}
+		  			}
  			  	}
 			});
-			
 		}
 		function addVattu() {
  			vtMa = $('#add-form input:text[name=vtMa]').val();
@@ -361,7 +365,7 @@
  			    mimeType: 'application/json',
  			  	
  			  	success: function(objectList) {
- 			  		var size = objectList[2];
+ 			  		var size = objectList[1];
  			  		var vtList = objectList[0];
  			  		var length = vtList.length;
  			  		$('#view-table-vat-tu table .rowContent').remove();

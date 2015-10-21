@@ -50,6 +50,12 @@
    			dispatcher.forward(request, response);
    			return;
    		}
+   		
+   		String status = (String) request.getAttribute("status");
+   		if (status != null && status.equals("success"))
+   			out.println("<script>alert('Import dữ liệu thành công!')</script>");
+   		else if (status != null && status.equals("unknownFile"))
+   			out.println("<script>alert('Định dạng import không hỗ trợ!')</script>");
 		String chucDanh = authentication.getChucDanh().getCdMa();
 		String truongPhongMa = request.getServletContext().getInitParameter("truongPhongMa");
 		String vanThuMa = request.getServletContext().getInitParameter("vanThuMa");

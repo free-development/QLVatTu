@@ -327,15 +327,14 @@ function searchCtVt(){
 					}
 					
 						var strPage = '';
-						for (i = 0; i <= size; i++) {
-							strPage += '<input type=\"button\" class=\"page\" name="\page\" value=\"' + (i + 1) + '\">  ';
+						for (i = 0; i < size; i++) {
+							strPage += '<input type=\"button\" class=\"page\" name="\page\" value=\"' + (i + 1) + '\" onclick=\"loadPageCtvtYc(' + i + ')\">  ';
 							if (i == 10)
 								break;
 						}
 						if (size > 10)
-							strPage = '<input type=\"button\" name="\page\" class=\"page\" value=\"<< privious\"> ' +strPage + ' <input type=\"button\" name="\page\" class=\"page\" value=\">> next\">'
-						
-						
+							strPage = '<input type=\"button\" name="\page\" class=\"page\" value=\"<< Trước\" onclick=\"loadPageCtvtYc(' + '\"Next\"' + ')\">  ' +strPage + ' <input type=\"button\" name="\page\" class=\"page\" value=\">> Sau\" onclick=\"loadPageCtvtYc(' + '\"Next\"' + ')\">'
+						$('#paging').html(strPage);
 		  		} else {
 	  				alert("Không tìm thấy vật tư!");
 	  			}

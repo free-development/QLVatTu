@@ -73,7 +73,7 @@ public class ReadExcelNsx {
 						statusError.add("Lỗi dữ liệu");
 					} else {
 						NoiSanXuatDAO nsxDAO = new NoiSanXuatDAO();
-						NoiSanXuat temp = nsxDAO.getNoiSanXuat(nsx.getNsxMa());
+						NoiSanXuat temp = nsxDAO.getNoiSanXuat(nsxMa);
 						if (temp ==  null) {
 							nsxDAO.addNoiSanXuat(nsx);
 						} else {
@@ -129,6 +129,7 @@ public class ReadExcelNsx {
 						} 
 						count++;
 					}
+					System.out.println("******" + nsxMa + "**" + nsxTen);
 					if (nsxMa.length() == 0 && nsxTen.length() == 0)
 						break;
 					NoiSanXuat nsx = new NoiSanXuat(nsxMa, nsxTen,0);
@@ -136,10 +137,18 @@ public class ReadExcelNsx {
 						nsxError.add(nsx);
 						statusError.add("Lỗi dữ liệu");
 					} else {
+//						System.out.println("******" + nsxMa + "**" + nsxTen);
 						NoiSanXuatDAO nsxDAO = new NoiSanXuatDAO();
-						NoiSanXuat temp = nsxDAO.getNoiSanXuat(nsx.getNsxMa());
+						NoiSanXuat temp = nsxDAO.getNoiSanXuat(nsxMa);
+						
 						if (temp ==  null) {
+							System.out.println("not exists ******" + nsxMa + "**" + nsxTen);
 							nsxDAO.addNoiSanXuat(nsx);
+						} else if (temp.getDaXoa() == 1){
+							NoiSanXuatDAO nsxDAO2 = new NoiSanXuatDAO();
+							System.out.println("exists ******" + nsxMa + "**" + nsxTen);
+							nsxDAO2.updateNoiSanXuat(nsx);
+							nsxDAO2.disconnect();
 						} else {
 							nsxError.add(nsx);
 							statusError.add("Đã tồn tại");

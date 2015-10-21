@@ -34,21 +34,19 @@ import model.VatTu;
  *
  */
 public class ReadExcelCl {
-	public static boolean readXlsx(File file) {
+	public static ArrayList<Object> readXlsx(File file) {
+		ArrayList<ChatLuong> clError =  new ArrayList<ChatLuong>();
+		ArrayList<String> statusError = new ArrayList<String>();
 		try {
 			XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream(file));
 			XSSFSheet sheet = wb.getSheetAt(0);
 			Row row;
 			Cell cell;
 			Iterator rows = sheet.rowIterator();
-			int j = 0;
-			ArrayList<ChatLuong> clList = new ArrayList<ChatLuong>();
-			
+			if (rows.hasNext())
+				rows.next();
 			while (rows.hasNext()) {
 				row = (XSSFRow) rows.next();
-				j++;
-				if (j == 1)
-					continue;
 				Iterator cells = row.cellIterator();
 				int count = 0;
 				String clMa = "";
@@ -69,94 +67,101 @@ public class ReadExcelCl {
 				}
 				if (clMa.length() == 0 && clTen.length() == 0)
 					break;
-				if (clMa.length() == 0 || clTen.length() == 0)
-					return false;
-			
 				ChatLuong cl = new ChatLuong(clMa, clTen , 0);
-				
-				clList.add(cl);
-			}
-			int lenght = clList.size();
-			
-			for (int i = 0; i< lenght; i++) {
-				
-				ChatLuongDAO clDAO = new ChatLuongDAO();
-				
-				ChatLuong cl = clList.get(i);
-
-				ChatLuong temp = clDAO.getChatLuong(cl.getClMa());
-					if (temp ==  null) {
+				if (clMa.length() == 0 || clTen.length() == 0) {
+					clError.add(cl);
+					statusError.add("Lỗi dữ liệu");
+				} else {
+					ChatLuongDAO clDAO = new ChatLuongDAO();
+					ChatLuong clTemp = clDAO.getChatLuong(clMa);
+					if (clTemp == null) {
 						clDAO.addChatLuong(cl);
+					} else if (clTemp.getDaXoa() == 1) {
+						ChatLuongDAO clDAO2 = new ChatLuongDAO();
+						clDAO2.updateChatLuong(cl);
+						clDAO2.disconnect();
+					} else {
+						clError.add(cl);
+						statusError.add("Đã tồn tại");
 					}
-			clDAO.close();
+					clDAO.close();
+				}
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return true;
+		ArrayList<Object> errorList = new ArrayList<Object>();
+		if (clError.size() > 0) {
+			errorList.add(clError);
+			errorList.add(statusError);
+		}
+		return errorList;
 	}
 	
 	// read xls
-	public static boolean readXls(File file) {
+	public static ArrayList<Object> readXls(File file) {
+		ArrayList<ChatLuong> clError =  new ArrayList<ChatLuong>();
+		ArrayList<String> statusError = new ArrayList<String>();
 		try {
 			HSSFWorkbook wb = new HSSFWorkbook(new FileInputStream(file));
 			HSSFSheet sheet = wb.getSheetAt(0);
 			Row row;
 			Cell cell;
 			Iterator rows = sheet.rowIterator();
-			int j = 0;
-			ArrayList<ChatLuong> clList = new ArrayList<ChatLuong>(); 
+			if (rows.hasNext())
+				rows.next();
 			while (rows.hasNext()) {
 				row = (HSSFRow) rows.next();
-				j++;
-				if (j == 1)
-					continue;
 				Iterator cells = row.cellIterator();
 				int count = 0;
 				String clMa = "";
 				String clTen = "";
-					while (cells.hasNext()) {
-						cell = (HSSFCell) cells.next();
-						if (cell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
-							switch (count) {
-							case 0:
-								clMa = cell.getStringCellValue();
-								break;
-							case 1:
-								clTen = cell.getStringCellValue();
-								break;
-							}
-						} 
-						count++;
-					}
-					if (clMa.length() == 0 && clTen.length() == 0)
-						break;
-					if (clMa.length() == 0 || clTen.length() == 0)
-						return false;
-				
-					ChatLuong cl = new ChatLuong(clMa, clTen , 0);
-					
-					clList.add(cl);
+				while (cells.hasNext()) {
+					cell = (HSSFCell) cells.next();
+					if (cell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
+						switch (count) {
+						case 0:
+							clMa = cell.getStringCellValue();
+							break;
+						case 1:
+							clTen = cell.getStringCellValue();
+							break;
+						}
+					} 
+					count++;
 				}
-				int lenght = clList.size();
-				
-				for (int i = 0; i< lenght; i++) {
-					
+				if (clMa.length() == 0 && clTen.length() == 0)
+					break;
+				ChatLuong cl = new ChatLuong(clMa, clTen , 0);
+				if (clMa.length() == 0 || clTen.length() == 0) {
+					clError.add(cl);
+					statusError.add("Lỗi dữ liệu");
+				} else {
 					ChatLuongDAO clDAO = new ChatLuongDAO();
-					
-					ChatLuong cl = clList.get(i);
-
-					ChatLuong temp = clDAO.getChatLuong(cl.getClMa());
-					if (temp ==  null) {
+					ChatLuong clTemp = clDAO.getChatLuong(clMa);
+					if (clTemp == null) {
 						clDAO.addChatLuong(cl);
+					} else if (clTemp.getDaXoa() == 1) {
+						ChatLuongDAO clDAO2 = new ChatLuongDAO();
+						clDAO2.updateChatLuong(cl);
+						clDAO2.disconnect();
+					} else {
+						clError.add(cl);
+						statusError.add("Đã tồn tại");
 					}
-				clDAO.close();
+					clDAO.close();
 				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-			return true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ArrayList<Object> errorList = new ArrayList<Object>();
+		if (clError.size() > 0) {
+			errorList.add(clError);
+			errorList.add(statusError);
+		}
+		return errorList;
 	}
 }

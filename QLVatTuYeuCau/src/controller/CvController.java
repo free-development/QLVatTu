@@ -63,7 +63,6 @@ public class CvController extends HttpServlet{
 	 @Autowired
 	private   ServletContext context; 
 	
-    private final int maxSize = 52428800;
     
     private int year = 0;
     private int month = 0;

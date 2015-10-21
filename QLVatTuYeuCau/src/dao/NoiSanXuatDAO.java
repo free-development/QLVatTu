@@ -29,8 +29,12 @@ public class NoiSanXuatDAO {
 	}
 	public NoiSanXuat getNoiSanXuat(final String nsxMa) {
 		session.beginTransaction();
-		
-		NoiSanXuat noiSanXuat = (NoiSanXuat) session.get(NoiSanXuat.class, nsxMa);
+		NoiSanXuat noiSanXuat = null;
+		Criteria cr =  session.createCriteria(NoiSanXuat.class);
+		cr.add(Restrictions.eq("nsxMa", nsxMa));
+		List<NoiSanXuat> nsxList = cr.list();
+		if (nsxList.size() > 0)
+			noiSanXuat = nsxList.get(0);
 		session.getTransaction().commit();
 		return noiSanXuat;
 	}

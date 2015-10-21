@@ -1,3 +1,4 @@
+<%@page import="model.NoiSanXuat"%>
 <%@page import="model.DonVi"%>
 <%@page import="map.siteMap"%>
 <%@page import="model.CTVatTu"%>
@@ -22,11 +23,11 @@
 	<%
 		String status = (String) request.getAttribute("status");
 	if (status != null && status.equals("formatException"))
-			out.println("<script>alert('Danh sách bộ phận sử dụng bị lỗi khi import!')</script>");
+			out.println("<script>alert('Danh sách nơi sản xuất bị lỗi khi import!')</script>");
 	%>
 	<%
 	ArrayList<Object> errorList = (ArrayList<Object>) session.getAttribute("errorList");
-	ArrayList<DonVi> donViError = (ArrayList<DonVi>) errorList.get(0);
+	ArrayList<NoiSanXuat> nsxError = (ArrayList<NoiSanXuat>) errorList.get(0);
 	ArrayList<String> statusError = (ArrayList<String>) errorList.get(1);
 // 		Long size = (Long) request.getAttribute("size");
 // 		Long pageNum = size/10;
@@ -40,27 +41,20 @@
 						<table>
 							<tr style="background: #199e5e">
 							<th>Số TT</th>
-								<th class="four-column">Mã BPSD</th>
-								<th class="three-column">Tên BPSD</th>
-								<th class="six-column">Địa chỉ</th>
-								<th class="six-column">Email</th>
-								<th class="four-column">Số điện thoại</th>
-								<th class="four-column">Lỗi</th>
+								<th style="width: 100px;">Mã NSX</th>
+								<th style="width: 400px;">Tên NSX</th>
+								<th style="width: 600px;">Lỗi</th>
 							</tr>
 							<%
-									if(donViError != null) {
+									if(nsxError != null) {
 									int count = 0;
-									int i = 1;
-									for(DonVi donVi : donViError) { %>
+									for(NoiSanXuat nsx : nsxError) { %>
 		
 							<tr class="rowContent"
 								<%if (count % 2 == 1) out.println("style=\"background : #CCFFFF;\"");%>>
-								<td><%=i++ %></td>
-								<td class="col"><%=donVi.getDvMa()%></td>
-								<td class="col" style="text-align: left;"><%=donVi.getDvTen()%></td>
-								<td class="col" style="text-align: left;"><%=donVi.getDiaChi() %></td>
-								<td class="col" style="text-align: left;"><%=donVi.getEmail()%></td>
-								<td class="col"><%=donVi.getSdt() %></td>
+								<td><%= count + 1 %></td>
+								<td class="col"><%=nsx.getNsxMa()%></td>
+								<td class="col" style="text-align: left;"><%=nsx.getNsxTen()%></td>
 								<td class="col"><%=statusError.get(count) %></td>
 							</tr>
 							<%count++;} }%>
@@ -68,10 +62,10 @@
 						</table>
 					</div>
 					<div class="group-button" style="text-align: center;">		
-						<button type="button" class="button" onclick="location.href='<%=siteMap.downloadBpsdError%>'">
+						<button type="button" class="button" onclick="location.href='<%=siteMap.downloadNsxError%>'">
 							<i class="fa fa-download"></i>&nbsp;&nbsp;Tải xuống
 						</button>
-						<button type="button" class="button" onclick="location.href='<%=siteMap.home%>'">
+						<button type="button" class="button" onclick="location.href='<%=siteMap.noiSanXuat  + ".jsp"%>'">
 							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 						</button>
 					</div>			

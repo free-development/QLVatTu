@@ -38,11 +38,8 @@ public class ReadExcel extends HttpServlet {
 	protected ModelAndView readExcelTonkho(MultipartHttpServletRequest multipartRequest, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = multipartRequest.getSession();
-<<<<<<< HEAD
-=======
 		session.removeAttribute("ctVatTuList");
 		session.removeAttribute("size");
->>>>>>> 3fef32231878850e1afd90c36601943ae54eaf3d
 		try {
 			
 			java.io.File file = uploadFile(multipartRequest);
@@ -104,11 +101,7 @@ public class ReadExcel extends HttpServlet {
 				{
 //					long size = ctvtListError.size();
 //					multipartRequest.setAttribute("size", size);
-<<<<<<< HEAD
 //					session.setAttribute("ctvtListError", ctvtListError);
-=======
-					HttpSession session = multipartRequest.getSession(false);
->>>>>>> 3fef32231878850e1afd90c36601943ae54eaf3d
 //					session.setAttribute("statusError", statusError);
 					session.setAttribute("errorListVatTu", objectListError);
 					return new ModelAndView(siteMap.importVatTuError, "statusError", "list import error");
@@ -199,22 +192,32 @@ public class ReadExcel extends HttpServlet {
 	}
 	@RequestMapping("/readExcelCl")
 	protected ModelAndView readExcelCl(MultipartHttpServletRequest multipartRequest, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException {
 		HttpSession session = multipartRequest.getSession(false);
-		session.removeAttribute("allChatLuongList");
+		session.removeAttribute("chatLuongList");
+		try {
 			java.io.File file = uploadFile(multipartRequest);
 			String extenstionFile = FileUtil.getExtension(file);
 			if ("xls".equalsIgnoreCase(extenstionFile)) {
-				if(!ReadExcelCl.readXls(file))
-					return new ModelAndView("import-excelCl", "status", "formatException");
-			}
-			else if ("xlsx".equalsIgnoreCase(extenstionFile)) {
-				if(!ReadExcelCl.readXlsx(file))
-					return new ModelAndView("import-excelCl", "status", "formatException");
-			}
-			else {
+				ArrayList<Object> errorList = new ArrayList<Object>();
+				errorList = ReadExcelCl.readXls(file);
+				if(errorList.size() > 0) {
+					session.setAttribute("errorList", errorList);
+					return new ModelAndView(siteMap.importErrorCl, "status", "formatException");
+				}
+			} else if ("xlsx".equalsIgnoreCase(extenstionFile)) {
+				ArrayList<Object> errorList = new ArrayList<Object>();
+				errorList = ReadExcelCl.readXlsx(file);
+				if(errorList.size() > 0) {
+					session.setAttribute("errorList", errorList);
+					return new ModelAndView(siteMap.importErrorCl, "status", "formatException");
+				}
+			} else {
 				return new ModelAndView(siteMap.chatLuong, "status", "unknownFile");
 			}
+		} catch (Exception e) {
+			return new ModelAndView(siteMap.login);
+		}
 		multipartRequest.setAttribute("status", "success");
 		return new ModelAndView(siteMap.chatLuong);
 	}

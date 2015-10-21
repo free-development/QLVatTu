@@ -66,6 +66,21 @@ public class VatTuDAO {
 		session.getTransaction().commit();
 		return vatTuList;
 	}
+	public List<VatTu> searchLimit(String filter, String filterValue, int first, int limit) {
+		session.beginTransaction();
+		Criteria cr = session.createCriteria(VatTu.class);
+		Criterion xoaCd = Restrictions.eq("daXoa", 0);
+//		cr.add(Restrictions.like(filter, filterValue + "%"));
+		if (filter.length() > 0  && filterValue.length() > 0)
+			cr.add(Restrictions.like(filter, filterValue, MatchMode.START));
+//		Criterion limitRow = Restrictions.
+		cr.add(xoaCd);
+		cr.setFirstResult(first);
+		cr.setMaxResults(limit);
+		ArrayList<VatTu> vatTuList = (ArrayList<VatTu>) cr.list(); 
+		session.getTransaction().commit();
+		return vatTuList;
+	}
 	public long size() {
 		session.beginTransaction();
 		String sql = "select count(vtMa) from VatTu where daXoa = 0";
@@ -119,10 +134,12 @@ public void disconnect() {
 		session.disconnect();
 }
 
-public ArrayList<VatTu> searchVtTen(String i) {
+public ArrayList<VatTu> searchVtTenLimit(String i, int first, int limit) {
 	session.beginTransaction();
 	Criteria cr = session.createCriteria(VatTu.class);
 	cr.add(Restrictions.like("vtTen", i , MatchMode.START));
+	cr.setFirstResult(first);
+	cr.setMaxResults(limit);
 	ArrayList<VatTu> list = (ArrayList<VatTu>) cr.list();
 	session.getTransaction().commit();
 	return list;
@@ -136,22 +153,34 @@ public ArrayList<VatTu> searchVtTen(String i) {
 	session.getTransaction().commit();
 	return list;
 }
- public ArrayList<VatTu> searchVtMa(String i) {
+ public ArrayList<VatTu> searchVtMaLimit(String i, int first, int limit) {
 	session.beginTransaction();
-//	String sql = "select E.vtMa, E.vtTen, E.dvt, E.daXoa from VatTu E where E.vtMa LIKE :vtMa";
 	Criteria cr = session.createCriteria(VatTu.class);
 	cr.add(Restrictions.like("vtMa", i, MatchMode.START));
-//	Restrictions.
-//	Query query = session.createQuery(sql);
-	
-//	query.setParameter("vtMa", i+"%");
-//	ArrayList<VatTu> list = (ArrayList<VatTu>) query.list();
+	cr.setFirstResult(first);
+	cr.setMaxResults(limit);
 	ArrayList<VatTu> list = (ArrayList<VatTu>) cr.list();
 	session.getTransaction().commit();
 	return list;
 }
 	public static void main(String[] args) {
 		new VatTuDAO().deleteVatTu("vt1");
+	}
+	public long size(String filter, String filterValue) {
+		session.beginTransaction();
+		System.out.println(filter);
+		System.out.println(filterValue);
+		String sql = "select count(vtMa) from VatTu where daXoa = 0";
+		
+		if (filter.length() > 0  && filterValue.length() > 0) {
+			sql += " and " + filter + " like :" + filter;
+		}
+		Query query = session.createQuery(sql); 
+		if (filter.length() > 0  && filterValue.length() > 0) 
+				query.setParameter(filter, filterValue + "%");
+		long size = (long) query.list().get(0);
+		session.getTransaction().commit();
+		return size;
 	}
 
 }
