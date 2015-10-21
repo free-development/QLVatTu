@@ -42,7 +42,7 @@ public class BpsdController extends HttpServlet {
 			ArrayList<DonVi> donViList =  (ArrayList<DonVi>) donViDAO.limit(page - 1, 10);
 			ArrayList<DonVi> allDonViList  = (ArrayList<DonVi>) donViDAO.getAllDonVi();
 			session.setAttribute("allDonViList", allDonViList);
-			request.setAttribute("size", size);
+			session.setAttribute("size", size);
 			donViDAO.disconnect();
 			return new ModelAndView("danh-muc-bo-phan", "donViList", donViList);
 	}

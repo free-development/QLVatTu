@@ -248,7 +248,7 @@
 							<th style="text-align: left"><label for="MVT">Mã vật
 									tư</label></th>
 							<td><input name="vtMa" size="5px" align=right type="text" onkeypress="changeVtMa();"
-								class="text" required autofocus size="8" maxlength="16" id="vtMa"
+								class="text" required autofocus size="16" maxlength="16" id="vtMa"
 								title="Mã vật tư không được để trống"><div id="requireVtMa" style="color: red"></div></td>
 						</tr>
 						<tr>

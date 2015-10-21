@@ -1,6 +1,5 @@
 package controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -33,14 +32,14 @@ import util.FileUtil;
 public class ReadExcel extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	 @Autowired
-		private   ServletContext context; 
+	@Autowired
+		private ServletContext context; 
 	@RequestMapping("/readExcelTonkho")
 	protected ModelAndView readExcelTonkho(MultipartHttpServletRequest multipartRequest, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+		HttpSession session = multipartRequest.getSession();
 		try {
-			HttpSession session = multipartRequest.getSession();
+			
 			java.io.File file = uploadFile(multipartRequest);
 			String extenstionFile = FileUtil.getExtension(file);
 			ArrayList<Object> objectListError = new ArrayList<Object>();
@@ -73,6 +72,8 @@ public class ReadExcel extends HttpServlet {
 	@RequestMapping("/readExcelCt")
 	protected ModelAndView readExcelCt(MultipartHttpServletRequest multipartRequest, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = multipartRequest.getSession(false);
+		session.removeAttribute("ctVatTuList");
 		try {
 			java.io.File file = uploadFile(multipartRequest);
 			String extenstionFile = FileUtil.getExtension(file);
@@ -82,7 +83,7 @@ public class ReadExcel extends HttpServlet {
 				ArrayList<String> statusError = (ArrayList<String>) objectListError.get(1);
 				if(ctvtListError.size() > 0)
 				{
-					HttpSession session = multipartRequest.getSession(false);
+					
 //					session.setAttribute("ctvtListError", ctvtListError);
 //					session.setAttribute("statusError", statusError);
 					session.setAttribute("errorListVatTu", objectListError);
@@ -97,7 +98,6 @@ public class ReadExcel extends HttpServlet {
 				{
 //					long size = ctvtListError.size();
 //					multipartRequest.setAttribute("size", size);
-					HttpSession session = multipartRequest.getSession(false);
 //					session.setAttribute("ctvtListError", ctvtListError);
 //					session.setAttribute("statusError", statusError);
 					session.setAttribute("errorListVatTu", objectListError);
@@ -118,7 +118,8 @@ public class ReadExcel extends HttpServlet {
 	@RequestMapping("/readExcelBpsd")
 	protected ModelAndView readExcelBpsd(MultipartHttpServletRequest multipartRequest, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+		HttpSession session = multipartRequest.getSession(false);
+		session.removeAttribute("donViList");
 		try {
 			java.io.File file = uploadFile(multipartRequest);
 			String extenstionFile = FileUtil.getExtension(file);
@@ -126,7 +127,6 @@ public class ReadExcel extends HttpServlet {
 				ArrayList<Object> errorList = new ArrayList<Object>();
 				errorList = ReadExcelBpsd.readXls(file);
 				if(errorList.size() > 0) {
-					HttpSession session = multipartRequest.getSession(false);
 					session.setAttribute("errorList", errorList);
 					return new ModelAndView(siteMap.importBpsdError, "status", "formatException");
 				}
@@ -135,7 +135,6 @@ public class ReadExcel extends HttpServlet {
 				ArrayList<Object> errorList = new ArrayList<Object>();
 				errorList = ReadExcelBpsd.readXlsx(file);
 				if(errorList.size() > 0) {
-					HttpSession session = multipartRequest.getSession(false);
 					session.setAttribute("errorList", errorList);
 					return new ModelAndView(siteMap.importBpsdError, "status", "formatException");
 				}
@@ -154,7 +153,8 @@ public class ReadExcel extends HttpServlet {
 	@RequestMapping("/readExcelNsx")
 	protected ModelAndView readExcelNsx(MultipartHttpServletRequest multipartRequest, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = multipartRequest.getSession();
+		HttpSession session = multipartRequest.getSession(false);
+		session.removeAttribute("allNoiSanXuatList");
 		try {
 			java.io.File file = uploadFile(multipartRequest);
 			String extenstionFile = "";
@@ -190,6 +190,8 @@ public class ReadExcel extends HttpServlet {
 	@RequestMapping("/readExcelCl")
 	protected ModelAndView readExcelCl(MultipartHttpServletRequest multipartRequest, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = multipartRequest.getSession(false);
+		session.removeAttribute("allChatLuongList");
 			java.io.File file = uploadFile(multipartRequest);
 			String extenstionFile = FileUtil.getExtension(file);
 			if ("xls".equalsIgnoreCase(extenstionFile)) {

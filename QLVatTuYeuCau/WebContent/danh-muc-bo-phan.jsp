@@ -64,11 +64,11 @@
 			if (listDonVi ==  null) {
 				int index = siteMap.bpsdManage.lastIndexOf("/");
 				String url = siteMap.bpsdManage.substring(index);
-				RequestDispatcher dispatcher =  request.getRequestDispatcher(url + "?action=manageBpsd");
+				RequestDispatcher dispatcher =  request.getRequestDispatcher(url);
 				dispatcher.forward(request, response);
 				return;
 			}
-			Long size = (Long) request.getAttribute("size");
+			Long size = (Long) session.getAttribute("size");
     	%>
 	<div class="wrapper">
 		<jsp:include page="header.jsp" /> 

@@ -125,10 +125,10 @@ display:none;
 <!-- 							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="a-column">Số đến</th> -->
 							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="b-column">Số công văn nhận</th>
 							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="b-column">Số công văn đến</th>
-							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="c-column">Ngày công văn đến</th>
+							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="c-column">Ngày công văn nhận</th>
 <!-- 							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="b-column">Số công văn đến</th> -->
 							
-							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="d-column">Ngày công văn đi</th>
+							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="d-column">Ngày công văn đến</th>
 							<th style="border: 1px solid black;font-size: 17px;width: 200px;" class="e-column">Mục đích</th>
 							<th style="border: 1px solid black;font-size: 17px;width: 250px;" class="f-column">Nơi gửi</th>
 							<th style="border: 1px solid black;font-size: 17px;width: 200px;" class="g-column">Trích yếu</th>

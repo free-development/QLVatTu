@@ -172,8 +172,8 @@
 					<tr bgcolor="lightgreen">
 						<th style="width: 100px;">Số công văn nhận</th>
 						<th style="width: 100px;">Số công văn đến</th>
+						<th style="width: 50px;">Ngày công văn nhận</th>
 						<th style="width: 50px;">Ngày công văn đến</th>
-						<th style="width: 50px;">Ngày công văn đi</th>
 						<th style="width: 250px;">Mục đích</th>
 						<th style="width: 200px;">Nơi gửi</th>
 						<th style="width: 200px;">Trích yếu</th>

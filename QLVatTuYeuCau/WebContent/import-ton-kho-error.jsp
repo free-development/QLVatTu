@@ -21,7 +21,7 @@
 	<%
 		String status = (String) request.getAttribute("status");
 	if (status != null && status.equals("formatException"))
-			out.println("<script>alert('Danh sách vật tư bị lỗi khi import!')</script>");
+			out.println("<script>alert('Danh sách tồn kho bị lỗi khi import!')</script>");
 	%>
 	<%
 	ArrayList<Object> objectListError = (ArrayList<Object>) session.getAttribute("objectListError");
