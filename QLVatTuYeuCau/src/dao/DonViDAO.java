@@ -26,10 +26,7 @@ public class DonViDAO {
 	// Get Ä�Æ¡n vá»‹ tá»« mÃ£
 	public DonVi getDonVi(final String dvMa) {
 		session.beginTransaction();
-		
 		DonVi donVi = (DonVi) session.get(DonVi.class, dvMa);
-//		session.
-		
 		session.getTransaction().commit();
 		return donVi;
 	}

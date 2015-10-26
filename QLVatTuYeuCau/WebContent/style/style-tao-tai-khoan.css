@@ -7,7 +7,7 @@
 	padding-top: 20px;
 	padding-bottom: 20px;
 }
-#add-form{
+#add-form, #update-form {
 	width: 450px;
 	height:350px;
 	background-color: #DCEAF5;

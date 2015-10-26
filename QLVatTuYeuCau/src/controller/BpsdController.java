@@ -62,22 +62,22 @@ public class BpsdController extends HttpServlet {
 		String result = "";
 	//	System.out.println("MA: "+dvMa);
 		DonViDAO donViDAO = new DonViDAO();
-		if((donViDAO.getDonVi(dvMa)==null) || (donViDAO.getDonVi(dvMa)!=null && donViDAO.getDonVi(dvMa).getDaXoa() == 1))
+		DonVi donVi = new DonVi(dvMa, dvTen, sdt, diaChi, email, 0);
+		DonVi donViCheck = donViDAO.getDonVi(dvMa);
+		if (donViCheck == null) {
+			donViDAO.addDonVi(donVi);
+		}
+		else if(donViCheck.getDaXoa() == 1)
 		{
-			donViDAO.addOrUpdateDonVi(new DonVi(dvMa, dvTen, sdt, diaChi, email,0 ));
-			//System.out.println("success");
+			donViDAO.updateDonVi(donVi);
 			result = "success";	
 		}
 		else
 		{
-			//System.out.println("fail");
 			result = "fail";
 		}
 		donViDAO.disconnect();
-			return JSonUtil.toJson(result);
-//		DonVi dv = new DonVi(dvMa, dvTen,sdt, diaChi, email);
-//		new DonViDAO().addDonVi(dv);
-//		return JSonUtil.toJson(dv);
+		return JSonUtil.toJson(result);
 	}
 	@RequestMapping(value="/updateBp", method=RequestMethod.GET, 
 		produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

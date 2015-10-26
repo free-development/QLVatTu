@@ -76,6 +76,11 @@ public class ReadExcelNsx {
 						NoiSanXuat temp = nsxDAO.getNoiSanXuat(nsxMa);
 						if (temp ==  null) {
 							nsxDAO.addNoiSanXuat(nsx);
+						} else if (temp.getDaXoa() ==  1) {
+							NoiSanXuatDAO nsxDAO2 = new NoiSanXuatDAO();
+							System.out.println("exists ******" + nsxMa + "**" + nsxTen);
+							nsxDAO2.updateNoiSanXuat(nsx);
+							nsxDAO2.disconnect();
 						} else {
 							nsxError.add(nsx);
 							statusError.add("Đã tồn tại");

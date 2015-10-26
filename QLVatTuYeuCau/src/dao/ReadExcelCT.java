@@ -42,17 +42,10 @@ public class ReadExcelCT {
 			Row row;
 			Cell cell;
 			Iterator rows = sheet.rowIterator();
-			int j = 0;
-			ArrayList<VatTu> vatTuList = new ArrayList<VatTu>();
-			ArrayList<String> nsxList = new ArrayList<String>();
-			ArrayList<String> chatLuongList = new ArrayList<String>();
-			ArrayList<CTVatTu> ctvtList = new ArrayList<CTVatTu>();
-			ArrayList<DonViTinh> dvtList = new ArrayList<DonViTinh>(); 
+			if (rows.hasNext())
+				rows.next();
 			while (rows.hasNext()) {
 				row = (XSSFRow) rows.next();
-				j++;
-				if (j == 1)
-					continue;
 				Iterator cells = row.cellIterator();
 				int count = 0;
 				String vtMa = "";
@@ -123,11 +116,13 @@ public class ReadExcelCT {
 						
 						if (vt == null) {
 							DonViTinh temp = dvtDAO.getDonViTinhByTen(dvt);
-							if (temp ==  null) {
+							if (temp == null) {
 								dvtDAO.addDonViTinh(donViTinh);
 								DonViTinhDAO donViTinhDAO2 = new DonViTinhDAO();
 								donViTinh.setDvtId(donViTinhDAO2.lastInsertId());
 								donViTinhDAO2.disconnect();
+							} else if (temp.getDaXoa() == 1){
+								dvtDAO.updateDonViTinh(donViTinh);
 							}
 							else {
 								donViTinh.setDvtId(temp.getDvtId());

@@ -33,31 +33,6 @@ public class MdController extends HttpServlet {
 	public ModelAndView manageMd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		MucDichDAO mucDichDAO = new MucDichDAO();
 		String action = request.getParameter("action");
-		if("AddMd".equalsIgnoreCase(action)) {
-			String mdMa = request.getParameter("mdMa");
-			String mdTen = request.getParameter("mdTen");
-			if(new MucDichDAO().getMucDich1(mdMa)!=0)
-			{
-				request.setAttribute("error","Mục đích đã tồn tại");
-				//System.out.println("Mục đích đã tồn tại");
-				return new ModelAndView("danh-muc-muc-dich");
-			}
-			else
-			{
-			mucDichDAO.addMucDich(new MucDich(mdMa,mdTen,0));
-			ArrayList<MucDich> mucDichList =  (ArrayList<MucDich>) mucDichDAO.getAllMucDich();
-			return new ModelAndView("danh-muc-muc-dich", "mucDichList", mucDichList);
-			}
-		}
-		if("deleteMd".equalsIgnoreCase(action)) {
-			String[] idList = request.getParameterValues("mdMa");
-			for(String s : idList) {
-					mucDichDAO.deleteMucDich(s);
-			}
-			
-			ArrayList<MucDich> mucDichList =  (ArrayList<MucDich>) mucDichDAO.getAllMucDich();
-			return new ModelAndView("danh-muc-muc-dich", "mucDichList", mucDichList);
-		}
 		if("manageMd".equalsIgnoreCase(action)) {
 			long size = mucDichDAO.size();
 			ArrayList<MucDich> mucDichList =  (ArrayList<MucDich>) mucDichDAO.limit(page - 1, 10);

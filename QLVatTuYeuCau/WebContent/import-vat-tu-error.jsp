@@ -24,7 +24,7 @@
 			out.println("<script>alert('Danh sách chi tiết vật tư bị lỗi khi thêm!')</script>");
 	%>
 	<%
-	ArrayList<Object> errorListVatTu = (ArrayList<Object>) session.getAttribute("errorListVatTu");
+	ArrayList<Object> errorListVatTu = (ArrayList<Object>) session.getAttribute("errorList");
 	ArrayList<CTVatTu> listCTVatTu = (ArrayList<CTVatTu>) errorListVatTu.get(0);
 	ArrayList<String> statusError = (ArrayList<String>) errorListVatTu.get(1);
 // 		Long size = (Long) request.getAttribute("size");

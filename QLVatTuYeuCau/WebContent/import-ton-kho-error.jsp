@@ -24,7 +24,7 @@
 			out.println("<script>alert('Danh sách tồn kho bị lỗi khi import!')</script>");
 	%>
 	<%
-	ArrayList<Object> objectListError = (ArrayList<Object>) session.getAttribute("objectListError");
+	ArrayList<Object> objectListError = (ArrayList<Object>) session.getAttribute("errorList");
 	ArrayList<String> vtMaError = (ArrayList<String>) objectListError.get(0);
 	ArrayList<String> vtTenError = (ArrayList<String>) objectListError.get(1);
 	ArrayList<String> dvtTenError = (ArrayList<String>) objectListError.get(2);

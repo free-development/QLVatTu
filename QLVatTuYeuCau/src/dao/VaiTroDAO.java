@@ -30,10 +30,7 @@ public class VaiTroDAO {
 	// trong day phai la kieu int
 	public VaiTro getVaiTro(final int vtId) {
 		session.beginTransaction();
-		
 		VaiTro vaiTro = (VaiTro) session.get(VaiTro.class, vtId);
-//		session.
-		
 		session.getTransaction().commit();
 		return vaiTro;
 	}

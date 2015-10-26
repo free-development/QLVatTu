@@ -145,7 +145,7 @@ function preUpdateNd(formId, check) {
 		  	$('input:text[name=sdt]').val(nd.sdt);
 		  	$('#chucDanh option[value='+nd.chucDanh.cdMa+']').prop('selected',true);
 		  	$('#hoTen').focus();
-		  	showForm3("main-form","add-form",true);
+		  	showForm3('main-form','update-form',true);
 		  //	showForm(formId, check);	
 		  	//$('#main-form').hide();
 	  	}
@@ -196,7 +196,7 @@ function updateNd(msnv, hoten,chucdanh, email, diachi, sdt) {
 			sdt = $('input:text[name=sdt]').val('');
 	  		alert("Thay đổi thành công người dùng có mã "+msnv+ " !");
 	  		$('input[name="msnv"]:checked').prop('checked',false);
-	  		showForm2('add-form',false);	
+	  		showForm2('update-form',false);	
 	  		//$('#main-form').show();
 	  		
 	  	}
@@ -228,9 +228,9 @@ function checkPassword()
 			return false;
 		}
 		else
-			{
-				addNd();
-			}
+		{
+			addNd();
+		}
 	}
 
 //$(document).ready(function() {
@@ -539,7 +539,7 @@ function checkPassword()
 		}
 	}
 	function loadAddNd() {
- 		showForm2('add-form', false);
+ 		showForm2('update-form', false);
  		$('input[name="msnv"]:checked').prop('checked',false);
  	}
  	function loadUpdateNd() {
@@ -594,9 +594,6 @@ function checkPassword()
 			hoTen = $('#search input[name=nguoidung]').val();
 		else 
 			msnv = $('#search input[name=nguoidung]').val();
-//		
-//		alert(hoten);
-//		alert(msnv);
 		
 		$.ajax({
 			url: getRoot() +  "/timKiemNguoidung.html",	
@@ -608,18 +605,23 @@ function checkPassword()
 		  	success: function(ndList){
 		  		if(ndList.length>0){
 		  			//alert('OKs');
-		  			$('#view-table-chia-se table .rowContent').remove();
+		  			var content = '';
+		  			$('#view-table table .rowContent').remove();
 					for(i = 0;i < ndList.length; i++ ) {
 						nd = ndList[i];
+						var style = '';
+						if  (i % 2 == 1)
+							style = 'style=\"background : #CCFFFF;\"'
 						//alert(ndList[i].msnv);
-		  				$('#view-table-chia-se table tr:first').after('<tr class=\"rowContent\"><td class=\"left-column\"><input type=\"checkbox\" name=\"msnv\" value=\"' +nd.msnv 
+		  				content +='<tr class=\"rowContent\"' + style + '><td style=\"text-align: center\"><input type=\"checkbox\" name=\"msnv\" value=\"' +nd.msnv 
 						+ '\"</td><td class=\"col\">'+ nd.msnv +'</td><td class=\"col\">' + nd.hoTen
 						+'</td><td class=\"col\">' + nd.chucDanh.cdTen
 						+'</td><td class=\"col\">' + nd.email
 						+'</td><td class=\"col\">' + nd.diaChi
 						+'</td><td class=\"col\">' + nd.sdt
-						+'</tr>');
+						+'</tr>';
 					}
+					$('#view-table table tr:first').after(content);
 		  		}
 		  		else
 		  			{
@@ -704,3 +706,21 @@ $(document).ready(function(){
 	});
 }) ;
 */ 	
+$(document).ready(function(){
+	$('#add-form').submit(function(){
+		checkPassword();
+		return false;
+	});
+})
+$(document).ready(function(){
+	$('#update-form').submit(function(){
+		confirmUpdateNd();
+		return false;
+	});
+})
+$(document).ready(function(){
+	$('#search-nguoidung').submit(function(){
+		timKiemNguoidung();
+		return false;
+	});
+})

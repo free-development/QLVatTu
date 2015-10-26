@@ -91,6 +91,11 @@ public class ReadExcelBpsd {
 					DonVi temp = dvDAO.getDonVi(dvMa);
 					if (temp ==  null) {
 						dvDAO.addDonVi(dv);
+					}
+					else if (temp.getDaXoa() == 1) {
+						DonViDAO dvDAO2 = new DonViDAO();
+						dvDAO2.updateDonVi(dv);
+						dvDAO2.disconnect();
 					} else {
 						donViError.add(dv);
 						statusError.add("Đã tồn tại");
@@ -171,6 +176,10 @@ public class ReadExcelBpsd {
 					DonVi temp = dvDAO.getDonVi(dvMa);
 					if (temp ==  null) {
 						dvDAO.addDonVi(dv);
+					} else if (temp.getDaXoa() == 1) {
+						DonViDAO dvDAO2 = new DonViDAO();
+						dvDAO2.updateDonVi(dv);
+						dvDAO2.disconnect();
 					} else {
 						donViError.add(dv);
 						statusError.add("Đã tồn tại");

@@ -34,12 +34,6 @@ public class VTCongVanDAO {
 		template = HibernateUtil.getSessionFactory();
 		session = template.openSession();
 	}
-//	public VTCongVan getVTCongVan(final int vtId) {
-//		session.beginTransaction();
-//		VTCongVan VTCongVan = (VTCongVan) session.get(VTCongVan.class, vtId);
-//		session.getTransaction().commit();
-//		return VTCongVan;
-//	}
 	public List<VTCongVan> getAllVTCongVan() {
 		session.beginTransaction();
 		List<VTCongVan> vtCongVanList = (List<VTCongVan>) session.createCriteria(VTCongVan.class).list();
@@ -123,16 +117,6 @@ public class VTCongVanDAO {
 		session.getTransaction().commit();
 		return nguoiDungHash;
 	}
-//	public ArrayList<VaiTro> toVaiTro(ArrayList<VTCongVan> vtcvList) {
-//		ArrayList<VaiTro> vaiTroList = new ArrayList<VaiTro>();
-//		for (VTCongVan vtCongVan : vtcvList) {
-//			
-//			VaiTro vaiTro = new VaiTroDAO().getVaiTro(vtCongVan.getVtId());
-//			int vtId = vaiTro.getVtId();
-//			vaiTroList.add(vaiTro);
-//		}
-//		return vaiTroList;
-//	}
 	public HashMap<Integer, VaiTro> toVaiTro(ArrayList<VTCongVan> vtcvList) {
 		HashMap<Integer, VaiTro>  vaiTroList = new HashMap<Integer, VaiTro> ();
 		for (VTCongVan vtCongVan : vtcvList) {
@@ -155,8 +139,6 @@ public class VTCongVanDAO {
 	public ArrayList<VaiTro> getVaiTroByCvId(final int cvId) {
 		session.beginTransaction();
 		Criteria cr = session.createCriteria(VaiTro.class);
-		
-//		ArrayList<Integer> vtIdList = getVtIdByCvId(cvId);
 		Criteria cr1 = session.createCriteria(VTCongVan.class);
 		cr1.add(Restrictions.eq("cvId", cvId));
 		cr1.setProjection(Projections.property("vtId"));
@@ -174,8 +156,6 @@ public class VTCongVanDAO {
 	public ArrayList<VaiTro> getVaiTro(final int cvId, String msnv) {
 		session.beginTransaction();
 		Criteria cr = session.createCriteria(VaiTro.class);
-		
-//		ArrayList<Integer> vtIdList = getVtIdByCvId(cvId);
 		Criteria cr1 = session.createCriteria(VTCongVan.class);
 		cr1.add(Restrictions.eq("cvId", cvId));
 		cr1.setProjection(Projections.property("vtId"));

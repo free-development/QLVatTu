@@ -37,9 +37,6 @@ public class YeuCauDAO {
 	public YeuCau getYeuCau(final int ycId) {
 		session.beginTransaction();
 		Criteria cr = session.createCriteria(YeuCau.class, "yeuCau");
-//		cr.createAlias("yeuCau.ctVatTu", "ctVatTu");
-//		cr.createAlias("ctVatTu.vatTu", "vatTu");
-//		cr.createAlias("vatTu.dvt", "dvt");
 		cr.add(Restrictions.eq("ycId", ycId));
 		ArrayList<YeuCau> yeuCauList = (ArrayList<YeuCau>) cr.list();
 		YeuCau yeuCau = null;
@@ -51,9 +48,6 @@ public class YeuCauDAO {
 	public YeuCau getByYcId(final int ycId) {
 		session.beginTransaction();
 		Criteria cr = session.createCriteria(YeuCau.class);
-//		cr.createAlias("yeuCau.ctVatTu", "ctVatTu");
-//		cr.createAlias("ctVatTu.vatTu", "vatTu");
-//		cr.createAlias("vatTu.dvt", "dvt");
 		cr.add(Restrictions.eq("ycId", ycId));
 		ArrayList<YeuCau> yeuCauList = (ArrayList<YeuCau>) cr.list();
 		YeuCau yeuCau = null;

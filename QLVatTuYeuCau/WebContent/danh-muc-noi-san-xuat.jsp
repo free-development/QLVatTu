@@ -145,7 +145,7 @@
 							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xóa
 						</button>&nbsp;
 						<button type="button" class="button" 
-							onclick="showForm2('view-table','import-formct', true)"> 
+							onclick="showForm2('main-form','import-formct', true)"> 
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Import 
 						</button>&nbsp;
 						<button class="button" type="button" onclick="location.href='<%=siteMap.xuatNsx+".jsp"%>'">
@@ -155,7 +155,7 @@
 						<button class="button" type="reset">
 							<i class="fa fa-spinner"></i>&nbsp;&nbsp;Bỏ qua
 						</button>&nbsp;
-						<button type="button" class="btn" onclick="location.href='<%=siteMap.home%>'">
+						<button type="button" class="button" onclick="location.href='<%=siteMap.home%>'">
 							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 						</button>
 				</div>
@@ -229,11 +229,11 @@
 			</div>
 		</form>
 	</div>
-	<form id="import-formct" action="<%=siteMap.readExcelNsx %>" method="post" enctype="multipart/form-data" style="height: 200px;text-align: center;">
+	<form id="import-formct" action="<%=siteMap.readExcelNsx %>" method="post" enctype="multipart/form-data" style="text-align: center;">
 									<input type="file" name="file" accept=".xls, .xlsx" class="text" style="padding-left: 0px;">
 									<div class="group-button">
-										<input value="uploadFile" name="action" type="submit" class="button" style="width: 100px;font-size: 17px;text-align: center;">
-										<input value="Thoát" onclick="showForm2('view-table-bo-phan','import-formct', false);" type="button" class="button"  style="width: 70px;text-align: center;font-size: 17px;">
+										<input value="uploadFile" name="action" type="submit" class="button" style="font-size: 17px;text-align: center;">
+										<input value="Thoát" onclick="showForm2('main-form','import-formct', false);" type="button" class="button"  style="text-align: center;font-size: 17px;">
 									</div>
 						</form>
 	</div>

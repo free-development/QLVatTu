@@ -53,8 +53,8 @@
 						<td class="input"><label for="msnv">Mã số nhân viên</label></td>
 						<td><input type="text" autofocus required size="10"
 							maxlength="10"
-							title="Mã số nhân viên đủ 10 ký tự, không chứa ký tự đặc biệt"
-							pattern="[a-zA-Z0-9]*" class="text" id="msnv" name="msnv"></td>
+							title="Mã số nhân viên hơn 4 ký tự, không chứa ký tự đặc biệt"
+							pattern="[a-zA-Z0-9]{4}[a-zA-Z0-9]*" class="text" id="msnv" name="msnv"></td>
 					</tr>
 
 					<tr>
@@ -92,7 +92,7 @@
 						<td class="input"><label for="hoten">Họ tên</label></td>
 						<td><input type="text" required size="20" maxlength="50"
 							title="Họ tên không được chứa chữ số và ký tự đặc biệt"
-							pattern="[a-zA-Z]*" class="text" id="hoten" name="hoten"style="margin-top: 5px;"></td>
+							 class="text" id="hoten" name="hoten"style="margin-top: 5px;"></td>
 					</tr>
 
 					<tr>
@@ -118,7 +118,7 @@
 				</div>
 				<div class="button-group">
 <!-- 					<input type="hidden" name="action" value="AddNd"> -->
-					<button class="button" type="button" onclick="checkPassword();">
+					<button class="button" type="submit">
 						<i class="fa fa-plus-circle"></i>&nbsp;Tạo mới
 					</button>
 					&nbsp;

@@ -86,7 +86,7 @@ public class VtController extends HttpServlet {
 			//System.out.println("success");
 			result = "success";
 		}
-		else if(vt!=null && vt.getDaXoa() == 1){
+		else if(vt.getDaXoa() == 1){
 			vt.setVtTen(vtTen);
 			vt.setDaXoa(0);
 			vtDAO.updateVaiTro(vt);
@@ -103,10 +103,8 @@ public class VtController extends HttpServlet {
 	@RequestMapping(value="/updatevt", method=RequestMethod.GET, 
 		produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String updatevt(@RequestParam("vtTenUpdate") String vtTenUpdate) {
-		//JOptionPane.showMessageDialog(null, vtOld);
 		VaiTroDAO vtDAO = new VaiTroDAO();
 		VaiTro vt = vtDAO.getVaiTroByTen(vtOld);
-		//JOptionPane.showMessageDialog(null, vt.getVtTen() + vt.getVtId());
 		vt.setVtTen(vtTenUpdate);
 		vt.setDaXoa(0);
 		vtDAO.updateVaiTro(vt);

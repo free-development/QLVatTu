@@ -118,7 +118,7 @@ public class CTNguoiDungDAO {
 		if (session.isConnected())
 			session.disconnect();
 	}
-	public List<NguoiDung> limit(int first, int limit) {
+	public List<NguoiDung> limit(ArrayList<String> ignoreList, int first, int limit) {
 		session.beginTransaction();
 		Criteria cr = session.createCriteria(CTNguoiDung.class);
 		Criterion KhoaNd = Restrictions.eq("khoa", 0);
@@ -136,6 +136,8 @@ public class CTNguoiDungDAO {
 		else{
 			Criteria crNguoiDung = session.createCriteria(NguoiDung.class);
 			crNguoiDung.add(Restrictions.in("msnv",ctnguoiDungList));
+			// new update 24.10.2015
+			crNguoiDung.add(Restrictions.not(Restrictions.in("msnv", ignoreList)));
 			ArrayList<NguoiDung> nguoiDungList = (ArrayList<NguoiDung>) crNguoiDung.list(); 
 			session.getTransaction().commit();
 			return nguoiDungList;

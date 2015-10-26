@@ -45,19 +45,19 @@ public class ReadExcel extends HttpServlet {
 			java.io.File file = uploadFile(multipartRequest);
 			System.out.println(file.getName());
 			String extenstionFile = FileUtil.getExtension(file);
-			ArrayList<Object> objectListError = new ArrayList<Object>();
+			ArrayList<Object> errorList = new ArrayList<Object>();
 			if ("xls".equalsIgnoreCase(extenstionFile)) {
-				objectListError = ReadExcelTon.readXls(file);
-				if(objectListError.size() > 0) {
-					session.setAttribute("objectListError", objectListError);
+				errorList = ReadExcelTon.readXls(file);
+				if(errorList.size() > 0) {
+					session.setAttribute("errorList", errorList);
 					return new ModelAndView(siteMap.importTonKhoError, "status", "formatException");
 				}
 				
 			}
 			else if ("xlsx".equalsIgnoreCase(extenstionFile)) {
-				objectListError = ReadExcelTon.readXlsx(file);
-				if(objectListError.size() > 0) {
-					session.setAttribute("objectListError", objectListError);
+				errorList = ReadExcelTon.readXlsx(file);
+				if(errorList.size() > 0) {
+					session.setAttribute("errorList", errorList);
 					return new ModelAndView(siteMap.importTonKhoError, "status", "formatException");
 				}
 			}
@@ -81,29 +81,18 @@ public class ReadExcel extends HttpServlet {
 			java.io.File file = uploadFile(multipartRequest);
 			String extenstionFile = FileUtil.getExtension(file);
 			if ("xls".equalsIgnoreCase(extenstionFile)) {
-				ArrayList<Object> objectListError = ReadExcelCT.readXls(file);
-				ArrayList<CTVatTu> ctvtListError = (ArrayList<CTVatTu>) objectListError.get(0);
-				ArrayList<String> statusError = (ArrayList<String>) objectListError.get(1);
-				if(ctvtListError.size() > 0)
+				ArrayList<Object> errorList = ReadExcelCT.readXls(file);
+				if(errorList.size() > 0)
 				{
-					
-//					session.setAttribute("ctvtListError", ctvtListError);
-//					session.setAttribute("statusError", statusError);
-					session.setAttribute("errorListVatTu", objectListError);
+					session.setAttribute("errorList", errorList);
 					return new ModelAndView(siteMap.importVatTuError, "statusError", "list import error");
 				}
 			}
 			else if ("xlsx".equalsIgnoreCase(extenstionFile)) {
-				ArrayList<Object> objectListError = ReadExcelCT.readXlsx(file);
-//				ArrayList<CTVatTu> ctvtListError = (ArrayList<CTVatTu>) objectListError.get(0);
-//				ArrayList<String> statusError = (ArrayList<String>) objectListError.get(1);
-				if(objectListError.size() > 0)
+				ArrayList<Object> errorList = ReadExcelCT.readXlsx(file);
+				if(errorList.size() > 0)
 				{
-//					long size = ctvtListError.size();
-//					multipartRequest.setAttribute("size", size);
-//					session.setAttribute("ctvtListError", ctvtListError);
-//					session.setAttribute("statusError", statusError);
-					session.setAttribute("errorListVatTu", objectListError);
+					session.setAttribute("errorList", errorList);
 					return new ModelAndView(siteMap.importVatTuError, "statusError", "list import error");
 				}
 			}

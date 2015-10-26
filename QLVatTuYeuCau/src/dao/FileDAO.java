@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import model.CTVatTu;
@@ -29,7 +30,12 @@ public class FileDAO {
 	}
 	public File getByCongVanId(final int cvId) {
 		session.beginTransaction();
-		File file = (File) session.createCriteria(File.class).add(Restrictions.eq("cvId", cvId)).list().get(0);
+		Criteria cr = session.createCriteria(File.class);
+		cr.add(Restrictions.eq("cvId", cvId));
+		File file = null;
+		List<File> fileList = cr.list();
+		if (fileList.size() > 0)
+			file = fileList.get(0);
 		session.getTransaction().commit();
 		return file;
 	}

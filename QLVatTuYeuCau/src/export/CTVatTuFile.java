@@ -83,6 +83,7 @@ public class CTVatTuFile extends AbstractExcelView {
 			aRow.createCell(1).setCellValue(ctvt.getVatTu().getVtTen());
 			aRow.createCell(2).setCellValue(ctvt.getVatTu().getDvt().getDvtTen());
 			aRow.createCell(3).setCellValue(ctvt.getNoiSanXuat().getNsxMa());
+			aRow.createCell(4).setCellValue("");
 			aRow.createCell(5).setCellValue(ctvt.getChatLuong().getClMa());
 		}
 	}

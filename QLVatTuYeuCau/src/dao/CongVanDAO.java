@@ -407,10 +407,20 @@ public class CongVanDAO {
 	
 	public ArrayList<CongVan> searchLimit(String msnv, HashMap<String, Object> conditions,  HashMap<String, Boolean> orderBy, int first, int limit) {
 		
-		Criteria cr = getCriteria(msnv); //
-		if (cr == null) {
-			return new ArrayList<CongVan>();
+		ArrayList<Integer> cvIdList = new ArrayList<Integer>();
+		if (msnv != null) {
+			cvIdList = (ArrayList<Integer>) session.createQuery("select cvId from VTCongVan where msnv = '" + msnv + "' and daXoa = 0").list();
+			if (cvIdList.size() == 0) {
+				session.getTransaction().commit();
+				return new ArrayList<CongVan>();
+			}
+				
 		}
+		
+		Criteria cr = session.createCriteria(CongVan.class, "congVan");
+		cr.createAlias("congVan.mucDich", "mucDich");
+		cr.createAlias("congVan.donVi", "donVi");
+		cr.createAlias("congVan.trangThai", "trangThai");
 		session.beginTransaction();
 		if (conditions != null) {
 			for (String key : conditions.keySet()) {
@@ -436,7 +446,6 @@ public class CongVanDAO {
 			}
 		}
 		cr.add(Restrictions.eq("daXoa", 0));
-		ArrayList<Integer> cvIdList = (ArrayList<Integer>) session.createQuery("select cvId from VTCongVan where msnv = '" + msnv + "'").list();
 		if (orderBy != null) {
 			for (String key : orderBy.keySet()) {
 				if (orderBy.get(key))
@@ -457,23 +466,44 @@ public class CongVanDAO {
 
 public long size(String msnv, HashMap<String, Object> conditions) {
 		
-		Criteria cr = getCriteria(msnv);
-		if (cr == null) {
-			return 0;
-		}
 		session.beginTransaction();
+		ArrayList<Integer> cvIdList = new ArrayList<Integer>();
+		if (msnv != null) {
+			cvIdList = (ArrayList<Integer>) session.createQuery("select cvId from VTCongVan where msnv = '" + msnv + "' and daXoa = 0").list();
+			if (cvIdList.size() == 0) {
+				session.getTransaction().commit();
+				return 0;
+			}
+				
+		}
+		
+		Criteria cr = session.createCriteria(CongVan.class, "congVan");
+		cr.createAlias("congVan.mucDich", "mucDich");
+		cr.createAlias("congVan.donVi", "donVi");
+		cr.createAlias("congVan.trangThai", "trangThai");
 		if (conditions != null) {
 			for (String key : conditions.keySet()) {
 				Object object = conditions.get(key);
 				if (object instanceof Integer && !key.equals("soDen")) {
 					cr.add(Restrictions.sqlRestriction(key.toUpperCase() + "(cvNgayNhan) = " + conditions.get(key)));
 				} else if (conditions.get(key) != null){ 
-					cr.add(Restrictions.eq(key, conditions.get(key)));
+					if (key.equals("cvId") || key.equals("soDen") || key.equals("cvNgayDi") || key.equals("cvNgayNhan"))
+						cr.add(Restrictions.eq(key, conditions.get(key)));
+					else if (key.equals("gecvNgayNhan")) 
+						cr.add(Restrictions.ge("cvNgayNhan", object));
+					else if (key.equals("lecvNgayNhan")) 
+						cr.add(Restrictions.le("cvNgayNhan", object));
+					else if (key.equals("gecvNgayDi"))
+						cr.add(Restrictions.ge("cvNgayDi", object));
+					else if (key.equals("lecvNgayDi"))
+						cr.add(Restrictions.le("cvNgayDi", object));
+					else
+						cr.add(Restrictions.like(key, (String)conditions.get(key), MatchMode.START));
 				}
 			}
 		}
 		cr.add(Restrictions.eq("daXoa", 0));
-		ArrayList<Integer> cvIdList = (ArrayList<Integer>) session.createQuery("select cvId from VTCongVan where msnv = '" + msnv + "' and daXoa = 0").list();
+		
 	
 		if (cvIdList.size() > 0)
 			cr.add(Restrictions.in("cvId", cvIdList));
@@ -513,5 +543,6 @@ public long size(String msnv, HashMap<String, Object> conditions) {
 		ArrayList<CongVan> congVanList = new CongVanDAO().searchLimit(null, conditions, null, 0, Integer.MAX_VALUE);
 		for (CongVan congVan : congVanList)
 			System.out.println(congVan.getCvNgayNhan());
+		System.out.println(new CongVanDAO().size(null, conditions));
 	}
 }

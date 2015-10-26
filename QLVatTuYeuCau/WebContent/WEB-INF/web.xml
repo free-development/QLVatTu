@@ -43,6 +43,10 @@
     <param-value>NV</param-value>
   </context-param>
   <context-param>
+    <param-name>thuKyMa</param-name>
+    <param-value>TK</param-value>
+  </context-param>
+  <context-param>
     <param-name>capPhatId</param-name>
     <param-value>3</param-value>
   </context-param>

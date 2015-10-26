@@ -81,16 +81,12 @@
 	border: none;
 }
 
-#add-form {
+#add-form, #update-form {
 	display: none;
 	width: 40%;;
 	left: 35%;
-	/*right: 35%;*/
-	/*top: 20%;*/
-/*	bottom: 40%;*/
 	top: 30%;
 	z-index: 50;
-	/*height: 25%;*/
 	position: fixed;
 	background-color: #DCEAF5;
 	border-radius: 10px;
@@ -103,24 +99,6 @@
 	border-color: #0000FF;
 }
 
-#update-form {
-	display: none;
-	width: 40%;
-	z-index: 50;
-	/*height: 25%;*/
-	left: 35%;
-	right: 35%;
-	top: 30%;
-	bottom: 65%;
-	position: fixed;
-	background-color: #DCEAF5;
-	border-radius: 10px;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-top: 20px;
-	border: outset;
-	border-color: #0000FF;
-}
 
 #title-content {
 	text-align: center;

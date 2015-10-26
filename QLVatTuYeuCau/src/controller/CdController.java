@@ -43,14 +43,16 @@ public class CdController extends HttpServlet {
 			
 			chucDanhDAO.addChucDanh(new ChucDanh(cdMa,cdTen,0));
 			ArrayList<ChucDanh> chucDanhList =  (ArrayList<ChucDanh>) chucDanhDAO.getAllChucDanh();
+			chucDanhDAO.disconnect();
 			return new ModelAndView("danh-muc-chuc-danh", "chucDanhList", chucDanhList);
 		}
 		if("deleteCd".equalsIgnoreCase(action)) {
 			String[] idList = request.getParameterValues("cdMa");
 			for(String s : idList) {
-					chucDanhDAO.deleteChucDanh(s);
+				chucDanhDAO.deleteChucDanh(s);
 			}
 			ArrayList<ChucDanh> chucDanhList =  (ArrayList<ChucDanh>) chucDanhDAO.getAllChucDanh();
+			chucDanhDAO.disconnect();
 			return new ModelAndView("danh-muc-chuc-danh", "chucDanhList", chucDanhList);
 		}
 		if("manageCd".equalsIgnoreCase(action)) {
@@ -70,7 +72,6 @@ public class CdController extends HttpServlet {
 		ChucDanh cd = chucDanhDAO.getChucDanh(cdMa);
 		chucDanhDAO.disconnect();
 		return JSonUtil.toJson(cd);
-		
 	}
 	
 	@RequestMapping(value="/deleteCd", method=RequestMethod.GET, 
@@ -94,7 +95,6 @@ public class CdController extends HttpServlet {
 		if(cd == null) 
 		{
 			chucDanhDAO.addChucDanh(new ChucDanh(cdMa, cdTen,0));
-			//System.out.println("success");
 			result = "success";	
 		}
 		else if(cd !=null && cd.getDaXoa()== 1){
@@ -109,7 +109,7 @@ public class CdController extends HttpServlet {
 			result = "fail";
 		}
 		chucDanhDAO.disconnect();
-			return JSonUtil.toJson(result);
+		return JSonUtil.toJson(result);
 	}
 	
 	@RequestMapping(value="/updateCd", method=RequestMethod.GET, 
@@ -132,21 +132,7 @@ public class CdController extends HttpServlet {
 		ChucDanhDAO cdDAO = new ChucDanhDAO();
 		int page = Integer.parseInt(pageNumber);
 		ArrayList<ChucDanh> cdList = (ArrayList<ChucDanh>) cdDAO.limit((page -1 ) * 10, 10);
-		
-		/*
-		if(new NoiSanXuatDAO().getNoiSanXuat(nsxMa)==null)
-		{
-			new NoiSanXuatDAO().addNoiSanXuat(new NoiSanXuat(nsxMa, nsxTen,0));
-			System.out.println("success");
-			result = "success";	
-		}
-		else
-		{
-			System.out.println("fail");
-			result = "fail";
-		}
-		*/
 		cdDAO.disconnect();
-			return JSonUtil.toJson(cdList);
+		return JSonUtil.toJson(cdList);
 	}
 }

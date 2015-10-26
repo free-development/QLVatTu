@@ -51,7 +51,7 @@ public class BackupDB {
 				//only backup the data not included create database
 				batchCommand = dumpExePath + " -h " + connection.getHost() + " --port " 
 							   + connection.getPort() + " -u " + connection.getUser() + " --password=" 
-							   + connection.getPassword() + " " + connection.getDatabase() + " -r \"" 
+							   + connection.getPassword() + " --add-drop-database -B " + " " + connection.getDatabase() + " -r \"" 
 							   + path + "" + filepath + "\"";
 			} else {
 				batchCommand = dumpExePath + " -h " + connection.getHost() + " --port " 
@@ -60,7 +60,7 @@ public class BackupDB {
 			}
 			System.out.println(batchCommand);
 			Runtime runtime = Runtime.getRuntime();
-			p = runtime.exec(batchCommand);
+			p = runtime.exec(new String[]{"/bin/sh", "-c",batchCommand});
 			int processComplete = p.waitFor();
 			if (processComplete == 0) {
 				status = true;
@@ -68,7 +68,9 @@ public class BackupDB {
 				status = false;
 			}
 		} catch (IOException ioe) {
+			System.out.print("IO");
 		} catch (Exception e) {
+			System.out.print("E");
 		}
 		return status;
 	}
@@ -97,7 +99,7 @@ public class BackupDB {
             }
             System.out.println(batchCommand);
             Runtime runtime = Runtime.getRuntime();
-            p = runtime.exec(batchCommand);
+            p = runtime.exec(new String[]{"/bin/sh", "-c",batchCommand});
             int processComplete = p.waitFor();
  
             if (processComplete == 0) {
@@ -112,11 +114,14 @@ public class BackupDB {
         return status;
 	}
 	public static void main(String[] args) {
-		DBConnection connection = new DBConnection("user1", "user1", "localhost", 3306, "vattu");
+		DBConnection connection = new DBConnection("root", "Voquoctuong", "localhost", 3306, "vattu");
 		BackupDB backupDB = new BackupDB(connection);
 		String path = "/home/quoioln/backup-vattu-(08-09-2015).sql";
 		String dumpExePath = "mysqldump";
 		//backupDB.restoreDB(dumpExePath, path);
-		backupDB.backupDB("mysqldump", "/home/quoioln/");
+		if (backupDB.restoreDB("mysqldump", "/home/quoioln/DATA/backup-vattu-(24-10-2015).sql"))
+			System.out.println("OK");
+		else
+			System.out.println("FAIL");
 	}
 }

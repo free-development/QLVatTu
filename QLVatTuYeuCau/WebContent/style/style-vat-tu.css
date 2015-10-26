@@ -5,7 +5,7 @@
 	height: 150px;
 	top: 30%;
 	/*bottom: 65%;*/
-	position: absolute;
+	position: fixed;
 	background-color : #DCEAF5;
 	border-radius: 10px;
 	padding-left: 10px;
@@ -263,28 +263,11 @@
 	font-size: 13px;
 }
 
-#add-form {
+#add-form, #update-form {
 	display: none;
-	width: 450px;
+	width: 34%;
 	position: fixed;
-	left: 483px;
-	margin-top: 30px;
-	top: 25%;
-	/*height: 25%;*/
-	background-color: #DCEAF5;
-	border-radius: 10px;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-top: 20px;
-	border: outset;
-	border-color: #0000FF;
-}
-
-#update-form {
-	display: none;
-	width: 450px;
-	position: fixed;
-	left: 483px;
+	left: 32%;
 	margin-top: 30px;
 	top: 25%;
 	/*height: 25%;*/

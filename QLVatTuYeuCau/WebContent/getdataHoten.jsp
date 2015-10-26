@@ -7,7 +7,7 @@
 
 	String query = request.getParameter("q");
 	
-	ArrayList<String> nguoiDungList = nguoiDungDAO.startWithTen(query);
+	ArrayList<String> nguoiDungList = nguoiDungDAO.startWithTen(null, query);
 	/*
 	Iterator<String> iterator = countries.iterator();
 	while(iterator.hasNext()) {

@@ -38,25 +38,19 @@ public class ClController extends HttpServlet {
 	public ModelAndView manageCl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String action = request.getParameter("action");
-		
-//		if("manageCl".equalsIgnoreCase(action)) {
-			ChatLuongDAO chatLuongDAO = new ChatLuongDAO();
-			request.getCharacterEncoding();
-	    	response.getCharacterEncoding();
-	    	request.setCharacterEncoding("UTF-8");
-	    	response.setCharacterEncoding("UTF-8");  
-			HttpSession session = request.getSession(false);
-			long size = chatLuongDAO.size();
-			ArrayList<ChatLuong> chatLuongList =  (ArrayList<ChatLuong>) chatLuongDAO.limit(page -1, 10);
-			ArrayList<ChatLuong> allChatLuongList =  (ArrayList<ChatLuong>) chatLuongDAO.getAllChatLuong();
-			session.setAttribute("allChatLuongList", allChatLuongList);
-			request.setAttribute("size", size);
-			chatLuongDAO.disconnect();
-			System.out.println("OK");
-			return new ModelAndView("danh-muc-chat-luong", "chatLuongList", chatLuongList);
-//		}
-//		System.out.println("NO");
-//		return new ModelAndView("login");
+		ChatLuongDAO chatLuongDAO = new ChatLuongDAO();
+		request.getCharacterEncoding();
+    	response.getCharacterEncoding();
+    	request.setCharacterEncoding("UTF-8");
+    	response.setCharacterEncoding("UTF-8");  
+		HttpSession session = request.getSession(false);
+		long size = chatLuongDAO.size();
+		ArrayList<ChatLuong> chatLuongList =  (ArrayList<ChatLuong>) chatLuongDAO.limit(page -1, 10);
+		ArrayList<ChatLuong> allChatLuongList =  (ArrayList<ChatLuong>) chatLuongDAO.getAllChatLuong();
+		session.setAttribute("allChatLuongList", allChatLuongList);
+		request.setAttribute("size", size);
+		chatLuongDAO.disconnect();
+		return new ModelAndView("danh-muc-chat-luong", "chatLuongList", chatLuongList);
 	}
 
 	@RequestMapping(value="/preUpdateCl", method=RequestMethod.GET, 
@@ -89,10 +83,9 @@ public class ClController extends HttpServlet {
 		if(cl == null) 
 		{
 			chatLuongDAO.addChatLuong(new ChatLuong(clMa, clTen,0));
-			//System.out.println("success");
 			result = "success";	
 		}
-		else if(cl !=null && cl.getDaXoa()== 1){
+		else if(cl.getDaXoa()== 1){
 			cl.setClMa(clMa);
 			cl.setClTen(clTen);
 			cl.setDaXoa(0);
@@ -104,7 +97,7 @@ public class ClController extends HttpServlet {
 			result = "fail";
 		}
 		chatLuongDAO.disconnect();
-			return JSonUtil.toJson(result);
+		return JSonUtil.toJson(result);
 			
 	}
 	
@@ -114,33 +107,19 @@ public class ClController extends HttpServlet {
 		//System.out.println(clMaUpdate);
 		//System.out.println(clTenUpdate);
 		ChatLuong cl = new ChatLuong(clMaUpdate, clTenUpdate,0);
-		new ChatLuongDAO().updateChatLuong(cl);
-		
+		ChatLuongDAO chatLuongDAO = new ChatLuongDAO();
+		chatLuongDAO.updateChatLuong(cl);
+		chatLuongDAO.disconnect();
 		return JSonUtil.toJson(cl);
 	}
 	@RequestMapping(value="/loadPageCl", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String loadPageCl(@RequestParam("pageNumber") String pageNumber) {
 		String result = "";
-		//System.out.println("MA: " + pageNumber);
 		ChatLuongDAO clDAO = new ChatLuongDAO();
 		int page = Integer.parseInt(pageNumber);
 		ArrayList<ChatLuong> clList = (ArrayList<ChatLuong>) clDAO.limit((page -1 ) * 10, 10);
-		
-		/*
-		if(new NoiSanXuatDAO().getNoiSanXuat(nsxMa)==null)
-		{
-			new NoiSanXuatDAO().addNoiSanXuat(new NoiSanXuat(nsxMa, nsxTen,0));
-			System.out.println("success");
-			result = "success";	
-		}
-		else
-		{
-			System.out.println("fail");
-			result = "fail";
-		}
-		*/
 		clDAO.disconnect();
-			return JSonUtil.toJson(clList);
+		return JSonUtil.toJson(clList);
 	}
 }

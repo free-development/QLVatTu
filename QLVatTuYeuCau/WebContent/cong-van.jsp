@@ -31,8 +31,11 @@
 
 <%
 		String truongPhongMa = request.getServletContext().getInitParameter("truongPhongMa");
+		String phoPhongMa = request.getServletContext().getInitParameter("phoPhongMa");
 		String vanThuMa = request.getServletContext().getInitParameter("vanThuMa");
+		String nhanVienMa = request.getServletContext().getInitParameter("nhanVienMa");
 		String adminMa = request.getServletContext().getInitParameter("adminMa");
+		String thuKyMa = request.getServletContext().getInitParameter("thuKyMa");
 		String hosting = request.getServletContext().getInitParameter("hosting");
 		int capPhatMa = Integer.parseInt(request.getServletContext().getInitParameter("capPhatId"));
    		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
@@ -57,7 +60,7 @@
     	if (congVanList ==  null) {
     		int index = siteMap.cvManage.lastIndexOf("/");
     		String url = siteMap.cvManage.substring(index);
-    		RequestDispatcher dispatcher =  request.getRequestDispatcher(url+"?action=manageCv");
+    		RequestDispatcher dispatcher =  request.getRequestDispatcher(url);
     		dispatcher.forward(request, response);
     		return;
     	}
@@ -84,8 +87,11 @@ check = <% if (vanThuMa.equals(chucDanhMa) ) out.print("false"); else out.print(
 capVatTuId = '<%=capPhatMa  %>';
 chucDanhMa = '<%=chucDanhMa  %>';
 vanThuMa = '<%=vanThuMa  %>';
+nhanVienMa = '<%=nhanVienMa  %>';
 adminMa = '<%=adminMa  %>';
+thuKyMa = '<%=thuKyMa  %>';
 truongPhongMa = '<%=truongPhongMa  %>';
+phoPhongMa = '<%=phoPhongMa  %>';
 hosting = '<%=hosting  %>';
 msnv = '<%=authentication.getMsnv()  %>';
 countAdd = '0';
@@ -225,8 +231,8 @@ countAdd = '0';
                      <tr><td> 
 					<table class="tableContent" <%if (count % 2 == 1){ out.println("style=\"background : #CCFFFF; width: 100%; font-size: 18px;  \"");}else{out.println("style=\"background : #FFFFFF; width: 100%; font-size: 18px;\"");}%> class="border-congvan">
 						<tr >
-						<% if (chucDanhMa.equals(vanThuMa) || chucDanhMa.equals(adminMa)) {%>
-							<td class="column-check" rowspan="9" style="margin-right: 30px;">
+						<% if (chucDanhMa.equals(vanThuMa) || chucDanhMa.equals(adminMa) || chucDanhMa.equals(thuKyMa)) {%>
+							<td class="column-check" <%if (chucDanh.equals(adminMa)) out.println("rowspan=\"11\""); out.println("rowspan=\"10\"");%>  style="margin-right: 30px;">
 								Chọn <input title="Click để chọn công văn"type="checkbox" name="cvId" value="<%=congVan.getCvId()%>"> 
 							</td>
 							
@@ -235,8 +241,8 @@ countAdd = '0';
 							<td class="column-so-den" style="text-align: left;"><%=congVan.getSoDen() %></td>
 							<td class="left-column-first" style="font-weight: bold;">Ngày nhận: &nbsp;&nbsp;</td>
 							<td class="column-date" style="text-align: left;color:blue;"><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td>
-							<td colspan="1" style="font-weight: bold;">Trạng thái:</td>
-							<td colspan="1" style="color: red;font-weight: bold;font-style: oblique;"><%=congVan.getTrangThai().getTtTen() %></td>
+<!-- 							<td colspan="1" style="font-weight: bold;">Trạng thái:</td> -->
+<%-- 							<td colspan="1" style="color: red;font-weight: bold;font-style: oblique;"><%=congVan.getTrangThai().getTtTen() %></td> --%>
 						</tr>
 						<tr>	
 							<td  class="left-column-socv" style="font-weight: bold;">Số công văn đến: &nbsp;&nbsp;</td>
@@ -268,7 +274,7 @@ countAdd = '0';
 						<tr>
 							
 							<%
-								if (chucDanh.equals(truongPhongMa) || chucDanh.equals(vanThuMa)  || chucDanh.equals(adminMa)) { %>
+								if (chucDanh.equals(truongPhongMa) || chucDanh.equals(vanThuMa)  || chucDanh.equals(adminMa) || chucDanh.equals(phoPhongMa)) { %>
 									<td class="left-column-first" style="font-weight: bold;">Người xử lý</td>
 									<td class="column-color"colspan="3">
 									<%
@@ -283,28 +289,35 @@ countAdd = '0';
 											cellHoTen.delete(len -2, len);
 											out.println(cellHoTen.toString());
 										}%>
-									</td>
+									
 <%-- 									<%if (chucDanh.equals(truongPhongMa)) { %> --%>
 									
 <%-- 									<%} %> --%>
-								<%} else {%>
+								</td>
+								<%}%>
+								
+								</tr>
+								
+								<% if (chucDanh.equals(nhanVienMa) || chucDanh.equals(adminMa) || chucDanh.equals(phoPhongMa) || chucDanh.equals(vanThuMa) ) {%>
+								<tr>
 									<td class="left-column-first" style="font-weight: bold;">Vai trò</td>
 									<td class="column-color"colspan="5">
 									<table>
 									<%
 									boolean capPhat = false;
-									ArrayList<VaiTro> vaiTro = vaiTroList.get(count - 1);
-									ArrayList<VTCongVan> vtCongVan = vtCongVanList.get(count - 1);									
-									if (vaiTro.size() > 0) {
-										int i = 0;
-										for (VaiTro vt : vaiTro) {
-											VTCongVan vtcv = vtCongVan.get(i);
-											if (vt.getVtId() == capPhatMa)
-												capPhat = true;
-											i++;
-										%>
+									if (!chucDanh.equals(adminMa)) {
+										ArrayList<VaiTro> vaiTro = vaiTroList.get(count - 1);
+										ArrayList<VTCongVan> vtCongVan = vtCongVanList.get(count - 1);									
+										if (vaiTro.size() > 0) {
+											int i = 0;
+											for (VaiTro vt : vaiTro) {
+												VTCongVan vtcv = vtCongVan.get(i);
+												if (vt.getVtId() == capPhatMa || chucDanh.equals(adminMa))
+													capPhat = true;
+												i++;
+									%>
 										<tr>
-										<td><%=vt.getVtTen() %>:</td>
+										<td><%=vt.getVtTen() %>: &nbsp;&nbsp;&nbsp;</td>
 										<td>
 											<input type="radio" <%if ("CGQ".equals(vtcv.getTrangThai().getTtMa())) out.println(" checked ");%> name="<%=vtcv.getMsnv() + "#" + vtcv.getCvId() + "#" + vtcv.getVtId() %>"  value="<%=vtcv.getMsnv() + "#" + vtcv.getCvId() + "#" + vtcv.getVtId() + "#"+"CGQ"%>"  class="ttMaVtUpdate"> 	
 											<label for="<%=vtcv.getMsnv() + "#" + vtcv.getCvId() + "#" + vtcv.getVtId() + "#"+"CGQ"%>">Chưa giải quyết</label>&nbsp;&nbsp;&nbsp;
@@ -318,39 +331,41 @@ countAdd = '0';
 											<label for="<%=vtcv.getMsnv() + "#" + vtcv.getCvId() + "#" + vtcv.getVtId() + "#"+""%>">Đã cấp đủ hàng</label>&nbsp;&nbsp;&nbsp;
 										</td>
 											<div id="requireTrangThaiUp" style="color: red"></div>
-										<tr>
-										<%}%>
-										<script type="text/javascript">
-											$('.ttMaVtUpdate').bind('change', function() {
-												var trangThai = $(this).val(); 
-												changeTrangThaiVt(trangThai) ;
-											}); 
-										</script>	
+										</tr>
+										<%}}}%>
 										</table>
 									</td>
-									<%if (capPhat) { %>
-										<td colspan="3" style="float: right;">
-											<button  class="button" type="button" style="width: 170px; height: 37px;" onclick="location.href='<%=siteMap.ycvtManage + "?cvId=" + congVan.getCvId()%>'">
-												<i class="fa fa-spinner"></i>&nbsp;&nbsp;Cập nhật yêu cầu vật tư
+									<%if (capPhat || chucDanhMa.equals(adminMa)) { %>
+										<td colspan="1" style="float: right;">
+											<button  class="button" type="button" style="width: 200px; height: 37px;" onclick="location.href='<%=siteMap.ycvtManage + "?cvId=" + congVan.getCvId()%>'">
+												<i class="fa fa-spinner"></i>&nbsp;&nbsp;Cập nhật vật tư thiếu
 											</button>									
 										</td>
-								<% 	}}}%>
+								<% 	} %>
+								</tr>
+									<%}%>
 									
-						</tr>
+						
 						<tr>
 							<td class="left-column-first" style="font-weight: bold;">Xem công văn: </td>
+							<td colspan="6">
 							<%
 							File file = fileHash.get(congVan.getCvId());
-							String path = file.getDiaChi();
-							int index = path.lastIndexOf("/");
-							int index2 = path.lastIndexOf("-");
-							int index3 = path.lastIndexOf(".");
-							String fileName = path.substring(index + 1, index2);
-							if (index3 != -1)
-								fileName += path.substring(index3);
+							String fileName = "";
+							if (file != null) {
+								String path = file.getDiaChi();
+								int index = path.lastIndexOf("/");
+								int index2 = path.lastIndexOf("-");
+								int index3 = path.lastIndexOf(".");
+								fileName = path.substring(index + 1, index2);
+								if (index3 != -1)
+									fileName += path.substring(index3);
+							} else {
+								fileName = "Không tồn tại file";
+							}
 							%>
-							<td colspan="6">
-								<a target="_black" href="<%="/QLVatTuYeuCau/downloadFileMn.html" + "?action=download&file=" + congVan.getCvId()%>">
+							
+								<a target="_black" href="<%if (file != null) out.print("/QLVatTuYeuCau/downloadFileMn.html" + "?action=download&file=" + congVan.getCvId());%>">
 									<div class="mo-ta"><%=fileName %></div>
 								</a>
 							</td>
@@ -360,14 +375,14 @@ countAdd = '0';
 						<tr>
 						<td class="left-column-first" style="font-weight: bold;">Ghi chú: </td>
 						<td colspan="5">
-								<%=file.getMoTa() %>
+								<%if (file != null) out.println(file.getMoTa()); %>
 							</td>
 						</tr>
 						<tr>
 							<th style="text-align: left"><label>Trạng
 									thái</label></th>
-							<td style="text-align: left; padding-left: 10px;" colspan = "3" id = "<%=congVan.getCvId() %>ttMaCongvan">
-							<% if(chucDanh.equals(truongPhongMa) || chucDanh.equals(vanThuMa)  || chucDanh.equals(adminMa)) { %>
+							<td style="text-align: left; padding-left: 10px;" colspan = "5" id = "<%=congVan.getCvId() %>ttMaCongvan">
+							<% if(chucDanh.equals(truongPhongMa) || chucDanh.equals(vanThuMa)  || chucDanh.equals(adminMa) || chucDanh.equals(phoPhongMa)) { %>
 								<input type="radio" <%if ("CGQ".equals(congVan.getTrangThai().getTtMa())) out.println(" checked ");%> name="<%=congVan.getCvId() %>"  value="<%=congVan.getCvId()+"#"+"CGQ"%>"  class="ttMaUpdate"> 	
 								<label for="<%=congVan.getCvId()+"#"+"CGQ"%>">Chưa giải quyết</label>&nbsp;&nbsp;&nbsp;
 								<input type="radio" <%if ("DGQ".equals(congVan.getTrangThai().getTtMa())) out.println(" checked ");%> name="<%=congVan.getCvId() %>"  value="<%=congVan.getCvId()+"#"+"DGQ"%>" class="ttMaUpdate" >
@@ -376,9 +391,9 @@ countAdd = '0';
 								<label for="<%=congVan.getCvId()+"#"+"DaGQ"%>">Đã cấp đủ hàng</label>&nbsp;&nbsp;&nbsp;
 							<%} else out.print(congVan.getTrangThai().getTtTen());%>
 							</td>
-							<% if(chucDanh.equals(truongPhongMa) || chucDanh.equals(vanThuMa)  || chucDanh.equals(adminMa)) { %>
-							<td colspan="2" style="float: right;">
-										<button  class="button" type="button" style="width: 170px; height: 30px;" onclick="location.href='<%=siteMap.cscvManage + "?action=chiaSeCv&congVan=" + congVan.getCvId()%>'">
+							<% if(chucDanh.equals(truongPhongMa) || chucDanh.equals(vanThuMa)  || chucDanh.equals(adminMa)  || chucDanh.equals(phoPhongMa)) { %>
+							<td colspan="1" style="float: right;">
+										<button  class="button" type="button" style="width: 200px; height: 30px;" onclick="location.href='<%=siteMap.cscvManage + "?action=chiaSeCv&congVan=" + congVan.getCvId()%>'">
 											<i class="fa fa-spinner"></i>&nbsp;&nbsp;Chia sẻ công văn
 										</button>
 									</td>
@@ -392,10 +407,7 @@ countAdd = '0';
 							<%} %>
 							</table>
 					<script type="text/javascript">
-						$('.ttMaUpdate').bind('change', function() {
-							var trangThai = $(this).val(); 
-							changeTrangThaiCv(trangThai) ;
-						}); 
+						
 					</script>	
 
 
@@ -437,10 +449,11 @@ countAdd = '0';
 							<button class="button" type="button" onclick="confirmDelete();">
 								<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xóa
 							</button>
+							<% if(chucDanh.equals(phoPhongMa) ||  chucDanh.equals(truongPhongMa) || chucDanh.equals(adminMa)) { %>
 							<button class="button" type="button" onclick="location.href='<%=siteMap.bccvManage+"?action=baocaocv"%>'">
 							<i class="fa fa-print"></i>&nbsp;&nbsp;Báo cáo
 							</button>
-							<%} %>
+							<% }} %>
 <!-- 							<button class="button" "> -->
 <!-- 								<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xóa -->
 <!-- 							</button> -->
@@ -454,7 +467,16 @@ countAdd = '0';
 				</td>
 				</tr>
 				</table>
-				
+				<script type="text/javascript">
+											$('.ttMaVtUpdate').bind('change', function() {
+												var trangThaiVt = $(this).val(); 
+												changeTrangThaiVt(trangThaiVt) ;
+											}); 
+											$('.ttMaUpdate').bind('change', function() {
+												var trangThaiCv = $(this).val(); 
+												changeTrangThaiCv(trangThaiCv) ;
+											}); 
+										</script>
 <!-- 				</div> -->
 
 				<!--    		</form>  -->

@@ -15,8 +15,8 @@
 <link rel="stylesheet" href="style/style.css" type="text/css">
 <link href="style/style-cap-nhat-tai-khoan.css" type="text/css"
 	rel="stylesheet">
-<link href="style/style-chia-se.css" type="text/css"
-	rel="stylesheet">
+<!-- <link href="style/style-chia-se.css" type="text/css" -->
+<!-- 	rel="stylesheet"> -->
 <!-- <link href="style/style-vat-tu.css" type="text/css" -->
 <!-- 	rel="stylesheet"> -->
 <link rel="stylesheet" type="text/css" href="style/jquery.autocomplete.css" />
@@ -79,8 +79,6 @@
 	<div class="wrapper">
 		<jsp:include page="header.jsp" />
 		<div id="main-content">
-				<form id="main-form">
-				<div id="title-content">Danh sách tài khoản</div>
 				<table style="margin:0 auto; margin-bottom: 10px;">		
 					<tr>		
 					<th  style="text-align: left; color: black; font-size: 19px;">*Tìm kiếm mã</th>
@@ -88,7 +86,7 @@
 									<div class="search_form1" id="search">		
 										
 										
-										<form>												
+										<form id="search-nguoidung">												
 											<span> &nbsp; <input type="search" id="searchName" class="text-search" name="nguoidung"/>						
 														 												
 												<td><input type="checkbox" value="check" class="checkbox" style="text-align: center;" id="checkTen"/></td>
@@ -105,7 +103,10 @@
 									</td>
 					</tr>					
 				</table>
-				<div id="view-table-chia-se">
+				<div id="title-content">Danh sách tài khoản</div>
+				<form id="main-form">
+				
+				<div id="view-table">
 					<table style="width:1024px;">
 						<tr bgcolor= "#199e5e">
 						<th style="text-align: center;">Chọn</th>
@@ -150,7 +151,7 @@
 								</table>
 						</div>		
 				
-					<div class="group-button">
+					<div class="button-group">
 					<input type="hidden" value="save" name="action">
 						<button class="button" id="update" type="button" onclick="preUpdateNd('add-form', true)">
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Sửa
@@ -164,7 +165,7 @@
 					</div>
 				</form>
 				</div>
-			<form id="add-form">
+			<form id="update-form">
 				<div class="input-table">
 					<table>
 						<div class="form-title">Cập nhật thông tin</div>
@@ -172,14 +173,14 @@
 						<td class="input"><label for="msnv">Mã số nhân viên</label></td>
 						<td><input type="text" autofocus required size="12"
 							maxlength="10" placeholder="Mã số nhân viên"
-							title="Mã số nhân viên đủ 10 ký tự, không chứa ký tự đặc biệt"
-							pattern="[a-zA-Z0-9]*" class="text" id="msnv" name="msnv" onkeypress="changeMsnv();"readonly><div id="requireMsnv" style="color: red"></div></td>
+							title="Mã số nhân hơn 4 ký tự, không chứa ký tự đặc biệt"
+							pattern="[a-zA-Z0-9]{4}[a-zA-Z0-9]*" class="text" id="msnv" name="msnv" onkeypress="changeMsnv();"readonly><div id="requireMsnv" style="color: red"></div></td>
 					</tr>
 					<tr>
 						<td class="input"><label for="hoten">Họ tên</label></td>
 						<td><input type="text" required size="20" maxlength="50" placeholder="Họ tên"
 							title="Họ tên không được chứa chữ số và ký tự đặc biệt"
-							pattern="[a-zA-Z]*" class="text" id="hoTen" name="hoten" onkeypress="changeHoten();"style="margin-top: 5px;"><div id="requireHoten" style="color: red"></div></td>
+							class="text" id="hoTen" name="hoten" onkeypress="changeHoten();"style="margin-top: 5px;"><div id="requireHoten" style="color: red"></div></td>
 					</tr>
 					<tr>
 						<td class="input"><label for="chucdanh">Chức danh</label></td>
@@ -220,7 +221,7 @@
 					</table>
 				</div>
 				<div class="button-group">
-					<button class="button" type="button" onclick="confirmUpdateNd();">
+					<button class="button" type="submit" >
 						<i class="fa fa-plus-circle"></i>&nbsp;Lưu lại
 					</button>
 					&nbsp;

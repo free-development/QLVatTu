@@ -53,17 +53,6 @@ public class ChiaSeCvController extends HttpServlet {
 	String truongPhongMa  = "";
 	String phoPhongMa = "";
 	String adminMa = "";
-//	public void on() throws ServletException {
-//		truongPhongMa =  context.getInitParameter("truongPhongMa");
-//		phoPhongMa = context.getInitParameter("phoPhongMa");
-//		adminMa = context.getInitParameter("adminMa");
-//	};
-//	@Override
-//	public void onStartup(ServletContext context) throws ServletException {
-//		truongPhongMa =  context.getInitParameter("truongPhongMa");
-//		phoPhongMa = context.getInitParameter("phoPhongMa");
-//		adminMa = context.getInitParameter("adminMa");
-//	}
 	@RequestMapping("/cscvManage")
 	protected ModelAndView cscvManage(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -323,8 +312,13 @@ public class ChiaSeCvController extends HttpServlet {
 		CTNguoiDungDAO ndDAO = new CTNguoiDungDAO();
 		int page = Integer.parseInt(pageNumber);
 		ArrayList<Object> objectList = new ArrayList<Object>();
+		String adminMa = context.getInitParameter("adminMa");
+		String truongPhongMa = context.getInitParameter("truongPhongMa");
+		ArrayList<String> ignoreList = new ArrayList<String>();
+		ignoreList.add(truongPhongMa);
+		ignoreList.add(adminMa);
 		long sizeNd = ndDAO.size();
-		ArrayList<NguoiDung> ndList = (ArrayList<NguoiDung>) ndDAO.limit((page - 1) * 10, 10);
+		ArrayList<NguoiDung> ndList = (ArrayList<NguoiDung>) ndDAO.limit(ignoreList, (page - 1) * 10, 10);
 		objectList.add(ndList);
 		objectList.add((sizeNd - 1) / 10);
 		// return JSonUtil.toJson(objectList);
@@ -351,7 +345,7 @@ public class ChiaSeCvController extends HttpServlet {
 		ArrayList<String> ignoreList = new ArrayList<String>();
 		ignoreList.add(adminMa);
 		ignoreList.add(truongPhongMa);
-		if(msnv != "")
+		if(msnv.length() > 0)
 			nguoiDungList = (ArrayList<NguoiDung>) nguoiDungDAO.searchMsnv(msnv, ignoreList);
 		else
 			nguoiDungList = (ArrayList<NguoiDung>) nguoiDungDAO.searchHoten(hoTen, ignoreList);

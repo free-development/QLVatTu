@@ -278,7 +278,7 @@ function loadAddCongVan(objectList, action) {
 	else
 		style += 'style = \"background : #FFFFFF; width: 100%; font-size: 18px;\"';
 //	style += ' font-size: 16px; width: 1224px;\"';
-	tables +=     '<td><table class=\"tableContent\" ' + style + ' class=\"border-congvan\">'
+	tables += '<td><table class=\"tableContent\" ' + style + ' class=\"border-congvan\">'
 				+ '<tr >';
 				if(chucDanhMa == vanThuMa || chucDanhMa == adminMa) {
 				tables += '<td class=\"column-check\" rowspan=\"9\" style=\"margin-right: 30px;\">'
@@ -327,13 +327,13 @@ function loadAddCongVan(objectList, action) {
 //				+ '</button>'
 //				+ '</td>'
 				+ '<tr>';
+			tables += '<tr>';	
 			if (chucDanhMa == truongPhongMa || chucDanhMa == vanThuMa || chucDanhMa == adminMa) {
-				
 				tables += '<td class=\"left-column-first\" style=\"font-weight: bold;\">Người xử lý</td>'
 				+ '<td class=\"column-color\" colspan=\"3\">' + '</td>';
-					
 
-			} 
+			}
+			tables += '</tr>';
 			
 	  		var path = file.diaChi;
 			var index = path.lastIndexOf("/");
@@ -409,14 +409,7 @@ function preUpdateCv(cv) {
 //			alert("Cong van da bi xoa");
 	  		//alert(congVan.trangThai.ttMa);
 	  		var congVan = objectList[0];
-	  		var file = objectList[1];
-	  		var path = file.diaChi;
-			var index = path.indexOf("/");
-			var index2 = path.indexOf("-");
-			var index3 = path.lastIndexOf(".");
-			fileName = path.substring(index + 1, index2);
-			if (index3 != -1)
-				fileName += path.substring(index3);
+	  		
 			$('#update-form input:hidden[name=cvId]').val(congVan.cvId);
 	  		$('#update-form input:text[name=soDen]').val(congVan.soDen);
 	  		$('#update-form input:text[name=cvSo]').val(congVan.cvSo);
@@ -430,16 +423,25 @@ function preUpdateCv(cv) {
 	  		$('#update-form textarea[name=butPheUpdate]').val(congVan.butPhe);
 //	  		$('#update-form input:radio[name=ttMaUpdate][value='+congVan.trangThai.ttMa+']').prop('checked',true);
 //	  		$('#linkCv').html('<a href=\"' + path + '\" target=\"_blank\">Xem công văn</a>')
-			var index = path.lastIndexOf("/");
-			var index2 = path.lastIndexOf("-");
-			var index3 = path.lastIndexOf(".");
-			var fileNameFull = path.substring(index + 1, index2);
-			if (index3 != -1)
-				fileNameFull += path.substring(index3);
+	  		var file = objectList[1];
+	  		var fileNameFull = '';
+	  		if (file != null) {
+		  		var path = file.diaChi;
+		  		var index = path.lastIndexOf("/");
+				var index2 = path.lastIndexOf("-");
+				var index3 = path.lastIndexOf(".");
+				fileNameFull = path.substring(index + 1, index2);
+				if (index3 != -1)
+					fileNameFull += path.substring(index3);
+				$('#linkCv').attr('href', getRoot() + 'downloadFile.html?action=download&file=' + congVan.cvId);
+				$('#update-form textarea[name=moTa]').val(file.moTa);
+	  		} else {
+	  			$('#linkCv').attr('href', '');
+	  			$('#update-form textarea[name=moTa]').val('Không có ghi chú');
+	  		}
 	  		$('#linkCv').html(fileNameFull);
-	  		$('#linkCv').attr('href', getRoot() + 'downloadFile.html?action=download&file=' + congVan.cvId);
 	  		$('#update-form textarea[name=butPheUpdate]').val(congVan.butPhe);
-	  		$('#update-form textarea[name=moTa]').val(file.moTa);
+	  		
 	  		showForm('main-form', 'update-form', true);
 	  		showForm('time-form', 'update-form', true);
 	  		showForm('search-form', 'update-form', true);
@@ -498,8 +500,8 @@ function loadByYear(year) {
 	    	var monthOl = '';
 	    	for(var i = 0; i< length; i++) {
 	    		monthLi += 	'<li id = \"month' + monthList[i] + '\">' 
-							+ '<label for="m' + monthList[i] + '\">' + 'Tháng ' + monthList[i]  + '</label>' 
-							+' <input type="checkbox" class=\"month\" id=\"m' + monthList[i] + '\" onchange="loadByMonth(' + year + ', ' + monthList[i] + '); ' + '\"/>' 
+							+ '<label for=\"y' + year + 'm' + monthList[i] + '\">' + 'Tháng ' + monthList[i]  + '</label>' 
+							+' <input type="checkbox" class=\"month\" id=\"y' + year+ 'm' + monthList[i] + '\" onchange="loadByMonth(' + year + ', ' + monthList[i] + '); ' + '\"/>' 
 							+ '<ol></ol> </li>'; 
 	    	}
 	    	var yearLi = '';
@@ -508,9 +510,10 @@ function loadByYear(year) {
 	    	var congVanList = objectList[0];
 	    	var fileList = objectList[1];
 	    	var size = objectList[3];
-	    	var unknownList = objectList[4];
-	    	var vtCongVanList = objectList[5];
-	    	loadCongVan(congVanList, fileList, unknownList, vtCongVanList);
+	    	var nguoiXlCongVan = objectList[4];
+	  		var vaiTroList = objectList[5];
+	  		var vtCongVanList = objectList[6];
+	    	loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVanList);
 	    	loadPageNumber(0, '',size);
 	    } 
 	});  
@@ -531,8 +534,8 @@ function loadByMonth(year, month) {
 	    	var dateOl = '';
 	    	for(var i = 0; i< length; i++) {
 	    		dateLi += 	'<li id = \"date' + dateList[i] + '\">' 
-							+ '<label for="d' + dateList[i] + '\">' + 'Ngày ' + dateList[i]  + '</label>' 
-							+' <input type="button" class=\"date\" id=\"d' + dateList[i] +'\" value =\"' + dateList[i] + '\" onclick=\"loadByDate(' + year + ', ' + month  + ', ' + dateList[i] + ');' + '\"/>' 
+							+ '<label for=\"y' + year + 'm'  + month + 'd' + dateList[i] + '\">' + 'Ngày ' + dateList[i]  + '</label>' 
+							+' <input type="button" class=\"date\" id=\"y' + year + 'm'  + month + 'd' + dateList[i] +'\" value =\"' + dateList[i] + '\" onclick=\"loadByDate(' + year + ', ' + month  + ', ' + dateList[i] + ');' + '\"/>' 
 							+ '</li>'; 
 	    	}
 	    	$('#month'+month + ' ol').html(dateLi);
@@ -540,15 +543,16 @@ function loadByMonth(year, month) {
 	    	var congVanList = objectList[0];
 	    	var fileList = objectList[1];
 	    	var size = objectList[3];
-	    	var unknownList = objectList[4];
-	    	var vtCongVanList = objectList[5];
-	    	loadCongVan(congVanList, fileList, unknownList, vtCongVanList);
+	    	var nguoiXlCongVan = objectList[4];
+	  		var vaiTroList = objectList[5];
+	  		var vtCongVanList = objectList[6];
+	    	loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVanList);
 	    	loadPageNumber(0, '',size);
 	    } 
 	});  
 }
-function loadCongVan(congVanList, fileList, unknownList, vtCongVanList) {
-	$('.tableContent').remove();
+function loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVanList) {
+//	$('.tableContent').remove();
 	var length = congVanList.length;
 	var tables = '';
 	if(length > 0) {
@@ -565,14 +569,19 @@ function loadCongVan(congVanList, fileList, unknownList, vtCongVanList) {
 			var cvNgayDi = parseDate(congVan.cvNgayDi);   
 			var file = fileList[i];
 			if (i % 2 == 1)
-				style += 'background : #CCFFFF; width: 1224px;';
+				style += 'background : #CCFFFF; ';
 			else
-				style += 'background : #FFFFFF; width: 1224px;';
-			style += ' font-size: 16px; width: 1224px;\"';
-			tables +=     '<table class=\"tableContent\" ' + style + ' class=\"border-congvan\">'
+				style += 'background : #FFFFFF; ';
+			style += ' font-size: 16px; width: 100%;\"';
+			tables +=     '<tr><td><table class=\"tableContent\" ' + style + ' class=\"border-congvan\">'
 						+ '<tr >';
-						if(chucDanhMa == vanThuMa || chucDanhMa == adminMa) {
-						tables += '<td class=\"column-check\" rowspan=\"9\" style=\"margin-right: 30px;\">'
+						if(chucDanhMa == vanThuMa || chucDanhMa == adminMa || chucDanhMa == thuKyMa) {
+							var row = '';
+							if (chucDanhMa == adminMa)
+								row = 11;
+							else 
+								row = 10;
+						tables += '<td class=\"column-check\" rowspan=\"' + row + '\" style=\"margin-right: 30px;\">'
 						+ 'Chọn <input title=\"Click để chọn công văn\" type=\"checkbox\" name=\"cvId\" value=\"' + congVan.cvId + '\">'
 						+ '</td>';
 						}
@@ -618,69 +627,89 @@ function loadCongVan(congVanList, fileList, unknownList, vtCongVanList) {
 //						+ '</button>'
 //						+ '</td>'
 						+ '<tr>';
-					if (chucDanhMa == truongPhongMa || chucDanhMa == vanThuMa || chucDanhMa == adminMa) {
+					if (chucDanhMa == truongPhongMa || chucDanhMa == vanThuMa || chucDanhMa == adminMa || chucDanhMa == phoPhongMa) {
 						var cellNguoiXl = '';
-						if (unknownList.length > 0) {
-							var nguoiXlList = unknownList[i];  
+						if (nguoiXlCongVan.length > 0) {
+							var nguoiXlList = nguoiXlCongVan[i];
 							cellNguoiXl = nguoiXlList.join(', ');
 //							for (var j = 0; j < nguoiXlList.length; j++) {
 //								cellNguoiXl += nguoiXlList[j];
 //							}
 						}
-						tables += '<td class=\"left-column-first\" style=\"font-weight: bold;\">Người xử lý</td>'
-						+ '<td class=\"column-color\" colspan=\"3\">' + cellNguoiXl + '</td>';
+						tables += '<tr><td class=\"left-column-first\" style=\"font-weight: bold;\">Người xử lý</td>'
+						+ '<td class=\"column-color\" colspan=\"3\">' + cellNguoiXl + '</td></tr>';
 							
 
-					} else {
-						var cellVaiTro = '';
-						var capPhat = false;
-						tables += '<td class=\"left-column-first\" style=\"font-weight: bold;\">Vai trò</td>'
-							+ '<td class=\"column-color\" colspan=\"5\">';
-						tables += '<table>';
-						if (unknownList.length > 0) {
-							var vaiTro = unknownList[i];  
-							var vtCongvan = vtCongVanList[i];  
-//							cellVaiTro = vtCongVanList.vtTen.join(', ');
-							for (var j = 0; j < vtCongvan.length; j++) {
-								var vtcv = vtCongvan[j];
-								var vt = vaiTro[j];
-								if (vtcv.vtId == capVatTuId)
-									capPhat = true;
-								tables += '<tr>';
-								tables += '<td><input type=\"radio\"' + ('CGQ'== vtcv.trangThai.ttMa ? ' checked ' : '') + 'name=\"' + msnv + '#' + vtcv.cvId  + '#' + vtcv.vtId + '\"' + ' value=\"' + msnv + '#' + vtcv.cvId  + '#' + vtcv.vtId  +'#' + 'CGQ\"' + ' class=\"ttMaVtUpdate\" >'; 
-								tables += '&nbsp;<label for=\"' + vtcv.cvId + '#CGQ\">Chưa giải quyết</label>&nbsp;&nbsp;&nbsp</td>';
-								tables += '<td><input type=\"radio\"' + ('DGQ'==vtcv.trangThai.ttMa ? ' checked ' : '') + 'name=\"' + msnv + '#' + vtcv.cvId  + '#' + vtcv.vtId + '\"' + ' value=\"' + msnv + '#' + vtcv.cvId  + '#' + vtcv.vtId  + 'DGQ\"' + 'DGQ\" class=\"ttMaVtUpdate\">';
-								tables += '&nbsp;<label for=\"' + vtcv.cvId + '#DGQ\">Còn thiếu hàng</label>&nbsp;&nbsp;&nbsp</td>';
-								tables += '<td><input type=\"radio\"' + ('DaGQ'==vtcv.trangThai.ttMa ? ' checked ' : '') + 'name=\"' + msnv + '#' + vtcv.cvId  + '#' + vtcv.vtId + '\"' + ' value=\"' + msnv + '#' + vtcv.cvId  + '#' + vtcv.vtId  +'#' + 'DaGQ\"  class=\"ttMaVtUpdate\">';
-								tables += '&nbsp;<label for=\"' + vtcv.cvId + '#DaGQ\">Đã cấp đủ hàng</label>&nbsp;&nbsp;&nbsp</td>';
-								tables += '<div id="requireTrangThaiUp" style="color: red"></div>';
-								tables += '<tr>';
+					} 
+					if (chucDanhMa == nhanVienMa || chucDanhMa == phoPhongMa || chucDanhMa == adminMa) { 
+						tables += '<tr>';
+						if (chucDanhMa != adminMa) {
+							var cellVaiTro = '';
+							tables += '<td class=\"left-column-first\" style=\"font-weight: bold;\">Vai trò</td>'
+								+ '<td class=\"column-color\" colspan=\"5\">';
+							tables += '<table>';
+							if (vaiTroList.length > 0) {
+								var vaiTro = vaiTroList[i];  
+								var vtCongvan = vtCongVanList[i];  
+	//							cellVaiTro = vtCongVanList.vtTen.join(', ');
+								for (var j = 0; j < vtCongvan.length; j++) {
+									var vtcv = vtCongvan[j];
+									var vt = vaiTro[j];
+									var capPhat = false;
+									if (vtcv.vtId == capVatTuId )
+										capPhat = true;
+									tables += '<tr>';
+									tables += '<td>' + vt.vtTen + ': &nbsp;&nbsp;&nbsp;</td>';
+									tables += '<td><input type=\"radio\"' + ('CGQ'== vtcv.trangThai.ttMa ? ' checked ' : '') + 'name=\"' + msnv + '#' + vtcv.cvId  + '#' + vtcv.vtId + '\"' + ' value=\"' + msnv + '#' + vtcv.cvId  + '#' + vtcv.vtId  +'#' + 'CGQ\"' + ' class=\"ttMaVtUpdate\" >'; 
+									tables += '&nbsp;<label for=\"' + vtcv.cvId + '#CGQ\">Chưa giải quyết</label>&nbsp;&nbsp;&nbsp</td>';
+									tables += '<td><input type=\"radio\"' + ('DGQ'==vtcv.trangThai.ttMa ? ' checked ' : '') + 'name=\"' + msnv + '#' + vtcv.cvId  + '#' + vtcv.vtId + '\"' + ' value=\"' + msnv + '#' + vtcv.cvId  + '#' + vtcv.vtId  + 'DGQ\"' + ' class=\"ttMaVtUpdate\">';
+									tables += '&nbsp;<label for=\"' + vtcv.cvId + '#DGQ\">Còn thiếu hàng</label>&nbsp;&nbsp;&nbsp</td>';
+									tables += '<td><input type=\"radio\"' + ('DaGQ'==vtcv.trangThai.ttMa ? ' checked ' : '') + 'name=\"' + msnv + '#' + vtcv.cvId  + '#' + vtcv.vtId + '\"' + ' value=\"' + msnv + '#' + vtcv.cvId  + '#' + vtcv.vtId  +'#' + 'DaGQ\"  class=\"ttMaVtUpdate\">';
+									tables += '&nbsp;<label for=\"' + vtcv.cvId + '#DaGQ\">Đã cấp đủ hàng</label>&nbsp;&nbsp;&nbsp</td>';
+									tables += '<div id="requireTrangThaiUp" style="color: red"></div>';
+									
+									tables += '<tr>';
+								}
 							}
-						}
-						tables += '</table></td>';
-						var s = '  <script type=\"text/javascript\">$(\'.ttMaVtUpdate\').bind(\'change\', function(){'
-							+ 'var trangThai = $(this).val(); '
-							+ ' changeTrangThaiVt(trangThai) ;'
-						+ '}); </script>';
+							
+							tables += '</table></td>';
+						} else {
+							tables += '<th style=\"text-align: left;\">Vai trò</th><td colspan = \"5\"></td>';
+						}	
+							if (capPhat == true || chucDanhMa == adminMa) {
+								tables += '<td colspan=\"1\" style=\"float: right;\">' 
+								+ '<button class=\"button\" type=\"button\" style=\"width: 200px; height: 30px;\"' 
+								+ '  onclick=\"location.href=\'/QLVatTuYeuCau/ycvtManage.html?cvId=' + congVan.cvId + '\'\">'
+								+ '<i class="fa fa-spinner"></i>&nbsp;&nbsp;Cập nhật vật tư thiếu'
+								+ '</button>'
+								+ '</td>';
+							}
+						
+						tables += '</tr>';
+//						var s = '  <script type=\"text/javascript\">$(\'.ttMaVtUpdate\').bind(\'change\', function(){'
+//							+ ' var trangThai = $(this).val(); '
+//							+ ' changeTrangThaiVt(trangThai) ;'
+//						+ '}); </script>';
+//						tables += s;
 						
 						
 							
-						if (capPhat == true) {
-							tables += '<td colspan=\"1\" style=\"float: right;\">' 
-							+ '<button class=\"button\" type=\"button\" style=\"width: 200px; height: 30px;\"' 
-							+ '  onclick=\"location.href=\'/QLVatTuYeuCau/ycvtManage.html?cvId=' + congVan.cvId + '\'\">'
-							+ '<i class="fa fa-spinner"></i>&nbsp;&nbsp;Cập vật tư yêu cầu'
-							+ '</button>'
-							+ '</td>';
-						}
+						
 					}
-			  		var path = file.diaChi;
-					var index = path.lastIndexOf("/");
-					var index2 = path.lastIndexOf("-");
-					var index3 = path.lastIndexOf(".");
-					fileName = path.substring(index + 1, index2);
-					if (index3 != -1)
-						fileName += path.substring(index3);
+					var fileName = '';
+					var moTa = '';
+					if (file != null) {
+				  		var path = file.diaChi;
+						var index = path.lastIndexOf("/");
+						var index2 = path.lastIndexOf("-");
+						var index3 = path.lastIndexOf(".");
+						fileName = path.substring(index + 1, index2);
+						if (index3 != -1)
+							fileName += path.substring(index3);
+						moTa = file.moTa;
+					} else {
+						fileName = 'Không tồn tại tệp';
+					}
 				tables	+= '</tr>'
 						+ '<td class=\"left-column-first\" style=\"font-weight: bold;\">Xem công văn: </td>'
 						+ '<td colspan=\"5\">'
@@ -692,21 +721,21 @@ function loadCongVan(congVanList, fileList, unknownList, vtCongVanList) {
 						+ '</tr>'
 						+ '<tr>'
 						+ '<td class=\"left-column-first\" style=\"font-weight: bold;\">Ghi chú</td>'
-						+ '<td colspan = \"5\">' + file.moTa + '</td>'
+						+ '<td colspan = \"5\">' + moTa + '</td>'
 						+ '</tr>';
 						
 				tables += '<tr>' 
 					+ '<th style="text-align: left"><label for=\"TT\">Trạng thái</label></th>'
-					+ '<td style=\"text-align: left; padding-left: 10px;\" colspan = \"3\" id =\"' + congVan.cvId  + 'ttMaCongVan\">';
-				if (chucDanhMa == truongPhongMa || chucDanhMa == vanThuMa || chucDanhMa == adminMa) {
+					+ '<td style=\"text-align: left; padding-left: 10px;\" colspan = \"5\" id =\"' + congVan.cvId  + 'ttMaCongVan\">';
+				if (chucDanhMa == truongPhongMa || chucDanhMa == vanThuMa || chucDanhMa == adminMa || chucDanhMa == phoPhongMa) {
 					tables += '<input type=\"radio\"' + ('CGQ'== congVan.trangThai.ttMa ? ' checked ' : '') + 'name=' + congVan.cvId  + ' value=\"' + congVan.cvId +'#' + 'CGQ\"' + ' class=\"ttMaUpdate\" >'; //onchange=\"changeTrangThai()\"
 					tables += '&nbsp;<label for=\"' + congVan.cvId + '#CGQ\">Chưa giải quyết</label>&nbsp;&nbsp;&nbsp';
 					tables += '<input type=\"radio\"' + ('DGQ'==congVan.trangThai.ttMa ? ' checked ' : '') + 'name=' + congVan.cvId + ' value=\"' + congVan.cvId +'#' + 'DGQ\"' + 'DGQ\" class=\"ttMaUpdate\">';
 					tables += '&nbsp;<label for=\"' + congVan.cvId + '#DGQ\">Còn thiếu hàng</label>&nbsp;&nbsp;&nbsp';
 					tables += '<input type=\"radio\"' + ('DaGQ'== congVan.trangThai.ttMa ? ' checked ' : '') + 'name=' + congVan.cvId + ' value=\"' + congVan.cvId +'#' + 'DaGQ\"  class=\"ttMaUpdate\">';
-					tables += '&nbsp;<label for=\"' + congVan.cvId + '#DaGQ\">Đã cấp đủ hàng</label>&nbsp;&nbsp;&nbsp';
-					tables += '<td colspan=\"2\" style=\"float: right;\">'
-						+ '<button  class=\"button\" id=\"chiaSe\" type=\"button\" style=\"width: 170px; height: 30px;\"' 
+					tables += '&nbsp;<label for=\"' + congVan.cvId + '#DaGQ\">Đã cấp đủ hàng</label>&nbsp;&nbsp;&nbsp</td>';
+					tables += '<td colspan=\"1\" style=\"float: right;\">'
+						+ '<button  class=\"button\" id=\"chiaSe\" type=\"button\" style=\"width: 200px; height: 30px;\"' 
 						+ '  onclick=\"location.href=\'/QLVatTuYeuCau/cscvManage.html?action=chiaSeCv&congVan=' + congVan.cvId + '\'\">'
 						+ '<i class=\"fa fa-spinner\"></i>&nbsp;&nbsp;Chia sẻ công văn'
 						+ '</button>'
@@ -718,7 +747,7 @@ function loadCongVan(congVanList, fileList, unknownList, vtCongVanList) {
 					+ '</tr>'
 					+ '</table>'
 					+'<br>'
-					+'<hr>';
+					+'<hr></td></tr>';
 			
 		}
 //		var s = '   <script type="text/javascript">$(\'.ttMaUpdate\').change(function(){ '
@@ -733,15 +762,21 @@ function loadCongVan(congVanList, fileList, unknownList, vtCongVanList) {
 //			+ ' else '
 //			+ 'alert(\"Bạn không thể thay đổi trạng thái của công văn!!!\");'
 //			+ '};});});	</script>';
-		var s = '  <script type=\"text/javascript\">$(\'.ttMaUpdate\').bind(\'change\', function(){'
-			+ 'var trangThai = $(this).val(); '
-			+ ' changeTrangThaiCv(trangThai) ;'
-		+ '}); </script>';
+		
 //		var s = '';
 	} else{
 		alert('Không tồn tại công văn');
 	}
-	$('.scroll_content').html(tables + s);
+	var s = '  <script type=\"text/javascript\">'
+		+ '$(\'.ttMaUpdate\').bind(\'change\', function(){'
+		+ 'var trangThaiCv = $(this).val(); '
+		+ ' changeTrangThaiCv(trangThaiCv) ;'
+		+ '});'
+		+ ' $(\'.ttMaVtUpdate\').bind(\'change\', function(){'
+			+ ' var trangThaiVt = $(this).val(); '
+			+ ' changeTrangThaiVt(trangThaiVt) ;'
+	+ '}); </script> ';
+	$('.scroll_content table').html(tables + s);
 	if (check == false) {
 		$('.button-chia-se').hide();;
 	}
@@ -758,9 +793,10 @@ function loadByDate(year, month, date) {
 	    	var congVanList = objectList[0];
 	    	var fileList = objectList[1];
 	    	var size = objectList[2];
-	    	var unknownList = objectList[3];
-	    	var vtCongVanList = objectList[4];
-	    	loadCongVan(congVanList, fileList, unknownList, vtCongVanList);
+	    	var nguoiXlCongVan = objectList[3];
+	  		var vaiTroList = objectList[4];
+	  		var vtCongVanList = objectList[5];
+	    	loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVanList);
 	    	loadPageNumber(0, '',size);
 	    } 
 	});
@@ -778,9 +814,10 @@ function filterData(filter, filterValue) {
 	    	var congVanList = objectList[0];
 	    	var fileList = objectList[1];
 	    	var size = objectList[2];
-	    	var unknownList = objectList[3];
-	    	var vtCongVanList = objectList[4];
-	    	loadCongVan(congVanList, fileList, unknownList, vtCongVanList);
+	    	var nguoiXlCongVan = objectList[3];
+	  		var vaiTroList = objectList[4];
+	  		var vtCongVanList = objectList[5];
+	    	loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVanList);
 	    	loadPageNumber(0, '',size);
 	    } 
 	});
@@ -798,9 +835,10 @@ function searchByTrangThai(trangThai) {
 	    	var congVanList = objectList[0];
 	    	var fileList = objectList[1];
 	    	var size = objectList[2];
-	    	var unknownList = objectList[3];
-	    	var vtCongVanList = objectList[4];
-	    	loadCongVan(congVanList, fileList, unknownList, vtCongVanList);
+	    	var nguoiXlCongVan = objectList[3];
+	  		var vaiTroList = objectList[4];
+	  		var vtCongVanList = objectList[5];
+	    	loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVanList);
 			 loadPageNumber(0, '',size)
 	    } 
 	});
@@ -877,9 +915,10 @@ function loadPage(pageNumber) {
 	  		var size = objectList[2];
 	  		var congVanList = objectList[0];
 	  		var fileList = objectList[1];
-	  		var unknownList = objectList[3];
-	  		var vtCongVanList = objectList[4];
-	    	loadCongVan(congVanList, fileList, unknownList, vtCongVanList);
+	  		var nguoiXlCongVan = objectList[3];
+	  		var vaiTroList = objectList[4];
+	  		var vtCongVanList = objectList[5];
+	    	loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVanList);
 	  		loadPageNumber(p, pageNumber,size) ;
 					
 	  	}
@@ -969,7 +1008,7 @@ $(document).ready(function(){
 });	
 $(document).ready(function(){
 	$('#buttonSearch').click(function(){
-		var filterValue = $('#filterValue').val()+'';
+		var filterValue = $('#filterValue').val()+'';	
 		var filter = $('#filter').val();
 		filterData(filter, filterValue);
 	});
