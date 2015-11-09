@@ -39,50 +39,13 @@ public class BackupDB {
 
 
 	public boolean backupDB(String dumpExePath, String path) {
-		boolean status = false;	
-		try {
-			Process p = null;
-			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-			Date date = new Date();
-			String filepath = "backup-" + connection.getDatabase()  + "-(" + dateFormat.format(date) + ").sql";
-				 
-			String batchCommand = "";
-			if (connection.getPassword().length() > 0) {
-				//only backup the data not included create database
-				batchCommand = dumpExePath + " -h " + connection.getHost() + " --port " 
-							   + connection.getPort() + " -u " + connection.getUser() + " --password=" 
-							   + connection.getPassword() + " --add-drop-database -B " + " " + connection.getDatabase() + " -r \"" 
-							   + path + "" + filepath + "\"";
-			} else {
-				batchCommand = dumpExePath + " -h " + connection.getHost() + " --port " 
-							   + connection.getHost()  + " -u " + connection.getUser() + " " 
-							   + connection.getDatabase() + " -r \"" + path + "" + filepath + "\"";
-			}
-			System.out.println(batchCommand);
-			Runtime runtime = Runtime.getRuntime();
-			p = runtime.exec(new String[]{"/bin/sh", "-c",batchCommand});
-			int processComplete = p.waitFor();
-			if (processComplete == 0) {
-				status = true;
-			} else {
-				status = false;
-			}
-		} catch (IOException ioe) {
-			System.out.print("IO");
-		} catch (Exception e) {
-			System.out.print("E");
-		}
-		return status;
-	}
-	
-	public boolean restoreDB(String dumpExePath, String path) {
 		boolean status = false;
         try {
             Process p = null;
  
             DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
             Date date = new Date();
-//            String filepath = "backup-" + connection.getDatabase() + "-" + "-(" + dateFormat.format(date) + ").sql";
+            String filepath = "backup-" + connection.getDatabase() +  "-(" + dateFormat.format(date) + ").sql";
  
             String batchCommand = "";
             if (connection.getPassword().length() > 0) {
@@ -90,16 +53,21 @@ public class BackupDB {
                 batchCommand = dumpExePath + " -h " + connection.getHost() + " --port " 
                 			  + connection.getPort() + " -u " + connection.getUser() 
                 			  + " --password=" + connection.getPassword() + " --add-drop-database -B " 
-                			  + connection.getDatabase() + " -r \"" + path  + "\"";
+                			  + connection.getDatabase() + " -r \"" + path + filepath  + "\"";
             } else {
                 batchCommand = dumpExePath + " -h " + connection.getHost() + " --port " 
                 			  + connection.getPort() + " -u " + connection.getUser() 
                 			  + " --add-drop-database -B " + connection.getDatabase() 
-                			  + " -r \"" + path + "\"";
+                			  + " -r \"" + path + filepath+ "\"";
             }
             System.out.println(batchCommand);
             Runtime runtime = Runtime.getRuntime();
-            p = runtime.exec(new String[]{"/bin/sh", "-c",batchCommand});
+//            String[] restoreCmd = new String[]{"mysql ", "--user=" + connection.getUser(), "--password=" + connection.getPassword(), "-e", "source " + path};
+//            p = runtime.exec(new String[]{"/bin/sh", "-c",batchCommand});
+            p = runtime.exec(new String[] { "cmd.exe", "/c", batchCommand });
+//            p = runtime.exec(restoreCmd);
+//            new String[] { "cmd.exe", "/c", executeCmd }
+//            p = runtime.exec("C:/Program Files/MySQL/MySQL Server 5.6/bin" + batchCommand);
             int processComplete = p.waitFor();
  
             if (processComplete == 0) {
@@ -113,15 +81,42 @@ public class BackupDB {
         }
         return status;
 	}
+	
+	public boolean restoreDB(String dbUserName, String dbPassword, String source) {
+		 
+        String[] executeCmd = new String[]{"mysql", "--user=" + dbUserName, "--password=" + dbPassword, "-e", "source " + source};
+ 
+        Process runtimeProcess;
+        try {
+            runtimeProcess = Runtime.getRuntime().exec(executeCmd);
+            int processComplete = runtimeProcess.waitFor();
+ 
+            if (processComplete == 0) {
+                System.out.println("Backup restored successfully with " + source);
+                return true;
+            } else {
+            	System.out.println("Could not restore the backup " + source);
+            }
+        } catch (Exception ex) {
+        	System.out.println(ex.getCause());
+        }
+ 
+        return false;
+ 
+    }
 	public static void main(String[] args) {
-		DBConnection connection = new DBConnection("root", "Voquoctuong", "localhost", 3306, "vattu");
+		DBConnection connection = new DBConnection("root", "voquoctuong", "localhost", 3306, "vattu");
 		BackupDB backupDB = new BackupDB(connection);
 		String path = "/home/quoioln/backup-vattu-(08-09-2015).sql";
 		String dumpExePath = "mysqldump";
 		//backupDB.restoreDB(dumpExePath, path);
-		if (backupDB.restoreDB("mysqldump", "/home/quoioln/DATA/backup-vattu-(24-10-2015).sql"))
-			System.out.println("OK");
-		else
-			System.out.println("FAIL");
+//		if (backupDB.restoreDB("root", "voquoctuong", "D:/backup-vattu-(09-11-2015).sql"))
+//			System.out.println("OK");
+//		else
+//			System.out.println("fail");
+		//else
+			//System.out.println("FAIL");
+//		if (backupDB.backupDB("mysqldump", "D:/"))
+//				System.out.println("OK");
 	}
 }
