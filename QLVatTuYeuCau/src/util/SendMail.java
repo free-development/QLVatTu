@@ -98,13 +98,14 @@ public class SendMail {
 			}
 		});
 		try {
-			Message message = new MimeMessage(session);
+			MimeMessage  message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(mail.getFrom()));
 			message.setRecipients(Message.RecipientType.TO,
 			InternetAddress.parse(mail.getTo()));
 			StandardCharsets.UTF_8.displayName();
 			message.setSubject(mail.getSubject());
-			message.setHeader(mail.getSubject(), "text/html; charset=UTF-8"); //(arg0);(mail.getSubject());
+//			message.setHeader(mail.getSubject(), "text/html; charset=UTF-8"); //(arg0);(mail.getSubject());
+			message.setHeader("Content-Type", "text/plain; charset=UTF-8");
 			message.setContent(mail.getContent(),"text/html; charset=UTF-8");
 			//message.setContent(mail.getContent(),"text/html; charset=UTF-8");
 //			message.setContent(mail.getContent(),"text/html; charset=UTF-8");
@@ -112,6 +113,15 @@ public class SendMail {
 			
 		} catch (Exception e) {
 		}
+	}
+	public static void main(String[] args) {
+		SendMail sendMailer = new SendMail("evnCanTho@gmail.com", "evnCanTho2015");
+		Mail mail = new Mail();
+		mail.setSubject("Đây là chủ đề ĐÃ ẨN. Công văn vừa được thêm mới");
+		mail.setContent("Bạn được phân công cấp vật tư");
+		mail.setFrom("quoipro94@gmail.com");
+		mail.setTo("quoib1203959@student.ctu.edu.vn");
+		sendMailer.send(mail);
 	}
 }
 	
