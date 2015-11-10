@@ -437,7 +437,7 @@ countAdd = '0';
 						<div class="group-button">
 							<input type="hidden" name="action" value="update-yeu-cau">
 							<%
-								if (vanThuMa.equalsIgnoreCase(chucDanh) || chucDanh.equals(adminMa)) {
+								if (vanThuMa.equalsIgnoreCase(chucDanh) || chucDanh.equals(adminMa) || chucDanh.equals(thuKyMa)) {
 							%>
 							<button type="button" class="button" onclick="loadDataCv();">
 								<i class="fa fa-plus-circle"></i>&nbsp;Thêm mới
