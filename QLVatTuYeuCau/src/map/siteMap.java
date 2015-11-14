@@ -145,6 +145,12 @@ public class siteMap {
 	// map home page
 	public static final String homePageManage = home + "home.html";
 	public static final String homePage = "index";
+	
+	// map backup - restore data
+	public static final String loadBackup= home + "backupDBManage.html";
+	public static final String backupData = home + "backupData.html";
+	public static final String restoreData = home + "restoreData.html";
+	public static final String backupDataPage = "backup-data";
 	//xuat cac danh muc
 	
 	public static final String downloadExcelNsx = home + "downloadExcelNsx.html";

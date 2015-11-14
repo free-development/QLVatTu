@@ -66,11 +66,50 @@
     <param-name>pathFile</param-name>
     <param-value>/home/quoioln/File/File/</param-value>
   </context-param>
-   <context-param>
+  <context-param>
     <param-name>pathTemp</param-name>
     <param-value>/home/quoioln/File/Temp/</param-value>
   </context-param>
-   
+  <context-param>
+    <param-name>pathBackup</param-name>
+    <param-value>/home/quoioln/File/Backup/</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>fileLogBackup</param-name>
+    <param-value>/home/quoioln/File/LogBackup/logBackup.txt</param-value>
+  </context-param>
+  <!-- param backup data -->
+  
+  <!-- param dbUser -->
+  <context-param>
+    <param-name>dbUser</param-name>
+    <param-value>root</param-value>
+  </context-param>
+  
+  <!-- param dbPassword -->
+  <context-param>
+    <param-name>dbPassword</param-name>
+    <param-value>Voquoctuong</param-value>
+  </context-param>
+  
+  <!-- param dbAdrress -->
+  <context-param>
+    <param-name>dbAddress</param-name>
+    <param-value>127.0.0.1</param-value>
+  </context-param>
+  
+  <!-- param dbPort -->
+  <context-param>
+    <param-name>dbPort</param-name>
+    <param-value>3306</param-value>
+  </context-param>
+  
+  <!-- param dbName -->
+  <context-param>
+    <param-name>dbName</param-name>
+    <param-value>vattu</param-value>
+  </context-param>
   <jsp-config>
     <jsp-property-group>
       <url-pattern>*.jsp</url-pattern>
@@ -78,21 +117,19 @@
     </jsp-property-group>
   </jsp-config>
   <filter>
-	<filter-name>CharacterEncodingFilter</filter-name>
-	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-	<init-param>
-		<param-name>encoding</param-name>
-		<param-value>UTF-8</param-value>
-	</init-param>
-	<init-param>
-		<param-name>forceEncoding</param-name>
-		<param-value>true</param-value>
-	</init-param>
-</filter>
-
-<filter-mapping>
-	<filter-name>CharacterEncodingFilter</filter-name>
-	<url-pattern>/*</url-pattern>
-</filter-mapping>
-
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+    <init-param>
+      <param-name>forceEncoding</param-name>
+      <param-value>true</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 </web-app>

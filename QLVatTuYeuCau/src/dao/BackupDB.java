@@ -38,33 +38,33 @@ public class BackupDB {
 
 
 
-	public boolean backupDB(String dumpExePath, String path) {
+	public boolean backupDB(String dumpExePath, String host, String dbName, int port, String filePath) {
 		boolean status = false;
         try {
             Process p = null;
  
             DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
             Date date = new Date();
-            String filepath = "backup-" + connection.getDatabase() +  "-(" + dateFormat.format(date) + ").sql";
+            String filepath = "backup-" + dbName +  "-(" + dateFormat.format(date) + ").sql";
  
             String batchCommand = "";
             if (connection.getPassword().length() > 0) {
                 //Backup with database
-                batchCommand = dumpExePath + " -h " + connection.getHost() + " --port " 
-                			  + connection.getPort() + " -u " + connection.getUser() 
+                batchCommand = dumpExePath + " -h " + host + " --port " 
+                			  + port + " -u " + connection.getUser() 
                 			  + " --password=" + connection.getPassword() + " --add-drop-database -B " 
-                			  + connection.getDatabase() + " -r \"" + path + filepath  + "\"";
+                			  + dbName + " -r \"" + filePath + "\"";
             } else {
-                batchCommand = dumpExePath + " -h " + connection.getHost() + " --port " 
-                			  + connection.getPort() + " -u " + connection.getUser() 
-                			  + " --add-drop-database -B " + connection.getDatabase() 
-                			  + " -r \"" + path + filepath+ "\"";
+                batchCommand = dumpExePath + " -h " + host + " --port " 
+                			  + port + " -u " + connection.getUser() 
+                			  + " --add-drop-database -B " + dbName
+                			  + " -r \"" + filePath + "\"";
             }
             System.out.println(batchCommand);
             Runtime runtime = Runtime.getRuntime();
 //            String[] restoreCmd = new String[]{"mysql ", "--user=" + connection.getUser(), "--password=" + connection.getPassword(), "-e", "source " + path};
-//            p = runtime.exec(new String[]{"/bin/sh", "-c",batchCommand});
-            p = runtime.exec(new String[] { "cmd.exe", "/c", batchCommand });
+            p = runtime.exec(new String[]{"/bin/sh", "-c",batchCommand});
+//            p = runtime.exec(new String[] { "cmd.exe", "/c", batchCommand });
 //            p = runtime.exec(restoreCmd);
 //            new String[] { "cmd.exe", "/c", executeCmd }
 //            p = runtime.exec("C:/Program Files/MySQL/MySQL Server 5.6/bin" + batchCommand);
@@ -82,9 +82,9 @@ public class BackupDB {
         return status;
 	}
 	
-	public boolean restoreDB(String dbUserName, String dbPassword, String source) {
+	public boolean restoreDB(String source) {
 		 
-        String[] executeCmd = new String[]{"mysql", "--user=" + dbUserName, "--password=" + dbPassword, "-e", "source " + source};
+        String[] executeCmd = new String[]{"mysql", "--user=" + connection.getUser(), "--password=" + connection.getPassword(), "-e", "source " + source};
  
         Process runtimeProcess;
         try {
@@ -104,19 +104,5 @@ public class BackupDB {
         return false;
  
     }
-	public static void main(String[] args) {
-		DBConnection connection = new DBConnection("root", "voquoctuong", "localhost", 3306, "vattu");
-		BackupDB backupDB = new BackupDB(connection);
-		String path = "/home/quoioln/backup-vattu-(08-09-2015).sql";
-		String dumpExePath = "mysqldump";
-		//backupDB.restoreDB(dumpExePath, path);
-//		if (backupDB.restoreDB("root", "voquoctuong", "D:/backup-vattu-(09-11-2015).sql"))
-//			System.out.println("OK");
-//		else
-//			System.out.println("fail");
-		//else
-			//System.out.println("FAIL");
-//		if (backupDB.backupDB("mysqldump", "D:/"))
-//				System.out.println("OK");
-	}
+	
 }

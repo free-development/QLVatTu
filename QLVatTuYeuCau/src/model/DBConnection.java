@@ -10,30 +10,30 @@ package model;
 public class DBConnection {
 	private String user;
 	private String password;
-	private String host;
-	private int port;
-	private String database;
+//	private String host;
+//	private int port;
+//	private String database;
 	/*
 	 * Contructor isn't param
 	 */
 	public DBConnection() {
 		this.user = "user1";
 		this.password = "user1";
-		this.port = 3306;
-		this.database = "vattu";
-		this.host = "localhost";
+//		this.port = 3306;
+//		this.database = "vattu";
+//		this.host = "localhost";
 	}
 	
-
-	public String getHost() {
-		return host;
-	}
-
-
-	public void setHost(String host) {
-		this.host = host;
-	}
-
+//
+//	public String getHost() {
+//		return host;
+//	}
+//
+//
+//	public void setHost(String host) {
+//		this.host = host;
+//	}
+//
 
 	/**
 	 * @param user
@@ -41,12 +41,12 @@ public class DBConnection {
 	 * @param port
 	 * @param database
 	 */
-	public DBConnection(String user, String password, String host, int port, String database) {
+	public DBConnection(String user, String password) {
 		this.user = user;
 		this.password = password;
-		this.port = port;
-		this.database = database;
-		this.host = host;
+//		this.port = port;
+//		this.database = database;
+//		this.host = host;
 	}
 	
 
@@ -66,19 +66,19 @@ public class DBConnection {
 		this.password = password;
 	}
 
-	public int getPort() {
-		return port;
-	}
-
-	public void setPort(int port) {
-		this.port = port;
-	}
-
-	public String getDatabase() {
-		return database;
-	}
-
-	public void setDatabase(String database) {
-		this.database = database;
-	}
+//	public int getPort() {
+//		return port;
+//	}
+//
+//	public void setPort(int port) {
+//		this.port = port;
+//	}
+//
+//	public String getDatabase() {
+//		return database;
+//	}
+//
+//	public void setDatabase(String database) {
+//		this.database = database;
+//	}
 }

@@ -1037,6 +1037,7 @@ public class CvController extends HttpServlet{
 		try {
 			truongPhongMa = context.getInitParameter("truongPhongMa");
 	    	vanThuMa = context.getInitParameter("vanThuMa");
+	    	thuKyMa = context.getInitParameter("thuKyMa");
 	    	adminMa = context.getInitParameter("adminMa");
 	    	phoPhongMa = context.getInitParameter("phoPhongMa");
 	    	String nhanVienMa = context.getInitParameter("nhanVienMa");
@@ -1044,7 +1045,7 @@ public class CvController extends HttpServlet{
 	    	String msnv = nguoiDung.getMsnv();
 	    	String cdMa = nguoiDung.getChucDanh().getCdMa();
 			String msnvTemp = msnv;
-			if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || cdMa.equals(adminMa) || cdMa.equals(phoPhongMa)) {
+			if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || cdMa.equals(adminMa) || cdMa.equals(phoPhongMa) || cdMa.equals(thuKyMa)) {
 				msnvTemp = null;
 			}
 			page = Integer.parseInt(pageNumber);

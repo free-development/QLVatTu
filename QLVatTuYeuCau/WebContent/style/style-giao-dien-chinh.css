@@ -7,7 +7,7 @@ li {
 	list-style: none;
 }
 
-a {
+a.menu {
 	text-decoration: none;
 	color: #FFF;
 	font-size: 18px;

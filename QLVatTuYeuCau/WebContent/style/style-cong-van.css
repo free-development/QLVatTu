@@ -14,10 +14,10 @@
 #paging table tr td{
 	border-style: none;
 }
-#paging table tr td a {
-	color: blue;
-	font-size: 15px;
-}
+/* #paging table tr td a. { */
+/* 	color: blue; */
+/* 	font-size: 15px; */
+/* } */
 
 /* .right-content  
 	position: absolute;

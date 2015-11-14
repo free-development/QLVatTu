@@ -23,54 +23,55 @@
 		%>
 <div class="main_menu">
 					<ul>
-						<li><a href="<%=siteMap.homePageManage%>">Trang chủ</a></li>
+						<li><a class="menu" href="<%=siteMap.homePageManage%>">Trang chủ</a></li>
 						<%if (adminMa.equalsIgnoreCase(chucDanh)) {%>
 						
-						<li><a>Danh mục</a>
+						<li><a class="menu" >Danh mục</a>
 							<ul>
-										<li><a href="<%=siteMap.nsxManage + "?action=manageNsx"%>">Danh
+										<li><a class="menu" href="<%=siteMap.nsxManage + "?action=manageNsx"%>">Danh
 												mục nơi sản xuất</a></li>
-										<li><a href="<%=siteMap.clManage + "?action=manageCl"%>">Danh
+										<li><a class="menu" href="<%=siteMap.clManage + "?action=manageCl"%>">Danh
 												mục chất lượng</a></li>
-										<li><a href="<%=siteMap.vattuManage + "?action=manageVattu"%>">Danh
+										<li><a class="menu" href="<%=siteMap.vattuManage + "?action=manageVattu"%>">Danh
 												mục vật tư</a></li>
-										<li><a href="<%=siteMap.ctvtManage + "?action=manageCtvt"%>">Vật tư tồn kho</a></li>
-										<li><a href="<%=siteMap.bpsdManage +  "?action=manageBpsd"%>">Danh
+										<li><a class="menu" href="<%=siteMap.ctvtManage + "?action=manageCtvt"%>">Vật tư tồn kho</a></li>
+										<li><a class="menu" href="<%=siteMap.bpsdManage +  "?action=manageBpsd"%>">Danh
 												mục bộ phận sử dụng</a></li>
-										<li><a href="<%=siteMap.mdManage + "?action=manageMd"%>">Danh
+										<li><a class="menu" href="<%=siteMap.mdManage + "?action=manageMd"%>">Danh
 												mục mục đích</a></li>
-										<li><a href="<%=siteMap.vtManage + "?action=manageVt"%>">Danh mục vai trò</a></li>
-										<li><a href="<%=siteMap.dvtManage + "?action=manageDvt"%>">Danh mục đơn vị tính</a></li>
-										<li><a href="<%=siteMap.cdManage + "?action=manageCd"%>">Danh
+										<li><a class="menu" href="<%=siteMap.vtManage + "?action=manageVt"%>">Danh mục vai trò</a></li>
+										<li><a class="menu" href="<%=siteMap.dvtManage + "?action=manageDvt"%>">Danh mục đơn vị tính</a></li>
+										<li><a class="menu" href="<%=siteMap.cdManage + "?action=manageCd"%>">Danh
 												mục chức danh</a></li>
 										
 									</ul>
 						</li>
 						<%} %>
-							<li><a href="<%=siteMap.cvManage+ "?action=manageCv" %>">Công văn</a></li>
+							<li><a class="menu" href="<%=siteMap.cvManage+ "?action=manageCv" %>">Công văn</a></li>
 							<%if (!chucDanh.equalsIgnoreCase(vanThuMa)){ %>
-							<li><a>Báo cáo vật tư thiếu</a>
+							<li><a class="menu">Báo cáo vật tư thiếu</a>
 								<ul>
-									<li><a href="<%=siteMap.bcttManage+ "?action=manageBcvtt" %>"/>Báo cáo tổng hợp vật thiếu</li>
-									<li><a href="<%=siteMap.bcvttManage+ "?action=manageBcbdn" %>"/>Báo cáo chi tiết vật tư thiếu</li>
+									<li><a class="menu" href="<%=siteMap.bcttManage+ "?action=manageBcvtt" %>"/>Báo cáo tổng hợp vật thiếu</li>
+									<li><a class="menu" href="<%=siteMap.bcvttManage+ "?action=manageBcbdn" %>"/>Báo cáo chi tiết vật tư thiếu</li>
 								</ul>
 							</li>
 							<%} %>
 						<%if (adminMa.equalsIgnoreCase(chucDanh)) {%>
-						<li><a>Quản lý người dùng</a>
+						<li><a class="menu">Quản lý người dùng</a>
 							<ul>
-								<li><a href="<%=siteMap.ndManage + "?action=manageNd"%>">Thêm người dùng</li>
-								<li><a href="<%=siteMap.updateNguoiDung%>"/>Cập nhật thông tin</li>
-								<li><a href="<%=siteMap.resetPassword%>"/>Khôi phục mật khẩu</li>
-								<li><a href="<%=siteMap.lockNguoiDung%>"/>Khóa tài khoản</li>
-								<li><a href="<%=siteMap.resetNguoiDung%>"/>Khôi phục tài khoản</li>
+								<li><a class="menu" href="<%=siteMap.ndManage + "?action=manageNd"%>">Thêm người dùng</li>
+								<li><a class="menu" href="<%=siteMap.updateNguoiDung%>"/>Cập nhật thông tin</li>
+								<li><a class="menu" href="<%=siteMap.resetPassword%>"/>Khôi phục mật khẩu</li>
+								<li><a class="menu" href="<%=siteMap.lockNguoiDung%>"/>Khóa tài khoản</li>
+								<li><a class="menu"  href="<%=siteMap.resetNguoiDung%>"/>Khôi phục tài khoản</li>
 							</ul>
 						</li>
 						<%} %>
-						<li><a>Tài khoản</a>
+						<li><a class="menu" href="<%=siteMap.loadBackup%>">Sao lưu dữ liệu</a>
+						<li><a class="menu">Tài khoản</a>
 							<ul>
-								<li><a href="<%=siteMap.changePassPage + ".jsp"%>">Đổi mật khẩu</a></li>
-								<li><a href="<%=siteMap.logout + "?action=logout"%>">Đăng xuất</a></li>
+								<li><a class="menu" href="<%=siteMap.changePassPage + ".jsp"%>">Đổi mật khẩu</a></li>
+								<li><a class="menu" href="<%=siteMap.logout + "?action=logout"%>">Đăng xuất</a></li>
 							</ul>
 						</li>		
 					</ul>
