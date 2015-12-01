@@ -481,14 +481,14 @@ function chiaSeCv() {
 		   
 		});  
 }
-function loadByYear(year) {
+function loadByYear(year, checked) {
 //	var root = getRoot();
 //	var root = ${pageContext.request.contextPath};
 	$.ajax({
 		url:  getRoot() + "/loadByYear.html",	
 	  	type: "GET",
 	  	dateType: "JSON",
-	  	data: { "year": year},
+	  	data: { "year": year, "checked": checked},
 	  	contentType: 'application/json',
 	    mimeType: 'application/json',
 	    success: function(objectList) {
@@ -501,11 +501,18 @@ function loadByYear(year) {
 	    	for(var i = 0; i< length; i++) {
 	    		monthLi += 	'<li id = \"month' + monthList[i] + '\">' 
 							+ '<label for=\"y' + year + 'm' + monthList[i] + '\">' + 'Tháng ' + monthList[i]  + '</label>' 
-							+' <input type="checkbox" class=\"month\" id=\"y' + year+ 'm' + monthList[i] + '\" onchange="loadByMonth(' + year + ', ' + monthList[i] + '); ' + '\"/>' 
+							+' <input type="checkbox" class=\"month\" id=\"y' + year+ 'm' + monthList[i] +  '\" value = \"'+ year + '#' + monthList[i]  + '\"  ' + '\"/>' 
 							+ '<ol></ol> </li>'; 
 	    	}
 	    	var yearLi = '';
-	    	$('#year'+year + ' ol').html(monthLi);
+	    	var s = '  <script type=\"text/javascript\">'
+	    		+ '$(\'.month\').bind(\'change\', function(){'
+	    		+ 'var checked = $( this ).is( ":checked" );'
+	    		+ 'var str = $(this).val();'
+	    		+ 'var temp = str.split("#");'
+	    		+ 'loadByMonth(temp[0], temp[1], checked);'
+	    		+ '}); </script> ';
+	    	$('#year'+year + ' ol').html(monthLi + s);
 	    	// load congVan
 	    	var congVanList = objectList[0];
 	    	var fileList = objectList[1];
@@ -518,12 +525,13 @@ function loadByYear(year) {
 	    } 
 	});  
 }
-function loadByMonth(year, month) {
+function loadByMonth(year, month, checked) {
+//	var checked = $( ".month" ).is( ":checked" );
 	$.ajax({
 		url: getRoot() +  "/loadByMonth.html",	
 	  	type: "GET",
 	  	dateType: "JSON",
-	  	data: { "year": year, "month": month },
+	  	data: { "year": year, "month": month, "checked": checked },
 	  	contentType: 'application/json',
 	    mimeType: 'application/json',
 	    success: function(objectList) {
@@ -535,10 +543,18 @@ function loadByMonth(year, month) {
 	    	for(var i = 0; i< length; i++) {
 	    		dateLi += 	'<li id = \"date' + dateList[i] + '\">' 
 							+ '<label for=\"y' + year + 'm'  + month + 'd' + dateList[i] + '\">' + 'Ngày ' + dateList[i]  + '</label>' 
-							+' <input type="button" class=\"date\" id=\"y' + year + 'm'  + month + 'd' + dateList[i] +'\" value =\"' + dateList[i] + '\" onclick=\"loadByDate(' + year + ', ' + month  + ', ' + dateList[i] + ');' + '\"/>' 
+//							+' <input type="button" class=\"date\" id=\"y' + year + 'm'  + month + 'd' + dateList[i] +'\" value =\"' + year + '#' + month  + '#' + dateList[i] + '\"' + '\"/>'
+							+' <input type="checkbox" class=\"date\" id=\"y' + year+ 'm' + month + 'd' + dateList[i] +  '\" value = \"'+ year + '#' + month  + '#' + dateList[i]  + '\"  ' + '\"/>'
 							+ '</li>'; 
 	    	}
-	    	$('#month'+month + ' ol').html(dateLi);
+	    	var s = '  <script type=\"text/javascript\">'
+	    		+ '$(\'.date\').bind(\'change\', function(){'
+	    		+ 'var checked = $( this ).is( ":checked" );'
+	    		+ 'var str = $(this).val();'
+	    		+ 'var temp = str.split("#");'
+	    		+ 'loadByDate(temp[0], temp[1], temp[2], checked);'
+	    		+ '}); </script> ';
+	    	$('#month'+month + ' ol').html(dateLi + s);
 	    	// load Cong van
 	    	var congVanList = objectList[0];
 	    	var fileList = objectList[1];
@@ -768,10 +784,19 @@ function loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVa
 		alert('Không tồn tại công văn');
 	}
 	var s = '  <script type=\"text/javascript\">'
+		
 		+ '$(\'.ttMaUpdate\').bind(\'change\', function(){'
 		+ 'var trangThaiCv = $(this).val(); '
 		+ ' changeTrangThaiCv(trangThaiCv) ;'
 		+ '});'
+		+ '$(\'.month\').bind(\'change\', function(){'
+		+ 'var checked = $( this ).is( ":checked" );'
+		+ 'var str = $(this).val();'
+		+ 'alert(str);'
+		+ 'var temp = str.split("#");'
+		+ 'alert(temp[0]);'
+		+ 'loadByYear(temp[0], temp[1], monthchecked);'
+	+ '});'
 		+ ' $(\'.ttMaVtUpdate\').bind(\'change\', function(){'
 			+ ' var trangThaiVt = $(this).val(); '
 			+ ' changeTrangThaiVt(trangThaiVt) ;'
@@ -781,12 +806,12 @@ function loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVa
 		$('.button-chia-se').hide();;
 	}
 }
-function loadByDate(year, month, date) {
+function loadByDate(year, month, date, checked) {
 	$.ajax({
 		url: getRoot() +  "/loadByDate.html",	
 	  	type: "GET",
 	  	dateType: "JSON",
-	  	data: { "year": year, "month": month, "date": date},
+	  	data: { "year": year, "month": month, "date": date, "checked": checked},
 	  	contentType: 'application/json',
 	    mimeType: 'application/json',
 	    success: function(objectList) {
@@ -995,10 +1020,37 @@ function loadPageNumber(p, pageNumber, size) {
 //}
 $(document).ready(function(){
 	$('.year').change(function(){
+		var checked = $( this ).is( ":checked" );
 		var year = $(this).val();
-			loadByYear(year);
+			loadByYear(year, checked);
 	});
 });
+$(document).ready(function(){
+	$('.month').change(function(){
+		var checked = $( this ).is( ":checked" );
+		var str = $(this).val();
+		alert(str);
+		var temp = str.split("#");
+		alert(temp[0]);
+			loadByYear(year, checked);
+	});
+});
+/*
+$(document).ready(function(){
+	$('.month').change(function(){
+		var checked = $( this ).is( ":checked" );
+		var year = $(this).val();
+			loadByYear(year, checked);
+	});
+});
+$(document).ready(function(){
+	$('.date').change(function(){
+		var checked = $( this ).is( ":checked" );
+		var year = $(this).val();
+			loadByYear(year, checked);
+	});
+});
+*/
 $(document).ready(function(){
 	$('#ttFilter').change(function(){
 //		alert($(this).val());

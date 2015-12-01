@@ -3,8 +3,8 @@ package controller;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.HibernateException;
+import org.hibernate.criterion.LogicalExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -25,8 +26,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.oreilly.servlet.MultipartRequest;
 
 import dao.CongVanDAO;
 import dao.DonViDAO;
@@ -64,9 +63,10 @@ public class CvController extends HttpServlet{
 	private   ServletContext context; 
 	
     
-    private int year = 0;
-    private int month = 0;
-    private int date = 0;
+    private HashMap<Integer, HashSet<Integer>> month = new HashMap<Integer, HashSet<Integer>>();
+    private HashMap<String, HashSet<Integer>> date = new HashMap<String, HashSet<Integer>>();
+//    private HashMap<Integer, Integer> date = new HashMap<Integer, Integer>();
+    
     private String ttMa = "";
     private String column = "";
     private Object columnValue = "";
@@ -161,7 +161,6 @@ public class CvController extends HttpServlet{
 				ttMaList.add(congVan.getTrangThai().getTtMa());
 			}
 			request.setAttribute("nguoiXlCongVan", nguoiXlCongVan);
-			
 		}
 		for(CongVan congVan : congVanList) {
 			//System.out.println(congVan.getSoDen());
@@ -202,13 +201,13 @@ public class CvController extends HttpServlet{
 			response.sendRedirect("login.jsp");
 		
 		cvId = 0;
-		 year = 0;
-		 month = 0;
-		 date = 0;
-		 ttMa = "";
-		 column = "";
-		 columnValue = "";
-		 cvId = 0;
+//		year = new HashMap<Integer, Integer>();
+		month = new HashMap<Integer, HashSet<Integer>>();
+	    date = new HashMap<String, HashSet<Integer>>();
+		ttMa = "";
+		column = "";
+		columnValue = "";
+		cvId = 0;
 		
 		return getCongvan(request);
 	}
@@ -391,7 +390,7 @@ public class CvController extends HttpServlet{
 //    	System.out.println(cvId);
     	try {
     		HttpSession session = multipartRequest.getSession(false);
-			String cvSo = multipartRequest.getParameter("cvSo");
+//			String cvSo = multipartRequest.getParameter("cvSo");
 			
 			Date cvNgayDi = DateUtil.parseDate(multipartRequest.getParameter("ngayGoiUpdate"));
 			Date cvNgayNhan = DateUtil.parseDate(multipartRequest.getParameter("ngayNhanUpdate"));
@@ -444,14 +443,14 @@ public class CvController extends HttpServlet{
     		congVanDAO2.disconnect();
     		
     		
-    		String account  = context.getInitParameter("account");
-	    	String password = context.getInitParameter("password");
-	    	String truongPhongMa = context.getInitParameter("truongPhongMa");
-	    	String host = context.getInitParameter("hosting");
+//    		String account  = context.getInitParameter("account");
+//	    	String password = context.getInitParameter("password");
+//	    	String truongPhongMa = context.getInitParameter("truongPhongMa");
+//	    	String host = context.getInitParameter("hosting");
 	    	NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
-			SendMail sendMail = new SendMail(account, password);
-			NguoiDungDAO nguoiDungDAO = new NguoiDungDAO();
-			ArrayList<NguoiDung> nguoiDungList = (ArrayList<NguoiDung>) nguoiDungDAO.getTruongPhong(truongPhongMa);
+//			SendMail sendMail = new SendMail(account, password);
+//			NguoiDungDAO nguoiDungDAO = new NguoiDungDAO();
+//			ArrayList<NguoiDung> nguoiDungList = (ArrayList<NguoiDung>) nguoiDungDAO.getTruongPhong(truongPhongMa);
 			
 			String content = "";
 			content += "&nbsp;&nbsp;+ Đơn vị: " + congVanResult.getDonVi().getDvTen() +"<br>";
@@ -543,7 +542,7 @@ public class CvController extends HttpServlet{
 	}
 	@RequestMapping(value="/loadByYear", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	 public @ResponseBody String loadByYear(@RequestParam("year") String yearRequest, HttpServletRequest request,
+	 public @ResponseBody String loadByYear(@RequestParam("year") String yearRequest, @RequestParam("checked") Boolean checked, HttpServletRequest request,
 	            HttpServletResponse response) {
 		truongPhongMa = context.getInitParameter("truongPhongMa");
     	vanThuMa = context.getInitParameter("vanThuMa");
@@ -555,12 +554,17 @@ public class CvController extends HttpServlet{
 		
 		CongVanDAO congVanDAO = new CongVanDAO();
 		FileDAO fileDAO = new FileDAO();
-		year = Integer.parseInt(yearRequest);
+		int y = Integer.parseInt(yearRequest);
+		if (checked)
+			month.put(y, null);
+		else
+			month.remove(y);
 		
 		HashMap<String, Object> conditions = new HashMap<String, Object>();
 		HashMap<String, Boolean> orderBy = new HashMap<String, Boolean>();
-		month = 0;
-		date = 0;
+		
+//		month = new HashMap<Integer, Integer>();
+//		date = new HashMap<Integer, Integer>();
 		String cdMa = nguoiDung.getChucDanh().getCdMa();
 		String msnvTemp = msnv;
 		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || phoPhongMa.equals(cdMa))
@@ -579,12 +583,12 @@ public class CvController extends HttpServlet{
 		}	
 		ArrayList<Integer> monthList = new ArrayList<Integer>();
 		
-		monthList = congVanDAO.groupByMonth(msnvTemp, conditions, year);
+		monthList = congVanDAO.groupByMonth(msnvTemp, conditions, y);
 		orderBy.put("cvId", true);
-		if (year != 0)
-			conditions.put("year", year);
-		
-		
+		//for (Integer i : year.keySet())
+			//conditions.put("year", i);
+		LogicalExpression expression = congVanDAO.addTimeExpression(null, month, date);
+		conditions.put("time", expression);
 		ArrayList<CongVan> congVanList = congVanDAO.searchLimit(msnvTemp, conditions, orderBy, 0, 3);
 		
 		ArrayList<File> fileList = new ArrayList<File>();
@@ -642,7 +646,7 @@ public class CvController extends HttpServlet{
 	}
 	@RequestMapping(value="/loadByMonth", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	 public @ResponseBody String loadByMonth(@RequestParam("year") String yearRequest, @RequestParam("month") String monthRequest, HttpServletRequest request,
+	 public @ResponseBody String loadByMonth(@RequestParam("year") String yearRequest, @RequestParam("month") String monthRequest, @RequestParam("checked") Boolean checked, HttpServletRequest request,
 	            HttpServletResponse response) {
 		truongPhongMa = context.getInitParameter("truongPhongMa");
     	vanThuMa = context.getInitParameter("vanThuMa");
@@ -651,9 +655,23 @@ public class CvController extends HttpServlet{
     	String nhanVienMa = context.getInitParameter("nhanVienMa");
 		NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoiDung");
     	String msnv = nguoiDung.getMsnv();
-		year = Integer.parseInt(yearRequest);
-		month = Integer.parseInt(monthRequest);
-		date = 0;
+		int y = Integer.parseInt(yearRequest);
+		
+		int m = Integer.parseInt(monthRequest);
+		if (checked) {
+			date.put(y+"#"+m, null);
+			HashSet<Integer> monthList = month.get(y);
+			if (monthList == null)
+				monthList = new HashSet<Integer>();
+			monthList.add(m);
+			month.put(y, monthList);
+			
+		} else {
+			date.remove(y+"#"+m);
+			HashSet<Integer> monthList = month.get(y);
+			monthList.remove(m);
+			month.put(y, monthList);
+		}
 		CongVanDAO congVanDAO = new CongVanDAO();
 		FileDAO fileDAO = new FileDAO();
 		
@@ -676,14 +694,9 @@ public class CvController extends HttpServlet{
 		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || cdMa.equals(adminMa) || cdMa.equals(phoPhongMa))
 			msnvTemp = null;
 		ArrayList<Integer> dateList = new ArrayList<Integer>();
-			dateList = congVanDAO.groupByDate(msnvTemp, conditions, year, month);
-		if (year != 0)
-			conditions.put("year", year);
-		if (month != 0)
-			conditions.put("month", month);
-		orderBy.put("cvNgayNhan", true);
-		
-		
+		dateList = congVanDAO.groupByDate(msnvTemp, conditions, y, m);
+		LogicalExpression expression = congVanDAO.addTimeExpression(null, month, date);
+		conditions.put("time", expression);
 		ArrayList<CongVan> congVanList = congVanDAO.searchLimit(msnvTemp, conditions, orderBy, 0, 3);
 		ArrayList<File> fileList = new ArrayList<File>();
 		
@@ -740,7 +753,7 @@ public class CvController extends HttpServlet{
 	}
 	@RequestMapping(value="/loadByDate", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	 public @ResponseBody String loadByDate(@RequestParam("year") String yearRequest, @RequestParam("month") String monthRequest, @RequestParam("date") String dateRequest, HttpServletRequest request,
+	 public @ResponseBody String loadByDate(@RequestParam("year") String yearRequest, @RequestParam("month") String monthRequest, @RequestParam("date") String dateRequest, @RequestParam("checked") Boolean checked, HttpServletRequest request,
 	            HttpServletResponse response) {
 		truongPhongMa = context.getInitParameter("truongPhongMa");
     	vanThuMa = context.getInitParameter("vanThuMa");
@@ -749,19 +762,15 @@ public class CvController extends HttpServlet{
     	String nhanVienMa = context.getInitParameter("nhanVienMa");
 		NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoiDung");
     	String msnv = nguoiDung.getMsnv();
-    	year = Integer.parseInt(yearRequest);
-		month = Integer.parseInt(monthRequest);
-		date = Integer.parseInt(dateRequest);
+    	int y = Integer.parseInt(yearRequest);
+		int m = Integer.parseInt(monthRequest);
+		int d = Integer.parseInt(dateRequest);
+		
 		CongVanDAO congVanDAO = new CongVanDAO();
 		FileDAO fileDAO = new FileDAO();
 		HashMap<String, Object> conditions = new HashMap<String, Object>();
 		HashMap<String, Boolean> orderBy = new HashMap<String, Boolean>();
-		if (year != 0)
-			conditions.put("year", year);
-		if (month != 0)
-			conditions.put("month", month);
-		if (date != 0)
-			conditions.put("day", date);
+		
 		if (ttMa.length() > 0)
 			conditions.put("trangThai.ttMa", ttMa);
 		if (column.length() > 0 && ((String) columnValue).length() > 0) {
@@ -778,6 +787,22 @@ public class CvController extends HttpServlet{
 		String msnvTemp = msnv;
 		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || cdMa.equals(adminMa) || phoPhongMa.equals(cdMa))
 			msnvTemp = null;
+		if (checked) {
+//			date.put(y+"#"+m, null);
+			HashSet<Integer> dateList = date.get(y+"#"+m);
+			if (dateList == null)
+				dateList = new HashSet<Integer>();
+			dateList.add(d);
+			System.out.println(dateList);
+			date.put(y+"#"+m, dateList);
+		} else {
+//			date.remove(y+"#"+m);
+			HashSet<Integer> dateList = date.get(y+"#"+m);
+			dateList.remove(d);
+			date.put(y+"#"+m, dateList);
+		}
+		LogicalExpression expression = congVanDAO.addTimeExpression(null, month, date);
+		conditions.put("time", expression);
 		ArrayList<CongVan> congVanList = congVanDAO.searchLimit(msnvTemp, conditions, orderBy, 0, 3);
 		ArrayList<File> fileList = new ArrayList<File>();
 		ArrayList<ArrayList<String>> nguoiXlCongVan = new ArrayList<ArrayList<String>>();
@@ -863,15 +888,11 @@ public class CvController extends HttpServlet{
 		if (this.cvId != 0) {
 			conditions.put("cvId", cvId);
 		}	
-		if (year != 0)
-			conditions.put("year", year);
-		if (month != 0)
-			conditions.put("month", month);
-		if (date != 0)
-			conditions.put("day", date);
+		
 		orderBy.put("cvNgayNhan", true);
 		orderBy.put("soDen", true);
-		
+		LogicalExpression expression = congVanDAO.addTimeExpression(null, month, date);
+		conditions.put("time", expression);
 		ArrayList<CongVan> congVanList = congVanDAO.searchLimit(msnvTemp, conditions, orderBy, 0, 3);
 		ArrayList<File> fileList = new ArrayList<File>();
 		ArrayList<ArrayList<String>> nguoiXlCongVan = new ArrayList<ArrayList<String>>();
@@ -965,12 +986,8 @@ public class CvController extends HttpServlet{
 		}
 //		ArrayList<Integer> yearList = congVanDAO.groupByYearLimit(msnvTemp, conditions, 5);
 		
-		if (year != 0)
-			conditions.put("year", year);
-		if (month != 0)
-			conditions.put("month", month);
-		if (date != 0)
-			conditions.put("day", date);
+		LogicalExpression expression = congVanDAO.addTimeExpression(null, month, date);
+		conditions.put("time", expression);
 		orderBy.put("cvNgayNhan", true);
 		
 		
@@ -1067,15 +1084,11 @@ public class CvController extends HttpServlet{
 			}	
 //			ArrayList<Integer> yearList = congVanDAO.groupByYearLimit(msnvTemp, conditions, 5);
 
-			if (year != 0)
-				conditions.put("year", year);
-			if (month != 0)
-				conditions.put("month", month);
-			if (date != 0)
-				conditions.put("day", date);
+			
 			orderBy.put("cvNgayNhan", true);
 			orderBy.put("soDen", true);
-			
+			LogicalExpression expression = congVanDAO.addTimeExpression(null, month, date);
+			conditions.put("time", expression);
 			ArrayList<CongVan> congVanList = congVanDAO.searchLimit(msnvTemp, conditions, orderBy, (page) *3, 3);
 			ArrayList<File> fileList = new ArrayList<File>();
 			ArrayList<ArrayList<String>> nguoiXlCongVan = new ArrayList<ArrayList<String>>();

@@ -137,6 +137,7 @@ countAdd = '0';
 							<%} %>
 						</ol>		
 					</div>
+					
 					</td>
 					</tr>
 					<tr style="width: 150px;">
@@ -476,6 +477,15 @@ countAdd = '0';
 												var trangThaiCv = $(this).val(); 
 												changeTrangThaiCv(trangThaiCv) ;
 											}); 
+											
+												$('.month').bind('change', function() {
+													var checked = $( this ).is( ":checked" );
+													var str = $(this).val();
+													alert(str);
+													var temp = str.split("#");
+													alert(temp[0]);
+														loadByYear(year, checked);
+												});
 										</script>
 <!-- 				</div> -->
 

@@ -3,9 +3,11 @@ package dao;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -414,22 +416,23 @@ public class CongVanDAO {
 				session.getTransaction().commit();
 				return new ArrayList<CongVan>();
 			}
-				
 		}
 		
 		Criteria cr = session.createCriteria(CongVan.class, "congVan");
 		cr.createAlias("congVan.mucDich", "mucDich");
 		cr.createAlias("congVan.donVi", "donVi");
 		cr.createAlias("congVan.trangThai", "trangThai");
+		LogicalExpression expression = null;
 		session.beginTransaction();
 		if (conditions != null) {
 			for (String key : conditions.keySet()) {
 				Object object = conditions.get(key);
-				if (object instanceof Integer && (key.equalsIgnoreCase("year") || key.equalsIgnoreCase("month") || key.equalsIgnoreCase("day"))) {
-					cr.add(Restrictions.sqlRestriction(key.toUpperCase() + "(cvNgayNhan) = " + conditions.get(key)));
-				} else if (conditions.get(key) != null){ 
+//				if (object instanceof Integer && (key.equalsIgnoreCase("year") || key.equalsIgnoreCase("month") || key.equalsIgnoreCase("day"))) {
+				if (object instanceof LogicalExpression) {
+					expression = (LogicalExpression)conditions.get(key);
+				} else if (object != null){ 
 					if (key.equals("cvId") || key.equals("soDen") || key.equals("cvNgayDi") || key.equals("cvNgayNhan"))
-						cr.add(Restrictions.eq(key, conditions.get(key)));
+						cr.add(Restrictions.eq(key, object));
 					
 					else if (key.equals("gecvNgayNhan")) 
 						cr.add(Restrictions.ge("cvNgayNhan", object));
@@ -440,11 +443,13 @@ public class CongVanDAO {
 					else if (key.equals("lecvNgayDi"))
 						cr.add(Restrictions.le("cvNgayDi", object));
 					else
-						cr.add(Restrictions.like(key, (String)conditions.get(key), MatchMode.START));
+						cr.add(Restrictions.like(key, (String)object, MatchMode.START));
 //					cr.add(Restrictions.eq(key, conditions.get(key)));
 				}
 			}
 		}
+		if (expression != null)
+			cr.add(expression);
 		cr.add(Restrictions.eq("daXoa", 0));
 		if (orderBy != null) {
 			for (String key : orderBy.keySet()) {
@@ -481,14 +486,16 @@ public long size(String msnv, HashMap<String, Object> conditions) {
 		cr.createAlias("congVan.mucDich", "mucDich");
 		cr.createAlias("congVan.donVi", "donVi");
 		cr.createAlias("congVan.trangThai", "trangThai");
+		LogicalExpression expression = null;
 		if (conditions != null) {
 			for (String key : conditions.keySet()) {
 				Object object = conditions.get(key);
-				if (object instanceof Integer && !key.equals("soDen")) {
-					cr.add(Restrictions.sqlRestriction(key.toUpperCase() + "(cvNgayNhan) = " + conditions.get(key)));
-				} else if (conditions.get(key) != null){ 
+				if (object instanceof LogicalExpression) {
+					expression = (LogicalExpression)conditions.get(key);
+				} else if (object != null){ 
 					if (key.equals("cvId") || key.equals("soDen") || key.equals("cvNgayDi") || key.equals("cvNgayNhan"))
-						cr.add(Restrictions.eq(key, conditions.get(key)));
+						cr.add(Restrictions.eq(key, object));
+					
 					else if (key.equals("gecvNgayNhan")) 
 						cr.add(Restrictions.ge("cvNgayNhan", object));
 					else if (key.equals("lecvNgayNhan")) 
@@ -498,9 +505,12 @@ public long size(String msnv, HashMap<String, Object> conditions) {
 					else if (key.equals("lecvNgayDi"))
 						cr.add(Restrictions.le("cvNgayDi", object));
 					else
-						cr.add(Restrictions.like(key, (String)conditions.get(key), MatchMode.START));
+						cr.add(Restrictions.like(key, (String)object, MatchMode.START));
+//					cr.add(Restrictions.eq(key, conditions.get(key)));
 				}
 			}
+			if (expression != null)
+				cr.add(expression);
 		}
 		cr.add(Restrictions.eq("daXoa", 0));
 		
@@ -521,28 +531,160 @@ public long size(String msnv, HashMap<String, Object> conditions) {
 			session.disconnect();
 	}
 	
-//	public ArrayList<CongVan> getByCongVanId(ArrayList<Integer> cvIdList) {
-//		session.beginTransaction();
-//		Criteria cr = session.createCriteria("CongVan");
-//		cr.createAlias("congVan.trangThai", "trangThai");
-//		cr.createAlias("congVan.mucDich", "mucDich");
-//		cr.createAlias("donVi", "donVi");
-////		cr.
-//		ArrayList<CongVan> congVanList = cr.
-//		session.getTransaction().commit();
-//		return null;
-//	}
+	public LogicalExpression addTimeExpression(LogicalExpression expression, HashMap<Integer, HashSet<Integer>> month, HashMap<String, HashSet<Integer>> date) {
+		String condition = " (";
+		boolean checkYear = false;
+		for (Integer y : month.keySet()) {
+			
+			if (checkYear)
+				condition += " or ";
+			condition += "( ";
+			checkYear = true;
+			System.out.println(y);
+			condition += "YEAR(cvNgayNhan) = " + y;
+			HashSet<Integer> monthList = month.get(y); 
+			if (monthList != null && monthList.size() > 0) {
+				
+				condition += " and ";
+				condition += "( ";
+				boolean checkMonth = false;
+				for (Integer m : monthList) {
+					
+					if (checkMonth)
+						condition += " or ";
+					condition += "( ";
+					checkMonth =  true;
+					condition += "MONTH(cvNgayNhan) = " + m;
+					HashSet<Integer> dateList = date.get(y + "#" + m);
+					if (dateList != null && dateList.size() > 0){
+						condition += " and ";
+						Boolean checkDay = false;
+						for (Integer d : dateList) {
+							if (checkDay)
+								condition += " or ";
+							condition += "( ";
+							checkDay = true;
+							condition += " DAY(cvNgayNhan) = " + d ;
+							condition += ") ";
+						}
+						
+					}
+					condition += ") ";
+				}
+				condition += ") ";
+			}
+			condition += ")";
+		}
+		condition += " )";
+		System.out.println(condition);
+		if (condition.length() <= 4)
+			return expression;
+		Criterion ex = Restrictions.sqlRestriction(condition);
+		if (expression == null)
+			expression = Restrictions.or(ex, ex);
+		else
+			expression = Restrictions.or(expression, ex);
+		return expression;
+	}
+	
+	public String addTimeExpressionSql(String expression, HashMap<Integer, HashSet<Integer>> month, HashMap<String, HashSet<Integer>> date) {
+		String condition = " (";
+		boolean checkYear = false;
+		for (Integer y : month.keySet()) {
+			
+			if (checkYear)
+				condition += " or ";
+			condition += "( ";
+			checkYear = true;
+			System.out.println(y);
+			condition += "YEAR(cvNgayNhan) = " + y;
+			HashSet<Integer> monthList = month.get(y); 
+			if (monthList != null) {
+				
+				condition += " and ";
+				condition += "( ";
+				boolean checkMonth = false;
+				for (Integer m : monthList) {
+					
+					if (checkMonth)
+						condition += " or ";
+					condition += "( ";
+					checkMonth =  true;
+					condition += "MONTH(cvNgayNhan) = " + m;
+					HashSet<Integer> dateList = date.get(y + "#" + m);
+					if (dateList != null){
+						condition += " and ";
+						Boolean checkDay = false;
+						for (Integer d : dateList) {
+							if (checkDay)
+								condition += " or ";
+							condition += "( ";
+							checkDay = true;
+							condition += " DAY(cvNgayNhan) = " + d ;
+							condition += ") ";
+						}
+						
+					}
+					condition += ") ";
+				}
+				condition += ") ";
+			}
+			condition += ")";
+		}
+		condition += " )";
+		System.out.println(condition);
+		if (condition.length() == 0)
+			return expression;
+		else
+			expression += " and " + condition;
+		
+		return condition;
+	}
 	public static void main(String[] args) {
-		String d = "2015-10-01";
-		String d2 = "2015-10-10";
-		Date date1 = DateUtil.parseDate(d);
-		Date date2 = DateUtil.parseDate(d2);
-		HashMap<String, Object> conditions =  new HashMap<String, Object>();
-		conditions.put("lecvNgayNhan", date2);
-		conditions.put("gecvNgayNhan", date1);
-		ArrayList<CongVan> congVanList = new CongVanDAO().searchLimit(null, conditions, null, 0, Integer.MAX_VALUE);
-		for (CongVan congVan : congVanList)
-			System.out.println(congVan.getCvNgayNhan());
-		System.out.println(new CongVanDAO().size(null, conditions));
+		HashMap<Integer, HashSet<Integer>> month = new HashMap<Integer, HashSet<Integer>>();
+		HashMap<String, HashSet<Integer>> date = new HashMap<String, HashSet<Integer>>();
+		
+		
+		HashMap<String, Object> conditions = new HashMap<String, Object>();
+		HashSet<Integer> monthList = new HashSet<Integer>();
+		
+		monthList.add(10);
+		monthList.add(10);
+		monthList.add(9);
+		monthList.add(12);
+		monthList.add(1);
+		monthList.add(2);
+		month.put(2015, monthList);
+		month.put(2013, null);
+		HashSet<Integer> dateList = new HashSet<Integer>();
+		
+		dateList.add(10);
+		dateList.add(2);
+		date.put("2015#10", dateList);
+//		monthList.add(10);
+//		monthList.add(12);
+//		year.put(2015, monthList);
+//		
+//		HashSet<Integer> dateList = new HashSet<Integer>();
+//		dateList.add(1);
+//		dateList.add(10);
+//		dateList.add(20);
+//		month.put(1, dateList);
+//		month.put(9, null);
+		LogicalExpression ex = new CongVanDAO().addTimeExpression(null, month, date);
+		conditions.put("time", ex);
+		ArrayList<CongVan> cvList = new CongVanDAO().searchLimit(null, conditions, null, 0, 100);
+		System.out.println(cvList.size());
 	}
 }
+
+/*
+ * (
+ * 		YEAR(cvNgayNhan) = 1 and (MONTH(cvNgayNhan) = 1 or MONTH(cvNgayNhan) = 2 or MONTH(cvNgayNhan) = 20) ) 
+ * 		or YEAR(cvNgayNhan) = 2014 and (MONTH(cvNgayNhan) = 11 or MONTH(cvNgayNhan) = 12) 
+ * )
+ * YEAR(cvNgayNhan) = 2014 and (MONTH(cvNgayNhan) = 11 
+ * 			and ( DAY(cvNgayNhan) = 1 or  DAY(cvNgayNhan) = 2 or MONTH(cvNgayNhan) = 12) 
+ * or YEAR(cvNgayNhan) = 2015
+
+ */
