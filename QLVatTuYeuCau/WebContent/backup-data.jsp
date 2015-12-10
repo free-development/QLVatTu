@@ -49,14 +49,14 @@
 				<div id="title-content">Sao lưu dữ liệu</div>
 				<div id="main-content">
 
-					<form id="main-form">
-						<div id="view-table" style="margin: 0 auto;">
+					<form id="main-form" style="text-align: center;">
+						<div id="view-table">
 							<table>
-								<tr style="background: #199e5e">
-									<th class="head">Chọn</th>
-									<th class="head">Số thứ tự</th>
-									<th class="head">Thời gian</th>
-									<th class="head">Mô tả</th>
+								<tr style="background: #199e5e;">
+									<th class="head" style="width: 5%;">Chọn</th>
+									<th class="head" style="width: 5%;">Số thứ tự</th>
+									<th class="head" style="width: 30%;">Thời gian</th>
+									<th class="head" style="width: 60%;">Mô tả</th>
 								</tr>
 								<%
 							if(backupList != null) {
@@ -116,23 +116,23 @@
 	
 					<form id="backup-form" method="get"
 						action="backupdata.jsp">
-						<div class="input-table">
+						<div class="input-table" style="margin-bottom: 5%;">
 							<table>
-								<div class="form-title">Sao lưu dữ liệu</div>
-								<tr>
-									<th style= "width:100px;">Thời gian:</th>
+								<!-- <div class="form-title">Sao lưu dữ liệu</div> -->
+								<tr style= "text-align: center;">
+									<th style= "width:100px; text-align: left;">Thời gian:</th>
 									<td><%=DateUtil.toString(new Date()) %></td>
 								</tr>
-								<tr>
-									<th style="width:100px;">Mô tả:</th>
+								<tr style= "text-align: center;"> 
+									<th style="width:30%;  text-align: left;">Mô tả:</th>
 									<td><textarea name="moTa" class="text-area" required id = "moTa"
 										autofocus 
-										title="Bạn phải nhập mô tả trước khi sao lưu dữ liệu"></textarea><div id="requireMdMa" style="color: red"></div></td>
+										title="Bạn phải nhập mô tả trước khi sao lưu dữ liệu" style=" width: 100%;"></textarea><div id="requireMdMa" style="color: red;"></div></td>
 								</tr>
 								
 							</table>
 						</div>
-						<div class="group-button">
+						<div class="group-button" style= "text-align: center;">
 							<!-- 						<input type="hidden" name="action" value = "AddMd">  -->
 							<button class="button" type="submit" id="backupData">
 								<i class="fa fa-plus-circle"></i>&nbsp;Sao lưu
@@ -141,7 +141,7 @@
 								<i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại
 							</button>
 							&nbsp;
-						<button type="button" class="button" id="exit">
+						<button type="button" class="button" id="exit" onclick="location.href='<%=siteMap.loadBackup%>'">
 							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 						</button>
 							

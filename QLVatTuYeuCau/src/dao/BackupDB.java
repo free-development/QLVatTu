@@ -63,8 +63,8 @@ public class BackupDB {
             System.out.println(batchCommand);
             Runtime runtime = Runtime.getRuntime();
 //            String[] restoreCmd = new String[]{"mysql ", "--user=" + connection.getUser(), "--password=" + connection.getPassword(), "-e", "source " + path};
-            p = runtime.exec(new String[]{"/bin/sh", "-c",batchCommand});
-//            p = runtime.exec(new String[] { "cmd.exe", "/c", batchCommand });
+//            p = runtime.exec(new String[]{"/bin/sh", "-c",batchCommand});
+            p = runtime.exec(new String[] { "cmd.exe", "/c", batchCommand });
 //            p = runtime.exec(restoreCmd);
 //            new String[] { "cmd.exe", "/c", executeCmd }
 //            p = runtime.exec("C:/Program Files/MySQL/MySQL Server 5.6/bin" + batchCommand);
