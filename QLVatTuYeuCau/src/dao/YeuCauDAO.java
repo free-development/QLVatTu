@@ -271,7 +271,7 @@ public class YeuCauDAO {
 		CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
 		CTVatTu ctVatTu = ctVatTuDAO.getCTVatTu(yeuCau.getCtvtId());
 		int soLuongTon = ctVatTu.getSoLuongTon();
-		if (yeuCau.getCapSoLuong() == yeuCau.getCapSoLuong())
+		if (capSoLuong == soLuongTon)
 			return 0;
 		if (soLuongTon < soLuong)
 			return -2;

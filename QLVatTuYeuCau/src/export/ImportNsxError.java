@@ -32,7 +32,7 @@ public class ImportNsxError extends AbstractExcelView {
 			throws Exception {
 		// get data model which is passed by the Spring container
 		List<Object> errorList = (List<Object>) model.get("errorList");
-		List<ChatLuong> clError = (List<ChatLuong>) errorList.get(0);
+		List<NoiSanXuat> nsxError = (List<NoiSanXuat>) errorList.get(0);
 		List<String> statusError = (List<String>) errorList.get(1);
 		// create a new Excel sheet
 		
@@ -51,11 +51,11 @@ public class ImportNsxError extends AbstractExcelView {
 		
 		// create header row
 		HSSFRow header = sheet.createRow(0);
-		response.setHeader("Content-Disposition", "inline; filename=" + "ChatLuongError.xls");
-		header.createCell(0).setCellValue("Mã Chất Lượng");
+		response.setHeader("Content-Disposition", "inline; filename=" + "NsxError.xls");
+		header.createCell(0).setCellValue("Mã Nsx");
 		header.getCell(0).setCellStyle(style);
 		
-		header.createCell(1).setCellValue("Tên Chất Lượng");
+		header.createCell(1).setCellValue("Tên Nsx");
 		header.getCell(1).setCellStyle(style);
 		
 		header.createCell(2).setCellValue("Lỗi");
@@ -64,10 +64,10 @@ public class ImportNsxError extends AbstractExcelView {
 		// create data rows
 		int rowCount = 1;
 		int index = 0;
-		for (ChatLuong chatLuong : clError) {
+		for (NoiSanXuat nsx : nsxError) {
 			HSSFRow aRow = sheet.createRow(rowCount++);
-			aRow.createCell(0).setCellValue(chatLuong.getClMa());
-			aRow.createCell(1).setCellValue(chatLuong.getClTen());
+			aRow.createCell(0).setCellValue(nsx.getNsxMa());
+			aRow.createCell(1).setCellValue(nsx.getNsxTen());
 			aRow.createCell(2).setCellValue(statusError.get(index));
 			index ++;
 		}

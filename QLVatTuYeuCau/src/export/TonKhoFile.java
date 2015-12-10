@@ -96,7 +96,7 @@ public class TonKhoFile extends AbstractExcelView {
 		header.createCell(4).setCellValue("Nơi Sản Xuất");
 		header.getCell(4).setCellStyle(style);
 		
-		header.createCell(5).setCellValue("Mã chất lượng");
+		header.createCell(5).setCellValue("Chất lượng");
 		header.getCell(5).setCellStyle(style);
 		
 		header.createCell(6).setCellValue("Số lượng");
@@ -123,7 +123,7 @@ public class TonKhoFile extends AbstractExcelView {
 			aRow.createCell(4).setCellValue(ctvtTon.getNoiSanXuat().getNsxTen());
 			aRow.createCell(5).setCellValue(ctvtTon.getChatLuong().getClTen());
 			aRow.createCell(6).setCellValue(ctvtTon.getSoLuongTon());
-			aRow.createCell(6).setCellValue(ctvtTon.getDinhMuc());
+			aRow.createCell(7).setCellValue(ctvtTon.getDinhMuc());
 			stt++;
 		}
 	}

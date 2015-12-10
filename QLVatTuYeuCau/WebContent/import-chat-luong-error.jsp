@@ -42,8 +42,8 @@
 						<table>
 							<tr style="background: #199e5e">
 							<th>Số TT</th>
-								<th style="width: 100px;">Mã NSX</th>
-								<th style="width: 400px;">Tên NSX</th>
+								<th style="width: 100px;">Mã chất lượng</th>
+								<th style="width: 400px;">Tên chất lượng</th>
 								<th style="width: 600px;">Lỗi</th>
 							</tr>
 							<%

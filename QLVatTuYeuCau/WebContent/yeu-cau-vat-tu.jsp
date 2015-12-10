@@ -237,6 +237,7 @@
 
 					<td><input type="number" min=0 autofocus  name="soLuongAdd" title="So luong phai la so!!!"  class="text" style="width: 80px;"></td>
 					<td><button class="button" type="button" onclick="addSoLuong();">Thêm</button></td>
+					<td><button class="button" type="button" id="thoatThemVt">Thoát</button></td>
 				</tr>
 			</table>
 			</div>
@@ -260,6 +261,7 @@
 					<td><div id="soLuongTonUpdate"></div></td>
 					<td><input type="number" min=0 autofocus  name="soLuongUpdate" title="So luong phai la so!!!"  class="text" style="width: 80px;"></td>
 					<td><button class="button" type="button" id="updateYc">Lưu lại</button></td>
+					<td><button class="button" type="button" id="thoatSuaVt">Thoát</button></td>
 				</tr>
 			</table>
 			</div>
@@ -268,16 +270,19 @@
 			<div class = "form-title"style="margin-top: 10px;">Cấp phát vật tư</div>
 			<div id="view-table-cap" class="scroll-vat-tu">
 			<table style= "width:900px; margin: 0 auto;" >
-				<tr><th >Mã vật tư</th><th>Tên vật tư</th><th>Nơi sản xuất</th><th >Chất lượng</th><th >Đơn vị tính</th><th >Số lượng tồn</th><th>Số lượng thiếu</th></tr>
+				<tr><th >Mã vật tư</th><th>Tên vật tư</th><th>Nơi sản xuất</th><th >Chất lượng</th><th >Đơn vị tính</th><th >Số lượng tồn</th><th >Số lượng thiếu</th><th>Số lượng cấp</th></tr>
 				<tr>
 					<td><div id="vtMaCap"></div></td>
 					<td><div id="vtTenCap"></div></td>
 					<td><div id="clTenCap"></div></td>
 					<td><div id="nsxTenCap"></div></td>
 					<td><div id="dvtCap"></div></td>
+					
 					<td><div id="soLuongTonCap"></div></td>
+					<td><div id="soLuongThieu"></div></td>
 					<td><input type="number" min=0 autofocus  name="soLuongCap" title="So luong phai la so!!!"  class="text" style="width: 80px;"></td>
 					<td><button class="button" type="button" id="capVatTu">Lưu lại</button></td>
+					<td><button class="button" type="button" id="thoatCapVt">Thoát</button></td>
 				</tr>
 			</table>
 			</div>

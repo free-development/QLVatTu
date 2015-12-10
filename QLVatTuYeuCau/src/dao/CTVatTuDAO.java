@@ -47,7 +47,11 @@ public class CTVatTuDAO {
 	}
 	public List<CTVatTu> getAllCTVatTu() {
 		session.beginTransaction();
-		Criteria cr = session.createCriteria(CTVatTu.class);
+		Criteria cr = session.createCriteria(CTVatTu.class, "ctVatTu");
+		cr.createAlias("ctVatTu.noiSanXuat", "noiSanXuat");
+		cr.createAlias("ctVatTu.chatLuong", "chatLuong");
+		cr.createAlias("ctVatTu.vatTu", "vatTu");
+		cr.createAlias("vatTu.dvt", "dvt");
 		Criterion xoaCd = Restrictions.eq("daXoa", 0);
 		cr.add(xoaCd);
 		ArrayList<CTVatTu> CTVatTuList = (ArrayList<CTVatTu>) cr.list(); 
@@ -113,18 +117,27 @@ public class CTVatTuDAO {
 	public CTVatTu getCTVatTu(final String vtMa, final String nsxMa, final String clMa) {
 		session.beginTransaction();
 		
-		Criteria cr = session.createCriteria(CTVatTu.class);
-		Criterion expNoiSanXuat = Restrictions.eq("noiSanXuat", new NoiSanXuat(nsxMa));
-		Criterion expChatLuong = Restrictions.eq("chatLuong", new ChatLuong(clMa));
-		Criterion expVatTu = Restrictions.eq("vatTu", new VatTu(vtMa));
-		//LogicalExpression andExp = Restrictions.and (expChatLuong, expNoiSanXuat);
-//		andExp = Restrictions.and(andExp, expChatLuong);
-//		andExp = Restrictions.and(andExp, expVatTu);
+		Criteria cr = session.createCriteria(CTVatTu.class, "ctVatTu");
+//		Criterion expNoiSanXuat = Restrictions.eq("noiSanXuat", new NoiSanXuat(nsxMa));
+//		Criterion expChatLuong = Restrictions.eq("chatLuong", new ChatLuong(clMa));
+//		Criterion expVatTu = Restrictions.eq("vatTu", new VatTu(vtMa));
+//		//LogicalExpression andExp = Restrictions.and (expChatLuong, expNoiSanXuat);
+////		andExp = Restrictions.and(andExp, expChatLuong);
+////		andExp = Restrictions.and(andExp, expVatTu);
+//		cr.add(expNoiSanXuat);
+//		cr.add(expChatLuong);
+//		cr.add(expVatTu);
+		cr.createAlias("ctVatTu.noiSanXuat", "noiSanXuat");
+		cr.createAlias("ctVatTu.chatLuong", "chatLuong");
+		cr.createAlias("ctVatTu.vatTu", "vatTu");
+		
+		Criterion expNoiSanXuat = Restrictions.eq("noiSanXuat.nsxMa", nsxMa);
+		Criterion expChatLuong = Restrictions.eq("chatLuong.clMa", clMa);
+		Criterion expVatTu = Restrictions.eq("vatTu.vtMa", vtMa);
 		cr.add(expNoiSanXuat);
 		cr.add(expChatLuong);
 		cr.add(expVatTu);
 		ArrayList<CTVatTu> ctvtList = (ArrayList<CTVatTu>) cr.list();
-		
 		CTVatTu ctVatTu = null;
 		if(ctvtList.size() != 0)
 			ctVatTu = ctvtList.get(0);
@@ -134,9 +147,12 @@ public class CTVatTuDAO {
 	public ArrayList<CTVatTu> getCTVTu(final String vtMa) {
 		session.beginTransaction();
 		
-		Criteria cr = session.createCriteria(CTVatTu.class);
-		
-		Criterion expVatTu = Restrictions.eq("vatTu", new VatTu(vtMa));
+		Criteria cr = session.createCriteria(CTVatTu.class, "ctVatTu");
+		cr.createAlias("ctVatTu.noiSanXuat", "noiSanXuat");
+		cr.createAlias("ctVatTu.chatLuong", "chatLuong");
+		cr.createAlias("ctVatTu.vatTu", "vatTu");
+		cr.createAlias("vatTu.dvt", "dvt");
+		Criterion expVatTu = Restrictions.eq("vatTu.vtMa",vtMa);
 		
 		cr.add(expVatTu);
 		cr.add(Restrictions.eq("daXoa", 0));
@@ -170,21 +186,25 @@ public class CTVatTuDAO {
 	public ArrayList<CTVatTu> search(String vtMa, String vtTen, String nsx, String chatLuong) {
 		session.beginTransaction();
 		Criteria cr =  session.createCriteria(CTVatTu.class, "ctVatTu");
+		cr.createAlias("ctVatTu.noiSanXuat", "noiSanXuat");
+		cr.createAlias("ctVatTu.chatLuong", "chatLuong");
+		cr.createAlias("ctVatTu.vatTu", "vatTu");
+		cr.createAlias("vatTu.dvt", "dvt");
 		/*
 		if (vtTen != "")
 			cr.setFetchMode("ctVatTu.", mode)
 		*/
 		if (vtMa != "")
 		{	
-			Criterion expVatTu = Restrictions.eq("vatTu", new VatTu(vtMa));
+			Criterion expVatTu = Restrictions.eq("vatTu.vtMa", vtMa);
 			cr.add(expVatTu);
 		}
 		if (nsx != "") {
-			Criterion expNsx = Restrictions.eq("noiSanXuat", new NoiSanXuat(nsx));
+			Criterion expNsx = Restrictions.eq("noiSanXuat.nsxMa", nsx);
 			cr.add(expNsx);
 		}
 		if (chatLuong != "") {
-			Criterion expChatLuong = Restrictions.eq("chatLuong", new ChatLuong(chatLuong));
+			Criterion expChatLuong = Restrictions.eq("chatLuong.clMa", chatLuong);
 			cr.add(expChatLuong);
 		}
 		ArrayList<CTVatTu> ctVatTuList = (ArrayList<CTVatTu>) cr.list();
@@ -368,11 +388,6 @@ public class CTVatTuDAO {
 			session.disconnect();
 	}
 
-	public static void main(String[] args) {
-		
-		CTVatTuDAO ct = new CTVatTuDAO();
-		System.out.println(ct.searchByCtvtMaLimit("1", 0, 10000000).size());
-	}
 	public ArrayList<CTVatTu> getCtVatTuListAlert(int first, int limit) {
 		session.beginTransaction();
 		Criteria cr = session.createCriteria(CTVatTu.class, "ctVatTu");
@@ -388,4 +403,9 @@ public class CTVatTuDAO {
 		session.getTransaction().commit();
 		return ctvatTuList;
 	}
+	public static void main(String[] args) {
+		CTVatTu ctvt = new CTVatTuDAO().getCTVatTu("12102108", "KXD", "001");
+		System.out.println(ctvt.getVatTu().getVtMa()+ "#" + ctvt.getNoiSanXuat().getNsxMa() +"#" + ctvt.getChatLuong().getClMa());
+	}
 }
+

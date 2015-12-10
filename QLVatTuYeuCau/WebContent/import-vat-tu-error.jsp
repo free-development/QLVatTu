@@ -20,7 +20,7 @@
 <body>
 	<%
 		String status = (String) request.getAttribute("status");
-	if (status != null && status.equals("formatException"))
+	if (status != null && status.equals("formatException"))	
 			out.println("<script>alert('Danh sách chi tiết vật tư bị lỗi khi thêm!')</script>");
 	%>
 	<%

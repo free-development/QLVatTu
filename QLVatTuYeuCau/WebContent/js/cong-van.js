@@ -1169,4 +1169,17 @@ function changeTrangThaiVt(trangThai) {
 			  alert("Bạn không thể thay đổi trạng thái của công văn!!!");
 	  	}
 	});
-}
+};
+
+$(document).ready(function(){
+	$('#add-form').submit(function(){
+		addCongVan();
+		return false;
+	});
+});
+$(document).ready(function(){
+	$('#update-form').submit(function(){
+		updateCongVan();
+		return false;
+	});
+});

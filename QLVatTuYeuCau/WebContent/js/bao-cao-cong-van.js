@@ -1,4 +1,5 @@
-function loadBaoCao() {
+/*
+ function loadBaoCao() {
 	var eCvNgayNhan = $('#eCvNgayNhan').val();
 	var sCvNgayNhan = $('#sCvNgayNhan').val();
 	var eCvNgayDi = $('#eCvNgayDi').val();
@@ -54,7 +55,7 @@ $(document).ready(function(){
 		loadBaoCao();
 	});
 });
-	
+	*/
 function loadBaoCao() {
 	var eCvNgayNhan = $('#eCvNgayNhan').val();
 	var sCvNgayNhan = $('#sCvNgayNhan').val();
@@ -109,5 +110,6 @@ function loadBaoCao() {
 $(document).ready(function(){
 	$('#xem').click(function(){
 		loadBaoCao();
+		return false;
 	});
 });

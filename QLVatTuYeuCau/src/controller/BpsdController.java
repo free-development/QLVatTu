@@ -66,6 +66,7 @@ public class BpsdController extends HttpServlet {
 		DonVi donViCheck = donViDAO.getDonVi(dvMa);
 		if (donViCheck == null) {
 			donViDAO.addDonVi(donVi);
+			result = "success";	
 		}
 		else if(donViCheck.getDaXoa() == 1)
 		{

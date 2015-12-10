@@ -253,7 +253,7 @@ public class YcController extends HttpServlet {
 		ycDAO.disconnect();
 		ctVatTuDAO.disconnect();
 		ArrayList<Object> objectList = new ArrayList<Object>();
-		objectList.add(yeuCau);
+		objectList.add(yc);
 		objectList.add(ctVatTu);
 		return JSonUtil.toJson(objectList); 
 	}

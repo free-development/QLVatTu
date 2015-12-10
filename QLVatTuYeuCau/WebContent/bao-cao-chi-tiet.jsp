@@ -37,7 +37,10 @@
 			return confirm('Bạn có chắc xóa');
 		}
 	</script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/date-util.js"></script>
 	<script type="text/javascript" src="js/location.js"></script>
+	<script type="text/javascript" src="js/bao-cao-cong-van.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="Shortcut Icon" href="img/logo16.png" type="image/x-icon" />
 </head>
@@ -117,7 +120,7 @@
 								<td style="text-align: left;"><label class="lable1" for="CGQ">Tất cả</label></td>
 				</table>
 				<input type="hidden" name="action" value="baocaobdn">
-				<input style="margin-top: 15px;"class="button" type="submit" value="Xem">
+				<input style="margin-top: 15px;"class="button" type="submit" value="Xem" id="xem">
 <!-- 					<i class="fa fa-eye"></i>&nbsp;&nbsp;</> -->
 				<br>
 				<br>

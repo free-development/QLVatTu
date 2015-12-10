@@ -22,7 +22,6 @@ import dao.ReadExcelCl;
 import dao.ReadExcelNsx;
 import dao.ReadExcelTon;
 import map.siteMap;
-import model.CTVatTu;
 import util.FileUtil;
 
 /**
@@ -41,7 +40,6 @@ public class ReadExcel extends HttpServlet {
 		session.removeAttribute("ctVatTuList");
 		session.removeAttribute("size");
 		try {
-			
 			java.io.File file = uploadFile(multipartRequest);
 			System.out.println(file.getName());
 			String extenstionFile = FileUtil.getExtension(file);
@@ -65,7 +63,8 @@ public class ReadExcel extends HttpServlet {
 				return new ModelAndView(siteMap.vatTuTonKho, "status", "unknownFile");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			if (session.getAttribute("errorList") != null)
+				return new ModelAndView(siteMap.importTonKhoError, "status", "formatException");
 		}
 		multipartRequest.setAttribute("status", "success");
 		
@@ -85,7 +84,7 @@ public class ReadExcel extends HttpServlet {
 				if(errorList.size() > 0)
 				{
 					session.setAttribute("errorList", errorList);
-					return new ModelAndView(siteMap.importVatTuError, "statusError", "list import error");
+					return new ModelAndView(siteMap.importVatTuError, "status", "formatException");
 				}
 			}
 			else if ("xlsx".equalsIgnoreCase(extenstionFile)) {
@@ -93,15 +92,15 @@ public class ReadExcel extends HttpServlet {
 				if(errorList.size() > 0)
 				{
 					session.setAttribute("errorList", errorList);
-					return new ModelAndView(siteMap.importVatTuError, "statusError", "list import error");
+					return new ModelAndView(siteMap.importVatTuError, "status", "formatException");
 				}
 			}
 			else {
 				return new ModelAndView(siteMap.vatTu, "status", "formatException");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			return new ModelAndView(siteMap.login);
+			if (session.getAttribute("errorList") != null)
+				return new ModelAndView(siteMap.importVatTuError, "status", "formatException");
 		}
 		multipartRequest.setAttribute("status", "success");
 		return new ModelAndView(siteMap.vatTu);
@@ -135,8 +134,8 @@ public class ReadExcel extends HttpServlet {
 				return new ModelAndView(siteMap.boPhanSuDung, "status", "unknownFile");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			return new ModelAndView(siteMap.login);
+			if (session.getAttribute("errorList") != null)
+				return new ModelAndView(siteMap.importBpsdError, "status", "formatException");
 		}
 		multipartRequest.setAttribute("status", "success");
 		return new ModelAndView(siteMap.boPhanSuDung);
@@ -170,14 +169,12 @@ public class ReadExcel extends HttpServlet {
 			else {
 				return new ModelAndView(siteMap.noiSanXuat, "status", "unknownFile");
 			}
+			multipartRequest.setAttribute("status", "success");
 		} catch (Exception e) {
-			e.printStackTrace();
-			return new ModelAndView(siteMap.login);
-			
+			if (session.getAttribute("errorList") != null)
+				return new ModelAndView(siteMap.importErrorNsx, "status", "formatException");
 		}
-		multipartRequest.setAttribute("status", "success");
 		return new ModelAndView(siteMap.noiSanXuat);
-		
 	}
 	@RequestMapping("/readExcelCl")
 	protected ModelAndView readExcelCl(MultipartHttpServletRequest multipartRequest, HttpServletResponse response)
@@ -185,6 +182,7 @@ public class ReadExcel extends HttpServlet {
 		HttpSession session = multipartRequest.getSession(false);
 		session.removeAttribute("chatLuongList");
 		try {
+			response.setContentType("text/html");
 			java.io.File file = uploadFile(multipartRequest);
 			String extenstionFile = FileUtil.getExtension(file);
 			if ("xls".equalsIgnoreCase(extenstionFile)) {
@@ -204,8 +202,10 @@ public class ReadExcel extends HttpServlet {
 			} else {
 				return new ModelAndView(siteMap.chatLuong, "status", "unknownFile");
 			}
+			
 		} catch (Exception e) {
-			return new ModelAndView(siteMap.login);
+			if (session.getAttribute("errorList") != null)
+				return new ModelAndView(siteMap.importErrorCl, "status", "formatException");
 		}
 		multipartRequest.setAttribute("status", "success");
 		return new ModelAndView(siteMap.chatLuong);

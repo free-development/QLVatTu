@@ -44,79 +44,48 @@ public class NsxController extends HttpServlet {
     	request.setCharacterEncoding("UTF-8");
     	response.setCharacterEncoding("UTF-8");  
 		HttpSession session = request.getSession(false);
-//		if("AddNsx".equalsIgnoreCase(action)) {
-//			String nsxMa = request.getParameter("nsxMa");
-//			String nsxTen = request.getParameter("nsxTen");
-//			noiSanXuatDAO.addNoiSanXuat(new NoiSanXuat(nsxMa,nsxTen,0));
-//			ArrayList<NoiSanXuat> noiSanXuatList =  (ArrayList<NoiSanXuat>) noiSanXuatDAO.getAllNoiSanXuat();
-//			noiSanXuatDAO.disconnect();
-//			return new ModelAndView("danh-muc-noi-san-xuat", "noiSanXuatList", noiSanXuatList);
-//		}
-//		if("deleteNsx".equalsIgnoreCase(action)) {
-//			String[] idList = request.getParameterValues("nsxMa");
-//			for(String s : idList) {
-//					noiSanXuatDAO.deleteNoiSanXuat(s);
-//			}
-//			
-//			ArrayList<NoiSanXuat> noiSanXuatList =  (ArrayList<NoiSanXuat>) noiSanXuatDAO.getAllNoiSanXuat();
-//			noiSanXuatDAO.disconnect();
-//			return new ModelAndView("danh-muc-noi-san-xuat", "noiSanXuatList", noiSanXuatList);
-//		}
-			long size = noiSanXuatDAO.size();
-			ArrayList<NoiSanXuat> noiSanXuatList =  (ArrayList<NoiSanXuat>) noiSanXuatDAO.limit(page - 1, 10);
-			//System.out.println(size);
-			ArrayList<NoiSanXuat> allNoiSanXuatList =  (ArrayList<NoiSanXuat>) noiSanXuatDAO.getAllNoiSanXuat();
-			session.setAttribute("allNoiSanXuatList", allNoiSanXuatList);
-			request.setAttribute("size", size);
-			noiSanXuatDAO.disconnect();
-			return new ModelAndView("danh-muc-noi-san-xuat", "noiSanXuatList", noiSanXuatList);
+		long size = noiSanXuatDAO.size();
+		ArrayList<NoiSanXuat> noiSanXuatList =  (ArrayList<NoiSanXuat>) noiSanXuatDAO.limit(page - 1, 10);
+		ArrayList<NoiSanXuat> allNoiSanXuatList =  (ArrayList<NoiSanXuat>) noiSanXuatDAO.getAllNoiSanXuat();
+		session.setAttribute("allNoiSanXuatList", allNoiSanXuatList);
+		request.setAttribute("size", size);
+		noiSanXuatDAO.disconnect();
+		return new ModelAndView("danh-muc-noi-san-xuat", "noiSanXuatList", noiSanXuatList);
 	}
 	
 	@RequestMapping(value="/preEditNsx", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String preEditNsx(@RequestParam("nsxMa") String nsxMa) {
-//		System.out.println("****" + nsxMa + "****");
-		//System.out.println(nsxMa);
 		NoiSanXuatDAO noiSanXuatDAO = new NoiSanXuatDAO();
 		NoiSanXuat nsx = noiSanXuatDAO.getNoiSanXuat(nsxMa);
-		//System.out.println(nsx.getNsxMa());
 		noiSanXuatDAO.disconnect();
 		return JSonUtil.toJson(nsx);
-		/*ArrayList<NoiSanXuat> nsxList = (ArrayList<NoiSanXuat>) new NoiSanXuatDAO().getAllNoiSanXuat();
-		return toJson(nsxList);*/
 	}
+	
 	@RequestMapping(value="/addNsx", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String addNsx(@RequestParam("nsxMa") String nsxMa, @RequestParam("nsxTen") String nsxTen) {
 		String result = "success";
 		NoiSanXuatDAO noiSanXuatDAO = new NoiSanXuatDAO();
 		NoiSanXuat nsx = noiSanXuatDAO.getNoiSanXuat(nsxMa);
-		if(nsx == null) 
-		{
+		if(nsx == null) {
 			noiSanXuatDAO.addNoiSanXuat(new NoiSanXuat(nsxMa, nsxTen,0));
-			//System.out.println("success");
 			result = "success";	
-		}
-		else if(nsx !=null && nsx.getDaXoa()== 1){
+		} else if(nsx !=null && nsx.getDaXoa()== 1){
 			nsx.setNsxMa(nsxMa);
 			nsx.setNsxTen(nsxTen);
 			nsx.setDaXoa(0);
 			noiSanXuatDAO.updateNoiSanXuat(nsx);
-		}
-		else
-		{
-			//System.out.println("fail");
+		} else {
 			result = "fail";
 		}
 		noiSanXuatDAO.disconnect();
 			return JSonUtil.toJson(result);
 	}
+	
 	@RequestMapping(value="/updateNsx", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String updateNsx(@RequestParam("nsxMaUpdate") String nsxMaUpdate, @RequestParam("nsxTenUpdate") String nsxTenUpdate) {
-
-		//System.out.println(nsxMaUpdate);
-		//System.out.println(nsxTenUpdate);
 		NoiSanXuatDAO noiSanXuatDAO = new NoiSanXuatDAO();
 		NoiSanXuat nsx = new NoiSanXuat(nsxMaUpdate, nsxTenUpdate,0);
 		noiSanXuatDAO.updateNoiSanXuat(nsx);
@@ -126,75 +95,22 @@ public class NsxController extends HttpServlet {
 	@RequestMapping(value="/deleteNsx", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String deleteNsx(@RequestParam("nsxList") String nsxList) {
-//		System.out.println("****" + nsxMa + "****");
-//		NoiSanXuatDAO noiSanXuatDAO = new NoiSanXuatDAO();
-//		NoiSanXuat nsx = noiSanXuatDAO.getNoiSanXuat(nsxMa);
-//		return toJson(nsx);
-//		ArrayList<NoiSanXuat> nsxList = (ArrayList<NoiSanXuat>) new NoiSanXuatDAO().getAllNoiSanXuat();
 		String[] str = nsxList.split("\\, ");
 		
 		NoiSanXuatDAO noiSanXuatDAO =  new NoiSanXuatDAO();
 		for(String nsxMa : str) {
 			noiSanXuatDAO.deleteNoiSanXuat(nsxMa);
 		}
-//		System.out.println(JSonUtil.toJson(nsxMa));
-//		return toJson(nsxList);
 		noiSanXuatDAO.disconnect();
 		return JSonUtil.toJson(nsxList);
 	}
-	/*private String toJson(String nsxMa) {
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			String value = mapper.writeValueAsString(nsxMa);
-			return value;
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	private String toJson(NoiSanXuat nsx) {
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			String value = mapper.writeValueAsString(nsx);
-			return value;
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	private String toJson(ArrayList<NoiSanXuat> nsxList) {
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			String value = mapper.writeValueAsString(nsxList);
-			return value;
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}*/
 	@RequestMapping(value="/loadPageNsx", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String loadPageNsx(@RequestParam("pageNumber") String pageNumber) {
-		String result = "";
-		//System.out.println("MA: " + pageNumber);
 		NoiSanXuatDAO noiSanXuatDAO = new NoiSanXuatDAO();
 		int page = Integer.parseInt(pageNumber);
 		ArrayList<NoiSanXuat> nsxList = (ArrayList<NoiSanXuat>) noiSanXuatDAO.limit((page -1 ) * 10, 10);
-		
-		/*
-		if(new NoiSanXuatDAO().getNoiSanXuat(nsxMa)==null)
-		{
-			new NoiSanXuatDAO().addNoiSanXuat(new NoiSanXuat(nsxMa, nsxTen,0));
-			System.out.println("success");
-			result = "success";	
-		}
-		else
-		{
-			System.out.println("fail");
-			result = "fail";
-		}
-		*/
 		noiSanXuatDAO.disconnect();
-			return JSonUtil.toJson(nsxList);
+		return JSonUtil.toJson(nsxList);
 	}
 }

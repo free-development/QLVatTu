@@ -38,9 +38,9 @@ public class DonViFile extends AbstractExcelView {
 		CellStyle style = workbook.createCellStyle();
 		Font font = workbook.createFont();
 		font.setFontName("Times New Roman");
-		style.setFillPattern(CellStyle.SOLID_FOREGROUND);
+		//style.setFillPattern(CellStyle.SOLID_FOREGROUND);
 		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-		font.setColor(HSSFColor.WHITE.index);
+//		font.setColor(HSSFColor.WHITE.index);
 		style.setFont(font);
 		
 		HSSFRow row2 = sheet.createRow(0);
@@ -52,7 +52,7 @@ public class DonViFile extends AbstractExcelView {
 		
 		// create header row
 		HSSFRow header = sheet.createRow(1);
-		response.setHeader("Content-Disposition", "inline; filename=" + "Bophansudung.xls");
+		
 		
 		header.createCell(0).setCellValue("Mã Bộ phận sử dụng");
 		header.getCell(0).setCellStyle(style);
@@ -69,10 +69,10 @@ public class DonViFile extends AbstractExcelView {
 		header.createCell(4).setCellValue("Email");
 		header.getCell(4).setCellStyle(style);
 		
-		
+		response.setHeader("Content-Disposition", "inline; filename=" + "Bophansudung.xls");
 		
 		// create data rows
-		int rowCount = 1;
+		int rowCount = 2;
 		
 		for (DonVi dv : listDv) {
 			HSSFRow aRow = sheet.createRow(rowCount++);
