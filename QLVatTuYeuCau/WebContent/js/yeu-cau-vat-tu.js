@@ -274,7 +274,7 @@ function capVatTu() {
 	  			alert('Đã cấp đủ hàng!!');
 	  		else {
 	  			alert('Cấp phát vật tư thành công');
-	  			$('input[name=soLuongCap]').val('0')	;
+	  			$('input[name=soLuongCap]').val('0');
 	  			$('#soLuongTon' + ycVatTu.ycId).html(ctVatTu.soLuongTon);
 				$('#soLuong' + ycVatTu.ycId).html(ycVatTu.ycSoLuong);
 				$('#soLuongCap' + ycVatTu.ycId).html(ycVatTu.capSoLuong);
