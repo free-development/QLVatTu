@@ -327,7 +327,8 @@ public class CvController extends HttpServlet{
 					Mail mail = new Mail();
 					mail.setFrom(account);
 					mail.setTo(nguoiDung.getEmail());
-					mail.setSubject("Công văn mới");
+//					mail.setSubject("Công văn mới");
+					mail.setSubject("Cong van moi");
 					String content = "Chào " + nguoiDung.getHoTen() +",\n";
 					content += " Công văn số " + " nhận ngày " + DateUtil.toString(cvNgayNhan) + " mới được cập nhật. Vui lòng vào hệ thống làm việc để kiểm tra.\n";
 					content += host + siteMap.searchCongVan + "?congVan=" + cvId;

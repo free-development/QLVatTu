@@ -155,7 +155,8 @@ public class ChiaSeCvController extends HttpServlet {
 				Mail mail = new Mail();
 				mail.setFrom(account);
 				mail.setTo(nguoiDung.getEmail());
-				mail.setSubject("Công việc được chia sẻ");
+//				mail.setSubject("Công việc được chia sẻ");
+				mail.setSubject("Cong viec duoc chia se");
 				String content = "Bạn đã được chia sẻ công văn. Vui lòng vào hệ thống làm việc để kiểm tra.\n";
 				content += "Công việc được chia sẻ là: \n" + str1 + "\n" ;
 				content += host + siteMap.searchCongVan + "?congVan=" + cvId + "\nThân mến!";
@@ -167,7 +168,7 @@ public class ChiaSeCvController extends HttpServlet {
 			}
 			if(hotens.length() > 0)
 				hotens.delete(hotens.length()-1, hotens.length());
-			String truongPhongMa = context.getInitParameter("truongPhongMa");
+//			String truongPhongMa = context.getInitParameter("truongPhongMa");
 			NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoiDung");
 			
 			Date currentDate = DateUtil.convertToSqlDate(new java.util.Date ());
@@ -264,7 +265,8 @@ public class ChiaSeCvController extends HttpServlet {
 			Mail mail = new Mail();
 			mail.setFrom(account);
 			mail.setTo(nguoiDung.getEmail());
-			mail.setSubject("Công việc được chia sẻ");
+//			mail.setSubject("Công việc được chia sẻ");
+			mail.setSubject("Cong viec duoc chia se");
 			String content = "Bạn đã được chia sẻ công văn. Vui lòng vào hệ thống làm việc để kiểm tra.\n";
 			content += "Công việc được chia sẻ là: \n" + str1 + "\n" ;
 			content += host + siteMap.searchCongVan + "?congVan=" + cvId + "\nThân mến!";
