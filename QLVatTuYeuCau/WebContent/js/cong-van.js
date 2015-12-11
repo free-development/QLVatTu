@@ -50,32 +50,32 @@ function checkAdd(){
 	var file = $('#add-form input[name=file]').val();
 	var moTa = $('#add-form textarea[name=moTa]').val();
 
-//	if(cvSo == ''){
-//		$('#requireSoCv').html('Vui lòng nhập số công văn');
+////	if(cvSo == ''){
+////		$('#requireSoCv').html('Vui lòng nhập số công văn');
+////		return false;
+////	}
+//	if(ngayNhan == ''){
+//		$('#requireNgayNhan').html('Vui lòng chọn ngày nhận công văn');
 //		return false;
 //	}
-	if(ngayNhan == ''){
-		$('#requireNgayNhan').html('Vui lòng chọn ngày nhận công văn');
-		return false;
-	}
-	else if(mucDich == null){
-		$('#requireMucDich').html('Vui lòng chọn mục đích');
-		return false;
-	}
-	else if(donVi == null){
-		$('#requireDonVi').html('Vui lòng chọn đơn vị');
-		return false;
-	}
-	else if(file == ''){
-		$('#requireFile').html('Vui lòng đính kèm file');
-		return false;
-	}
-	else if(moTa == ''){
-		$('#requireMoTa').html('Vui lòng nhập nội dung');
-		return false;
-	}
-	if(cvSo.length > 10){
-		$('#requireSoCv').html('Số công văn đến phải không được quá 10 ký tự');
+//	else if(mucDich == null){
+//		$('#requireMucDich').html('Vui lòng chọn mục đích');
+//		return false;
+//	}
+//	else if(donVi == null){
+//		$('#requireDonVi').html('Vui lòng chọn đơn vị');
+//		return false;
+//	}
+//	else if(file == ''){
+//		$('#requireFile').html('Vui lòng đính kèm file');
+//		return false;
+//	}
+//	else if(moTa == ''){
+//		$('#requireMoTa').html('Vui lòng nhập nội dung');
+//		return false;
+//	}
+	if(cvSo.length > 20){
+		$('#requireSoCv').html('Số công văn đến phải không được quá 20 ký tự');
 		return false;
 	}
 	else if(ngayNhan == ''){

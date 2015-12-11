@@ -200,7 +200,7 @@
 									<td><%=chatLuong.getClTen()%></td>
 									<td><%=vatTu.getDvt().getDvtTen()%></td>
 									<td id="soLuongTon<%=yeuCau.getYcId()%>"><%=ctVatTu.getSoLuongTon()%></td>
-									<td id="soLuong<%=yeuCau.getYcId()%>"><%=yeuCau.getYcSoLuong()%></td>
+									<td id="soLuong<%=yeuCau.getYcId()%>"><%=yeuCau.getYcSoLuong() - yeuCau.getCapSoLuong()%></td>
 									<td id="soLuongCap<%=yeuCau.getYcId()%>"><%=yeuCau.getCapSoLuong()%></td>
 								<% count++;} %>
 							</table>
@@ -225,7 +225,7 @@
 			<div class="form-title" style="margin-top: 10px;">Thêm yêu cầu vật tư</div>
 			<div id="view-table-them">
 			<table style= "width:900px; margin: 0 auto;margin-top: 10px;"  >
-				<tr><th >Mã vật tư</th><th >Tên vật tư</th><th >Nơi sản xuất</th><th >Chất lượng</th><th >Đơn vị tính</th><th >Số lượng tồn</th><th >Số lượng thiếu</th></tr>
+				<tr><th >Mã vật tư</th><th >Tên vật tư</th><th >Nơi sản xuất</th><th >Chất lượng</th><th >Đơn vị tính</th><th >Số lượng tồn</th><th >Số lượng thiếu</th><th colspan="2">Chức năng</th></tr>
 				<tr>
 					<td><div id="vtMaAdd"></div></td>
 					<td><div id="vtTenAdd"></div></td>
@@ -251,7 +251,7 @@
 			<div class = "form-title" style="margin-top: 10px;">Thay đổi số lượng thiếu</div>
 			<div id="view-table-doi" class="scroll-vat-tu">
 			<table style= "width:900px; margin: 0 auto;" >
-				<tr><th >Mã vật tư</th><th >Tên vật tư</th><th >Nơi sản xuất</th><th >Chất lượng</th><th >Đơn vị tính</th><th >Số lượng tồn</th><th >Số lượng thiếu</th></tr>
+				<tr><th >Mã vật tư</th><th >Tên vật tư</th><th >Nơi sản xuất</th><th >Chất lượng</th><th >Đơn vị tính</th><th >Số lượng tồn</th><th >Số lượng thiếu</th><th colspan="2">Chức năng</th></tr>
 				<tr>
 					<td><div id="vtMaUpdate"></div></td>
 					<td><div id="vtTenUpdate"></div></td>
@@ -270,7 +270,7 @@
 			<div class = "form-title"style="margin-top: 10px;">Cấp phát vật tư</div>
 			<div id="view-table-cap" class="scroll-vat-tu">
 			<table style= "width:900px; margin: 0 auto;" >
-				<tr><th >Mã vật tư</th><th>Tên vật tư</th><th>Nơi sản xuất</th><th >Chất lượng</th><th >Đơn vị tính</th><th >Số lượng tồn</th><th >Số lượng thiếu</th><th>Số lượng cấp</th></tr>
+				<tr><th >Mã vật tư</th><th>Tên vật tư</th><th>Nơi sản xuất</th><th >Chất lượng</th><th >Đơn vị tính</th><th >Số lượng tồn</th><th >Số lượng thiếu</th><th>Số lượng cấp</th><th colspan="2">Chức năng</th></tr>
 				<tr>
 					<td><div id="vtMaCap"></div></td>
 					<td><div id="vtTenCap"></div></td>
@@ -281,7 +281,7 @@
 					<td><div id="soLuongTonCap"></div></td>
 					<td><div id="soLuongThieu"></div></td>
 					<td><input type="number" min=0 autofocus  name="soLuongCap" title="So luong phai la so!!!"  class="text" style="width: 80px;"></td>
-					<td><button class="button" type="button" id="capVatTu">Lưu lại</button></td>
+					<td><button class="button" type="button" id="capVatTu" >Lưu lại</button></td>
 					<td><button class="button" type="button" id="thoatCapVt">Thoát</button></td>
 				</tr>
 			</table>

@@ -382,11 +382,11 @@
 
 #add-form {
 	display: none;
-	width: 63%;
+	width: 70%;
 	/*    height: 36%*/
 	position: absolute;
-	left: 17%;
-	right: 17% /*	margin: 0 auto;*/ 
+	left: 15%;
+	right: 15% /*	margin: 0 auto;*/ 
 	 float: left;
 	top: 20%;
 	z-index: 50;
@@ -402,12 +402,11 @@
 
 #update-form {
 	display: none;
-	width: 66%;1111
-	width: 63%;
+	width: 70%;
 	/*    height: 36%*/
 	position: absolute;
-	left: 17%;
-	right: 17%;
+	left: 15%;
+	right: 15%;
 	top: 20%;
 	z-index: 50;
 	/*    bottom: 32%;*/

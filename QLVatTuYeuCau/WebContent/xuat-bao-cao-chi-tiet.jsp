@@ -127,47 +127,52 @@ display:none;
 			<% }%>
 		<div style="margin-right: 10px;padding-left: 750px;font-size: 17px;">Ngày in:&nbsp;&nbsp;&nbsp;&nbsp;  <%=DateUtil.toString(new java.util.Date())%></div>
 			<div id="view-table-bao-cao">
-					<table style="text-align: center;margin: 0 auto; color: black;border: solid 1px black;width:1224px;">
+					<table style="text-align: center;margin: 0 auto; color: black;border: solid 1px black;">
 					<thead>
 						<tr bgcolor="#199e5e"  style= "border-style: solid;border-color:black;">
 <!-- 							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="a-column">Số đến</th> -->
-							<th style="border: 1px solid black;font-size: 17px;width: 100px;" class="b-column">Ngày nhận</th>
-							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="c-column">Mã vật tư</th>
-							<th style="border: 1px solid black;font-size: 17px;width: 350px;" class="d-column">Tên vật tư</th>
-							<th style="border: 1px solid black;font-size: 17px;width: 100px;" class="e-column">Nơi sản xuất</th>
-							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="f-column">Đvt</th>
-							<th style="border: 1px solid black;font-size: 17px;width: 100px;" class="g-column">Trạng thái</th>
-							<th style="border: 1px solid black;font-size: 17px;width: 200px;" class="k-column">Đơn vị</th>
-							<th style="border: 1px solid black;font-size: 17px;width: 100px;" class="h-column">Chất lượng</th>
-							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="m-column">Số lượng</th>
+							<th style="width: 50px;">Ngày nhận</th>
+							<th style="width: 50px;">Mã vật tư</th>
+							<th style="width: 350px;">Tên vật tư</th>
+							<th style="width: 150px;">Nơi sản xuất</th>
+							<th style="width: 150px;">Chất lượng</th>
+							<th style="width: 50px;">Đvt</th>
+							<th style="width: 50px;">Số lượng</th>
+							<th style="width: 250px;">Trạng thái</th>
+							<th style="width: 400px;">Đơn vị yêu cầu</th>
+							<th style="width: 400px;">Nội dung công tác</th>
 							
 						</tr>
 						</thead>
 								<tbody>
 								<%
 								if(yeuCauHash != null) {
-								 int cnt = 0;
-								for(CongVan congVan  : congVanList) {
+									 int cnt = 0;
+									for(CongVan congVan  : congVanList) { 
 									ArrayList<YeuCau> yeuCauList = yeuCauHash.get(congVan.getCvId());
 									ArrayList<CTVatTu> ctVatTuList = ctVatTuHash.get(congVan.getCvId());
+									int i = 0;
 									for (YeuCau yeuCau : yeuCauList) {
-										CTVatTu ctVatTu = ctVatTuList.get(cnt);
-								%>
+										CTVatTu ctVatTu = ctVatTuList.get(i);
+										i++;
+									%>
 								<tr 
 									<%if (cnt % 2 == 0) out.println("style=\"background : #CCFFFF;\"");%>
 									style= "border-style: solid;border-color:black black black black;">
-<%-- 									<td style="border: 1px solid black;font-size: 17px;" class="a-column"><%=congVan.getSoDen() %></td> --%>
-									<td style="border: 1px solid black;font-size: 17px;" class="b-column"><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td>
-<%-- 									<td style="border: 1px solid black;font-size: 17px;" class="a-column"><%=congVan.getSoDen() %></td> --%>
-<%-- 									<td style="border: 1px solid black;font-size: 17px;" class="b-column"><%=congVan.getCvNgayNhan() %></td> --%>
-									<td style="border: 1px solid black;font-size: 17px;" class="c-column"><%=ctVatTu.getVatTu().getVtMa() %></td>
-									<td style="border: 1px solid black;font-size: 17px;text-align: left;" class="d-column"><%=ctVatTu.getVatTu().getVtTen() %></td>
-									<td style="border: 1px solid black;font-size: 17px;" class="e-column"><%=ctVatTu.getNoiSanXuat().getNsxTen() %></td>
-									<td style="border: 1px solid black;font-size: 17px;" class="f-column"><%=ctVatTu.getVatTu().getDvt().getDvtTen() %></td>
-									<td style="border: 1px solid black;font-size: 17px;" class="g-column"><%=congVan.getTrangThai().getTtTen() %></td>
-									<td style="border: 1px solid black;font-size: 17px;" class="h-column"><%=congVan.getDonVi().getDvTen()%></td>
-									<td style="border: 1px solid black;font-size: 17px;" class="k-column"><%=ctVatTu.getChatLuong().getClTen() %></td>
-									<td style="border: 1px solid black;font-size: 17px;" class="m-column"><%=yeuCau.getYcSoLuong() %></td>
+<%-- 								<td style="width: 50px; text-align: center;"><%=congVan.getSoDen() %></td> --%>
+									<td style="text-align: center;"><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td>
+			<%-- 						<td style="width: 50px; text-align: center;"><%=congVan.getSoDen() %></td> --%>
+			<%-- 						<td style="width: 100px; text-align: center;"><%=congVan.getCvNgayNhan() %></td> --%>
+									<td style="text-align: center;"><%=ctVatTu.getVatTu().getVtMa() %></td>
+									<td style="text-align: left;"><%=ctVatTu.getVatTu().getVtTen() %></td>
+									<td style="text-align: left;"><%=ctVatTu.getNoiSanXuat().getNsxTen() %></td>
+									<td style="text-align: left;"><%=ctVatTu.getChatLuong().getClTen() %></td>
+			<%-- 						<td style="text-align: left; width: 100px;"><%=yeuCau.getCtVatTu().getNoiSanXuat().getNsxTen() %></td> --%>
+									<td style="text-align: center;"><%=ctVatTu.getVatTu().getDvt().getDvtTen() %></td>
+									<td style="text-align: center;"><%=yeuCau.getYcSoLuong() %></td>
+									<td style="text-align: left;"><%=congVan.getTrangThai().getTtTen() %></td>
+									<td style="text-align: left;"><%=congVan.getDonVi().getDvTen()%></td>
+									<td style="text-align: left;"><%=congVan.getTrichYeu()%></td>
 	
 								</tr>
 									<%cnt++;}} %>

@@ -678,13 +678,13 @@
 	margin: 0 auto;
 }
 #add-so-luong-form,#update-so-luong-form,#cap-so-luong-form  {
-	width:70%;
+	width:80%;
 	height: 20%;
 	border-radius: 10px;
 	background-color: #dceaf5;
 	display: none;
 	top: 18%;
-	left: 18%;
+	left: 10%;
 	position: absolute;
 	margin: 0 auto;
 }/*

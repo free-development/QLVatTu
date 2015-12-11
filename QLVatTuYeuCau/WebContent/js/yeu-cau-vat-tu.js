@@ -276,7 +276,7 @@ function capVatTu() {
 	  			alert('Cấp phát vật tư thành công');
 	  			$('input[name=soLuongCap]').val('0');
 	  			$('#soLuongTon' + ycVatTu.ycId).html(ctVatTu.soLuongTon);
-				$('#soLuong' + ycVatTu.ycId).html(ycVatTu.ycSoLuong);
+				$('#soLuong' + ycVatTu.ycId).html(ycVatTu.ycSoLuong - ycVatTu.capSoLuong);
 				$('#soLuongCap' + ycVatTu.ycId).html(ycVatTu.capSoLuong);
 				$('#view-search #soLuongTon' + ctVatTu.ctvtId).html(ctVatTu.soLuongTon);
 //				$('#view-table-yc table tr td').has('input[name="yeuCau"]:checked').prop('checked',false);

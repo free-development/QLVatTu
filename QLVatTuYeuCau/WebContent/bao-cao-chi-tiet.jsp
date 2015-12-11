@@ -134,7 +134,8 @@
 						<th style="width: 50px;">Ngày nhận</th>
 						<th style="width: 50px;">Mã vật tư</th>
 						<th style="width: 350px;">Tên vật tư</th>
-<!-- 						<th style="width: 100px;">Nơi sản xuất</th> -->
+						<th style="width: 100px;">Nơi sản xuất</th>
+						<th style="width: 100px;">Chất lượng</th>
 						<th style="width: 50px;">Đvt</th>
 						<th style="width: 50px;">Số lượng</th>
 						<th style="width: 100px;">Trạng thái</th>
@@ -158,17 +159,19 @@
 					<tr
 						<%if (cnt % 2 == 1) out.println("style=\"background : #CCFFFF;\"");%>>
 <%-- 						<td style="width: 50px; text-align: center;"><%=congVan.getSoDen() %></td> --%>
-						<td style="width: 50px; text-align: center;"><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td>
-<%-- 						<td style="width: 50px; text-align: center;"><%=congVan.getSoDen() %></td> --%>
-<%-- 						<td style="width: 100px; text-align: center;"><%=congVan.getCvNgayNhan() %></td> --%>
-						<td style="width: 50px; text-align: center;"><%=ctVatTu.getVatTu().getVtMa() %></td>
-						<td style="text-align: left; width: 300px;"><%=ctVatTu.getVatTu().getVtTen() %></td>
-<%-- 						<td style="text-align: left; width: 100px;"><%=yeuCau.getCtVatTu().getNoiSanXuat().getNsxTen() %></td> --%>
-						<td style="width: 50px;text-align: center;"><%=ctVatTu.getVatTu().getDvt().getDvtTen() %></td>
-						<td style="width: 50px; text-align: center;"><%=yeuCau.getYcSoLuong() %></td>
-						<td style="text-align: left; width: 100px;"><%=congVan.getTrangThai().getTtTen() %></td>
-						<td style="text-align: left; width: 150px;"><%=congVan.getDonVi().getDvTen()%></td>
-						<td style="text-align: left; width: 100px;"><%=congVan.getTrichYeu()%></td>
+							<td style="width: 50px; text-align: center;"><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td>
+	<%-- 						<td style="width: 50px; text-align: center;"><%=congVan.getSoDen() %></td> --%>
+	<%-- 						<td style="width: 100px; text-align: center;"><%=congVan.getCvNgayNhan() %></td> --%>
+							<td style="width: 50px; text-align: center;"><%=ctVatTu.getVatTu().getVtMa() %></td>
+							<td style="text-align: left; width: 300px;"><%=ctVatTu.getVatTu().getVtTen() %></td>
+							<td style="text-align: left; width: 300px;"><%=ctVatTu.getNoiSanXuat().getNsxTen() %></td>
+							<td style="text-align: left; width: 300px;"><%=ctVatTu.getChatLuong().getClTen() %></td>
+	<%-- 						<td style="text-align: left; width: 100px;"><%=yeuCau.getCtVatTu().getNoiSanXuat().getNsxTen() %></td> --%>
+							<td style="width: 50px;text-align: center;"><%=ctVatTu.getVatTu().getDvt().getDvtTen() %></td>
+							<td style="width: 50px; text-align: center;"><%=yeuCau.getYcSoLuong() %></td>
+							<td style="text-align: left; width: 100px;"><%=congVan.getTrangThai().getTtTen() %></td>
+							<td style="text-align: left; width: 150px;"><%=congVan.getDonVi().getDvTen()%></td>
+							<td style="text-align: left; width: 100px;"><%=congVan.getTrichYeu()%></td>
 						
 
 					</tr>
