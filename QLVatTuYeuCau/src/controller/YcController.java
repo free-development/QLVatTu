@@ -51,7 +51,6 @@ public class YcController extends HttpServlet {
 		
 		//sString[] s = request.getParameterValues("cvId");
 		String s = request.getParameter("cvId");
-		String cvSo = request.getParameter("cvSo");
 		//if(s[0] == null)
 		
 		if(s == null)

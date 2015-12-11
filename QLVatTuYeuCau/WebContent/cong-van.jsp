@@ -275,7 +275,7 @@ countAdd = '0';
 						<tr>
 							
 							<%
-								if (chucDanh.equals(truongPhongMa) || chucDanh.equals(vanThuMa)  || chucDanh.equals(adminMa) || chucDanh.equals(phoPhongMa)) { %>
+								if (chucDanh.equals(truongPhongMa) || chucDanh.equals(vanThuMa)  || chucDanh.equals(adminMa) || chucDanh.equals(phoPhongMa) || thuKyMa.equals(chucDanhMa)) { %>
 									<td class="left-column-first" style="font-weight: bold;">Người xử lý</td>
 									<td class="column-color"colspan="3">
 									<%
@@ -299,7 +299,7 @@ countAdd = '0';
 								
 								</tr>
 								
-								<% if (chucDanh.equals(nhanVienMa) || chucDanh.equals(adminMa) || chucDanh.equals(phoPhongMa) || chucDanh.equals(vanThuMa) ) {%>
+								<% if (chucDanh.equals(nhanVienMa) || chucDanh.equals(adminMa) || chucDanh.equals(phoPhongMa) || chucDanh.equals(vanThuMa) || thuKyMa.equals(chucDanhMa)) {%>
 								<tr>
 									<td class="left-column-first" style="font-weight: bold;">Vai trò</td>
 									<td class="column-color"colspan="5">
@@ -491,7 +491,7 @@ countAdd = '0';
 
 				<!--    		</form>  -->
 				<!--                add-form-->
-				<%if (chucDanh.equals(truongPhongMa) || chucDanh.equals(vanThuMa)  || chucDanh.equals(adminMa)) { %>
+				<%if (chucDanh.equals(truongPhongMa) || chucDanh.equals(vanThuMa)  || chucDanh.equals(adminMa) || chucDanh.equals(thuKyMa)) { %>
 				<form id="add-form" action="<%=siteMap.addCv %>" enctype="multipart/form-data" method="post">
 
 					<div class="form-title">Thêm công văn</div>

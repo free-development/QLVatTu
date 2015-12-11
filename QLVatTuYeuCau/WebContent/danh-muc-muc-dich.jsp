@@ -143,13 +143,13 @@
 							<table>
 								<div class="form-title">Thêm mục đích</div>
 								<tr>
-									<th "width:100px;">Mã mục đích:</th>
+									<th >Mã mục đích:</th>
 									<td><input name="mdMa" type="text" class="text" required
 										autofocus size="2" maxlength="3" onkeypress="changeMdMa();" pattern="[a-zA-Z0-9]{3}"
 										title="Mã mục đích chỉ gồm 3 ký tự, không chứ khoảng trắng và ký tự đặc biệt"><div id="requireMdMa" style="color: red"></div></td>
 								</tr>
 								<tr>
-									<th style="width:100px;">Tên mục đích:</th>
+									<th >Tên mục đích:</th>
 									<td><input name="mdTen" size="30px" align=left type="text"
 										class="text" onkeypress="changeMdTen();" required title="Tên mục đích không được để trống"><div id="requireMdTen" style="color: red"></div></td>
 								</tr>
@@ -176,14 +176,14 @@
 							<table>
 								<div class="form-title">Cập nhật mục đích</div>
 								<tr>
-									<th "width:100px;"><label for="MMD">Mã mục đích: </label></th>
+									<th ><label for="MMD">Mã mục đích: </label></th>
 									<td><input name="mdMaUpdate" type="text" class="text"
 										required size="2" maxlength="3" pattern="[a-zA-Z0-9]{3}"
 										title="Mã mục đích chỉ gồm 3 ký tự, không chứa khoảng trắng và ký tự đặc biệt"
 										value="MMA" readonly style="background-color: #D1D1E0;"></td>
 								</tr>
 								<tr>
-									<th style="width:100px;"><label for="MMD">Tên mục đích: </label></th>
+									<th><label for="MMD">Tên mục đích: </label></th>
 									<td><input id="mdTenFocus" name="mdTenUpdate" autofocus size="30px"
 										 type="text" class="text" onkeypress="changeMdTen();" required
 										title="Tên mục đích không được để trống"><div id="requireMdTenUpdate" style="color: red"></div></td>

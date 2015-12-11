@@ -27,11 +27,7 @@
 		google.load("jquery", "1");
 	</script>
 	<script src="js/jquery.autocomplete.js"></script>
-	<style>
-		input {
-			font-size: 120%;
-		}
-	</style>
+	
 	<script type="text/javascript">
 	
 	</script>
@@ -171,7 +167,7 @@
 						<div class="form-title">Cập nhật thông tin</div>
 						<tr>
 						<td class="input"><label for="msnv">Mã số nhân viên</label></td>
-						<td><input type="text" autofocus required size="12"
+						<td><input type="text" autofocus required size="12" style="background: #D1D1E0;"
 							maxlength="10" placeholder="Mã số nhân viên"
 							title="Mã số nhân hơn 4 ký tự, không chứa ký tự đặc biệt"
 							pattern="[a-zA-Z0-9]{4}[a-zA-Z0-9]*" class="text" id="msnv" name="msnv" onkeypress="changeMsnv();"readonly><div id="requireMsnv" style="color: red"></div></td>

@@ -4,20 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.JOptionPane;
-
-import model.CTVatTu;
-import model.ChatLuong;
-import model.ChucDanh;
-import model.NoiSanXuat;
-import model.VaiTro;
-import model.VatTu;
-import model.DonViTinh;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -27,14 +17,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import util.JSonUtil;
+import dao.CTVatTuDAO;
 import dao.ChatLuongDAO;
-import dao.ChucDanhDAO;
-import dao.DonViDAO;
+import dao.DonViTinhDAO;
 import dao.NoiSanXuatDAO;
 import dao.VatTuDAO;
-import dao.CTVatTuDAO;
-import dao.DonViTinhDAO;
+import model.ChatLuong;
+import model.DonViTinh;
+import model.NoiSanXuat;
+import model.VatTu;
+import util.JSonUtil;
 
 @Controller
 public class VattuController extends HttpServlet {
@@ -166,6 +158,7 @@ public class VattuController extends HttpServlet {
 		String[] str = vtList.split("\\, ");
 		
 		VatTuDAO vatTuDAO = new VatTuDAO();
+		CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
 		for(String vtMa : str) {
 			vatTuDAO.deleteVatTu(vtMa);
 		}

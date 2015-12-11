@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileCleaner;
 import org.hibernate.HibernateException;
 import org.hibernate.criterion.LogicalExpression;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,7 +115,7 @@ public class CvController extends HttpServlet{
     	ArrayList<CongVan> congVanList = (ArrayList<CongVan>) congVanDAO.searchLimit(msnvTemp, conditions, orderBy, 0, 3);
     	//chung
 		HashMap<Integer, File> fileHash = new HashMap<Integer, File>();
-		if (cdMa.equals(vanThuMa) || cdMa.equals(truongPhongMa) || cdMa.equals(adminMa) || cdMa.equals(phoPhongMa)) {
+		if (cdMa.equals(vanThuMa) || cdMa.equals(truongPhongMa) || cdMa.equals(adminMa) || cdMa.equals(phoPhongMa) || cdMa.equals(thuKyMa) ) {
 			MucDichDAO mucDichDAO =  new MucDichDAO();
 	    	DonViDAO donViDAO =  new DonViDAO();
 			ArrayList<DonVi> donViList = (ArrayList<DonVi>) donViDAO.getAllDonVi();
@@ -137,7 +138,7 @@ public class CvController extends HttpServlet{
 		ArrayList<ArrayList<VaiTro>> vaiTroList = new ArrayList<ArrayList<VaiTro>> ();
 		ArrayList<ArrayList<VTCongVan>> vtCongVanList = new ArrayList<ArrayList<VTCongVan>> ();
 		ArrayList<String> ttMaList =  new ArrayList<String>();
-		if (msnvTemp != null || phoPhongMa.equals(cdMa) || adminMa.equals(cdMa) || vanThuMa.equals(cdMa)) {
+		if (msnvTemp != null || phoPhongMa.equals(cdMa) || adminMa.equals(cdMa) || vanThuMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
 			VaiTroDAO vaiTroDAO =  new VaiTroDAO();
 			for(CongVan congVan : congVanList) {
 				int cvId = congVan.getCvId();
@@ -152,7 +153,7 @@ public class CvController extends HttpServlet{
 			request.setAttribute("vtCongVanList", vtCongVanList);
 			
 		}
-		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || phoPhongMa.equals(cdMa)) {
+		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || phoPhongMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
 			for(CongVan congVan : congVanList) {
 				//System.out.println(congVan.getSoDen());
 				int cvId = congVan.getCvId();
@@ -504,11 +505,17 @@ public class CvController extends HttpServlet{
 		String[] congVanList = cvId.split("\\, ");
 		CongVanDAO congVanDAO = new CongVanDAO();
 		StringBuilder content = new StringBuilder("");
+		FileDAO fileDAO = new FileDAO();
 		for (String s : congVanList) {
 			int id = Integer.parseInt(s);
 			CongVan congVan = congVanDAO.getCongVan(id);
 			content.append("&nbsp;&nbsp;+ Số đến " + congVan.getSoDen() + " nhận ngày " + congVan.getCvNgayNhan() + "<br>");
 			congVanDAO.deleteCongVan(id);
+//			File file = fileDAO.getByCongVanId(id);
+//			java.io.File fileDel = new java.io.File(file.getDiaChi());
+//			File
+//			fileDAO.deleteFileByCvID(id);
+			
 		}
 		content.delete(content.length() - 4, content.length());
 		congVanDAO.disconnect();
@@ -548,6 +555,7 @@ public class CvController extends HttpServlet{
     	vanThuMa = context.getInitParameter("vanThuMa");
     	adminMa = context.getInitParameter("adminMa");
     	phoPhongMa = context.getInitParameter("phoPhongMa");
+    	thuKyMa = context.getInitParameter("thuKyMa");
     	String nhanVienMa = context.getInitParameter("nhanVienMa");
 		NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoiDung");
     	String msnv = nguoiDung.getMsnv();
@@ -567,7 +575,7 @@ public class CvController extends HttpServlet{
 //		date = new HashMap<Integer, Integer>();
 		String cdMa = nguoiDung.getChucDanh().getCdMa();
 		String msnvTemp = msnv;
-		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || phoPhongMa.equals(cdMa))
+		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || phoPhongMa.equals(cdMa) || cdMa.equals(thuKyMa))
 			msnvTemp = null;
 		
 		if (ttMa.length() > 0)
@@ -597,7 +605,7 @@ public class CvController extends HttpServlet{
 		ArrayList<ArrayList<VaiTro>> vaiTroList = new ArrayList<ArrayList<VaiTro>> ();
 		ArrayList<ArrayList<VTCongVan>> vtCongVanList = new ArrayList<ArrayList<VTCongVan>> ();
 		VTCongVanDAO vtcvDAO = new VTCongVanDAO();
-		if (msnvTemp != null || phoPhongMa.equals(cdMa)|| vanThuMa.equals(cdMa) || adminMa.equals(cdMa)) {
+		if (msnvTemp != null || phoPhongMa.equals(cdMa)|| vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
 			VaiTroDAO vaiTroDAO = new VaiTroDAO();
 			for (CongVan congVan : congVanList) {
 				int cvId = congVan.getCvId();
@@ -608,7 +616,7 @@ public class CvController extends HttpServlet{
 			}
 			vaiTroDAO.disconnect();
 		} 
-		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || phoPhongMa.equals(cdMa)){
+		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || phoPhongMa.equals(cdMa) || thuKyMa.equals(cdMa)){
 			for(CongVan congVan : congVanList) {
 				File file = fileDAO.getByCongVanId(congVan.getCvId());
 				fileList.add(file);
@@ -638,7 +646,7 @@ public class CvController extends HttpServlet{
 		if (msnvTemp == null) {
 			objectList.add(4, nguoiXlCongVan);
 		}
-		if (cdMa.equals(nhanVienMa) || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa)) {
+		if (cdMa.equals(nhanVienMa) || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
 			objectList.add(5, vaiTroList);
 			objectList.add(6, vtCongVanList);
 		}
@@ -652,6 +660,7 @@ public class CvController extends HttpServlet{
     	vanThuMa = context.getInitParameter("vanThuMa");
     	adminMa = context.getInitParameter("adminMa");
     	phoPhongMa = context.getInitParameter("phoPhongMa");
+    	thuKyMa = context.getInitParameter("thuKyMa");
     	String nhanVienMa = context.getInitParameter("nhanVienMa");
 		NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoiDung");
     	String msnv = nguoiDung.getMsnv();
@@ -691,7 +700,7 @@ public class CvController extends HttpServlet{
 		}
 		String cdMa = nguoiDung.getChucDanh().getCdMa();
 		String msnvTemp = msnv;
-		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || cdMa.equals(adminMa) || cdMa.equals(phoPhongMa))
+		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || cdMa.equals(adminMa) || cdMa.equals(phoPhongMa) || thuKyMa.equals(cdMa))
 			msnvTemp = null;
 		ArrayList<Integer> dateList = new ArrayList<Integer>();
 		dateList = congVanDAO.groupByDate(msnvTemp, conditions, y, m);
@@ -706,7 +715,7 @@ public class CvController extends HttpServlet{
 		ArrayList<ArrayList<VaiTro>> vaiTroList = new ArrayList<ArrayList<VaiTro>> ();
 		ArrayList<ArrayList<VTCongVan>> vtCongVanList = new ArrayList<ArrayList<VTCongVan>> ();
 		VTCongVanDAO vtcvDAO = new VTCongVanDAO();
-		if (msnvTemp != null || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa)) {
+		if (msnvTemp != null || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
 			VaiTroDAO vaiTroDAO = new VaiTroDAO();
 			for (CongVan congVan : congVanList) {
 				int cvId = congVan.getCvId();
@@ -717,7 +726,7 @@ public class CvController extends HttpServlet{
 			}
 			vaiTroDAO.disconnect();
 		} 
-		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || phoPhongMa.equals(cdMa)){
+		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || phoPhongMa.equals(cdMa) || thuKyMa.equals(cdMa)){
 			for(CongVan congVan : congVanList) {
 				int cvId = congVan.getCvId();
 				ArrayList<String> nguoiXl = vtcvDAO.getNguoiXl(cvId);
@@ -745,7 +754,7 @@ public class CvController extends HttpServlet{
 		if (msnvTemp == null) {
 			objectList.add(4, nguoiXlCongVan);
 		}
-		if (cdMa.equals(nhanVienMa) || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa)) {
+		if (cdMa.equals(nhanVienMa) || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
 			objectList.add(5, vaiTroList);
 			objectList.add(6, vtCongVanList);
 		}
@@ -759,6 +768,7 @@ public class CvController extends HttpServlet{
     	vanThuMa = context.getInitParameter("vanThuMa");
     	adminMa = context.getInitParameter("adminMa");
     	phoPhongMa = context.getInitParameter("phoPhongMa");
+    	thuKyMa = context.getInitParameter("thuKyMa");
     	String nhanVienMa = context.getInitParameter("nhanVienMa");
 		NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoiDung");
     	String msnv = nguoiDung.getMsnv();
@@ -785,7 +795,7 @@ public class CvController extends HttpServlet{
 		orderBy.put("cvNgayNhan", true);
 		String cdMa = nguoiDung.getChucDanh().getCdMa();
 		String msnvTemp = msnv;
-		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || cdMa.equals(adminMa) || phoPhongMa.equals(cdMa))
+		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || cdMa.equals(adminMa) || phoPhongMa.equals(cdMa) || thuKyMa.equals(cdMa))
 			msnvTemp = null;
 		if (checked) {
 //			date.put(y+"#"+m, null);
@@ -810,7 +820,7 @@ public class CvController extends HttpServlet{
 		ArrayList<ArrayList<VaiTro>> vaiTroList = new ArrayList<ArrayList<VaiTro>> ();
 		ArrayList<ArrayList<VTCongVan>> vtCongVanList = new ArrayList<ArrayList<VTCongVan>> ();
 		VTCongVanDAO vtcvDAO = new VTCongVanDAO();
-		if (msnvTemp != null || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa)) {
+		if (msnvTemp != null || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
 			VaiTroDAO vaiTroDAO = new VaiTroDAO();
 			for (CongVan congVan : congVanList) {
 				int cvId = congVan.getCvId();
@@ -821,7 +831,7 @@ public class CvController extends HttpServlet{
 			}
 			vaiTroDAO.disconnect();
 		} 
-		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || phoPhongMa.equals(cdMa)) {
+		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || phoPhongMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
 			for(CongVan congVan : congVanList) {
 				int cvId = congVan.getCvId();
 				ArrayList<String> nguoiXl = vtcvDAO.getNguoiXl(cvId);
@@ -847,7 +857,7 @@ public class CvController extends HttpServlet{
 		if (msnvTemp == null) {
 			objectList.add(3, nguoiXlCongVan);
 		}
-		if (cdMa.equals(nhanVienMa) || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa)) {
+		if (cdMa.equals(nhanVienMa) || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
 			objectList.add(4, vaiTroList);
 			objectList.add(5, vtCongVanList);
 		}
@@ -861,13 +871,14 @@ public class CvController extends HttpServlet{
     	vanThuMa = context.getInitParameter("vanThuMa");
     	adminMa = context.getInitParameter("adminMa");
     	phoPhongMa = context.getInitParameter("phoPhongMa");
+    	thuKyMa = context.getInitParameter("thuKyMa");
     	String nhanVienMa = context.getInitParameter("nhanVienMa");
 		NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoiDung");
 		
     	String msnv = nguoiDung.getMsnv();
     	String cdMa = nguoiDung.getChucDanh().getCdMa();
 		String msnvTemp = msnv;
-		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || cdMa.equals(adminMa) || cdMa.equals(phoPhongMa))
+		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || cdMa.equals(adminMa) || cdMa.equals(phoPhongMa) || thuKyMa.equals(cdMa))
 			msnvTemp = null;
 		
 		ttMa = trangThai;
@@ -900,7 +911,7 @@ public class CvController extends HttpServlet{
 		ArrayList<ArrayList<VaiTro>> vaiTroList = new ArrayList<ArrayList<VaiTro>> ();
 		ArrayList<ArrayList<VTCongVan>> vtCongVanList = new ArrayList<ArrayList<VTCongVan>> ();
 		VTCongVanDAO vtcvDAO = new VTCongVanDAO();
-		if (msnvTemp != null || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa)) {
+		if (msnvTemp != null || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
 			VaiTroDAO vaiTroDAO = new VaiTroDAO();
 			for (CongVan congVan : congVanList) {
 				int cvId = congVan.getCvId();
@@ -911,7 +922,7 @@ public class CvController extends HttpServlet{
 			}
 			vaiTroDAO.disconnect();
 		} 
-		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || phoPhongMa.equals(cdMa)) {
+		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || phoPhongMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
 			for(CongVan congVan : congVanList) {
 				int cvId = congVan.getCvId();
 				ArrayList<String> nguoiXl = vtcvDAO.getNguoiXl(cvId);
@@ -937,7 +948,7 @@ public class CvController extends HttpServlet{
 		if (msnvTemp == null) {
 			objectList.add(3, nguoiXlCongVan);
 		} 
-		if (cdMa.equals(nhanVienMa) || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa)) {
+		if (cdMa.equals(nhanVienMa) || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
 			objectList.add(4, vaiTroList);
 			objectList.add(5, vtCongVanList);
 		}
@@ -951,12 +962,13 @@ public class CvController extends HttpServlet{
     	vanThuMa = context.getInitParameter("vanThuMa");
     	adminMa = context.getInitParameter("adminMa");
     	phoPhongMa = context.getInitParameter("phoPhongMa");
+    	thuKyMa = context.getInitParameter("thuKyMa");
     	String nhanVienMa = context.getInitParameter("nhanVienMa");
 		NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoiDung");
     	String msnv = nguoiDung.getMsnv();
     	String cdMa = nguoiDung.getChucDanh().getCdMa();
 		String msnvTemp = msnv;
-		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || cdMa.equals(adminMa) || cdMa.equals(phoPhongMa))
+		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || cdMa.equals(adminMa) || cdMa.equals(phoPhongMa) || thuKyMa.equals(cdMa))
 			msnvTemp = null;
 		
 		if (filter.equals("mdMa"))
@@ -998,7 +1010,7 @@ public class CvController extends HttpServlet{
 		ArrayList<ArrayList<VaiTro>> vaiTroList = new ArrayList<ArrayList<VaiTro>> ();
 		ArrayList<ArrayList<VTCongVan>> vtCongVanList = new ArrayList<ArrayList<VTCongVan>> ();
 		VTCongVanDAO vtcvDAO = new VTCongVanDAO();
-		if (msnvTemp != null || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa)) {
+		if (msnvTemp != null || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
 			VaiTroDAO vaiTroDAO = new VaiTroDAO();
 			for (CongVan congVan : congVanList) {
 				int cvId = congVan.getCvId();
@@ -1009,7 +1021,7 @@ public class CvController extends HttpServlet{
 			}
 			vaiTroDAO.disconnect();
 		} 
-		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || phoPhongMa.equals(cdMa)) {
+		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || phoPhongMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
 			for(CongVan congVan : congVanList) {
 				
 				int cvId = congVan.getCvId();
@@ -1039,7 +1051,7 @@ public class CvController extends HttpServlet{
 		if (msnvTemp == null) {
 			objectList.add(3, nguoiXlCongVan);
 		}
-		if (cdMa.equals(nhanVienMa) || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa)) {
+		if (cdMa.equals(nhanVienMa) || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
 			objectList.add(4, vaiTroList);
 			objectList.add(5, vtCongVanList);
 		}
@@ -1098,7 +1110,7 @@ public class CvController extends HttpServlet{
  
 			VTCongVanDAO vtcvDAO = new VTCongVanDAO();
 			 
-			if (msnvTemp != null || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa)) {
+			if (msnvTemp != null || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
 				VaiTroDAO vaiTroDAO = new VaiTroDAO();
 				for (CongVan congVan : congVanList) {
 					int cvId = congVan.getCvId();
@@ -1109,7 +1121,7 @@ public class CvController extends HttpServlet{
 				}
 				vaiTroDAO.disconnect();
 			} 
-			if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || phoPhongMa.equals(cdMa)) {
+			if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || phoPhongMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
 				for(CongVan congVan : congVanList) {
 					int cvId = congVan.getCvId();
 					ArrayList<String> nguoiXl = vtcvDAO.getNguoiXl(cvId);
@@ -1135,7 +1147,7 @@ public class CvController extends HttpServlet{
 			if (msnvTemp == null) {
 				objectList.add(3, nguoiXlCongVan);
 			} 
-			if (cdMa.equals(nhanVienMa) || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa)) {
+			if (cdMa.equals(nhanVienMa) || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
 				objectList.add(4, vaiTroList);
 				objectList.add(5,vtCongVanList);
 			}
@@ -1198,11 +1210,12 @@ public class CvController extends HttpServlet{
 		truongPhongMa = context.getInitParameter("truongPhongMa");
     	vanThuMa = context.getInitParameter("vanThuMa");
     	adminMa = context.getInitParameter("adminMa");
+    	thuKyMa = context.getInitParameter("thuKyMa");
 		String[] temp = trangThai.split("\\#");
 		int cvId = Integer.parseInt(temp[0]);
 		String ttMa = temp[1];
 		try {
-			if (cdMa.equals(truongPhongMa) || cdMa.equals(vanThuMa) || cdMa.equals(adminMa)) {
+			if (cdMa.equals(truongPhongMa) || cdMa.equals(vanThuMa) || cdMa.equals(adminMa) || thuKyMa.equals(cdMa)) {
 				CongVanDAO congVanDAO = new CongVanDAO();
 				
 				CongVan congVan = congVanDAO.getCongVan(cvId);

@@ -36,11 +36,7 @@
 		google.load("jquery", "1");
 	</script>
 	<script src="js/jquery.autocomplete.js"></script>  
-	<style>
-		input {
-			font-size: 120%;
-		}
-	</style>
+	
 	<script type="text/javascript">
 	
 	</script>

@@ -66,8 +66,10 @@
 								<li><a class="menu"  href="<%=siteMap.resetNguoiDung%>"/>Khôi phục tài khoản</li>
 							</ul>
 						</li>
-						<%} %>
+						
+						
 						<li><a class="menu" href="<%=siteMap.loadBackup%>">Sao lưu dữ liệu</a>
+						<%} %>
 						<li><a class="menu">Tài khoản</a>
 							<ul>
 								<li><a class="menu" href="<%=siteMap.changePassPage + ".jsp"%>">Đổi mật khẩu</a></li>

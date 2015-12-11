@@ -193,7 +193,7 @@
 										ChatLuong chatLuong = ctVatTu.getChatLuong();
 								%>
 								<tr <%if (count % 2 == 1) out.println("style=\"background : #CCFFFF;\"");%> id="<%=yeuCau.getYcId()	%>">
-									<td><input id="<%=yeuCau.getYcId() %>" type="checkbox" class="checkbox" name = "yeuCau" value=<%=yeuCau.getYcId()%>> </td>
+									<td style="text-align: center;"><input id="<%=yeuCau.getYcId() %>" type="checkbox" class="checkbox" name = "yeuCau" value=<%=yeuCau.getYcId()%>> </td>
 									<td><%=vatTu.getVtMa()%></td>
 									<td><%=vatTu.getVtTen()%></td>
 									<td><%=nsx.getNsxTen()%></td>

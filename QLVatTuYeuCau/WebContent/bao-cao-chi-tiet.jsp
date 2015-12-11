@@ -120,7 +120,7 @@
 								<td style="text-align: left;"><label class="lable1" for="CGQ">Tất cả</label></td>
 				</table>
 				<input type="hidden" name="action" value="baocaobdn">
-				<input style="margin-top: 15px;"class="button" type="submit" value="Xem" id="xem">
+				<input style="margin-top: 15px;"class="button" type="submit" value="Xem">
 <!-- 					<i class="fa fa-eye"></i>&nbsp;&nbsp;</> -->
 				<br>
 				<br>

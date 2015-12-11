@@ -108,9 +108,14 @@ public class VatTuDAO {
 	}
 	public void deleteVatTu(String vtMa){
 		session.beginTransaction();
-		String sql = "update VatTu set daXoa = 1 where vtMa = '" + vtMa + "'";		
+		String sql = "update VatTu set daXoa = 1 where vtMa = '" + vtMa + "'";
+		String sql2 = "update CTVatTu set daXoa = 1 where vtMa = '" + vtMa + "'";
 		Query query = session.createQuery(sql);
-		query.executeUpdate();
+		Query query2 = session.createQuery(sql2);
+		int result = query.executeUpdate();
+		query2.executeUpdate();
+		if (result == 0)
+			System.out.println("Không thể xóa vật tư");
 		session.getTransaction().commit();
 	}
 
@@ -137,6 +142,7 @@ public void disconnect() {
 public ArrayList<VatTu> searchVtTenLimit(String i, int first, int limit) {
 	session.beginTransaction();
 	Criteria cr = session.createCriteria(VatTu.class);
+	cr.add(Restrictions.eq("daXoa", 0));
 	cr.add(Restrictions.like("vtTen", i , MatchMode.START));
 	cr.setFirstResult(first);
 	cr.setMaxResults(limit);
@@ -157,6 +163,7 @@ public ArrayList<VatTu> searchVtTenLimit(String i, int first, int limit) {
 	session.beginTransaction();
 	Criteria cr = session.createCriteria(VatTu.class);
 	cr.add(Restrictions.like("vtMa", i, MatchMode.START));
+	cr.add(Restrictions.eq("daXoa", 0));
 	cr.setFirstResult(first);
 	cr.setMaxResults(limit);
 	ArrayList<VatTu> list = (ArrayList<VatTu>) cr.list();

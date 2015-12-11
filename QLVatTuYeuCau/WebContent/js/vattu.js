@@ -439,3 +439,9 @@ $(document).ready(function() {
 	  }
 	});   
 });  
+$(document).ready(function() {
+	$('#vattu').submit(function() {
+		timKiemVattu();
+		return false;
+	});   
+});

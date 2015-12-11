@@ -103,7 +103,8 @@ public class CTVatTuDAO {
 		session.beginTransaction();
 		String sql = "update CTVatTu set daXoa = 1 where ctvtId = " + ctVtId;		
 		Query query = session.createQuery(sql);
-		query.executeUpdate();
+		int kq =  query.executeUpdate();
+		System.out.print("delete " + kq);
 		session.getTransaction().commit();
 	}
 	public CTVatTu getCTVatTuById(final int ctvtId) {
@@ -325,6 +326,7 @@ public class CTVatTuDAO {
 	public ArrayList<CTVatTu> limit(int first, int limit) {
 		session.beginTransaction();
 		Criteria cr = session.createCriteria(CTVatTu.class, "ctVatTu");
+		cr.add(Restrictions.eq("daXoa", 0));
 		cr.createAlias("ctVatTu.noiSanXuat", "noiSanXuat");
 		cr.createAlias("ctVatTu.chatLuong", "chatLuong");
 		cr.createAlias("ctVatTu.vatTu", "vatTu");

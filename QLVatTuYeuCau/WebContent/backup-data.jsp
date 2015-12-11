@@ -55,8 +55,8 @@
 								<tr style="background: #199e5e;">
 									<th class="head" style="width: 5%;">Chọn</th>
 									<th class="head" style="width: 5%;">Số thứ tự</th>
-									<th class="head" style="width: 30%;">Thời gian</th>
-									<th class="head" style="width: 60%;">Mô tả</th>
+									<th class="head" style="width: 20%;">Thời gian</th>
+									<th class="head" style="width: 70%;">Mô tả</th>
 								</tr>
 								<%
 							if(backupList != null) {

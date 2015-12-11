@@ -89,13 +89,13 @@ function addSoLuong(){
 		  		var ctVatTu = objectList[1];
 		  			$('input:radio[name=ctvtId]').prop('checked',false);
 		  			$('input[name=soLuongAdd]').val('0');
-		  			var cells = '<td><input id=\"'+ yeuCau.ycId + '\" type=\"checkbox\" name = \"yeuCau\" value=\"' + yeuCau.ycId + '\"</td>'
+		  			var cells = '<td style=\"text-align: center;\"><input id=\"'+ yeuCau.ycId + '\" type=\"checkbox\" name = \"yeuCau\" value=\"' + yeuCau.ycId + '\"</td>'
 						+ '<td>' + ctVatTu.vatTu.vtMa + '</td>'
 						+ '<td>' + ctVatTu.vatTu.vtTen + '</td>'
 						+ '<td>' + ctVatTu.noiSanXuat.nsxTen + '</td>'
 						+ '<td>' + ctVatTu.chatLuong.clTen + '</td>'
 						+ '<td>' + ctVatTu.vatTu.dvt.dvtTen + '</td>'
-						+ '<td>' + ctVatTu.soLuongTon + '</td>'
+						+ '<td id=\"soLuongTon' + yeuCau.ycId +'\">' + ctVatTu.soLuongTon + '</td>'
 						+ '<td>' + yeuCau.ycSoLuong + '</td>'
 						+ '<td id=\"soLuongCap' + yeuCau.ycId +'\">' + yeuCau.capSoLuong + '</td>';
 					

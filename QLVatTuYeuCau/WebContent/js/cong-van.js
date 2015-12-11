@@ -588,7 +588,7 @@ function loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVa
 				style += 'background : #CCFFFF; ';
 			else
 				style += 'background : #FFFFFF; ';
-			style += ' font-size: 16px; width: 100%;\"';
+			style += ' font-size: 20px; width: 100%;\"';
 			tables +=     '<tr><td><table class=\"tableContent\" ' + style + ' class=\"border-congvan\">'
 						+ '<tr >';
 						if(chucDanhMa == vanThuMa || chucDanhMa == adminMa || chucDanhMa == thuKyMa) {
@@ -1180,6 +1180,14 @@ $(document).ready(function(){
 $(document).ready(function(){
 	$('#update-form').submit(function(){
 		updateCongVan();
+		return false;
+	});
+});
+$(document).ready(function(){
+	$('#search-form').submit(function(){
+		var filterValue = $('#filterValue').val()+'';	
+		var filter = $('#filter').val();
+		filterData(filter, filterValue);
 		return false;
 	});
 });

@@ -81,5 +81,9 @@ public class FileDAO {
 		if (session.isConnected())
 			session.disconnect();
 	}
+	public void deleteFileByCvID(int id) {
+		
+		
+	}
 
 }
