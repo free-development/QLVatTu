@@ -49,7 +49,12 @@
 						<%} %>
 							<li><a class="menu" href="<%=siteMap.cvManage+ "?action=manageCv" %>">Công văn</a></li>
 							<%if (!chucDanh.equalsIgnoreCase(vanThuMa)){ %>
-							<li><a class="menu" href="<%=siteMap.bcvttManage+ "?action=manageBcbdn" %>"/>Báo cáo vật tư thiếu</li>
+							<li><a class="menu">Báo cáo vật tư thiếu</a>
+								<ul>
+									<li><a class="menu" href="<%=siteMap.bcttManage+ "?action=manageBcvtt" %>"/>Báo cáo tổng hợp vật thiếu</li>
+									<li><a class="menu" href="<%=siteMap.bcvttManage+ "?action=manageBcbdn" %>"/>Báo cáo chi tiết vật tư thiếu</li>
+								</ul>
+							</li>
 							<%} %>
 						<%if (adminMa.equalsIgnoreCase(chucDanh)) {%>
 						<li><a class="menu">Quản lý người dùng</a>
