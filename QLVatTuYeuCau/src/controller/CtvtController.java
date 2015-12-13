@@ -141,14 +141,21 @@ public class CtvtController extends HttpServlet {
 		produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String updateCTVattu(@RequestParam("vtMaUpdate") String vtMaUpdate,  @RequestParam("nsxUpdate") String nsxUpdate, @RequestParam("clUpdate") String clUpdate, @RequestParam("dinhMucUpdate") String dinhMucUpdate, @RequestParam("soLuongTonUpdate") String soLuongTonUpdate) {
 		//System.out.println(vtMaUpdate + "&" + nsxUpdate + "&" + clUpdate + "&" + dinhMucUpdate + "&" + soLuongTonUpdate);
-		CTVatTuDAO ctvtDAO = new CTVatTuDAO();
-		CTVatTu ctvt = ctvtDAO.getCTVatTu(vtMaUpdate, nsxUpdate, clUpdate);
-		if (ctvt == null)
-			System.out.println("Result  = null");
-		else 
-			System.out.println(ctvt.getCtvtId());
-		ctvtDAO.disconnect();
-		return JSonUtil.toJson(ctvt);
+		try {
+			CTVatTuDAO ctvtDAO = new CTVatTuDAO();
+			CTVatTu ctvt = ctvtDAO.getCTVatTu(vtMaUpdate, nsxUpdate, clUpdate);
+			
+			if (ctvt != null) {
+				ctvt.setDinhMuc(Integer.parseInt(dinhMucUpdate));
+				ctvt.setSoLuongTon(Integer.parseInt(soLuongTonUpdate));
+				ctvtDAO.updateCTVatTu(ctvt);
+			} else 
+				return "fail";
+			ctvtDAO.disconnect();
+			return JSonUtil.toJson(ctvt);
+		} catch (NumberFormatException e) {
+			return "fail";
+		}
 	}
 
 	@RequestMapping(value = "/deleteCTVattu", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

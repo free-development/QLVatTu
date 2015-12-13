@@ -48,7 +48,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="Shortcut Icon" href="img/logo16.png" type="image/x-icon" />  
     </head>
-    <body>
+    <body style="font-size: 20px;">
     	<%
     		
     		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");

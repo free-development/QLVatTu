@@ -336,3 +336,6 @@ td.input {
 	height: 50px;
 	z-index: 60;
 }
+body {
+	font-size: 20px;
+}

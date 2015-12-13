@@ -450,11 +450,12 @@ countAdd = '0';
 							<button class="button" type="button" onclick="confirmDelete();">
 								<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xóa
 							</button>
+							<%} %>
 							<% if(chucDanh.equals(phoPhongMa) ||  chucDanh.equals(truongPhongMa) || chucDanh.equals(adminMa)) { %>
 							<button class="button" type="button" onclick="location.href='<%=siteMap.bccvManage+"?action=baocaocv"%>'">
 							<i class="fa fa-print"></i>&nbsp;&nbsp;Báo cáo
 							</button>
-							<% }} %>
+							<% } %>
 <!-- 							<button class="button" "> -->
 <!-- 								<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xóa -->
 <!-- 							</button> -->

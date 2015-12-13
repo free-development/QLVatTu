@@ -271,14 +271,14 @@ public class YeuCauDAO {
 		CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
 		CTVatTu ctVatTu = ctVatTuDAO.getCTVatTu(yeuCau.getCtvtId());
 		int soLuongTon = ctVatTu.getSoLuongTon();
-		if (capSoLuong == ycSoLuong)
-			return 0;
+		
 		if (soLuongTon < soLuong)
 			return -2;
 		
 		if (temp >= 0)
 			return 1;
-		
+		if (capSoLuong == ycSoLuong && soLuongTon >= soLuong)
+			return 0;
 		return -1;
 	}
 	public ArrayList<CTVatTu> distinctCtvt(HashMap<String, Object> conditions) {

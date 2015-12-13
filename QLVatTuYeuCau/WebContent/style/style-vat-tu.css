@@ -30,7 +30,7 @@
 	padding-right: 10px;
 	opacity: 0.9;
 	border-color: dimgray;
-	font-size: 16px;
+	font-size: 20px;
 }
 .text-search{
 	border-radius: 5px;
@@ -40,13 +40,13 @@
 	width: 300px;
 	opacity: 0.9;
 	border-color: dimgray;
-	font-size: 16px;
+	font-size: 20px;
 }
 .scroll_content {
 	height: 370px;
 	width: 810px;
 	display: auto;
-	font-size: 16px;
+	font-size: 20px;
 	border: 1px solid #CCCCCC;
 	margin: 0 auto;
 }
@@ -217,7 +217,7 @@
 	background: #199e5e;
 	border-radius: 5px;
 	color: #ffffff;
-	font-size: 13px;
+	font-size: 16px;
 	padding: 8px 30px 8px 20px;
 	margin-right: 0px;
 	border: none;
@@ -260,7 +260,7 @@
 	font-size: 20px;
 	color: firebrick;
 	font-weight: bold;
-	font-size: 13px;
+	
 }
 
 #add-form, #update-form {

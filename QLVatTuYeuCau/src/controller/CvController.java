@@ -347,7 +347,7 @@ public class CvController extends HttpServlet{
 				}
 				Date currentDate = DateUtil.convertToSqlDate(new java.util.Date ());
 				NhatKyDAO nhatKyDAO = new NhatKyDAO();
-				NhatKy nhatKy = new NhatKy(authentication.getMsnv(), cvId + "#Thêm công văn số " + soDen + " nhận ngày " + cvNgayNhan, currentDate, content);
+				NhatKy nhatKy = new NhatKy(authentication.getMsnv(), cvId + "#Thêm công văn số " + soDen + " nhận ngày " + DateUtil.toString(cvNgayNhan), currentDate, content);
 				nhatKyDAO.addNhatKy(nhatKy);
 				nhatKyDAO.disconnect();
 				ArrayList<Object> objectList = new ArrayList<Object>();

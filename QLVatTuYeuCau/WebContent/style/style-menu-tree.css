@@ -108,6 +108,12 @@ li input:checked+ol {
 	padding: 1.563em 0 0 80px;
 	height: auto;
 }
+li.date:checked {
+	background: url(toggle-small.png) 40px 5px no-repeat;
+	margin: -1.25em 0 0 -44px; /* 20px */
+	padding: 1.563em 0 0 80px;
+	height: auto;
+}
 
 li input:checked+ol>li {
 	display: block;
