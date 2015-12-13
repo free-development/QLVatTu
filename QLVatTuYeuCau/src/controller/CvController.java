@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -512,7 +514,12 @@ public class CvController extends HttpServlet{
 			CongVan congVan = congVanDAO.getCongVan(id);
 			content.append("&nbsp;&nbsp;+ Số đến " + congVan.getSoDen() + " nhận ngày " + congVan.getCvNgayNhan() + "<br>");
 			congVanDAO.deleteCongVan(id);
-//			File file = fileDAO.getByCongVanId(id);
+			File file = fileDAO.getByCongVanId(id);
+			
+			java.io.File f = new java.io.File(file.getDiaChi());
+			f.delete();
+			fileDAO.deleteFile(file);
+			fileDAO.disconnect();
 //			java.io.File fileDel = new java.io.File(file.getDiaChi());
 //			File
 //			fileDAO.deleteFileByCvID(id);

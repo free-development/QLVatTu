@@ -62,10 +62,12 @@ public class ReadExcel extends HttpServlet {
 			else {
 				return new ModelAndView(siteMap.vatTuTonKho, "status", "unknownFile");
 			}
+			file.delete();
 		} catch (Exception e) {
 			if (session.getAttribute("errorList") != null)
 				return new ModelAndView(siteMap.importTonKhoError, "status", "formatException");
 		}
+		
 		multipartRequest.setAttribute("status", "success");
 		
 		return new ModelAndView(siteMap.vatTuTonKho);
@@ -98,6 +100,7 @@ public class ReadExcel extends HttpServlet {
 			else {
 				return new ModelAndView(siteMap.vatTu, "status", "formatException");
 			}
+			file.delete();
 		} catch (Exception e) {
 			if (session.getAttribute("errorList") != null)
 				return new ModelAndView(siteMap.importVatTuError, "status", "formatException");
@@ -133,6 +136,7 @@ public class ReadExcel extends HttpServlet {
 			else {
 				return new ModelAndView(siteMap.boPhanSuDung, "status", "unknownFile");
 			}
+			file.delete();
 		} catch (Exception e) {
 			if (session.getAttribute("errorList") != null)
 				return new ModelAndView(siteMap.importBpsdError, "status", "formatException");
@@ -170,6 +174,7 @@ public class ReadExcel extends HttpServlet {
 				return new ModelAndView(siteMap.noiSanXuat, "status", "unknownFile");
 			}
 			multipartRequest.setAttribute("status", "success");
+			file.delete();
 		} catch (Exception e) {
 			if (session.getAttribute("errorList") != null)
 				return new ModelAndView(siteMap.importErrorNsx, "status", "formatException");
@@ -199,10 +204,11 @@ public class ReadExcel extends HttpServlet {
 					session.setAttribute("errorList", errorList);
 					return new ModelAndView(siteMap.importErrorCl, "status", "formatException");
 				}
+				
 			} else {
 				return new ModelAndView(siteMap.chatLuong, "status", "unknownFile");
 			}
-			
+			file.delete();
 		} catch (Exception e) {
 			if (session.getAttribute("errorList") != null)
 				return new ModelAndView(siteMap.importErrorCl, "status", "formatException");
