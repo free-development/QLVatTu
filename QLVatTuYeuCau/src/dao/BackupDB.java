@@ -4,10 +4,8 @@
 package dao;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
+import util.HibernateUtil;
 import model.DBConnection;
 
 /**
@@ -50,15 +48,19 @@ public class BackupDB {
             String batchCommand = "";
             if (connection.getPassword().length() > 0) {
                 //Backup with database
-                batchCommand = dumpExePath + " -h " + host + " --port " 
-                			  + port + " -u " + connection.getUser() 
-                			  + " --password=" + connection.getPassword() + " --add-drop-database -B " 
-                			  + dbName + " -r \"" + filePath + "\"";
+//                batchCommand = dumpExePath + " -h " + host + " --port " 
+//                			  + port + " -u " + connection.getUser() 
+//                			  + " --password=" + connection.getPassword() + " --add-drop-database -B " 
+//                			  + dbName + " -r \"" + filePath + "\"";
+            	batchCommand = dumpExePath + " -h " + host + " --port " 
+          			  + port + " -u " + connection.getUser() 
+          			  + " -p" + connection.getPassword() + " --add-drop-database -B " 
+          			  + dbName + ">\"" + filePath + "\"";
             } else {
                 batchCommand = dumpExePath + " -h " + host + " --port " 
                 			  + port + " -u " + connection.getUser() 
-                			  + " --add-drop-database -B " + dbName
-                			  + " -r \"" + filePath + "\"";
+                			  + " --add-drop-database -B " 
+                			  + dbName + ">\"" + filePath + "\"";
             }
             System.out.println(batchCommand);
             Runtime runtime = Runtime.getRuntime();
@@ -88,15 +90,22 @@ public class BackupDB {
  
         Process runtimeProcess;
         try {
-            runtimeProcess = Runtime.getRuntime().exec(executeCmd);
+        	Runtime runTime = Runtime.getRuntime();
+            runtimeProcess = runTime.exec(executeCmd); 
+
             int processComplete = runtimeProcess.waitFor();
  
             if (processComplete == 0) {
                 System.out.println("Backup restored successfully with " + source);
+//                Thread.sleep(10);
                 return true;
             } else {
             	System.out.println("Could not restore the backup " + source);
             }
+            runtimeProcess.destroy();
+            runTime.freeMemory();
+            
+//            Thread.sleep(10000);
         } catch (Exception ex) {
         	System.out.println(ex.getCause());
         }

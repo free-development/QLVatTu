@@ -45,7 +45,7 @@ public class YcController extends HttpServlet {
 	private String searchMa = "";
 //	private NhatKy nhatKy = null;
 	@RequestMapping("ycvtManage")
-    public ModelAndView updateYeuCau(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public ModelAndView manageYcvt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //	    	congVan
 		session = request.getSession(false);
 		
@@ -264,15 +264,22 @@ public class YcController extends HttpServlet {
 		ycDAO.disconnect();
 		int sl = Integer.parseInt(soLuong);
 		int check = ycDAO.checkCapSoLuong(yeuCau.getYcId(), sl);
+		ycDAO.disconnect();
 		if (check == -1) {
-			ycDAO.disconnect();
 			return JSonUtil.toJson("-1");
 		} else if (check == -2) {
-			ycDAO.disconnect();
 			return JSonUtil.toJson("-2");
 		}
 		else if (check == 0) {
-			ycDAO.disconnect();
+			YeuCauDAO ycDAO2 = new YeuCauDAO();
+			ycDAO2.capVatTu(yeuCau, sl);
+			ycDAO2.disconnect();
+//			CTVatTu ctVatTu = yeuCau.getCtVatTu();
+			CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
+			CTVatTu ctVatTu = ctVatTuDAO.getCTVatTu(yeuCau.getCtvtId());
+			ctVatTu.setSoLuongTon(ctVatTu.getSoLuongTon() - sl);
+			ctVatTuDAO.updateCTVatTu(ctVatTu);
+			ctVatTuDAO.disconnect();
 			return JSonUtil.toJson("0");
 		}
 //		yeuCau.setYcSoLuong(sl);

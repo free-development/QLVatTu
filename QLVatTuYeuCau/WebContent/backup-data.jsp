@@ -42,19 +42,19 @@
 	<%
     		
     	%>
-	<div class="wrapper">
+	<div class="wrapper" id="wrapper">
 		<jsp:include page="header.jsp" />
 		<div id="content">
 			<div id="content-wrapper">
 				<div id="title-content">Sao lưu dữ liệu</div>
 				<div id="main-content">
 
-					<form id="main-form" style="text-align: center;">
+					<form id="main-form" style="text-align: center;" method="get">
 						<div id="view-table">
 							<table>
 								<tr style="background: #199e5e;">
 									<th class="head" style="width: 5%;">Chọn</th>
-									<th class="head" style="width: 5%;">Số thứ tự</th>
+									
 									<th class="head" style="width: 20%;">Thời gian</th>
 									<th class="head" style="width: 70%;">Mô tả</th>
 								</tr>
@@ -65,9 +65,9 @@
 								<tr class="rowContent"
 									<%if (count % 2 == 0) out.println("style=\"background : #CCFFFF;\"");%>>
 									
-									<td class="left-column"><input type="checkbox" name="mdMa"
+									<td class="left-column"><input type="checkbox" name="id"
 										value="<%=backupInfo.getStt() %>" id="id" class="checkbox"></td>
-									<td class = "col"><%=count %></td>
+									
 									<td class="col"><%=backupInfo.getThoiGian() %></td>
 									<td class="col"><%=backupInfo.getMoTa() %></td>
 								</tr>
@@ -141,7 +141,8 @@
 								<i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại
 							</button>
 							&nbsp;
-						<button type="button" class="button" id="exit" onclick="location.href='<%=siteMap.loadBackup%>'">
+<%-- 						<button type="button" class="button" id="exit" onclick="location.href='<%=siteMap.loadBackup%>'"> --%>
+							<button type="button" class="button" id="exitBackup">
 							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 						</button>
 							

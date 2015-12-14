@@ -98,6 +98,7 @@ public class YeuCauDAO {
 			Criteria cr = session.createCriteria(YeuCau.class);
 			Criterion expCv = Restrictions.eq("cvId", cvId);
 			Criterion xoaYc = Restrictions.eq("daXoa", 0);
+//			Criterion soLuong = Restri
 //			LogicalExpression andExp = Restrictions.and(expCv, xoaYc);
 			cr.add(expCv);
 			cr.add(xoaYc);
@@ -265,6 +266,7 @@ public class YeuCauDAO {
 	// check before update so luong yeu cau
 	public int checkCapSoLuong(final int ycId, int soLuong) {
 		YeuCau yeuCau = getYeuCau(ycId);
+		 
 		int capSoLuong = yeuCau.getCapSoLuong() + soLuong;
 		int ycSoLuong = yeuCau.getYcSoLuong();
 		int temp = ycSoLuong - capSoLuong;
@@ -274,11 +276,12 @@ public class YeuCauDAO {
 		
 		if (soLuongTon < soLuong)
 			return -2;
-		
-		if (temp >= 0)
+		else if (temp > 0)
 			return 1;
-		if (capSoLuong == ycSoLuong && soLuongTon >= soLuong)
+		if (temp == 0)
 			return 0;
+//		if (capSoLuong == ycSoLuong && soLuongTon >= soLuong)
+//			return 0;
 		return -1;
 	}
 	public ArrayList<CTVatTu> distinctCtvt(HashMap<String, Object> conditions) {

@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -25,10 +27,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.sun.java_cup.internal.runtime.Symbol;
+
 import dao.BackupDB;
 import map.siteMap;
 import model.BackupInfo;
 import model.DBConnection;
+import util.HibernateUtil;
 import util.JSonUtil;
 
 
@@ -44,7 +49,7 @@ public class BackupController extends HttpServlet {
 		try {
 			moTa = moTa.replaceAll("\n", "<br>");
 			System.out.println(moTa.indexOf("\n"));
-			SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
+			SimpleDateFormat dateFormater = new SimpleDateFormat("ss-mm-hh-dd-MM-yyyy");
 			Date dateCurrent = new Date();
 			String thoiGian = dateFormater.format(dateCurrent);
 			
@@ -82,10 +87,11 @@ public class BackupController extends HttpServlet {
 				content = "\n" + content;
 			}
 			fileWriter.write(stt + "#####" + thoiGian + "#####" + moTa + "#####" + filePath + content );
-			
+			BackupInfo backupInfo =  new BackupInfo(stt, thoiGian, moTa, filePath);
+//			System.out.println(backupInfo.get);
 			fileIn.close();
 			fileWriter.close();
-			return JSonUtil.toJson("success");
+			return JSonUtil.toJson(backupInfo);
 		} catch (IOException | NumberFormatException e){
 			return JSonUtil.toJson("fail");
 		}
@@ -114,6 +120,46 @@ public class BackupController extends HttpServlet {
 			}
 			String dbUser = context.getInitParameter("dbUser");
 			String dbPassword = context.getInitParameter("dbPassword");
+//			String dbAddress = context.getInitParameter("dbAddress");
+//			String dbPort = context.getInitParameter("dbPort");
+//			String dbName = context.getInitParameter("dbName");
+			
+			DBConnection connection = new DBConnection(dbUser, dbPassword);
+			BackupDB backupDb = new BackupDB(connection);
+			backupDb.restoreDB(pathFileRestore);
+			buff.close();
+			fileInput.close();
+			
+			return JSonUtil.toJson("success");
+		} catch (IOException | NumberFormatException e){
+			return JSonUtil.toJson("fail");
+		}
+	}
+	
+	/*
+	@RequestMapping("/restoreData")
+	public ModelAndView restoreData(HttpServletRequest request, HttpServletResponse response){
+		try {
+			String filePathLogBackup = context.getInitParameter("fileLogBackup");
+//			java.io.File fileInput = new java.io.File(filePathLogBackup);
+			String pathFileRestore = "";
+			FileReader fileInput = new FileReader(filePathLogBackup);
+			BufferedReader buff = new BufferedReader(fileInput);
+			String line = "";
+			String[] a = request.getParameterValues("id");
+			int stt = Integer.parseInt(a[0]); 
+			while (true) {
+				line = buff.readLine();
+				if (line ==  null)
+					break;
+				String[] temp = line.split("\\#####");
+				if (temp[0].equals(stt)) {
+					pathFileRestore = temp[3];
+					break;
+				}
+			}
+			String dbUser = context.getInitParameter("dbUser");
+			String dbPassword = context.getInitParameter("dbPassword");
 			String dbAddress = context.getInitParameter("dbAddress");
 			String dbPort = context.getInitParameter("dbPort");
 			String dbName = context.getInitParameter("dbName");
@@ -123,12 +169,15 @@ public class BackupController extends HttpServlet {
 			backupDb.restoreDB(pathFileRestore);
 			buff.close();
 			fileInput.close();
-			return JSonUtil.toJson("success");
+			
+//			return JSonUtil.toJson("success");
+			return getListBackup(request, response);
 		} catch (IOException | NumberFormatException e){
-			return JSonUtil.toJson("fail");
+			//return JSonUtil.toJson("fail");
+			return new ModelAndView("login");
 		}
 	}
-	
+	*/
 //	@RequestMapping(value="/backupDBManage", method=RequestMethod.GET, 
 //			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 //	public @ResponseBody String getListBackup(@RequestParam("moTa") String moTa){
@@ -158,7 +207,9 @@ public class BackupController extends HttpServlet {
 				if (line ==  null)
 					break;
 				String[] temp = line.split("\\#####");
-				BackupInfo backupInfo = new BackupInfo(Integer.parseInt(temp[0]), temp[1], temp[2], temp[3]);
+//				StringBuilder time = new StringBuilder(temp[1].substring(0, 10));
+//				time.reverse();
+				BackupInfo backupInfo = new BackupInfo(Integer.parseInt(temp[0]), temp[1].substring(9), temp[2], temp[3]);
 				backupList.add(backupInfo);
 				size ++;
 			}

@@ -243,7 +243,7 @@ function preCapVatTu() {
 		  		$('#dvtCap').html(ctVatTu.vatTu.dvt.dvtTen);
 		  		
 		  		$('#soLuongTonCap').html(ctVatTu.soLuongTon);
-		  		$('#soLuongThieu').html(yeuCau.ycSoLuong);
+		  		$('#soLuongThieu').html(yeuCau.ycSoLuong - yeuCau.capSoLuong);
 			  	$('#Cap-so-luong-form input[name=soLuongCap]').val(yeuCau.capSoLuong);
 		    } 
 		});  
@@ -270,13 +270,16 @@ function capVatTu() {
 	  			alert('Số lương cấp phát không hợp lệ! Số lượng cấp phát phải nhỏ hơn hoặc bằng tổng số lượng thiếu!!');
 	  		else if (objectList == '-2')
 	  			alert('Số lượng tồn không đủ để cấp. Vui lòng kiểm tra lại!!!');
-	  		else if (objectList == '0')
+	  		else if (objectList == '0') {
 	  			alert('Đã cấp đủ hàng!!');
+	  			$('#view-table-yc table tr').has('input:checkbox[name=yeuCau]:checked').remove();
+	  		}
 	  		else {
 	  			alert('Cấp phát vật tư thành công');
 	  			$('input[name=soLuongCap]').val('0');
 	  			$('#soLuongTon' + ycVatTu.ycId).html(ctVatTu.soLuongTon);
 				$('#soLuong' + ycVatTu.ycId).html(ycVatTu.ycSoLuong - ycVatTu.capSoLuong);
+				
 				$('#soLuongCap' + ycVatTu.ycId).html(ycVatTu.capSoLuong);
 				$('#view-search #soLuongTon' + ctVatTu.ctvtId).html(ctVatTu.soLuongTon);
 //				$('#view-table-yc table tr td').has('input[name="yeuCau"]:checked').prop('checked',false);
@@ -533,6 +536,13 @@ $(document).ready(function(){
   		$('#main-form').show();
 	});
 });
+$(document).ready(function(){
+	$('#add-yeu-cau-form').submit(function(){
+		searchCtVt();
+		return false;
+	});
+});
+
 /*
 $(document).ready(function(){
 	$('.page').click(function(){

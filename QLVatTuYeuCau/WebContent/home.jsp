@@ -84,14 +84,14 @@ msnv = '<%=authentication.getMsnv()  %>';
 				<table style = "margin: 0 auto;width: 1224spx; vertical-align:top ;">
 				<tr >
 				<td style=" vertical-align:top ;"">
-					<% if (chucDanh.equalsIgnoreCase(truongPhongMa) || chucDanh.equalsIgnoreCase(vanThuMa)){
+					<% if (chucDanh.equalsIgnoreCase(truongPhongMa) || chucDanh.equalsIgnoreCase(vanThuMa) || chucDanh.equalsIgnoreCase(adminMa)){
 						ArrayList<CongVan> congVanList = (ArrayList<CongVan>) request.getAttribute("congVanList");
 						ArrayList<CTVatTu> ctVatTuListAlert = (ArrayList<CTVatTu>) request.getAttribute("ctVatTuListAlert");
 						ArrayList<NhatKy> nhatKyList = (ArrayList<NhatKy>) request.getAttribute("nhatKyList");
 					%>
 					<div class="view-tbao" >
 					<div id = "alert">
-					<% if (chucDanh.equalsIgnoreCase(truongPhongMa) && ctVatTuListAlert != null && ctVatTuListAlert.size() > 0) { %>
+					<% if ((chucDanh.equalsIgnoreCase(truongPhongMa) || chucDanh.equalsIgnoreCase(adminMa)) && ctVatTuListAlert != null && ctVatTuListAlert.size() > 0) { %>
 						<table style="width:550px;">
 						<tr ><th colspan = "5" style="text-align: center; width: 300px; font-size: 20px;color:red;"><i class="fa fa-sign-out"></i>&nbsp;Công việc</th></tr>
 						
@@ -141,7 +141,7 @@ msnv = '<%=authentication.getMsnv()  %>';
 							
 						%>
 						<tr style = "<% if (count % 2 == 1) out.print("background: #CCFFFF; ");%>";>
-							<td colspan = "3" style="text-align: center;"><a style="color: blue; text-decoration: underline; " href='<%=siteMap.searchCongVan + "?congVan=" + congVan.getCvId() %>'> Công văn số <%=congVan.getSoDen()  + " có ngày nhận " + DateUtil.toString(congVan.getCvNgayNhan())%></a></td>
+							<td colspan = "3" style="text-align: center;"><a style="color: blue; text-decoration: underline; " href='<%=siteMap.searchCongVan + "?congVan=" + congVan.getCvId() %>'> Công văn số <%=congVan.getSoDen()  + " ngày nhận " + DateUtil.toString(congVan.getCvNgayNhan())%></a></td>
 							<td colspan = "2" style="text-align: center;"><div style="<%=style%>"><%=trangThai.getTtTen() %></div></td>
 						</tr>
 						<%count ++;} %>

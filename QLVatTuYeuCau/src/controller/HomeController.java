@@ -71,7 +71,7 @@ public class HomeController extends HttpServlet {
 			
 			congVanDAO.disconnect();
 			
-			if (cdMa.equals(truongPhongMa)) {
+			if (cdMa.equals(truongPhongMa) || cdMa.equals(adminMa)) {
 				CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
 				ArrayList<CTVatTu> ctVatTuListAlert = ctVatTuDAO.getCtVatTuListAlert(0, 10);
 				request.setAttribute("ctVatTuListAlert", ctVatTuListAlert);

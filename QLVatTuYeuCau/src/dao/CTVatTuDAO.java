@@ -327,6 +327,7 @@ public class CTVatTuDAO {
 		session.beginTransaction();
 		Criteria cr = session.createCriteria(CTVatTu.class, "ctVatTu");
 		cr.add(Restrictions.eq("daXoa", 0));
+//		cr.add(Restrictions.eq("daXoa", 0));
 		cr.createAlias("ctVatTu.noiSanXuat", "noiSanXuat");
 		cr.createAlias("ctVatTu.chatLuong", "chatLuong");
 		cr.createAlias("ctVatTu.vatTu", "vatTu");

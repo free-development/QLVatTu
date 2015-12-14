@@ -91,19 +91,5 @@ public class BackupInfo {
 	public void setMoTa(String moTa) {
 		this.moTa = moTa;
 	}
-
-	/**
-	 * @return the filePath
-	 */
-	public String getfilePath() {
-		return filePath;
-	}
-
-	/**
-	 * @param filePath the filePath to set
-	 */
-	public void setfilePath(String filePath) {
-		this.filePath = filePath;
-	}
 	
 }

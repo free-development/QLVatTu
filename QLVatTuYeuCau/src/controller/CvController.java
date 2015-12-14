@@ -1007,8 +1007,9 @@ public class CvController extends HttpServlet{
 			else
 				conditions.put(column, columnValue);
 		}
-		if (this.cvId != 0) {
-			conditions.put("cvId", cvId);
+		if (filter.length() == 0) {
+			conditions.remove("cvId");
+			cvId = 0;
 		}
 //		ArrayList<Integer> yearList = congVanDAO.groupByYearLimit(msnvTemp, conditions, 5);
 		

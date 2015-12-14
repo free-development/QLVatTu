@@ -168,6 +168,7 @@ countAdd = '0';
 							<tr>
 								<th class="column-loc">Tìm kiếm: </th>
 								<td id = "type"><select class="select" name="filter" id="filter">
+										<option selected disabled> Chọn </option>
 										<option value =""> Tất cả </option>
 <!-- 										<option>Ngày đến</option> -->
 										<option value="soDen">Số nhận</option>
@@ -422,7 +423,7 @@ countAdd = '0';
 								<%
 									long pageNum = size / 3;
 									long p = (pageNum <= 10 ? pageNum : 10);	
-									for (int i = 0; i < p; i++) {
+									for (int i = 0; i <= p; i++) {
 								%>
 									<input type="button" name = "page" class="page" value="<%=i+1 %>" onclick="loadPage(<%=i%>)">
 								<%}

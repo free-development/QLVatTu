@@ -235,7 +235,7 @@
  		  	success: function(result) {
  		  		
 	 		  			$('#view-table-vat-tu table tr').has('input[name="vtMa"]:checked').remove();
-	 		  			alert('Vật tư có mã ' + str + " đã bị xóa");	  			
+	 		  			alert('Vật tư có mã ' + str + " đã được xóa");	  			
  		    } 
  		});  
  	}
