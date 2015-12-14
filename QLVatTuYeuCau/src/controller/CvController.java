@@ -263,8 +263,11 @@ public class CvController extends HttpServlet{
 				String mdMa = multipartRequest.getParameter("mucDich");
 				String dvMa = multipartRequest.getParameter("donVi");
 				String trichYeu = multipartRequest.getParameter("trichYeu");
+				trichYeu = trichYeu.replaceAll("\n", "<br>");
 				String butPhe = multipartRequest.getParameter("butPhe");
+				butPhe = butPhe.replaceAll("\n", "<br>");
 				String moTa = multipartRequest.getParameter("moTa");
+				moTa = moTa.replaceAll("\n", "<br>");
 				int cvId;
 				if (congVan == null) {
 					cvId = congVanDAO.getLastInsert();
@@ -404,6 +407,9 @@ public class CvController extends HttpServlet{
 			String trichYeu = multipartRequest.getParameter("trichYeuUpdate");
 			String butPhe = multipartRequest.getParameter("butPheUpdate");
 			String moTa = multipartRequest.getParameter("moTa");
+			trichYeu = trichYeu.replaceAll("\n", "<br>");
+			butPhe = butPhe.replaceAll("\n", "<br>");
+			moTa = moTa.replaceAll("\n", "<br>");
 			CongVanDAO congVanDAO = new CongVanDAO();
 			CongVan congVan = congVanDAO.getCongVan(cvId);
 			congVan.setSoDen(soDen);

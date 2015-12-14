@@ -43,9 +43,9 @@ public class BackupDB {
         try {
             Process p = null;
  
-            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            Date date = new Date();
-            String filepath = "backup-" + dbName +  "-(" + dateFormat.format(date) + ").sql";
+//            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+//            Date date = new Date();
+//            String filepath = "backup-" + dbName +  "-(" + dateFormat.format(date) + ").sql";
  
             String batchCommand = "";
             if (connection.getPassword().length() > 0) {

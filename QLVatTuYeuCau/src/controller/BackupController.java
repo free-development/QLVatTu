@@ -42,6 +42,8 @@ public class BackupController extends HttpServlet {
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String backupData(@RequestParam("moTa") String moTa){
 		try {
+			moTa = moTa.replaceAll("\n", "<br>");
+			System.out.println(moTa.indexOf("\n"));
 			SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
 			Date dateCurrent = new Date();
 			String thoiGian = dateFormater.format(dateCurrent);
@@ -75,7 +77,6 @@ public class BackupController extends HttpServlet {
 			if (b.length > 0) {
 				content =  new String(b);
 				int index1 = content.indexOf("#####");
-				System.out.println("***" + content + "***");
 				int lastBackup = Integer.parseInt(content.substring(0, index1));
 				stt = lastBackup + 1;
 				content = "\n" + content;
@@ -168,6 +169,9 @@ public class BackupController extends HttpServlet {
 			buff.close();
 			fileInput.close();
 			return new ModelAndView(siteMap.backupDataPage);
+		} catch (IndexOutOfBoundsException e2) {
+			System.out.println("IndexOutOfBoundsException");
+			return new ModelAndView(siteMap.login);
 		} catch (NumberFormatException e1) {
 			System.out.println("number format exception");
 			return new ModelAndView(siteMap.login);
