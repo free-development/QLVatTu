@@ -118,7 +118,7 @@ msnv = '<%=authentication.getMsnv()  %>';
 						</table>
 						<div class="button-group">
 							<button class="button" id ="moreAlert">Xem thêm</button>
-							<a href="<%=siteMap.exportVatTuAlert%>"><button class="button">Xuất file</button></a>
+							<a href="/QLVatTuYeuCau/exportAlert.html"><button class="button">Xuất file</button></a>
 						</div>
 						<%} %>
 						</div>

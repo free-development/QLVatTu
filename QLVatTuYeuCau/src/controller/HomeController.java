@@ -177,7 +177,7 @@ public class HomeController extends HttpServlet {
 		ctVatTuDAO.disconnect();
 		return JSonUtil.toJson(ctVatTuListAlert);
 	}
-	@RequestMapping("/exportVatTuAlert")
+	@RequestMapping("/exportAlert")
 	public ModelAndView exportVatTuAlert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
 		ArrayList<CTVatTu> ctVatTuListAlert = ctVatTuDAO.getCtVatTuListAlert(0, Integer.MAX_VALUE);

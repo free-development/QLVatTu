@@ -172,6 +172,6 @@ public class siteMap {
 	public static final String  downloadNsxError = home + "downloadNsxError.html";
 	public static final String  downloadClError = home + "downloadClError.html";
 	
-	public static final String  exportVatTuAlert = home + "exportVatTuAlert.html";
+	public static final String  exportVatTuAlert = home + "exportAlert.html";
 	
 }
