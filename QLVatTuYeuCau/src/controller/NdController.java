@@ -118,14 +118,10 @@ public class NdController extends HttpServlet {
 		{
 			nguoiDungDAO.addNguoiDung(new NguoiDung(msnv, hoten, diachi, email, sdt, new ChucDanh(chucdanh)));
 			ctNguoiDungDAO.addCTNguoiDung(new CTNguoiDung(msnv, StringUtil.encryptMD5(matkhau),0));
-			
-//			System.out.println("success");
 			result = "success";	
-			
 		}
 		else
 		{
-//			
 			result = "fail";
 		}
 		nguoiDungDAO.disconnect();

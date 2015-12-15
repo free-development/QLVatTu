@@ -34,7 +34,7 @@ import model.VaiTro;
 import util.JSonUtil;
 
 
-@Controller("/HomeController")
+@Controller
 public class HomeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	 @Autowired
@@ -48,7 +48,6 @@ public class HomeController extends HttpServlet {
 	   	String vanThuMa = context.getInitParameter("vanThuMa");
 	   	String nhanVienMa = context.getInitParameter("nhanVienMa");
 	   	String adminMa = context.getInitParameter("adminMa");
-	   	int vtCapVt = Integer.parseInt(context.getInitParameter("capPhatId"));
 	   	nhatKyPage = 0;
 	    workPage = 0;
 	    alertPage = 0;
@@ -170,12 +169,21 @@ public class HomeController extends HttpServlet {
    }
    @RequestMapping(value="/showMoreAlert", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-  public @ResponseBody String showMoreAlert(HttpServletRequest request,
+	public @ResponseBody String showMoreAlert(HttpServletRequest request,
 	            HttpServletResponse response) {
 	   	alertPage ++;
 	   	CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
 		ArrayList<CTVatTu> ctVatTuListAlert = ctVatTuDAO.getCtVatTuListAlert(alertPage * 10, 10);
 		ctVatTuDAO.disconnect();
 		return JSonUtil.toJson(ctVatTuListAlert);
-  }
+	}
+	@RequestMapping("/exportVatTuAlert")
+	public ModelAndView exportVatTuAlert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
+		ArrayList<CTVatTu> ctVatTuListAlert = ctVatTuDAO.getCtVatTuListAlert(0, Integer.MAX_VALUE);
+		HttpSession session = request.getSession();
+		session.setAttribute("objectList", ctVatTuListAlert);
+		ctVatTuDAO.disconnect();
+		return new ModelAndView("xuat-vat-tu-canh-bao"); 
+   }
 }

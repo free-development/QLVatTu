@@ -97,10 +97,8 @@ $(document).ready(function(){
 
 $(document).ready(function(){
 	$("#main-form").submit(function(){
-//		document.getElementById("main-form").disabled=true;
 		$("#main-form").children().prop('disabled',true);
 		restoreData();
-//		location.reload();
 		return false;
 	});
 });
