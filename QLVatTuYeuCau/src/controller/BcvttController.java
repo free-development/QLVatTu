@@ -39,6 +39,7 @@ public class BcvttController extends HttpServlet {
 		String ngaykt = request.getParameter("ngaykt");
 		HashMap<String, Object> condtions = new HashMap<String, Object>();
 		
+		
 		if (ngaybd != null && ngaybd.length() > 0) {
 			condtions.put("geCvNgayNhan", DateUtil.parseDate(ngaybd));
 			session.setAttribute("ngaybd", DateUtil.parseDate(ngaybd));

@@ -53,7 +53,7 @@ display:none;
    		}
    	%>
 		<% 
-    	ArrayList<DonVi> listDonVi = (ArrayList<DonVi>) session.getAttribute("allDonViList");
+    	ArrayList<DonVi> listDonVi = (ArrayList<DonVi>) session.getAttribute("objectList");
 		String exportToExcel = request.getParameter("exportToExel");
 	        response.setCharacterEncoding("UTF-8");
 	        request.setCharacterEncoding("UTF-8");

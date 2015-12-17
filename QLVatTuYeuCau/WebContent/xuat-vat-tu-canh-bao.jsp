@@ -65,7 +65,7 @@ display:none;
 						<i class="fa fa-print"></i>&nbsp;&nbsp;In báo cáo
 					</button>
 					&nbsp;&nbsp;
-					<button class="button" id="print_button" type="button" onclick="location.href='<%=siteMap.downloadExcelCtvt%>'">
+					<button class="button" id="print_button" type="button" onclick="location.href='<%=siteMap.downloadVatTuAlert%>'">
 						<i class="fa fa-print"></i>&nbsp;&nbsp;Tải file
 					</button>
 					&nbsp;&nbsp;

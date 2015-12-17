@@ -53,7 +53,7 @@ display:none;
    		}
    	%>
 		<% 
-    	ArrayList<NoiSanXuat> listNoiSanXuat = (ArrayList<NoiSanXuat>) session.getAttribute("allNoiSanXuatList");
+    	ArrayList<NoiSanXuat> listNoiSanXuat = (ArrayList<NoiSanXuat>) session.getAttribute("objectList");
 		String exportToExcel = request.getParameter("exportToExel");
 	        response.setCharacterEncoding("UTF-8");
 	        request.setCharacterEncoding("UTF-8");

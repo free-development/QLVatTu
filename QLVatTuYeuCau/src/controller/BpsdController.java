@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import util.JSonUtil;
 
 import dao.DonViDAO;
+import map.siteMap;
 
 @Controller
 public class BpsdController extends HttpServlet {
@@ -45,6 +46,16 @@ public class BpsdController extends HttpServlet {
 			session.setAttribute("size", size);
 			donViDAO.disconnect();
 			return new ModelAndView("danh-muc-bo-phan", "donViList", donViList);
+	}
+	
+	@RequestMapping("/exportBpsd")
+	public ModelAndView exportBpsd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			DonViDAO donViDAO = new DonViDAO();
+			HttpSession session = request.getSession(false);
+			ArrayList<DonVi> allDonViList  = (ArrayList<DonVi>) donViDAO.getAllDonVi();
+			session.setAttribute("objectList", allDonViList);
+			donViDAO.disconnect();
+			return new ModelAndView(siteMap.xuatDv);
 	}
 	@RequestMapping(value="/preEditBp", method=RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -1,8 +1,14 @@
 package export;
 
 import java.awt.print.Book;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
+import java.util.Vector;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,13 +41,6 @@ public class CTVatTuFile extends AbstractExcelView {
 		
 		// create a new Excel sheet
 		HSSFSheet sheet = workbook.createSheet("Chi tiết vật tư");
-		//sheet.setDefaultColumnWidth(30);
-	//	sheet.setColumnWidth(0, 30);
-//		sheet.setColumnWidth(1, 200);
-//		sheet.setColumnWidth(2, 30);
-//		sheet.setColumnWidth(3, 100);
-//		sheet.setColumnWidth(4,50);
-//		sheet.setColumnWidth(5, 100); 
 		
 		// create style for header cells
 		CellStyle style = workbook.createCellStyle();
@@ -52,7 +51,6 @@ public class CTVatTuFile extends AbstractExcelView {
 		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 		font.setColor(HSSFColor.WHITE.index);
 		style.setFont(font);
-		
 		
 		// create header row
 		HSSFRow header = sheet.createRow(0);

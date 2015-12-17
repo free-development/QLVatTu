@@ -143,7 +143,7 @@
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Import 
 						</button>
 						&nbsp;&nbsp;
-						<button class="button" type="button" onclick="location.href='<%=siteMap.xuatDv+".jsp"%>'">
+						<button class="button" type="button" onclick="location.href='<%=siteMap.exporDvMn%>'">
 							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xuất File
 						</button>
 						&nbsp;

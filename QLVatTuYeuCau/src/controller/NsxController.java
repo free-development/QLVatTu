@@ -29,6 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dao.DonViDAO;
 import dao.NoiSanXuatDAO;
+import map.siteMap;
 
 
 @Controller
@@ -46,13 +47,20 @@ public class NsxController extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		long size = noiSanXuatDAO.size();
 		ArrayList<NoiSanXuat> noiSanXuatList =  (ArrayList<NoiSanXuat>) noiSanXuatDAO.limit(page - 1, 10);
-		ArrayList<NoiSanXuat> allNoiSanXuatList =  (ArrayList<NoiSanXuat>) noiSanXuatDAO.getAllNoiSanXuat();
-		session.setAttribute("allNoiSanXuatList", allNoiSanXuatList);
+		
 		request.setAttribute("size", size);
 		noiSanXuatDAO.disconnect();
 		return new ModelAndView("danh-muc-noi-san-xuat", "noiSanXuatList", noiSanXuatList);
 	}
-	
+	@RequestMapping("/exportNsx")
+	public ModelAndView exportNsx(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		NoiSanXuatDAO noiSanXuatDAO = new NoiSanXuatDAO();
+		ArrayList<NoiSanXuat> allNoiSanXuatList =  (ArrayList<NoiSanXuat>) noiSanXuatDAO.getAllNoiSanXuat();
+		HttpSession session = request.getSession(false);
+		session.setAttribute("objectList", allNoiSanXuatList);
+		noiSanXuatDAO.disconnect();
+		return new ModelAndView(siteMap.xuatNsx);
+	}
 	@RequestMapping(value="/preEditNsx", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String preEditNsx(@RequestParam("nsxMa") String nsxMa) {

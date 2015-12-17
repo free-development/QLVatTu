@@ -29,8 +29,8 @@ public class downloadExcel extends HttpServlet {
 	 public ModelAndView downloadExcelNsx(HttpServletRequest request) {
 	        // create some sample data
 		 HttpSession session = request.getSession(false); 
-		 List<NoiSanXuat> listNoiSanXuat = (List<NoiSanXuat>) session.getAttribute("allNoiSanXuatList");
-	        return new ModelAndView("excelNsx", "listBooks", listNoiSanXuat);
+		 List<NoiSanXuat> listNoiSanXuat = (List<NoiSanXuat>) session.getAttribute("objectList");
+	        return new ModelAndView("excelNsx", "listNoiSanXuat", listNoiSanXuat);
 	    }
 	 
 	 @RequestMapping(value = "/downloadExcelCl", method = RequestMethod.GET)
@@ -43,11 +43,11 @@ public class downloadExcel extends HttpServlet {
 	 public ModelAndView downloadExcelDv(HttpServletRequest request) {
 	        // create some sample data
 		 HttpSession session = request.getSession(false);
-		 List<DonVi> listDonVi = (List<DonVi>) session.getAttribute("allDonViList");
+		 List<DonVi> listDonVi = (List<DonVi>) session.getAttribute("objectList");
 	        return new ModelAndView("excelDv", "listDv", listDonVi);
 	    }
 	 
-	 @RequestMapping(value = "/downloadExcelCtvt", method = RequestMethod.GET)
+	@RequestMapping(value = "/downloadExcelCtvt", method = RequestMethod.GET)
 	 public ModelAndView downloadExcelCtvt(HttpServletRequest request) {
 	        // create some sample data
 		 HttpSession session = request.getSession(false);
@@ -55,6 +55,13 @@ public class downloadExcel extends HttpServlet {
         return new ModelAndView("excelCtvt", "listCtvt", listCTVatTu);
     }
 	 
+	@RequestMapping(value = "/downloadVatTuAlert", method = RequestMethod.GET)
+	 public ModelAndView downloadVatTuAlert(HttpServletRequest request) {
+	        // create some sample data
+		 HttpSession session = request.getSession(false);
+		 List<CTVatTu> vatTuAlert = (List<CTVatTu>) session.getAttribute("objectList");
+       return new ModelAndView("vatTuAlert", "vatTuAlert", vatTuAlert);
+   }
 	 @RequestMapping(value = "/downloadExcelTon", method = RequestMethod.GET)
 	 public ModelAndView downloadExcelTon(HttpServletRequest request) {
         // create some sample data

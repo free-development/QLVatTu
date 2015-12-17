@@ -3,7 +3,11 @@ package controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -156,7 +160,6 @@ public class HomeController extends HttpServlet {
 					congVanList.add(congVan);
 				}
 			}
-			
 			vtCongVanDAO.disconnect();
 			congVanDAO.disconnect();
 			ArrayList<Object> objectList = new ArrayList<Object>();
@@ -177,13 +180,17 @@ public class HomeController extends HttpServlet {
 		ctVatTuDAO.disconnect();
 		return JSonUtil.toJson(ctVatTuListAlert);
 	}
+   
 	@RequestMapping("/exportAlert")
-	public ModelAndView exportVatTuAlert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void exportVatTuAlert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
 		ArrayList<CTVatTu> ctVatTuListAlert = ctVatTuDAO.getCtVatTuListAlert(0, Integer.MAX_VALUE);
 		HttpSession session = request.getSession();
 		session.setAttribute("objectList", ctVatTuListAlert);
 		ctVatTuDAO.disconnect();
-		return new ModelAndView("xuat-vat-tu-canh-bao"); 
+		RequestDispatcher dispatcher = request.getRequestDispatcher("xuat-vat-tu-canh-bao.jsp");
+		dispatcher.forward(request, response);
+//		response.sendRedirect("xuat-vat-tu-canh-bao.jsp");
+//		return new ModelAndView("xuat-vat-tu-canh-bao"); 
    }
 }

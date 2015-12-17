@@ -30,7 +30,7 @@ public class NoiSanXuatFile extends AbstractExcelView {
 			HSSFWorkbook workbook, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		// get data model which is passed by the Spring container
-		List<NoiSanXuat> listNsx = (List<NoiSanXuat>) model.get("listBooks");
+		List<NoiSanXuat> listNsx = (List<NoiSanXuat>) model.get("listNoiSanXuat");
 		
 		// create a new Excel sheet
 		

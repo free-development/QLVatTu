@@ -148,7 +148,7 @@
 							onclick="showForm2('main-form','import-formct', true)"> 
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Import 
 						</button>&nbsp;
-						<button class="button" type="button" onclick="location.href='<%=siteMap.xuatNsx+".jsp"%>'">
+						<button class="button" type="button" onclick="location.href='<%=siteMap.exportNsxMn%>'">
 							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xuất File
 						</button>
 						&nbsp;

@@ -7,17 +7,23 @@ public class siteMap {
 	
 	public static final String nsxManage = home +  "manageNsx.html";
 	public static final String noiSanXuat = "danh-muc-noi-san-xuat";
+	public static final String exportNsxMn = home + "exportNsx.html";
 	public static final String importErrorNsx = "import-nsx-error";
 	
 	
 	// map danh muc chat luong
 	public static final String clManage = home +  "manageCl.html";
 	public static final String chatLuong = "danh-muc-chat-luong";
+	
+	public static final String exporClMn = "exportCl";
 	public static final String importErrorCl = "import-chat-luong-error";
 	
 	// ma manage bo phan
 	public static final String bpsdManage = home +  "manageBpsd.html";
 	public static final String boPhanSuDung = "danh-muc-bo-phan";
+	//public static final String exporDv = "xuatDv";
+	public static final String exporDvMn = home +  "exportBpsd.html";
+	
 	public static final String importBpsdError = "import-bpsd-error";
 	
 	
@@ -162,6 +168,8 @@ public class siteMap {
 	public static final String downloadExcelCtvt = home + "downloadExcelCtvt.html";
 	
 	public static final String downloadExcelTon = home + "downloadExcelTon.html";
+	
+	public static final String downloadVatTuAlert = home + "downloadVatTuAlert.html";
 	
 	public static final String downloadExcelError = home + "downloadExcelError.html";
 	
