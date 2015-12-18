@@ -31,6 +31,15 @@ public class BcvttController extends HttpServlet {
 	public ModelAndView manageBcvtt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
     	HttpSession session = request.getSession(false);
+		if (session.getAttribute("nguoiDung") == null)
+			return new ModelAndView(siteMap.login);
+		session.removeAttribute("congVanList");
+		session.removeAttribute("ctVatTuList");
+		session.removeAttribute("soLuongList");
+		session.removeAttribute("yeuCauHash");
+		session.removeAttribute("ctVatTuHash");
+		session.removeAttribute("trangThaiList");
+		session.removeAttribute("donViList");
     	
     	CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
 		YeuCauDAO yeuCauDAO = new YeuCauDAO();

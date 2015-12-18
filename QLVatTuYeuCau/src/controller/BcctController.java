@@ -37,8 +37,14 @@ public class BcctController extends HttpServlet {
 
 		HttpSession session = request.getSession(false);
 		if (session.getAttribute("nguoiDung") == null)
-			response.sendRedirect("login.jsp");
-
+			return new ModelAndView(siteMap.login);
+		session.removeAttribute("congVanList");
+		session.removeAttribute("ctVatTuList");
+		session.removeAttribute("soLuongList");
+		session.removeAttribute("yeuCauHash");
+		session.removeAttribute("ctVatTuHash");
+		session.removeAttribute("trangThaiList");
+		session.removeAttribute("donViList");
 		String action = request.getParameter("action");
 		
 		YeuCauDAO yeuCauDAO = new YeuCauDAO();

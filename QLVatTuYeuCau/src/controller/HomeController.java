@@ -48,7 +48,18 @@ public class HomeController extends HttpServlet {
     private int alertPage = 0;
    @RequestMapping("/home")
 	public ModelAndView manageLog(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	   	String truongPhongMa = context.getInitParameter("truongPhongMa");
+	   HttpSession session = request.getSession(false);
+		if (session.getAttribute("nguoiDung") == null)
+			return new ModelAndView(siteMap.login);
+		session.removeAttribute("congVanList");
+		session.removeAttribute("ctVatTuList");
+		session.removeAttribute("soLuongList");
+		session.removeAttribute("yeuCauHash");
+		session.removeAttribute("ctVatTuHash");
+		session.removeAttribute("trangThaiList");
+		session.removeAttribute("donViList");
+		session.removeAttribute("errorList");
+	   String truongPhongMa = context.getInitParameter("truongPhongMa");
 	   	String vanThuMa = context.getInitParameter("vanThuMa");
 	   	String nhanVienMa = context.getInitParameter("nhanVienMa");
 	   	String adminMa = context.getInitParameter("adminMa");
@@ -56,7 +67,7 @@ public class HomeController extends HttpServlet {
 	    workPage = 0;
 	    alertPage = 0;
 	   	NhatKyDAO nhatKyDAO = new NhatKyDAO();
-		HttpSession session = request.getSession();
+		
 		
 		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
 		ArrayList<NhatKy> nhatKyList = nhatKyDAO.getLimitByMsnv(authentication.getMsnv(), 0, 10);

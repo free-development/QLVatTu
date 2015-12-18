@@ -42,33 +42,46 @@ public class CtvtController extends HttpServlet {
 	private String searchMa = "";
    @RequestMapping("/manageCtvt")
 	protected ModelAndView manageCtvt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		VatTuDAO vatTuDAO = new VatTuDAO();
+	   HttpSession session = request.getSession(false);
+		if (session.getAttribute("nguoiDung") == null)
+			return new ModelAndView(siteMap.login);
+		session.removeAttribute("congVanList");
+		session.removeAttribute("ctVatTuList");
+		session.removeAttribute("soLuongList");
+		session.removeAttribute("yeuCauHash");
+		session.removeAttribute("ctVatTuHash");
+		session.removeAttribute("trangThaiList");
+		session.removeAttribute("donViList");
+	   VatTuDAO vatTuDAO = new VatTuDAO();
 		CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
-		HttpSession session = request.getSession(false);
-			long size = ctVatTuDAO.sizeTon();
-			ArrayList<CTVatTu> ctVatTuList =  (ArrayList<CTVatTu>) ctVatTuDAO.limitTonKho(page - 1, 10);
-			session.setAttribute("size", size);
-			session.setAttribute("ctVatTuList", ctVatTuList);
-			ctVatTuDAO.disconnect();
-			vatTuDAO.disconnect();
-			return new ModelAndView(siteMap.vatTuTonKho);
+		
+		long size = ctVatTuDAO.sizeTon();
+		ArrayList<CTVatTu> ctVatTuList =  (ArrayList<CTVatTu>) ctVatTuDAO.limitTonKho(page - 1, 10);
+		session.setAttribute("size", size);
+		session.setAttribute("objectList", ctVatTuList);
+		ctVatTuDAO.disconnect();
+		vatTuDAO.disconnect();
+		return new ModelAndView(siteMap.vatTuTonKho);
 		
 	}
+   
    @RequestMapping("/exportCTVatTu")
 	protected ModelAndView exportCTVatTu(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
+		
+	   CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
 		HttpSession session = request.getSession(false);
 		ArrayList<CTVatTu> allCTVatTuList =  (ArrayList<CTVatTu>) ctVatTuDAO.getAllCTVatTu();
-		session.setAttribute("allCTVatTuList", allCTVatTuList);
+		session.setAttribute("objectList", allCTVatTuList);
 		ctVatTuDAO.disconnect();
 		return new ModelAndView(siteMap.xuatCTVatTu);
 	}
+	
    @RequestMapping("/manageXuatTonKho")
 	protected ModelAndView manageXuatTonKho(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
 		HttpSession session = request.getSession(false);
 		ArrayList<CTVatTu> tonKhoList =  (ArrayList<CTVatTu>) ctVatTuDAO.tonKho();
-		session.setAttribute("tonKhoList", tonKhoList);
+		session.setAttribute("objectList", tonKhoList);
 		ctVatTuDAO.disconnect();
 		return new ModelAndView(siteMap.xuatTonKho);
 	}

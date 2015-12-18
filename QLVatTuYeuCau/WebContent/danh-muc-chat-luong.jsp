@@ -138,9 +138,9 @@
 							onclick="showForm2('main-form','import-formct', true);"> 
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Import 
 						</button>&nbsp;
-						<button class="button" type="button" onclick="location.href='<%=siteMap.xuatCl+".jsp"%>'">
+						<a href="<%=siteMap.exporClMn%>" target="_blank"><button class="button" type="button" >
 							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xuất File
-						</button>
+						</button></a>
 						&nbsp;
 					<button class="button" type="reset">
 						<i class="fa fa-spinner"></i>&nbsp;&nbsp;Bỏ qua
@@ -223,7 +223,7 @@
 					</button>
 				</div>
 			</form>
-			<form id="import-formct" action="<%=siteMap.readExcelCl %>" method="post" enctype="multipart/form-data" style="text-align: center;">
+			<form onsubmit="showForm2('main-form','import-formct', false);" target="_blank" id="import-formct" action="<%=siteMap.readExcelCl %>" method="post" enctype="multipart/form-data" style="text-align: center;">
 									<input type="file" name="file" accept=".xls, .xlsx" class="text" style="padding-left: 0px;">
 									<div class="group-button">
 										<input value="uploadFile" name="action" type="submit" class="button" style="font-size: 17px;text-align: center;">

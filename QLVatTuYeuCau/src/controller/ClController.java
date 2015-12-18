@@ -28,6 +28,7 @@ import dao.ChatLuongDAO;
 import dao.MucDichDAO;
 import dao.NoiSanXuatDAO;
 import dao.VaiTroDAO;
+import map.siteMap;
 
 @Controller
 public class ClController extends HttpServlet {
@@ -36,14 +37,21 @@ public class ClController extends HttpServlet {
 	int page = 1;
 	@RequestMapping("/manageCl")
 	public ModelAndView manageCl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String action = request.getParameter("action");
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("nguoiDung") == null)
+			return new ModelAndView(siteMap.login);
+		session.removeAttribute("congVanList");
+		session.removeAttribute("ctVatTuList");
+		session.removeAttribute("soLuongList");
+		session.removeAttribute("yeuCauHash");
+		session.removeAttribute("ctVatTuHash");
+		session.removeAttribute("trangThaiList");
+		session.removeAttribute("donViList");
 		ChatLuongDAO chatLuongDAO = new ChatLuongDAO();
 		request.getCharacterEncoding();
     	response.getCharacterEncoding();
     	request.setCharacterEncoding("UTF-8");
     	response.setCharacterEncoding("UTF-8");  
-		HttpSession session = request.getSession(false);
 		long size = chatLuongDAO.size();
 		ArrayList<ChatLuong> chatLuongList =  (ArrayList<ChatLuong>) chatLuongDAO.limit(page -1, 10);
 		ArrayList<ChatLuong> allChatLuongList =  (ArrayList<ChatLuong>) chatLuongDAO.getAllChatLuong();
@@ -52,7 +60,16 @@ public class ClController extends HttpServlet {
 		chatLuongDAO.disconnect();
 		return new ModelAndView("danh-muc-chat-luong", "chatLuongList", chatLuongList);
 	}
-
+	
+	@RequestMapping("/exportCl")
+	public ModelAndView exportCl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ChatLuongDAO chatLuongDAO = new ChatLuongDAO();
+		HttpSession session = request.getSession(false);
+		ArrayList<ChatLuong> allChatLuongList =  (ArrayList<ChatLuong>) chatLuongDAO.getAllChatLuong();
+		session.setAttribute("objectList", allChatLuongList);
+		chatLuongDAO.disconnect();
+		return new ModelAndView(siteMap.xuatCl);
+	}
 	@RequestMapping(value="/preUpdateCl", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String preUpdateCl(@RequestParam("clMa") String clMa) {

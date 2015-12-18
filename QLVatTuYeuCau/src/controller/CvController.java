@@ -90,6 +90,15 @@ public class CvController extends HttpServlet{
     	thuKyMa = context.getInitParameter("thuKyMa");
     	vtCapVt = Integer.parseInt(context.getInitParameter("capPhatId"));
     	session = request.getSession(false);
+		if (session.getAttribute("nguoiDung") == null)
+			return new ModelAndView(siteMap.login);
+		session.removeAttribute("congVanList");
+		session.removeAttribute("ctVatTuList");
+		session.removeAttribute("soLuongList");
+		session.removeAttribute("yeuCauHash");
+		session.removeAttribute("ctVatTuHash");
+		session.removeAttribute("trangThaiList");
+		session.removeAttribute("donViList");
     	NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoiDung");
     	String msnv = nguoiDung.getMsnv();
     	

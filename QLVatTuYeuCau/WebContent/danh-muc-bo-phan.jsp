@@ -143,9 +143,10 @@
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Import 
 						</button>
 						&nbsp;&nbsp;
-						<button class="button" type="button" onclick="location.href='<%=siteMap.exporDvMn%>'">
+						<a href="<%=siteMap.exporDvMn%>" target="_blank">
+						<button class="button" type="button" >
 							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xuất File
-						</button>
+						</button></a>
 						&nbsp;
 						<button class="button" type="reset">
 							<i class="fa fa-spinner"></i>&nbsp;&nbsp;Bỏ qua
@@ -297,7 +298,7 @@
 					</div>
 				</form>
 				
-				<form id="import-formct" action="<%=siteMap.readExcelBpsd %>" method="post" enctype="multipart/form-data" style="height: 200px;width:300px;text-align: center;">
+				<form onsubmit="showForm2('view-table-bo-phan','import-formct', false);" id="import-formct" action="<%=siteMap.readExcelBpsd %>" target="_blank" method="post" enctype="multipart/form-data" style="height: 200px;width:300px;text-align: center;">
 									<input type="file" name="file" accept=".xls, .xlsx" class="text" style="padding-left: 0px;">
 									<div class="group-button">
 										<input value="uploadFile" name="action" type="submit" class="button" style="width: 120px;font-size: 17px;text-align: center;">

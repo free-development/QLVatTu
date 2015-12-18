@@ -27,6 +27,9 @@
 	href="style/font-awesome-4.3.0/font-awesome-4.3.0/css/font-awesome.min.css"
 	type="text/css" rel="stylesheet">
 <meta charset="utf-8">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/location.js"></script>
+<script type="text/javascript" src="js/sessionManagement.js"></script>
 <title>Xuất chi tiết vật tư</title>
 <style type="text/css" media="print">
 #print_button{
@@ -53,7 +56,7 @@ display:none;
    		}
    	%>
 		<% 
-    	ArrayList<CTVatTu> listCTVatTu = (ArrayList<CTVatTu>) session.getAttribute("tonKhoList");
+    	ArrayList<CTVatTu> listCTVatTu = (ArrayList<CTVatTu>) session.getAttribute("objectList");
 		if (listCTVatTu ==  null) {
 			int index = siteMap.xuatTonKhoMn.lastIndexOf("/");
 			String url = siteMap.nsxManage.substring(index);
@@ -80,7 +83,7 @@ display:none;
 						<i class="fa fa-download"></i>&nbsp;&nbsp;Tải file
 					</button>
 					&nbsp;&nbsp;
-					<button type="button" id="print_button" class="button"  onclick="location.href='<%=siteMap.ctvtManage + "?action=manageCtvt"%>'">
+					<button type="button" id="exit_button" class="button" >
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 					</button>
 					 

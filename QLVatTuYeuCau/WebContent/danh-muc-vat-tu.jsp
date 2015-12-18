@@ -215,10 +215,12 @@
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Import 
 				</button>
 				&nbsp;
-				<button class="button" type="button" onclick="location.href='<%=siteMap.exportCTVatTuMn%>'">
-							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xuất File
-						</button>
-						&nbsp;
+				<a href="<%=siteMap.exportCTVatTuMn%>" target="_blank">
+				<button class="button" type="button">
+					<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Báo cáo
+				</button>
+				</a>
+				&nbsp;
 				<button class="button" type="reset">
 					<i class="fa fa-spinner"></i>&nbsp;&nbsp;Bỏ qua
 				</button>
@@ -336,7 +338,7 @@
 				</div>
 			</form>
 			
-						<form id="import-formct" action="<%=siteMap.readExcelCt %>" method="post" enctype="multipart/form-data" style="height: 200px;width:350px;text-align: center;" onsubmit="document.body.style.cursor='wait'; return true;">
+						<form id="import-formct" onsubmit="showForm2('vattu','import-formct', false);" target="_blank" action="<%=siteMap.readExcelCt %>" method="post" enctype="multipart/form-data" style="height: 200px;width:350px;text-align: center;" onsubmit="document.body.style.cursor='wait'; return true;">
 									<input type="file" name="file" accept=".xls, .xlsx" class="text" style="padding-left: 0px;">
 									<div class="group-button">
 										<input value="uploadFile" name="action" type="submit" class="button" style="width: 120px;font-size: 17px;text-align: center;" onclick="document.body.style.cursor='wait'; return true;">

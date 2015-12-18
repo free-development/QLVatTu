@@ -59,6 +59,15 @@ public class ChiaSeCvController extends HttpServlet {
 		String action = request.getParameter("action");
 		if ("chiaSeCv".equalsIgnoreCase(action)) {
 			session = request.getSession(false);
+			if (session.getAttribute("nguoiDung") == null)
+				return new ModelAndView(siteMap.login);
+			session.removeAttribute("congVanList");
+			session.removeAttribute("ctVatTuList");
+			session.removeAttribute("soLuongList");
+			session.removeAttribute("yeuCauHash");
+			session.removeAttribute("ctVatTuHash");
+			session.removeAttribute("trangThaiList");
+			session.removeAttribute("donViList");
 			String id = request.getParameter("congVan");
 			int cvId = Integer.parseInt(id);
 			CongVanDAO congVanDAO = new CongVanDAO();
@@ -99,6 +108,9 @@ public class ChiaSeCvController extends HttpServlet {
 	@RequestMapping("/chiaSeCv")
 	protected ModelAndView chiaSeCv(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		session = request.getSession(false);
+		if (session.getAttribute("nguoiDung") == null)
+			return new ModelAndView(siteMap.login);
 		String action = request.getParameter("action");
 		request.getCharacterEncoding();
 		response.getCharacterEncoding();
@@ -107,7 +119,6 @@ public class ChiaSeCvController extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		if ("save".equalsIgnoreCase(action)) {
 			// session = request.getSession(false);
-			session = request.getSession(false);
 			CongVan congVan = (CongVan) session.getAttribute("congVan");
 			String[] vaiTro = request.getParameterValues("vaiTro");
 			VTCongVanDAO vtCongVanDAO = new VTCongVanDAO();
@@ -117,7 +128,6 @@ public class ChiaSeCvController extends HttpServlet {
 			vtCongVanDAO.deleteByCvId(cvId);
 			for (String vtMa : vaiTro) {
 				String[] str = vtMa.split("\\#");
-				NguoiDung nguoiDung = nguoiDungDAO.getNguoiDung(str[0]);
 				VTCongVan vtCongVan = new VTCongVan();
 				vtCongVan.setCvId(cvId);
 				vtCongVan.setMsnv(str[0]);
@@ -190,7 +200,17 @@ public class ChiaSeCvController extends HttpServlet {
 	}
 
 	@RequestMapping(value = "/preUpdateYeuCau", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String preUpdateYeuCau(@RequestParam("msnv") String msnv) {
+	public @ResponseBody String preUpdateYeuCau(@RequestParam("msnv") String msnv, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		session = request.getSession(false);
+		if (session.getAttribute("nguoiDung") == null)
+			response.sendRedirect(siteMap.login + "jsp");
+		session.removeAttribute("congVanList");
+		session.removeAttribute("ctVatTuList");
+		session.removeAttribute("soLuongList");
+		session.removeAttribute("yeuCauHash");
+		session.removeAttribute("ctVatTuHash");
+		session.removeAttribute("trangThaiList");
+		session.removeAttribute("donViList");
 		NguoiDungDAO nguoiDungDAO = new NguoiDungDAO();
 		VTCongVanDAO vtCongVanDAO = new VTCongVanDAO();
 		VaiTroDAO vaiTroDAO = new VaiTroDAO();

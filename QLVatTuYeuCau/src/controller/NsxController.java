@@ -39,12 +39,22 @@ public class NsxController extends HttpServlet {
 	int page = 1;
 	@RequestMapping("/manageNsx")
 	public ModelAndView manageNsx(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("nguoiDung") == null)
+			return new ModelAndView(siteMap.login);
+		session.removeAttribute("congVanList");
+		session.removeAttribute("ctVatTuList");
+		session.removeAttribute("soLuongList");
+		session.removeAttribute("yeuCauHash");
+		session.removeAttribute("ctVatTuHash");
+		session.removeAttribute("trangThaiList");
+		session.removeAttribute("donViList");
+		session.removeAttribute("errorList");
 		NoiSanXuatDAO noiSanXuatDAO = new NoiSanXuatDAO();
 		request.getCharacterEncoding();
     	response.getCharacterEncoding();
     	request.setCharacterEncoding("UTF-8");
     	response.setCharacterEncoding("UTF-8");  
-		HttpSession session = request.getSession(false);
 		long size = noiSanXuatDAO.size();
 		ArrayList<NoiSanXuat> noiSanXuatList =  (ArrayList<NoiSanXuat>) noiSanXuatDAO.limit(page - 1, 10);
 		

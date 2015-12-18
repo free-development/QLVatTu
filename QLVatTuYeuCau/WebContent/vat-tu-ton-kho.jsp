@@ -63,7 +63,7 @@
    	%>
 	<%
     
-    	ArrayList<CTVatTu> listCTVatTu = (ArrayList<CTVatTu>) session.getAttribute("ctVatTuList");
+    	ArrayList<CTVatTu> listCTVatTu = (ArrayList<CTVatTu>) session.getAttribute("objectList");
 		
 		if (listCTVatTu ==  null) {
 			int index = siteMap.ctvtManage.lastIndexOf("/");
@@ -136,9 +136,9 @@
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Import
 						</button>
 						&nbsp;
-						<button class="button" type="button" onclick="location.href='<%=siteMap.xuatTonKhoMn%>'">
+						<a href="<%=siteMap.xuatTonKhoMn%>" target="_blank"><button class="button" type="button">
 							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Báo cáo tồn kho
-						</button>
+						</button></a>
 						&nbsp;
 						<button type="button" class="button" onclick="location.href='<%=siteMap.home%>'">
 							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
@@ -146,7 +146,7 @@
 					</div>			
 				</form>
 				</div>
-						<form id="import-form" action="<%=siteMap.readExcelTonkho %>" method="post" enctype="multipart/form-data" >
+						<form target="_blank" onsubmit="showForm('import-form',false);" id="import-form" action="<%=siteMap.readExcelTonkho %>" method="post" enctype="multipart/form-data" >
 								<input type="file" name="file" accept=".xls, .xlsx" class="text" style="padding-left: 0px;">
 <div class="button-group" style="margin-top: -40px;"><input value="uploadFile" name="action" type="submit" class="button">
 								<input value="Thoát" onclick="showForm('import-form',false);" type="button" class="button">

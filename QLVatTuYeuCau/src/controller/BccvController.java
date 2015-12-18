@@ -41,39 +41,49 @@ public class BccvController extends HttpServlet {
 
 		HttpSession session = request.getSession(false);
 		if (session.getAttribute("nguoiDung") == null)
-			response.sendRedirect("login.jsp");
-
-		String action = request.getParameter("action");
+			return new ModelAndView(siteMap.login);
+		session.removeAttribute("congVanList");
+		session.removeAttribute("ctVatTuList");
+		session.removeAttribute("soLuongList");
+		session.removeAttribute("yeuCauHash");
+		session.removeAttribute("ctVatTuHash");
+		session.removeAttribute("trangThaiList");
+		session.removeAttribute("donViList");
 		
-		YeuCauDAO yeuCauDAO = new YeuCauDAO();
-//		TrangThaiDAO trangThaiDAO = new TrangThaiDAO();
 		DonViDAO donViDAO = new DonViDAO();
 		MucDichDAO mucDichDAO = new MucDichDAO();
 		CongVanDAO congVanDAO = new CongVanDAO();
 		//System.out.println(action);
-		if ("baocaocv".equalsIgnoreCase(action)) {
-	//		ArrayList<TrangThai> trangThaiList = (ArrayList<TrangThai>) trangThaiDAO.getAllTrangThai();
 			ArrayList<DonVi> donViList = (ArrayList<DonVi>) donViDAO.getAllDonVi();
 			ArrayList<MucDich> mucDichList = (ArrayList<MucDich>) mucDichDAO.getAllMucDich();
 			HashMap<String, Boolean> orderBy = new HashMap<String, Boolean>();
 			orderBy.put("cvId", true);
 			ArrayList<CongVan> congVanList = (ArrayList<CongVan>) congVanDAO.searchLimit(null, null, orderBy, 0, Integer.MAX_VALUE);
-			
-	//		session.setAttribute("ngaybd", DateUtil.parseDate(ngaybd));
-	//		session.setAttribute("ngaykt", DateUtil.parseDate(ngaykt));
-			session.setAttribute("donViList", donViList);
-			session.setAttribute("mucDichList", mucDichList);
-	//		session.setAttribute("trangThaiList", trangThaiList);
-			session.setAttribute("congVanList", congVanList);
-			
-	//		yeuCauDAO.disconnect();
+			request.setAttribute("donViList", donViList);
+			request.setAttribute("mucDichList", mucDichList);
+			request.setAttribute("congVanList", congVanList);
 			congVanDAO.disconnect();
 			donViDAO.disconnect();
 			mucDichDAO.disconnect();
 			return new ModelAndView(siteMap.bCCongVan);
-			
+	}
+	
+	@RequestMapping("/exportBccv")
+	protected ModelAndView exportBccv(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("nguoiDung") == null) {
+			return new ModelAndView(siteMap.login);
 		}
-		return new ModelAndView("login");
+		
+		CongVanDAO congVanDAO = new CongVanDAO();
+		HashMap<String, Boolean> orderBy = new HashMap<String, Boolean>();
+		orderBy.put("cvId", true);
+		ArrayList<CongVan> congVanList = (ArrayList<CongVan>) congVanDAO.searchLimit(null, null, orderBy, 0, Integer.MAX_VALUE);
+		session.setAttribute("objectList", congVanList);
+		congVanDAO.disconnect();
+		return new ModelAndView(siteMap.xuatCongVan);
 	}
 	@RequestMapping(value="/loadBcCongVan", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

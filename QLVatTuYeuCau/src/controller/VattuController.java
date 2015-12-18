@@ -22,6 +22,7 @@ import dao.ChatLuongDAO;
 import dao.DonViTinhDAO;
 import dao.NoiSanXuatDAO;
 import dao.VatTuDAO;
+import map.siteMap;
 import model.ChatLuong;
 import model.DonViTinh;
 import model.NoiSanXuat;
@@ -36,11 +37,21 @@ public class VattuController extends HttpServlet {
 	private String filterValue = "";
    @RequestMapping("/manageVattu")
 	protected ModelAndView manageCtvt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		VatTuDAO vatTuDAO = new VatTuDAO();
+	   HttpSession session = request.getSession(false);
+		if (session.getAttribute("nguoiDung") == null)
+			return new ModelAndView(siteMap.login);
+		session.removeAttribute("congVanList");
+		session.removeAttribute("ctVatTuList");
+		session.removeAttribute("soLuongList");
+		session.removeAttribute("yeuCauHash");
+		session.removeAttribute("ctVatTuHash");
+		session.removeAttribute("trangThaiList");
+		session.removeAttribute("donViList");
+		session.removeAttribute("errorList");
+	   VatTuDAO vatTuDAO = new VatTuDAO();
 		NoiSanXuatDAO noiSanXuatDAO = new NoiSanXuatDAO();
 		ChatLuongDAO chatLuongDAO = new ChatLuongDAO();
 		DonViTinhDAO donViTinhDAO = new DonViTinhDAO();
-		HttpSession session = request.getSession(false);
 		String action = request.getParameter("action");
 		this.filter = "";
 		this.filterValue = "";

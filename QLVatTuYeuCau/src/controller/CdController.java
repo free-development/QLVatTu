@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.ChatLuong;
 import model.ChucDanh;
@@ -28,6 +29,7 @@ import dao.ChatLuongDAO;
 import dao.ChucDanhDAO;
 import dao.MucDichDAO;
 import dao.NoiSanXuatDAO;
+import map.siteMap;
 
 @Controller
 public class CdController extends HttpServlet {
@@ -35,6 +37,16 @@ public class CdController extends HttpServlet {
 	int page = 1;
 	@RequestMapping("/manageCd")
 	public ModelAndView manageCd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("nguoiDung") == null)
+			return new ModelAndView(siteMap.login);
+		session.removeAttribute("congVanList");
+		session.removeAttribute("ctVatTuList");
+		session.removeAttribute("soLuongList");
+		session.removeAttribute("yeuCauHash");
+		session.removeAttribute("ctVatTuHash");
+		session.removeAttribute("trangThaiList");
+		session.removeAttribute("donViList");
 		ChucDanhDAO chucDanhDAO = new ChucDanhDAO();
 		String action = request.getParameter("action");
 		if("AddCd".equalsIgnoreCase(action)) {
@@ -127,7 +139,6 @@ public class CdController extends HttpServlet {
 	@RequestMapping(value="/loadPageCd", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String loadPageCd(@RequestParam("pageNumber") String pageNumber) {
-		String result = "";
 		//System.out.println("MA: " + pageNumber);
 		ChucDanhDAO cdDAO = new ChucDanhDAO();
 		int page = Integer.parseInt(pageNumber);

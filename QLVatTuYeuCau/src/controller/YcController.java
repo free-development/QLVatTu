@@ -49,7 +49,16 @@ public class YcController extends HttpServlet {
 //	    	congVan
 		session = request.getSession(false);
 		
-		//sString[] s = request.getParameterValues("cvId");
+		if (session.getAttribute("nguoiDung") == null)
+			return new ModelAndView(siteMap.login);
+		session.removeAttribute("congVanList");
+		session.removeAttribute("ctVatTuList");
+		session.removeAttribute("soLuongList");
+		session.removeAttribute("yeuCauHash");
+		session.removeAttribute("ctVatTuHash");
+		session.removeAttribute("trangThaiList");
+		session.removeAttribute("donViList");
+		session.removeAttribute("errorList");
 		String s = request.getParameter("cvId");
 		//if(s[0] == null)
 		

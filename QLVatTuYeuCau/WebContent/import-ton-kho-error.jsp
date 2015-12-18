@@ -9,13 +9,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Import Error</title>
 <link rel="stylesheet" href="style/style.css" type="text/css">
-<link href="style/style-ctvt.css"css" type="text/css" rel="stylesheet">
+<link href="style/style-ctvt.css" type="text/css" rel="stylesheet">
 <link
 	href="style/font-awesome-4.3.0/font-awesome-4.3.0/css/font-awesome.min.css"
 	type="text/css" rel="stylesheet">
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/location.js"></script>
 <script type="text/javascript" src="js/chi-tiet-vat-tu.js"></script>
+<script type="text/javascript" src="js/sessionManagement.js"></script>
 </head>
 <body>
 	<%
@@ -75,7 +76,7 @@
 						<button type="button" class="button" onclick="location.href='<%=siteMap.downloadTonKhoError%>'">
 							<i class="fa fa-download"></i>&nbsp;&nbsp;Tải xuống
 						</button>
-						<button type="button" class="button" onclick="location.href='<%=siteMap.vatTuTonKho + ".jsp"%>'">
+						<button type="button" id="exitError_button" class="button">
 							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 						</button>
 					</div>			

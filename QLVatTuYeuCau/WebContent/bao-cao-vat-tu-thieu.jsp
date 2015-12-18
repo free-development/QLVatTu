@@ -156,11 +156,12 @@
 
 			<div class="group-button"style ="text-align: center;margin-top:10px;">
 <!--     <a href="excel.jsp?exportToExcel=YES">Export to Excel</a> -->
-
-				<button class="button" type="button" onclick="location.href='<%=siteMap.xuatFile+ ".jsp"%>'">
+			<a href="<%=siteMap.xuatFile + "jsp"%>" target="_blank">
+				<button class="button" type="button">
 					<i class="fa fa-print"></i>&nbsp;&nbsp;Xuất file
 				</button>
 				&nbsp;
+				
 				<button type="button" class="button" onclick="location.href='<%=siteMap.home%>'">
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 					</button>

@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.swing.JOptionPane;
 
 import model.VaiTro;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import util.JSonUtil;
 import dao.DonViTinhDAO;
 import dao.VaiTroDAO;
+import map.siteMap;
 
 
 @Controller
@@ -32,6 +34,17 @@ public class VtController extends HttpServlet {
 	private String vtOld = "";
 	@RequestMapping("/manageVt")
 	public ModelAndView manageVt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("nguoiDung") == null)
+			return new ModelAndView(siteMap.login);
+		session.removeAttribute("congVanList");
+		session.removeAttribute("ctVatTuList");
+		session.removeAttribute("soLuongList");
+		session.removeAttribute("yeuCauHash");
+		session.removeAttribute("ctVatTuHash");
+		session.removeAttribute("trangThaiList");
+		session.removeAttribute("donViList");
+		session.removeAttribute("errorList");
 		VaiTroDAO vaiTroDAO = new VaiTroDAO();
 		String action = request.getParameter("action");
 		if("AddVaiTro".equalsIgnoreCase(action)) {

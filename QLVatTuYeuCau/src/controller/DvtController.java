@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.swing.JOptionPane;
 
 import model.DonViTinh;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import util.JSonUtil;
 import dao.DonViTinhDAO;
 import dao.VaiTroDAO;
+import map.siteMap;
 
 
 @Controller
@@ -32,6 +34,17 @@ public class DvtController extends HttpServlet {
 	private String dvtOld = "";
 	@RequestMapping("/manageDvt")
 	public ModelAndView manageDvt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("nguoiDung") == null)
+			return new ModelAndView(siteMap.login);
+		session.removeAttribute("congVanList");
+		session.removeAttribute("ctVatTuList");
+		session.removeAttribute("soLuongList");
+		session.removeAttribute("yeuCauHash");
+		session.removeAttribute("ctVatTuHash");
+		session.removeAttribute("trangThaiList");
+		session.removeAttribute("donViList");
+		session.removeAttribute("errorList");
 		DonViTinhDAO donViTinhDAO = new DonViTinhDAO();
 //		String dvtTen_cu = request.getParameter("dvtId");
 		String action = request.getParameter("action");

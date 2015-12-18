@@ -17,6 +17,7 @@
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/location.js"></script>
 <script type="text/javascript" src="js/chi-tiet-vat-tu.js"></script>
+<script type="text/javascript" src="js/sessionManagement.js"></script>
 </head>
 <body>
 	<%
@@ -71,7 +72,7 @@
 						<button type="button" class="button" onclick="location.href='<%=siteMap.downloadBpsdError%>'">
 							<i class="fa fa-download"></i>&nbsp;&nbsp;Tải xuống
 						</button>
-						<button type="button" class="button" onclick="location.href='<%=siteMap.boPhanSuDung + ".jsp"%>'">
+						<button type="button" id="exitError_button" class="button">
 							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 						</button>
 					</div>			

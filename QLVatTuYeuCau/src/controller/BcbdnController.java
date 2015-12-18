@@ -37,7 +37,13 @@ public class BcbdnController extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		if (session.getAttribute("nguoiDung") == null)
 			response.sendRedirect("login.jsp");
-
+		session.removeAttribute("congVanList");
+		session.removeAttribute("ctVatTuList");
+		session.removeAttribute("soLuongList");
+		session.removeAttribute("yeuCauHash");
+		session.removeAttribute("ctVatTuHash");
+		session.removeAttribute("trangThaiList");
+		session.removeAttribute("donViList");
 		String action = request.getParameter("action");
 		
 		YeuCauDAO yeuCauDAO = new YeuCauDAO();

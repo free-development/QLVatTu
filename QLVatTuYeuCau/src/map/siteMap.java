@@ -15,7 +15,7 @@ public class siteMap {
 	public static final String clManage = home +  "manageCl.html";
 	public static final String chatLuong = "danh-muc-chat-luong";
 	
-	public static final String exporClMn = "exportCl";
+	public static final String exporClMn = home + "exportCl.html";
 	public static final String importErrorCl = "import-chat-luong-error";
 	
 	// ma manage bo phan
@@ -128,6 +128,7 @@ public class siteMap {
 	public static final String  login = "login";
 	public static final String  xuatBcChiTiet = "xuat-bao-cao-chi-tiet";
 	//map xuat cong van
+	public static final String  exportBccv = home +  "exportBccv.html";
 	public static final String  xuatCongVan = "xuatCongVan";
 	public static final String  bCCongVan = "bao-cao-cong-van";
 	//map home

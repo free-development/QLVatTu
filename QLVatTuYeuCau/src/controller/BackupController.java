@@ -15,6 +15,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -190,6 +191,14 @@ public class BackupController extends HttpServlet {
 	@RequestMapping("/backupDBManage")
 	public ModelAndView getListBackup(HttpServletRequest request, HttpServletResponse response){
 		try {
+			HttpSession session = request.getSession(false);
+			session.removeAttribute("congVanList");
+			session.removeAttribute("ctVatTuList");
+			session.removeAttribute("soLuongList");
+			session.removeAttribute("yeuCauHash");
+			session.removeAttribute("ctVatTuHash");
+			session.removeAttribute("trangThaiList");
+			session.removeAttribute("donViList");
 			ArrayList<BackupInfo> backupList = new ArrayList<BackupInfo>();
 			String filePathLogBackup = context.getInitParameter("fileLogBackup");
 //			java.io.File fileInput = new java.io.File(filePathLogBackup);

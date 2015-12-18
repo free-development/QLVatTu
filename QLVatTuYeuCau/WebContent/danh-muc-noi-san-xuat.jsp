@@ -36,9 +36,10 @@
         
     });
 	</script>
-<script type="text/javascript" src="js/jquery.min.js"></script>
+
 <script type="text/javascript" src="js/location.js"></script>
 <script type="text/javascript" src="js/noi-san-xuat.js"></script>
+<!-- <script type="text/javascript" src="js/sessionManagement.js"></script> -->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
 <link rel="Shortcut Icon" href="img/logo16.png" type="image/x-icon" />
 </head>
@@ -148,9 +149,9 @@
 							onclick="showForm2('main-form','import-formct', true)"> 
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Import 
 						</button>&nbsp;
-						<button class="button" type="button" onclick="location.href='<%=siteMap.exportNsxMn%>'">
+						<a target="_blank" href='<%=siteMap.exportNsxMn%>'><button class="button" type="button" >
 							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xuất File
-						</button>
+						</button></a>
 						&nbsp;
 						<button class="button" type="reset">
 							<i class="fa fa-spinner"></i>&nbsp;&nbsp;Bỏ qua
@@ -229,7 +230,7 @@
 			</div>
 		</form>
 	</div>
-	<form id="import-formct" action="<%=siteMap.readExcelNsx %>" method="post" enctype="multipart/form-data" style="text-align: center;">
+	<form id="import-formct" target="_blank" onsubmit="showForm2('main-form','import-formct', false);" action="<%=siteMap.readExcelNsx %>" method="post" enctype="multipart/form-data" style="text-align: center;">
 									<input type="file" name="file" accept=".xls, .xlsx" class="text" style="padding-left: 0px;">
 									<div class="group-button">
 										<input value="uploadFile" name="action" type="submit" class="button" style="font-size: 17px;text-align: center;">

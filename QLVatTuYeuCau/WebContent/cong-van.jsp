@@ -453,9 +453,9 @@ countAdd = '0';
 							</button>
 							<%} %>
 							<% if(chucDanh.equals(phoPhongMa) ||  chucDanh.equals(truongPhongMa) || chucDanh.equals(adminMa)) { %>
-							<button class="button" type="button" onclick="location.href='<%=siteMap.bccvManage+"?action=baocaocv"%>'">
+							<a href="<%=siteMap.bccvManage%>" target="_blank"><button class="button" type="button"">
 							<i class="fa fa-print"></i>&nbsp;&nbsp;Báo cáo
-							</button>
+							</button></a>
 							<% } %>
 <!-- 							<button class="button" "> -->
 <!-- 								<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xóa -->

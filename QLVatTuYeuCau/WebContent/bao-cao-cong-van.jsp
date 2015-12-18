@@ -59,7 +59,7 @@
 	<%
 	
 	
-	ArrayList<CongVan> congVanList = (ArrayList<CongVan>) session.getAttribute("congVanList");
+	ArrayList<CongVan> congVanList = (ArrayList<CongVan>) request.getAttribute("congVanList");
 	if (congVanList ==  null) {
 		int index = siteMap.bccvManage.lastIndexOf("/");
 		String url = siteMap.bccvManage.substring(index);
@@ -67,11 +67,11 @@
 		dispatcher.forward(request, response);
 		return;
 	}
-	ArrayList<TrangThai> listTrangThai = (ArrayList<TrangThai>) session.getAttribute("trangThaiList");
-	ArrayList<DonVi> listDonVi = (ArrayList<DonVi>) session.getAttribute("donViList");
-	ArrayList<MucDich> listMucDich = (ArrayList<MucDich>) session.getAttribute("mucDichList");
-	HashMap<Integer, ArrayList<YeuCau>> yeuCauHash = (HashMap<Integer, ArrayList<YeuCau>>) session.getAttribute("yeuCau");
-	Long size = (Long) request.getAttribute("size");
+	ArrayList<TrangThai> listTrangThai = (ArrayList<TrangThai>) request.getAttribute("trangThaiList");
+	ArrayList<DonVi> listDonVi = (ArrayList<DonVi>) request.getAttribute("donViList");
+	ArrayList<MucDich> listMucDich = (ArrayList<MucDich>) request.getAttribute("mucDichList");
+	
+	
     %>
   
 	<div class="wrapper">
@@ -207,11 +207,11 @@
 				</div>
 				<div class="group-button">
 					&nbsp;&nbsp;
-					<button class="button" type="button" onclick="location.href='<%=siteMap.xuatCongVan+".jsp"%>'">
+					<a href="<%=siteMap.exportBccv%>" target="_blank"><button class="button" type="button">
 						<i class="fa fa-print"></i>&nbsp;&nbsp;Xuất file
-					</button>
+					</button></a>
 					&nbsp;&nbsp;
-					<button type="button" class="button" onclick="location.href='<%=siteMap.home%>'">
+					<button type="button" class="button" onclick="window.close();">
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 					</button>
 				</div>

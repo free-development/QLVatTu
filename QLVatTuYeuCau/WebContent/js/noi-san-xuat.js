@@ -211,10 +211,11 @@ $(document).ready(function() {
 		  	}
 		});
     });	
-})   
-	function reset(){
-			$('#update-form input:text[name=nsxTenUpdate]').vval('');
- 	}
+})
+
+function reset(){
+		$('#update-form input:text[name=nsxTenUpdate]').vval('');
+}
 $(document).ready(function() {
 	$('#add-form').keypress(function(e) {
 	 var key = e.which;
@@ -236,3 +237,4 @@ $(document).ready(function() {
 	  }
 	});   
 });  
+  

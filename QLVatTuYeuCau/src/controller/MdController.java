@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.ChatLuong;
 import model.ChucDanh;
@@ -24,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import util.JSonUtil;
 import dao.ChatLuongDAO;
 import dao.MucDichDAO;
+import map.siteMap;
 
 @Controller
 public class MdController extends HttpServlet {
@@ -31,6 +33,17 @@ public class MdController extends HttpServlet {
 	int page = 1;
 	@RequestMapping("/manageMd")
 	public ModelAndView manageMd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("nguoiDung") == null)
+			return new ModelAndView(siteMap.login);
+		session.removeAttribute("congVanList");
+		session.removeAttribute("ctVatTuList");
+		session.removeAttribute("soLuongList");
+		session.removeAttribute("yeuCauHash");
+		session.removeAttribute("ctVatTuHash");
+		session.removeAttribute("trangThaiList");
+		session.removeAttribute("donViList");
+		session.removeAttribute("errorList");
 		MucDichDAO mucDichDAO = new MucDichDAO();
 		String action = request.getParameter("action");
 		if("manageMd".equalsIgnoreCase(action)) {

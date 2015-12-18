@@ -181,9 +181,11 @@
 				
 				<div class="group-button">
 					&nbsp;&nbsp;
-					<button class="button" type="button" onclick="location.href='<%=siteMap.xuatBcChiTiet+".jsp"%>'">
+					<a href="<%=siteMap.xuatBcChiTiet+".jsp"%>" target="_blank">
+					<button class="button" type="button">
 						<i class="fa fa-print"></i>&nbsp;&nbsp;Xuất file
 					</button>
+					</a>
 					&nbsp;&nbsp;
 					<button type="button" class="button" onclick="location.href='<%=siteMap.home%>'">
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát

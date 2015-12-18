@@ -36,7 +36,7 @@ public class downloadExcel extends HttpServlet {
 	 @RequestMapping(value = "/downloadExcelCl", method = RequestMethod.GET)
 	 public ModelAndView downloadExcelCl(HttpServletRequest request) {
 	 	HttpSession session = request.getSession(false); 
-        List<ChatLuong> listCl = (List<ChatLuong>) session.getAttribute("allChatLuongList");
+        List<ChatLuong> listCl = (List<ChatLuong>) session.getAttribute("objectList");
         return new ModelAndView("excelCl", "listBooksCl", listCl);
 	 }
 	 @RequestMapping(value = "/downloadExcelDv", method = RequestMethod.GET)
@@ -51,7 +51,7 @@ public class downloadExcel extends HttpServlet {
 	 public ModelAndView downloadExcelCtvt(HttpServletRequest request) {
 	        // create some sample data
 		 HttpSession session = request.getSession(false);
-		 List<CTVatTu> listCTVatTu = (List<CTVatTu>) session.getAttribute("allCTVatTuList");
+		 List<CTVatTu> listCTVatTu = (List<CTVatTu>) session.getAttribute("objectList");
         return new ModelAndView("excelCtvt", "listCtvt", listCTVatTu);
     }
 	 
@@ -66,7 +66,7 @@ public class downloadExcel extends HttpServlet {
 	 public ModelAndView downloadExcelTon(HttpServletRequest request) {
         // create some sample data
 	 	HttpSession session = request.getSession(false);
-        List<CTVatTu> listTon = (List<CTVatTu>) session.getAttribute("tonKhoList");
+        List<CTVatTu> listTon = (List<CTVatTu>) session.getAttribute("objectList");
         // return a view which will be resolved by an excel view resolver
         return new ModelAndView("excelTon", "listTon", listTon);
 	 }

@@ -40,11 +40,11 @@ public class ChatLuongFile extends AbstractExcelView {
 		// create style for header cells
 		CellStyle style = workbook.createCellStyle();
 		Font font = workbook.createFont();
-		font.setFontName("Arial");
-		style.setFillForegroundColor(HSSFColor.BLUE.index);
-		style.setFillPattern(CellStyle.SOLID_FOREGROUND);
-		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-		font.setColor(HSSFColor.WHITE.index);
+		font.setFontName("Times New Roman");
+//		style.setFillForegroundColor(HSSFColor.BLUE.index);
+//		style.setFillPattern(CellStyle.SOLID_FOREGROUND);
+//		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+//		font.setColor(HSSFColor.WHITE.index);
 		style.setFont(font);
 		
 		// create header row

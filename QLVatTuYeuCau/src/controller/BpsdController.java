@@ -32,20 +32,24 @@ public class BpsdController extends HttpServlet {
 	@RequestMapping("/manageBpsd")
 	public ModelAndView manageBpsd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-	
-			DonViDAO donViDAO = new DonViDAO();
-			request.getCharacterEncoding();
-	    	response.getCharacterEncoding();
-	    	request.setCharacterEncoding("UTF-8");
-	    	response.setCharacterEncoding("UTF-8");  
-			HttpSession session = request.getSession(false);
-			long size = donViDAO.size();
-			ArrayList<DonVi> donViList =  (ArrayList<DonVi>) donViDAO.limit(page - 1, 10);
-			ArrayList<DonVi> allDonViList  = (ArrayList<DonVi>) donViDAO.getAllDonVi();
-			session.setAttribute("allDonViList", allDonViList);
-			session.setAttribute("size", size);
-			donViDAO.disconnect();
-			return new ModelAndView("danh-muc-bo-phan", "donViList", donViList);
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("nguoiDung") == null)
+			return new ModelAndView(siteMap.login);
+		session.removeAttribute("congVanList");
+		session.removeAttribute("ctVatTuList");
+		session.removeAttribute("soLuongList");
+		session.removeAttribute("yeuCauHash");
+		session.removeAttribute("ctVatTuHash");
+		session.removeAttribute("trangThaiList");
+		session.removeAttribute("donViList");
+		DonViDAO donViDAO = new DonViDAO();
+		long size = donViDAO.size();
+		ArrayList<DonVi> donViList =  (ArrayList<DonVi>) donViDAO.limit(page - 1, 10);
+		ArrayList<DonVi> allDonViList  = (ArrayList<DonVi>) donViDAO.getAllDonVi();
+		session.setAttribute("allDonViList", allDonViList);
+		session.setAttribute("size", size);
+		donViDAO.disconnect();
+		return new ModelAndView("danh-muc-bo-phan", "donViList", donViList);
 	}
 	
 	@RequestMapping("/exportBpsd")
