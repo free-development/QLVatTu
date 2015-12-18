@@ -38,7 +38,7 @@
     %>
 	<div class="wrapper">
 		<div id="main-content">
-			<div id="title-content">Danh sách chi tiết vật tư bị lỗi</div>
+			<div id="title-content">Danh sách vật tư tồn kho bị lỗi</div>
 			<form id="main-form">
 					<div id="view-table-chi-tiet" style="height: 500px; margin: 0 auto; overflow: auto;" class="scroll_content">
 						<table>

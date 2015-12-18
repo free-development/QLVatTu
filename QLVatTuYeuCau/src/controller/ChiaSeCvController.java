@@ -57,52 +57,54 @@ public class ChiaSeCvController extends HttpServlet {
 	protected ModelAndView cscvManage(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = request.getParameter("action");
-		if ("chiaSeCv".equalsIgnoreCase(action)) {
-			session = request.getSession(false);
-			if (session.getAttribute("nguoiDung") == null)
-				return new ModelAndView(siteMap.login);
-			session.removeAttribute("congVanList");
-			session.removeAttribute("ctVatTuList");
-			session.removeAttribute("soLuongList");
-			session.removeAttribute("yeuCauHash");
-			session.removeAttribute("ctVatTuHash");
-			session.removeAttribute("trangThaiList");
-			session.removeAttribute("donViList");
-			String id = request.getParameter("congVan");
-			int cvId = Integer.parseInt(id);
-			CongVanDAO congVanDAO = new CongVanDAO();
-			VaiTroDAO vaiTroDAO = new VaiTroDAO();
-			NguoiDungDAO nguoiDungDAO = new NguoiDungDAO();
-			truongPhongMa =  context.getInitParameter("truongPhongMa");
-			phoPhongMa = context.getInitParameter("phoPhongMa");
-			adminMa = context.getInitParameter("adminMa");
-			CongVan congVan = congVanDAO.getCongVan(cvId);
-			ArrayList<VaiTro> vaiTroList = (ArrayList<VaiTro>) vaiTroDAO.getAllVaiTro();
-			ArrayList<String> ignoreList = new ArrayList<String>();
-			ignoreList.add(truongPhongMa);
-			ignoreList.add(adminMa);
-			ArrayList<NguoiDung> nguoiDungList = (ArrayList<NguoiDung>) nguoiDungDAO.getAllNguoiDung(ignoreList);
-			VTCongVanDAO vtCongVanDAO = new VTCongVanDAO();
-
-			HashMap<String, NguoiDung> vtNguoiDungHash = vtCongVanDAO.getNguoiXuLy(cvId);
-			HashMap<String, HashMap<Integer, VaiTro>> vaiTroHash = new HashMap<String, HashMap<Integer, VaiTro>>();
-			for (String msnv : vtNguoiDungHash.keySet()) {
-				ArrayList<VTCongVan> vtcvList = vtCongVanDAO.getVTCongVan(cvId, msnv);
-				HashMap<Integer, VaiTro> vtHash = vtCongVanDAO.toVaiTro(vtcvList);
-				vaiTroHash.put(msnv, vtHash);
-			}
-			request.setAttribute("vaiTroHash", vaiTroHash);
-			request.setAttribute("vtNguoiDungHash", vtNguoiDungHash);
-			session.setAttribute("vaiTroList", vaiTroList);
-			session.setAttribute("nguoiDungList", nguoiDungList);
-			session.setAttribute("congVan", congVan);
-
-			congVanDAO.disconnect();
-			vaiTroDAO.disconnect();
-			nguoiDungDAO.disconnect();
-			return new ModelAndView(siteMap.chiaSeCv);
+		try {
+				session = request.getSession(false);
+				if (session.getAttribute("nguoiDung") == null)
+					return new ModelAndView(siteMap.login);
+				session.removeAttribute("congVanList");
+				session.removeAttribute("ctVatTuList");
+				session.removeAttribute("soLuongList");
+				session.removeAttribute("yeuCauHash");
+				session.removeAttribute("ctVatTuHash");
+				session.removeAttribute("trangThaiList");
+				session.removeAttribute("donViList");
+				session.removeAttribute("errorList");
+				String id = request.getParameter("congVan");
+				int cvId = Integer.parseInt(id);
+				CongVanDAO congVanDAO = new CongVanDAO();
+				VaiTroDAO vaiTroDAO = new VaiTroDAO();
+				NguoiDungDAO nguoiDungDAO = new NguoiDungDAO();
+				truongPhongMa =  context.getInitParameter("truongPhongMa");
+				phoPhongMa = context.getInitParameter("phoPhongMa");
+				adminMa = context.getInitParameter("adminMa");
+				CongVan congVan = congVanDAO.getCongVan(cvId);
+				ArrayList<VaiTro> vaiTroList = (ArrayList<VaiTro>) vaiTroDAO.getAllVaiTro();
+				ArrayList<String> ignoreList = new ArrayList<String>();
+				ignoreList.add(truongPhongMa);
+				ignoreList.add(adminMa);
+				ArrayList<NguoiDung> nguoiDungList = (ArrayList<NguoiDung>) nguoiDungDAO.getAllNguoiDung(ignoreList);
+				VTCongVanDAO vtCongVanDAO = new VTCongVanDAO();
+	
+				HashMap<String, NguoiDung> vtNguoiDungHash = vtCongVanDAO.getNguoiXuLy(cvId);
+				HashMap<String, HashMap<Integer, VaiTro>> vaiTroHash = new HashMap<String, HashMap<Integer, VaiTro>>();
+				for (String msnv : vtNguoiDungHash.keySet()) {
+					ArrayList<VTCongVan> vtcvList = vtCongVanDAO.getVTCongVan(cvId, msnv);
+					HashMap<Integer, VaiTro> vtHash = vtCongVanDAO.toVaiTro(vtcvList);
+					vaiTroHash.put(msnv, vtHash);
+				}
+				request.setAttribute("vaiTroHash", vaiTroHash);
+				request.setAttribute("vtNguoiDungHash", vtNguoiDungHash);
+				session.setAttribute("vaiTroList", vaiTroList);
+				session.setAttribute("nguoiDungList", nguoiDungList);
+				session.setAttribute("congVan", congVan);
+	
+				congVanDAO.disconnect();
+				vaiTroDAO.disconnect();
+				nguoiDungDAO.disconnect();
+				return new ModelAndView(siteMap.chiaSeCv);
+		} catch (NullPointerException e) {
+			return new ModelAndView(siteMap.login);
 		}
-		return new ModelAndView("login");
 	}
 
 	@RequestMapping("/chiaSeCv")
@@ -178,16 +180,12 @@ public class ChiaSeCvController extends HttpServlet {
 			}
 			if(hotens.length() > 0)
 				hotens.delete(hotens.length()-1, hotens.length());
-//			String truongPhongMa = context.getInitParameter("truongPhongMa");
 			NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoiDung");
 			
 			Date currentDate = DateUtil.convertToSqlDate(new java.util.Date ());
 			NhatKy nhatKy = new NhatKy(nguoiDung.getMsnv(), congVan.getCvId() + "#Chia sẻ công văn số " + congVan.getSoDen() + " nhận ngày " + DateUtil.toString(congVan.getCvNgayNhan()), currentDate,  hotens.toString());
-//			NhatKyDAO nhatKyDAO = new NhatKyDAO();
 			NhatKyDAO nhatKyDAO = new NhatKyDAO();
 			nhatKyDAO.addNhatKy(nhatKy);
-//			HttpSession session = request.getSession(false);
-//			session.setAttribute("nhatKy", nhatKy);
 			
 			request.setAttribute("vaiTroHash", vaiTroHash);
 			request.setAttribute("vtNguoiDungHash", vtNguoiDungHash);
@@ -217,7 +215,6 @@ public class ChiaSeCvController extends HttpServlet {
 
 		CongVan congVan = (CongVan) session.getAttribute("congVan");
 		session.setAttribute("msnvUpdate", msnv);
-		// NguoiDung nguoiDung = nguoiDungDAO.getNguoiDung(msnv);
 		ArrayList<VaiTro> vaiTroList = (ArrayList<VaiTro>) vaiTroDAO.getAllVaiTro();
 		ArrayList<VTCongVan> vtCongVanList = vtCongVanDAO.getVTCongVan(congVan.getCvId(), msnv);
 		ArrayList<Object> objectList = new ArrayList<Object>();
@@ -240,25 +237,18 @@ public class ChiaSeCvController extends HttpServlet {
 		String msnvUpdate = (String) session.getAttribute("msnvUpdate");
 		int cvId = congVan.getCvId();
 		vtCongVanDAO.delete(cvId, msnvUpdate);
-		//System.out.println(msnvUpdate);
 		if (msnvUpdate == null || congVan == null)
 			res.sendRedirect(siteMap.cvManage + "?action=manageCv");
-		// return JSonUtil.toJson("delete");
 		String[] vtList = vaiTroList.split("\\, ");
-		// StringBuilder str = new StringBuilder("");
 		ArrayList<Object> objectList = new ArrayList<Object>();
 		ArrayList<VaiTro> list = new ArrayList<VaiTro>();
 		if (vaiTroList.length() != 0) {
 			for (String s : vtList) {
 				int vtId = Integer.parseInt(s);
 				vtCongVanDAO.addVTCongVan(new VTCongVan(cvId, vtId, msnvUpdate, new TrangThai("CGQ")));
-				// String vt = vtCongVanDAO.getVaiTro(vtId);
-				// str.append(vt + "<br>");
 				VaiTro vt = vaiTroDAO.getVaiTro(vtId);
-				// JOptionPane.showMessageDialog(null, vt.getVtTen());
 				list.add(vt);
 			}
-			// str.delete(str.length()-4, 4);
 		}
 		HashMap<String, NguoiDung> vtNguoiDungHash = vtCongVanDAO.getNguoiXuLy(cvId);
 		HashMap<String, HashMap<Integer, VaiTro>> vaiTroHash = new HashMap<String, HashMap<Integer, VaiTro>>();
@@ -316,19 +306,6 @@ public class ChiaSeCvController extends HttpServlet {
 		return JSonUtil.toJson(objectList);
 	}
 
-	// @RequestMapping(value="/sendMail", method=RequestMethod.GET,
-	// produces = MediaType.APPLICATION_JSON_VALUE, consumes =
-	// MediaType.APPLICATION_JSON_VALUE)
-	// public @ResponseBody String sendMail(@RequestParam("email") String
-	// email,@RequestParam("chude") String chude,@RequestParam("noidung") String
-	// noidung) {
-	// Mailer mailer = new Mailer();
-	// mailer.send(email, chude, noidung);
-	// ArrayList<Object> objectList = new ArrayList<Object>();
-	// objectList.add(mailer);
-	// return JSonUtil.toJson(objectList);
-	// }
-
 	@RequestMapping(value = "/loadPageCscv", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String loadPageCscv(@RequestParam("pageNumber") String pageNumber) {
 		CTNguoiDungDAO ndDAO = new CTNguoiDungDAO();
@@ -359,7 +336,6 @@ public class ChiaSeCvController extends HttpServlet {
 		CongVan congVan = (CongVan) session.getAttribute("congVan");
 		ArrayList<VaiTro> vaiTroList = (ArrayList<VaiTro>)vaiTroDAO.getAllVaiTro();
 		ArrayList<NguoiDung> nguoiDungList = new ArrayList<NguoiDung>();
-//		ArrayList<ArrayList<VTCongVan>> vtNguoiDungList = new ArrayList<ArrayList<VTCongVan>>();
 		ArrayList<VTCongVan> vtNguoiDungList = new ArrayList<VTCongVan>();
 		
 		ArrayList<Object> objectList = new ArrayList<Object>();

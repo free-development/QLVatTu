@@ -43,6 +43,8 @@ function hideUpdateForm(){
 	showForm('search-form', 'add-form', false);
 }
 function checkAdd(){
+//	style.
+	
 	var cvSo = $('#add-form input:text[name=cvSo]').val();
 	var ngayNhan = $('#add-form input:text[name=ngayNhan]').val();
 	var mucDich = $('#add-form select[name=mucDich]').val();
@@ -97,9 +99,13 @@ function checkAdd(){
 	else if(moTa == ''){
 		$('#requireMoTa').html('Vui lòng nhập nội dung');
 		return false;
+	} else {
+//		$("body").css("cursor", "wait");
+		document.getElementById("loading").style.display="block";
+		addCongVan();
+//		$("body").css("cursor", "default");
+//		document.getElementById("loading").style.display="none";
 	}
-//	return true;
-	addCongVan();
 }
 function changeSoCv(){
 	$('#requireSoCv').html('');
@@ -191,6 +197,7 @@ function confirmDelete(){
 		deleteCv(str);
 }
 function addCongVan() {
+	
 	var cvSo = $('#add-form input:text[name=cvSo]').val();
 	var form = new FormData(document.getElementById('add-form'));
 	$.ajax({
@@ -225,7 +232,7 @@ function addCongVan() {
 		  		$('#add-form textarea[name=butPhe]').val('');
 		  		hideAddForm();
 		  		alert('Thêm công văn mới thành công');
-		  		window.location.reload();
+		  		location.assign("cong-van.jsp");
 		  		
 	  		}
 	  		

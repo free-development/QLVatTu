@@ -54,66 +54,70 @@ public class NdController extends HttpServlet {
 	
 	@RequestMapping("/ndManage")
 	public ModelAndView ndManage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession(false);
-		if (session.getAttribute("nguoiDung") == null)
-			return new ModelAndView(siteMap.login);
-		session.removeAttribute("congVanList");
-		session.removeAttribute("ctVatTuList");
-		session.removeAttribute("soLuongList");
-		session.removeAttribute("yeuCauHash");
-		session.removeAttribute("ctVatTuHash");
-		session.removeAttribute("trangThaiList");
-		session.removeAttribute("donViList");
-		session.removeAttribute("errorList");
-		request.getCharacterEncoding();
-		response.getCharacterEncoding();
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");
-		if (session.getAttribute("nguoiDung") == null)
-			response.sendRedirect("login.jsp");
-		String adminMa = context.getInitParameter("adminMa");
-		String truongPhongMa = context.getInitParameter("truongPhongMa");
+		try {
+			HttpSession session = request.getSession(false);
+			if (session.getAttribute("nguoiDung") == null)
+				return new ModelAndView(siteMap.login);
+			session.removeAttribute("congVanList");
+			session.removeAttribute("ctVatTuList");
+			session.removeAttribute("soLuongList");
+			session.removeAttribute("yeuCauHash");
+			session.removeAttribute("ctVatTuHash");
+			session.removeAttribute("trangThaiList");
+			session.removeAttribute("donViList");
+			session.removeAttribute("errorList");
+			request.getCharacterEncoding();
+			response.getCharacterEncoding();
+			request.setCharacterEncoding("UTF-8");
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html; charset=UTF-8");
+			if (session.getAttribute("nguoiDung") == null)
+				response.sendRedirect("login.jsp");
+			String adminMa = context.getInitParameter("adminMa");
+			String truongPhongMa = context.getInitParameter("truongPhongMa");
+					
+			NguoiDungDAO nguoiDungDAO = new NguoiDungDAO();
+			ChucDanhDAO chucDanhDAO = new ChucDanhDAO();
+			CTNguoiDungDAO ctNguoiDungDAO = new CTNguoiDungDAO();
+			String action = request.getParameter("action");
+			if ("manageNd".equalsIgnoreCase(action)) {
+				ArrayList<ChucDanh> chucDanhList = (ArrayList<ChucDanh>) new ChucDanhDAO().getAllChucDanh();
+				return new ModelAndView("them-nguoi-dung","chucDanhList", chucDanhList);
+			}
+			if("AddNd".equalsIgnoreCase(action)) {
+				String msnv = request.getParameter("msnv");
+				String chucdanh = request.getParameter("chucdanh");
+				String matkhau = request.getParameter("matkhau");
+				String hoten = request.getParameter("hoten");
+				String sdt = request.getParameter("sdt");
+				String email = request.getParameter("email");
+				String diachi = request.getParameter("diachi");
+				nguoiDungDAO.addNguoiDung(new NguoiDung(msnv, hoten, diachi, email, sdt, new ChucDanh(chucdanh)));
+				ctNguoiDungDAO.addCTNguoiDung(new CTNguoiDung(msnv, StringUtil.encryptMD5(matkhau),0));
 				
-		NguoiDungDAO nguoiDungDAO = new NguoiDungDAO();
-		ChucDanhDAO chucDanhDAO = new ChucDanhDAO();
-		CTNguoiDungDAO ctNguoiDungDAO = new CTNguoiDungDAO();
-		String action = request.getParameter("action");
-		if ("manageNd".equalsIgnoreCase(action)) {
-			ArrayList<ChucDanh> chucDanhList = (ArrayList<ChucDanh>) new ChucDanhDAO().getAllChucDanh();
-			return new ModelAndView("them-nguoi-dung","chucDanhList", chucDanhList);
+				ArrayList<NguoiDung> nguoiDungList =  (ArrayList<NguoiDung>) nguoiDungDAO.getAllNguoiDung(new ArrayList<String>());
+				return new ModelAndView("them-nguoi-dung", "nguoiDungList", nguoiDungList);
+				
+			}
+			if("manageNd".equalsIgnoreCase(action)) {
+				long size = ctNguoiDungDAO.size();
+				ArrayList<String> ignoreList = new ArrayList<String>();
+				ignoreList.add(truongPhongMa);
+				ignoreList.add(adminMa);
+				ArrayList<NguoiDung> ctndList =  (ArrayList<NguoiDung>) ctNguoiDungDAO.limit(ignoreList, page - 1, 10);
+				request.setAttribute("size", size);
+				ArrayList<ChucDanh> chucDanhList = (ArrayList<ChucDanh>) new ChucDanhDAO().getAllChucDanh();
+				ArrayList<NguoiDung> nguoiDungList =  (ArrayList<NguoiDung>) nguoiDungDAO.getAllNguoiDung(new ArrayList<String>());
+				request.setAttribute("chucDanhList", chucDanhList);
+				return new ModelAndView("them-nguoi-dung", "nguoiDungList", nguoiDungList);
+			}
+			nguoiDungDAO.disconnect();
+			chucDanhDAO.disconnect();
+			ctNguoiDungDAO.disconnect();
+			return new ModelAndView(siteMap.ndManage);
+		} catch (NullPointerException e) {
+			return new ModelAndView(siteMap.login);
 		}
-		if("AddNd".equalsIgnoreCase(action)) {
-			String msnv = request.getParameter("msnv");
-			String chucdanh = request.getParameter("chucdanh");
-			String matkhau = request.getParameter("matkhau");
-			String hoten = request.getParameter("hoten");
-			String sdt = request.getParameter("sdt");
-			String email = request.getParameter("email");
-			String diachi = request.getParameter("diachi");
-			nguoiDungDAO.addNguoiDung(new NguoiDung(msnv, hoten, diachi, email, sdt, new ChucDanh(chucdanh)));
-			ctNguoiDungDAO.addCTNguoiDung(new CTNguoiDung(msnv, StringUtil.encryptMD5(matkhau),0));
-			
-			ArrayList<NguoiDung> nguoiDungList =  (ArrayList<NguoiDung>) nguoiDungDAO.getAllNguoiDung(new ArrayList<String>());
-			return new ModelAndView("them-nguoi-dung", "nguoiDungList", nguoiDungList);
-			
-		}
-		if("manageNd".equalsIgnoreCase(action)) {
-			long size = ctNguoiDungDAO.size();
-			ArrayList<String> ignoreList = new ArrayList<String>();
-			ignoreList.add(truongPhongMa);
-			ignoreList.add(adminMa);
-			ArrayList<NguoiDung> ctndList =  (ArrayList<NguoiDung>) ctNguoiDungDAO.limit(ignoreList, page - 1, 10);
-			request.setAttribute("size", size);
-			ArrayList<ChucDanh> chucDanhList = (ArrayList<ChucDanh>) new ChucDanhDAO().getAllChucDanh();
-			ArrayList<NguoiDung> nguoiDungList =  (ArrayList<NguoiDung>) nguoiDungDAO.getAllNguoiDung(new ArrayList<String>());
-			request.setAttribute("chucDanhList", chucDanhList);
-			return new ModelAndView("them-nguoi-dung", "nguoiDungList", nguoiDungList);
-		}
-		nguoiDungDAO.disconnect();
-		chucDanhDAO.disconnect();
-		ctNguoiDungDAO.disconnect();
-		return new ModelAndView(siteMap.ndManage);
 	}
 	
 	@RequestMapping(value="/addNd", method=RequestMethod.GET, 

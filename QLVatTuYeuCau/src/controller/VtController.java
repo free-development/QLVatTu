@@ -34,49 +34,53 @@ public class VtController extends HttpServlet {
 	private String vtOld = "";
 	@RequestMapping("/manageVt")
 	public ModelAndView manageVt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession(false);
-		if (session.getAttribute("nguoiDung") == null)
-			return new ModelAndView(siteMap.login);
-		session.removeAttribute("congVanList");
-		session.removeAttribute("ctVatTuList");
-		session.removeAttribute("soLuongList");
-		session.removeAttribute("yeuCauHash");
-		session.removeAttribute("ctVatTuHash");
-		session.removeAttribute("trangThaiList");
-		session.removeAttribute("donViList");
-		session.removeAttribute("errorList");
-		VaiTroDAO vaiTroDAO = new VaiTroDAO();
-		String action = request.getParameter("action");
-		if("AddVaiTro".equalsIgnoreCase(action)) {
-			int vtId = Integer.parseInt(request.getParameter("vtId"));
-			String vtTen = request.getParameter("vtTen");
-			vaiTroDAO.addOrUpdateVaiTro(new VaiTro(vtTen,0));
-			
-			ArrayList<VaiTro> vaiTroList =  (ArrayList<VaiTro>) vaiTroDAO.getAllVaiTro();
-			vaiTroDAO.disconnect();
-			return new ModelAndView("danh-muc-vai-tro", "vaiTroList", vaiTroList);
-		}
-		
-		if("deleteVaiTro".equalsIgnoreCase(action)) {
-			String[] vtIdList = request.getParameterValues("vtId");
-			for(String s : vtIdList) {
-				int vtId = Integer.parseInt(s); 	
-				vaiTroDAO.deleteVaiTro(vtId);
+		try {
+			HttpSession session = request.getSession(false);
+			if (session.getAttribute("nguoiDung") == null)
+				return new ModelAndView(siteMap.login);
+			session.removeAttribute("congVanList");
+			session.removeAttribute("ctVatTuList");
+			session.removeAttribute("soLuongList");
+			session.removeAttribute("yeuCauHash");
+			session.removeAttribute("ctVatTuHash");
+			session.removeAttribute("trangThaiList");
+			session.removeAttribute("donViList");
+			session.removeAttribute("errorList");
+			VaiTroDAO vaiTroDAO = new VaiTroDAO();
+			String action = request.getParameter("action");
+			if("AddVaiTro".equalsIgnoreCase(action)) {
+				int vtId = Integer.parseInt(request.getParameter("vtId"));
+				String vtTen = request.getParameter("vtTen");
+				vaiTroDAO.addOrUpdateVaiTro(new VaiTro(vtTen,0));
+				
+				ArrayList<VaiTro> vaiTroList =  (ArrayList<VaiTro>) vaiTroDAO.getAllVaiTro();
+				vaiTroDAO.disconnect();
+				return new ModelAndView("danh-muc-vai-tro", "vaiTroList", vaiTroList);
 			}
-			ArrayList<VaiTro> vaiTroList =  (ArrayList<VaiTro>) vaiTroDAO.getAllVaiTro();
+			
+			if("deleteVaiTro".equalsIgnoreCase(action)) {
+				String[] vtIdList = request.getParameterValues("vtId");
+				for(String s : vtIdList) {
+					int vtId = Integer.parseInt(s); 	
+					vaiTroDAO.deleteVaiTro(vtId);
+				}
+				ArrayList<VaiTro> vaiTroList =  (ArrayList<VaiTro>) vaiTroDAO.getAllVaiTro();
+				vaiTroDAO.disconnect();
+				return new ModelAndView("danh-muc-vai-tro", "vaiTroList", vaiTroList);
+			}
+			if("manageVt".equalsIgnoreCase(action)) {
+				long size = vaiTroDAO.size();
+				ArrayList<VaiTro> vaiTroList =  (ArrayList<VaiTro>) vaiTroDAO.limit(page - 1, 10);
+				//System.out.println(size);
+				request.setAttribute("size", size);
+				vaiTroDAO.disconnect();
+				return new ModelAndView("danh-muc-vai-tro", "vaiTroList", vaiTroList);
+			}
 			vaiTroDAO.disconnect();
-			return new ModelAndView("danh-muc-vai-tro", "vaiTroList", vaiTroList);
+			return new ModelAndView("login");
+		} catch (NullPointerException e) {
+			return new ModelAndView(siteMap.login);
 		}
-		if("manageVt".equalsIgnoreCase(action)) {
-			long size = vaiTroDAO.size();
-			ArrayList<VaiTro> vaiTroList =  (ArrayList<VaiTro>) vaiTroDAO.limit(page - 1, 10);
-			//System.out.println(size);
-			request.setAttribute("size", size);
-			vaiTroDAO.disconnect();
-			return new ModelAndView("danh-muc-vai-tro", "vaiTroList", vaiTroList);
-		}
-		vaiTroDAO.disconnect();
-		return new ModelAndView("login");
 	}
 	@RequestMapping(value="/preEditvt", method=RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

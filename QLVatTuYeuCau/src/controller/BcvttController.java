@@ -29,57 +29,55 @@ public class BcvttController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     @RequestMapping("/manageBcvtt")
 	public ModelAndView manageBcvtt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	
-    	HttpSession session = request.getSession(false);
-		if (session.getAttribute("nguoiDung") == null)
+    	try {
+	    	HttpSession session = request.getSession(false);
+			if (session.getAttribute("nguoiDung") == null)
+				return new ModelAndView(siteMap.login);
+			session.removeAttribute("congVanList");
+			session.removeAttribute("ctVatTuList");
+			session.removeAttribute("soLuongList");
+			session.removeAttribute("yeuCauHash");
+			session.removeAttribute("ctVatTuHash");
+			session.removeAttribute("trangThaiList");
+			session.removeAttribute("donViList");
+			session.removeAttribute("errorList");
+	    	CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
+			YeuCauDAO yeuCauDAO = new YeuCauDAO();
+	    	CongVanDAO congVanDAO = new CongVanDAO();
+			String ngaybd = request.getParameter("ngaybd");
+			String ngaykt = request.getParameter("ngaykt");
+			HashMap<String, Object> condtions = new HashMap<String, Object>();
+			
+			
+			if (ngaybd != null && ngaybd.length() > 0) {
+				condtions.put("geCvNgayNhan", DateUtil.parseDate(ngaybd));
+				session.setAttribute("ngaybd", DateUtil.parseDate(ngaybd));
+			}
+			if (ngaykt != null && ngaykt.length() > 0) {
+				condtions.put("leCvNgayNhan", DateUtil.parseDate(ngaykt));
+				session.setAttribute("ngaykt", DateUtil.parseDate(ngaykt));
+			}
+			
+			ArrayList<CTVatTu> ctVatTuList = yeuCauDAO.distinctCtvt(condtions);
+			ArrayList<ArrayList<CongVan>> congVanList = new ArrayList<ArrayList<CongVan>>();
+			ArrayList<Long> soLuongList = new ArrayList<Long>();
+			for (CTVatTu ctVatTu : ctVatTuList) {
+				int ctvtId = ctVatTu.getCtvtId();
+				ArrayList<CongVan> congVans = yeuCauDAO.getCongVanByCtvtId(ctvtId);
+				long soLuong = yeuCauDAO.sumByCtvtId(ctvtId);
+				congVanList.add(congVans);
+				soLuongList.add(soLuong);
+			}
+			ctVatTuDAO.disconnect();
+			congVanDAO.disconnect();
+			yeuCauDAO.disconnect();
+			session.setAttribute("ctVatTuList", ctVatTuList);
+			session.setAttribute("congVanList", congVanList);
+			session.setAttribute("soLuongList", soLuongList);
+			return new ModelAndView(siteMap.baoCaoVatTuThieu);
+    	} catch (NullPointerException e) {
 			return new ModelAndView(siteMap.login);
-		session.removeAttribute("congVanList");
-		session.removeAttribute("ctVatTuList");
-		session.removeAttribute("soLuongList");
-		session.removeAttribute("yeuCauHash");
-		session.removeAttribute("ctVatTuHash");
-		session.removeAttribute("trangThaiList");
-		session.removeAttribute("donViList");
-    	
-    	CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
-		YeuCauDAO yeuCauDAO = new YeuCauDAO();
-    	CongVanDAO congVanDAO = new CongVanDAO();
-		String ngaybd = request.getParameter("ngaybd");
-		String ngaykt = request.getParameter("ngaykt");
-		HashMap<String, Object> condtions = new HashMap<String, Object>();
-		
-		
-		if (ngaybd != null && ngaybd.length() > 0) {
-			condtions.put("geCvNgayNhan", DateUtil.parseDate(ngaybd));
-			session.setAttribute("ngaybd", DateUtil.parseDate(ngaybd));
 		}
-		if (ngaykt != null && ngaykt.length() > 0) {
-			condtions.put("leCvNgayNhan", DateUtil.parseDate(ngaykt));
-			session.setAttribute("ngaykt", DateUtil.parseDate(ngaykt));
-		}
-		
-		ArrayList<CTVatTu> ctVatTuList = yeuCauDAO.distinctCtvt(condtions);
-		ArrayList<ArrayList<CongVan>> congVanList = new ArrayList<ArrayList<CongVan>>();
-		ArrayList<Long> soLuongList = new ArrayList<Long>();
-		for (CTVatTu ctVatTu : ctVatTuList) {
-			int ctvtId = ctVatTu.getCtvtId();
-			ArrayList<CongVan> congVans = yeuCauDAO.getCongVanByCtvtId(ctvtId);
-			long soLuong = yeuCauDAO.sumByCtvtId(ctvtId);
-			congVanList.add(congVans);
-			soLuongList.add(soLuong);
-		}
-		System.out.println("ngay bd = " + ngaybd);
-		ctVatTuDAO.disconnect();
-		congVanDAO.disconnect();
-		yeuCauDAO.disconnect();
-
-		
-		session.setAttribute("ctVatTuList", ctVatTuList);
-		session.setAttribute("congVanList", congVanList);
-		session.setAttribute("soLuongList", soLuongList);
-		
-		return new ModelAndView(siteMap.baoCaoVatTuThieu);
-    	
 	}
 
 }

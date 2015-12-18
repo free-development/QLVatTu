@@ -93,7 +93,6 @@ public class ReadExcelCongVan {
 					clMaError.add(clMa);
 					soLuongError.add((int)soLuong);
 					statusError.add("Lỗi dữ liệu");
-					System.out.println("error");
 				}
 				else
 				{
@@ -199,7 +198,6 @@ public class ReadExcelCongVan {
 						}
 					}
 					count++;
-					System.out.println("NSX Ma = " + nsxMa + "\tCL Ma" + clMa + "\tVT Ma " + vtMa +  "'\t so luong = " + soLuong);
 				}
 				if (vtMa.length() == 0 && nsxMa.length() == 0 && clMa.length() == 0 && soLuong <= 0)
 					break;

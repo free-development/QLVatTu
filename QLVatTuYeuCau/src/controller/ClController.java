@@ -37,28 +37,33 @@ public class ClController extends HttpServlet {
 	int page = 1;
 	@RequestMapping("/manageCl")
 	public ModelAndView manageCl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession(false);
-		if (session.getAttribute("nguoiDung") == null)
+		try {
+			HttpSession session = request.getSession(false);
+			if (session.getAttribute("nguoiDung") == null)
+				return new ModelAndView(siteMap.login);
+			session.removeAttribute("congVanList");
+			session.removeAttribute("ctVatTuList");
+			session.removeAttribute("soLuongList");
+			session.removeAttribute("yeuCauHash");
+			session.removeAttribute("ctVatTuHash");
+			session.removeAttribute("trangThaiList");
+			session.removeAttribute("donViList");
+			session.removeAttribute("errorList");
+			ChatLuongDAO chatLuongDAO = new ChatLuongDAO();
+			request.getCharacterEncoding();
+	    	response.getCharacterEncoding();
+	    	request.setCharacterEncoding("UTF-8");
+	    	response.setCharacterEncoding("UTF-8");  
+			long size = chatLuongDAO.size();
+			ArrayList<ChatLuong> chatLuongList =  (ArrayList<ChatLuong>) chatLuongDAO.limit(page -1, 10);
+			ArrayList<ChatLuong> allChatLuongList =  (ArrayList<ChatLuong>) chatLuongDAO.getAllChatLuong();
+			session.setAttribute("allChatLuongList", allChatLuongList);
+			request.setAttribute("size", size);
+			chatLuongDAO.disconnect();
+			return new ModelAndView("danh-muc-chat-luong", "chatLuongList", chatLuongList);
+		} catch (NullPointerException e) {
 			return new ModelAndView(siteMap.login);
-		session.removeAttribute("congVanList");
-		session.removeAttribute("ctVatTuList");
-		session.removeAttribute("soLuongList");
-		session.removeAttribute("yeuCauHash");
-		session.removeAttribute("ctVatTuHash");
-		session.removeAttribute("trangThaiList");
-		session.removeAttribute("donViList");
-		ChatLuongDAO chatLuongDAO = new ChatLuongDAO();
-		request.getCharacterEncoding();
-    	response.getCharacterEncoding();
-    	request.setCharacterEncoding("UTF-8");
-    	response.setCharacterEncoding("UTF-8");  
-		long size = chatLuongDAO.size();
-		ArrayList<ChatLuong> chatLuongList =  (ArrayList<ChatLuong>) chatLuongDAO.limit(page -1, 10);
-		ArrayList<ChatLuong> allChatLuongList =  (ArrayList<ChatLuong>) chatLuongDAO.getAllChatLuong();
-		session.setAttribute("allChatLuongList", allChatLuongList);
-		request.setAttribute("size", size);
-		chatLuongDAO.disconnect();
-		return new ModelAndView("danh-muc-chat-luong", "chatLuongList", chatLuongList);
+		}
 	}
 	
 	@RequestMapping("/exportCl")
@@ -110,7 +115,6 @@ public class ClController extends HttpServlet {
 		}
 		else
 		{
-			//System.out.println("fail");
 			result = "fail";
 		}
 		chatLuongDAO.disconnect();
@@ -121,8 +125,6 @@ public class ClController extends HttpServlet {
 	@RequestMapping(value="/updateCl", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String updateCl(@RequestParam("clMaUpdate") String clMaUpdate, @RequestParam("clTenUpdate") String clTenUpdate) {
-		//System.out.println(clMaUpdate);
-		//System.out.println(clTenUpdate);
 		ChatLuong cl = new ChatLuong(clMaUpdate, clTenUpdate,0);
 		ChatLuongDAO chatLuongDAO = new ChatLuongDAO();
 		chatLuongDAO.updateChatLuong(cl);

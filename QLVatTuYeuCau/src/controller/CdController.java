@@ -37,44 +37,28 @@ public class CdController extends HttpServlet {
 	int page = 1;
 	@RequestMapping("/manageCd")
 	public ModelAndView manageCd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession(false);
-		if (session.getAttribute("nguoiDung") == null)
-			return new ModelAndView(siteMap.login);
-		session.removeAttribute("congVanList");
-		session.removeAttribute("ctVatTuList");
-		session.removeAttribute("soLuongList");
-		session.removeAttribute("yeuCauHash");
-		session.removeAttribute("ctVatTuHash");
-		session.removeAttribute("trangThaiList");
-		session.removeAttribute("donViList");
-		ChucDanhDAO chucDanhDAO = new ChucDanhDAO();
-		String action = request.getParameter("action");
-		if("AddCd".equalsIgnoreCase(action)) {
-			String cdMa = request.getParameter("cdMa");
-			String cdTen = request.getParameter("cdTen");
-			
-			chucDanhDAO.addChucDanh(new ChucDanh(cdMa,cdTen,0));
-			ArrayList<ChucDanh> chucDanhList =  (ArrayList<ChucDanh>) chucDanhDAO.getAllChucDanh();
-			chucDanhDAO.disconnect();
-			return new ModelAndView("danh-muc-chuc-danh", "chucDanhList", chucDanhList);
-		}
-		if("deleteCd".equalsIgnoreCase(action)) {
-			String[] idList = request.getParameterValues("cdMa");
-			for(String s : idList) {
-				chucDanhDAO.deleteChucDanh(s);
-			}
-			ArrayList<ChucDanh> chucDanhList =  (ArrayList<ChucDanh>) chucDanhDAO.getAllChucDanh();
-			chucDanhDAO.disconnect();
-			return new ModelAndView("danh-muc-chuc-danh", "chucDanhList", chucDanhList);
-		}
-		if("manageCd".equalsIgnoreCase(action)) {
+		try {
+			HttpSession session = request.getSession(false);
+			if (session.getAttribute("nguoiDung") == null)
+				return new ModelAndView(siteMap.login);
+			session.removeAttribute("congVanList");
+			session.removeAttribute("ctVatTuList");
+			session.removeAttribute("soLuongList");
+			session.removeAttribute("yeuCauHash");
+			session.removeAttribute("ctVatTuHash");
+			session.removeAttribute("trangThaiList");
+			session.removeAttribute("donViList");
+			session.removeAttribute("errorList");
+			ChucDanhDAO chucDanhDAO = new ChucDanhDAO();
+			String action = request.getParameter("action");
 			long size = chucDanhDAO.size();
 			ArrayList<ChucDanh> chucDanhList =  (ArrayList<ChucDanh>) chucDanhDAO.limit(page -1, 10);
 			request.setAttribute("size", size);
+			chucDanhDAO.disconnect();
 			return new ModelAndView("danh-muc-chuc-danh", "chucDanhList", chucDanhList);
+		} catch (NullPointerException e) {
+			return new ModelAndView(siteMap.login);
 		}
-		chucDanhDAO.disconnect();
-		return new ModelAndView("login");
 	}
 	
 	@RequestMapping(value="/preUpdateCd", method=RequestMethod.GET, 
@@ -117,7 +101,6 @@ public class CdController extends HttpServlet {
 		}
 		else
 		{
-			//System.out.println("fail");
 			result = "fail";
 		}
 		chucDanhDAO.disconnect();
@@ -128,8 +111,6 @@ public class CdController extends HttpServlet {
 	produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String updateCd(@RequestParam("cdMaUpdate") String cdMaUpdate, @RequestParam("cdTenUpdate") String cdTenUpdate) {
 		ChucDanhDAO chucDanhDAO = new ChucDanhDAO();
-		//System.out.println(cdMaUpdate);
-		//System.out.println(cdTenUpdate);
 		ChucDanh cd = new ChucDanh(cdMaUpdate, cdTenUpdate,0);
 		chucDanhDAO.updateChucDanh(cd);
 		chucDanhDAO.disconnect();
@@ -139,7 +120,6 @@ public class CdController extends HttpServlet {
 	@RequestMapping(value="/loadPageCd", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String loadPageCd(@RequestParam("pageNumber") String pageNumber) {
-		//System.out.println("MA: " + pageNumber);
 		ChucDanhDAO cdDAO = new ChucDanhDAO();
 		int page = Integer.parseInt(pageNumber);
 		ArrayList<ChucDanh> cdList = (ArrayList<ChucDanh>) cdDAO.limit((page -1 ) * 10, 10);

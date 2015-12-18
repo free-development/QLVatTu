@@ -11,7 +11,7 @@ function showForm(formId, check){
 	}
 
 		function preUpdatedvt(formId, check){
-			dvtId = $('input:checkbox[name=dvtId]:checked').val();
+			//dvtId = $('input:checkbox[name=dvtId]:checked').val();
 			var dvtMaList = [];
 			$.each($("input[name='dvtId']:checked"), function(){            
 				dvtMaList.push($(this).val());
@@ -21,23 +21,30 @@ function showForm(formId, check){
 			else if (dvtMaList.length > 1)
 				alert('Bạn chỉ được chọn 1 đơn vị tính để thay đổi!!');
 			else {
-				
+				var temp = dvtMaList[0].split("##");
 				$.ajax({
 					url: getRoot() +  "/preEditdvt.html",
 					type: "GET",
 					dataType: "JSON",
-					data: {"dvtId": dvtId},
+					data: {"dvtId": temp[0]},
 					contentType: "application/json",
 					mimeType: "application/json",
 					
 					success: function(dvt){		
 						
-						$('input:text[name=dvtTenUpdate]').val(dvtId);
-					  	
+						$('input:text[name=dvtTenUpdate]').val(dvt.dvtTen);
 					  	showForm(formId, check);
 					  	$('#dvtUpFocus').focus();
+					},
+					error : function(e) {
+						alert("Có lỗi xảy ra");
+						console.log("ERROR: ", e);
+						display(e);
+						
+					},
+					done : function(e) {
+						console.log("DONE");
 					}
-					
 				});
 				
 				
@@ -53,30 +60,40 @@ function showForm(formId, check){
 	 	}
 		function confirmDelete(){
 			vtId = $('input:checkbox[name=dvtId]:checked').val();
-			var vtMaList = [];
-			$.each($("input[name='dvtId']:checked"), function(){            
-				vtMaList.push($(this).val());
+			var dvtMaList = [];
+			var dvtTenList = [];
+			$.each($("input[name='dvtId']:checked"), function(){
+				var id = $(this).val();
+				var temp = id.split("##") ;
+				//var dvtTen = $(this).val();
+				dvtMaList.push(temp[0]);
+				dvtTenList.push(temp[1]);
 		    });
-			var str = vtMaList.join(", ");
-			if (vtMaList.length == 0)
+			var str = dvtTenList.join(", ");
+			var str2 = dvtMaList.join("##");
+			if (dvtMaList.length == 0)
 				alert('Bạn phải chọn 1 hoặc nhiều vai trò để xóa!!');
 			else if (confirm('Bạn có chắc xóa đơn vị tính ' + str))
-				deletedvt(str);
+				deletedvt(str2, str);
 		}
  		
-	 	 function deletedvt(str) {
+	 	 function deletedvt(dvtMaList, dvtTenList) {
 			 
 			$.ajax({
 				url: getRoot() +  "/deletedvt.html",	
 			  	type: "GET",
 			  	dateType: "JSON",
-			  	data: { "dvtList": str},
+			  	data: { "dvtList": dvtMaList},
 			  	contentType: 'application/json',
 			    mimeType: 'application/json',
 			  	success: function(dvtList) {
-			  		$('table tr').has('input[name="dvtId"]:checked').remove();
-			  		alert('Đơn vị tính ' + str + " đã bị xóa");
-							
+			  		if (dvtList == "fail") {
+			  			alert("Đã có lỗi xảy ra!!!");
+			  			location.assign("login.jsp");
+			  		} else {
+				  		$('table tr').has('input[name="dvtId"]:checked').remove();
+				  		alert('Đơn vị tính ' + dvtTenList + " đã được xóa");
+			  		}		
 			    } 
 			});  
 		} 
@@ -101,18 +118,17 @@ function showForm(formId, check){
 		 			    mimeType: 'application/json',
 					  	
 		 			  	success: function(result) {
-					  		if(result == "success")
+					  		if(result == "fail")
 			 				{
-							$('#view-table table tr:first').after('<tr><td class=\"left-column\"><input type=\"checkbox\" name=\"dvtId\" value=\"' + dvtTen+'\"</td><td class=\"col\">' + dvtTen+'</td></tr>');
-//					  		$('#add-form input[name=dvtId]').val('');
-							$('#add-form input:text[name=dvtTen]').val('');
-					  		showForm("add-form", false);	
-					  		alert("Đơn vị tính "+ dvtTen + " đã được thêm ");	
-						}
-				  		else{
-				  			alert("Đơn vị tính "+ dvtTen + " đã tồn tại ");
-				  		}
-					  	
+					  			alert("Đơn vị tính "+ dvtTen + " đã tồn tại ");	
+							}
+					  		else{
+					  			$('#view-table table tr:first').after('<tr><td class=\"left-column\"><input type=\"checkbox\" name=\"dvtId\" value=\"' + result.dvtId + '##' + dvtTen+'\"</td><td class=\"col\">' + dvtTen+'</td></tr>');
+								$('#add-form input:text[name=dvtTen]').val('');
+						  		showForm("add-form", false);	
+						  		alert("Đơn vị tính "+ dvtTen + " đã được thêm ");
+					  			
+					  		}
 		 			  	}
 		 			});
  			}
@@ -120,6 +136,7 @@ function showForm(formId, check){
  	 	function confirmUpdatedvt(){
 //			var dvtIdUpdate = $('input[name=dvtIdUpdate]').val();
 			var dvtTenUpdate = $('input:text[name=dvtTenUpdate]').val();
+			
 			if (confirm('Bạn có chắc thay đổi đơn vị tính: ' + dvtTenUpdate))
 				updatedvt(dvtTenUpdate);
 		}
@@ -140,12 +157,17 @@ function showForm(formId, check){
 					    mimeType: 'application/json',
 					  	
 					  	success: function(dvt) {
-					  		$('table tr').has('input[name="dvtId"]:checked').remove();
-					  		$('#view-table table tr:first').after('<tr><td class=\"left-column\"><input type=\"checkbox\" name=\"dvtId\" value=\"' +dvtTenUpdate + '\"</td><td class=\"col\">' + dvtTenUpdate+'</td></tr>');						
-					  		showForm("update-form", false);	
-					  		alert("Thay đổi thành công đơn vị tính "+ dvtTenUpdate);
-					  		dvtTenUpdate = $('input:text[name=dvtTenUpdate]').val('');
-					  		$('input[name="dvtId"]:checked').prop('checked',false);
+					  		if (dvt == "fail") {
+					  			alert("Đã có lỗi xảy ra");
+					  			location.assign("login.jsp");
+					  		} else {
+						  		$('table tr').has('input[name="dvtId"]:checked').remove();
+						  		$('#view-table table tr:first').after('<tr><td class=\"left-column\"><input type=\"checkbox\" name=\"dvtId\" value=\"' + dvt.dvtId + '##' + dvtTenUpdate + '\"</td><td class=\"col\">' + dvtTenUpdate+'</td></tr>');						
+						  		showForm("update-form", false);	
+						  		alert("Thay đổi thành công đơn vị tính "+ dvtTenUpdate);
+						  		dvtTenUpdate = $('input:text[name=dvtTenUpdate]').val('');
+						  		$('input[name="dvtId"]:checked').prop('checked',false);
+					  		}	
 					  	}
 					});
  			}

@@ -88,7 +88,6 @@ public class ReadExcelTon {
 					}
 				}
 				count++;
-				System.out.println("nsx Ten = " + nsxTen + "\tcl Ten = " + clTen);
 				
 			}
 			if (vtMa.length() == 0 && vtTen.length() == 0 && dvt.length() == 0 && nsxTen.length() == 0 && clTen.length() == 0 && soLuong == -1)
@@ -181,7 +180,6 @@ public class ReadExcelTon {
 			rows.next();
 			j++;
 		}
-		int k = 0;
 		while (rows.hasNext()) {
 			row = (HSSFRow) rows.next();
 			Iterator cells = row.cellIterator();
@@ -273,20 +271,16 @@ public class ReadExcelTon {
 						clTenError.add(clTen);
 						soLuongError.add(soLuong);
 						statusError.add("Vật tư không tồn tại");
-						System.out.println("khong ton tai vat tu");
 					} else {
 						ctvt.setSoLuongTon(soLuong);
 						ctvtDAO.updateCTVatTu(ctvt);
 					}
-					k ++;
-					System.out.println(k);
 				}
 				
 				ctvtDAO.close();
 			}
 		}
 		ArrayList<Object> objectListError = new ArrayList<Object>();
-		System.out.println(statusError.size());
 		if (statusError.size() > 0) {
 			objectListError.add(vtMaError);
 			objectListError.add(vtTenError);

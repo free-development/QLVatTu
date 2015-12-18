@@ -65,7 +65,7 @@
 			if (listChatLuong ==  null) {
 				int index = siteMap.clManage.lastIndexOf("/");
 				String url = siteMap.clManage.substring(index);
-				System.out.println(url + "?action=manageCl");
+				
 				RequestDispatcher dispatcher =  request.getRequestDispatcher(url + "?action=manageCl");
 				dispatcher.forward(request, response);
 				return;

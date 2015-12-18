@@ -38,22 +38,21 @@ public class BccvController extends HttpServlet {
 	@RequestMapping("/manageBccv")
 	protected ModelAndView manageBccv(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		HttpSession session = request.getSession(false);
-		if (session.getAttribute("nguoiDung") == null)
-			return new ModelAndView(siteMap.login);
-		session.removeAttribute("congVanList");
-		session.removeAttribute("ctVatTuList");
-		session.removeAttribute("soLuongList");
-		session.removeAttribute("yeuCauHash");
-		session.removeAttribute("ctVatTuHash");
-		session.removeAttribute("trangThaiList");
-		session.removeAttribute("donViList");
-		
-		DonViDAO donViDAO = new DonViDAO();
-		MucDichDAO mucDichDAO = new MucDichDAO();
-		CongVanDAO congVanDAO = new CongVanDAO();
-		//System.out.println(action);
+		try {
+			HttpSession session = request.getSession(false);
+			if (session.getAttribute("nguoiDung") == null)
+				return new ModelAndView(siteMap.login);
+			session.removeAttribute("congVanList");
+			session.removeAttribute("ctVatTuList");
+			session.removeAttribute("soLuongList");
+			session.removeAttribute("yeuCauHash");
+			session.removeAttribute("ctVatTuHash");
+			session.removeAttribute("trangThaiList");
+			session.removeAttribute("donViList");
+			session.removeAttribute("errorList");
+			DonViDAO donViDAO = new DonViDAO();
+			MucDichDAO mucDichDAO = new MucDichDAO();
+			CongVanDAO congVanDAO = new CongVanDAO();
 			ArrayList<DonVi> donViList = (ArrayList<DonVi>) donViDAO.getAllDonVi();
 			ArrayList<MucDich> mucDichList = (ArrayList<MucDich>) mucDichDAO.getAllMucDich();
 			HashMap<String, Boolean> orderBy = new HashMap<String, Boolean>();
@@ -66,6 +65,9 @@ public class BccvController extends HttpServlet {
 			donViDAO.disconnect();
 			mucDichDAO.disconnect();
 			return new ModelAndView(siteMap.bCCongVan);
+		} catch (NullPointerException e) {
+			return new ModelAndView(siteMap.login);
+		}
 	}
 	
 	@RequestMapping("/exportBccv")
@@ -94,8 +96,6 @@ public class BccvController extends HttpServlet {
 			 ) {
 		HashMap<String, Object> conditions = new HashMap<String, Object>();
 		HashMap<String, Boolean> orderBy = new HashMap<String, Boolean>();
-		//System.out.println(eCvNgayDi);
-		//System.out.println(sCvNgayDi);
 		if (eCvNgayNhan != null && eCvNgayNhan.length() > 0)
 			conditions.put("lecvNgayNhan", DateUtil.parseDate(eCvNgayNhan));
 		if (sCvNgayNhan != null && sCvNgayNhan.length() > 0)

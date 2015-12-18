@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import util.JSonUtil;
-
 import dao.DonViDAO;
 import map.siteMap;
 
@@ -31,25 +30,29 @@ public class BpsdController extends HttpServlet {
 	HttpSession session;  
 	@RequestMapping("/manageBpsd")
 	public ModelAndView manageBpsd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		HttpSession session = request.getSession(false);
-		if (session.getAttribute("nguoiDung") == null)
+		try {
+			HttpSession session = request.getSession(false);
+			if (session.getAttribute("nguoiDung") == null)
+				return new ModelAndView(siteMap.login);
+			session.removeAttribute("congVanList");
+			session.removeAttribute("ctVatTuList");
+			session.removeAttribute("soLuongList");
+			session.removeAttribute("yeuCauHash");
+			session.removeAttribute("ctVatTuHash");
+			session.removeAttribute("trangThaiList");
+			session.removeAttribute("donViList");
+			session.removeAttribute("errorList");
+			DonViDAO donViDAO = new DonViDAO();
+			long size = donViDAO.size();
+			ArrayList<DonVi> donViList =  (ArrayList<DonVi>) donViDAO.limit(page - 1, 10);
+			ArrayList<DonVi> allDonViList  = (ArrayList<DonVi>) donViDAO.getAllDonVi();
+			session.setAttribute("allDonViList", allDonViList);
+			session.setAttribute("size", size);
+			donViDAO.disconnect();
+			return new ModelAndView("danh-muc-bo-phan", "donViList", donViList);
+		} catch (NullPointerException e) {
 			return new ModelAndView(siteMap.login);
-		session.removeAttribute("congVanList");
-		session.removeAttribute("ctVatTuList");
-		session.removeAttribute("soLuongList");
-		session.removeAttribute("yeuCauHash");
-		session.removeAttribute("ctVatTuHash");
-		session.removeAttribute("trangThaiList");
-		session.removeAttribute("donViList");
-		DonViDAO donViDAO = new DonViDAO();
-		long size = donViDAO.size();
-		ArrayList<DonVi> donViList =  (ArrayList<DonVi>) donViDAO.limit(page - 1, 10);
-		ArrayList<DonVi> allDonViList  = (ArrayList<DonVi>) donViDAO.getAllDonVi();
-		session.setAttribute("allDonViList", allDonViList);
-		session.setAttribute("size", size);
-		donViDAO.disconnect();
-		return new ModelAndView("danh-muc-bo-phan", "donViList", donViList);
+		}
 	}
 	
 	@RequestMapping("/exportBpsd")
@@ -64,7 +67,6 @@ public class BpsdController extends HttpServlet {
 	@RequestMapping(value="/preEditBp", method=RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String preEditBp(@RequestParam("dvMa") String dvMa) {
-	//		System.out.println("****" + vtId + "****");
 			DonViDAO donViDAO = new DonViDAO();
 			DonVi dv = donViDAO.getDonVi(dvMa);
 			donViDAO.disconnect();
@@ -75,7 +77,6 @@ public class BpsdController extends HttpServlet {
 	 public @ResponseBody String addBp(@RequestParam("dvMa") String dvMa, @RequestParam("dvTen") String dvTen, 
 			 @RequestParam("sdt") String sdt, @RequestParam("diaChi") String diaChi, @RequestParam("email") String email ) {
 		String result = "";
-	//	System.out.println("MA: "+dvMa);
 		DonViDAO donViDAO = new DonViDAO();
 		DonVi donVi = new DonVi(dvMa, dvTen, sdt, diaChi, email, 0);
 		DonVi donViCheck = donViDAO.getDonVi(dvMa);
@@ -122,7 +123,6 @@ public class BpsdController extends HttpServlet {
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String loadPageDv(@RequestParam("pageNumber") String pageNumber) {
 		String result = "";
-		//System.out.println("MA: " + pageNumber);
 		DonViDAO dvDAO = new DonViDAO();
 		int page = Integer.parseInt(pageNumber);
 		ArrayList<DonVi> dvList = (ArrayList<DonVi>) dvDAO.limit((page -1 ) * 10, 10);		

@@ -49,7 +49,6 @@ public class BackupController extends HttpServlet {
 	public @ResponseBody String backupData(@RequestParam("moTa") String moTa){
 		try {
 			moTa = moTa.replaceAll("\n", "<br>");
-			System.out.println(moTa.indexOf("\n"));
 			SimpleDateFormat dateFormater = new SimpleDateFormat("ss-mm-hh-dd-MM-yyyy");
 			Date dateCurrent = new Date();
 			String thoiGian = dateFormater.format(dateCurrent);
@@ -74,7 +73,6 @@ public class BackupController extends HttpServlet {
 			if(!fileLogBackup.exists())
 				fileLogBackup.createNewFile();
 			FileInputStream fileIn = new FileInputStream(fileLogBackup);
-			System.out.println(fileIn.available());
 			byte[] b = new byte[fileIn.available()]; 
 					fileIn.read(b);
 			FileWriter fileWriter = new FileWriter(fileLogBackup);
@@ -89,7 +87,6 @@ public class BackupController extends HttpServlet {
 			}
 			fileWriter.write(stt + "#####" + thoiGian + "#####" + moTa + "#####" + filePath + content );
 			BackupInfo backupInfo =  new BackupInfo(stt, thoiGian, moTa, filePath);
-//			System.out.println(backupInfo.get);
 			fileIn.close();
 			fileWriter.close();
 			return JSonUtil.toJson(backupInfo);
@@ -199,6 +196,7 @@ public class BackupController extends HttpServlet {
 			session.removeAttribute("ctVatTuHash");
 			session.removeAttribute("trangThaiList");
 			session.removeAttribute("donViList");
+			session.removeAttribute("errorList");
 			ArrayList<BackupInfo> backupList = new ArrayList<BackupInfo>();
 			String filePathLogBackup = context.getInitParameter("fileLogBackup");
 //			java.io.File fileInput = new java.io.File(filePathLogBackup);
@@ -229,6 +227,8 @@ public class BackupController extends HttpServlet {
 			buff.close();
 			fileInput.close();
 			return new ModelAndView(siteMap.backupDataPage);
+		} catch (NullPointerException e3) {
+			return new ModelAndView(siteMap.login);
 		} catch (IndexOutOfBoundsException e2) {
 			System.out.println("IndexOutOfBoundsException");
 			return new ModelAndView(siteMap.login);

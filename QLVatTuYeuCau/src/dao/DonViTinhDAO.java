@@ -4,9 +4,6 @@ package dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.CTVatTu;
-import model.ChucDanh;
-import model.VTCongVan;
 import model.DonViTinh;
 
 import org.hibernate.Criteria;
@@ -14,6 +11,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import util.HibernateUtil;
@@ -38,10 +36,17 @@ public class DonViTinhDAO {
 	}
 	public DonViTinh getDonViTinhByTen(final String dvtTen) {
 		session.beginTransaction();
+		/*
 		String sql = "from DonViTinh where LOWER(dvtTen) = :dvtTen";
 		Query query = session.createQuery(sql);
 		query.setParameter("dvtTen", dvtTen.toLowerCase());
+		
+		
 		ArrayList<DonViTinh> list = (ArrayList<DonViTinh>) query.list();
+		*/
+		Criteria cr = session.createCriteria(DonViTinh.class);
+		cr.add(Restrictions.eq("dvtTen", dvtTen));
+		ArrayList<DonViTinh> list = (ArrayList<DonViTinh>) cr.list();
 		DonViTinh dvt = null;
 		if(list.size() != 0)
 			dvt = list.get(0);
@@ -133,9 +138,11 @@ public class DonViTinhDAO {
 		if (session.isConnected())
 			session.disconnect();
 	}
-
-	public static void main(String[] args) {
-//		new DonViTinhDAO().deleteDonViTinh(1);
-//		System.out.println(new DonViTinhDAO().getDonViTinhByTen("cai").getdvtTen());
+	public int getLastDvtId() {
+		session.beginTransaction();
+		Criteria cr =  session.createCriteria(DonViTinh.class).setProjection(Projections.max("dvtId"));// max("ctvtId"));
+		Integer id =  (Integer) cr.list().get(0);
+		session.getTransaction().commit();
+		return id;
 	}
 }

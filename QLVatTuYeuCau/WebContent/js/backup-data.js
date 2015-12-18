@@ -14,7 +14,7 @@ function showForm(formId, check){
 	for(var i=0; i<f.length; i++) f[i].disabled = check;
 }
 function backupData(){
-	
+	document.getElementById("loading").style.display="block";
 	var moTa = $("#moTa").val();
 	$.ajax({
 		url: getRoot() +  "/backupData.html",	
@@ -38,11 +38,13 @@ function backupData(){
 	  						+ '<td class=\"col\">' + backupInfo.moTa + '</td>'
 	  						+ '</tr>';
 	  			$('#view-table table tr:first').after(content);
+	  			
 	  			alert("Sao lưu dữ liệu thành công");
 	  		}
 	  		showForm("backup-form", false);
 	  	}
 	});
+	document.getElementById("loading").style.display="none";
 	count ++;
 };
 function restoreData(){
@@ -86,7 +88,7 @@ $(document).ready(function(){
 	$("#backup-form").submit(function(){
 //		document.body.style.cursor= 'img/default.gif';
 //		$('#wrapper').dis
-		document.getElementById("wrapper").disabled=true;
+//		document.getElementById("wrapper").disabled=true;
 //		document.getElementById("main-form").disabled=true;
 		backupData();
 		
@@ -96,9 +98,11 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
+	document.getElementById("loading").style.display="block";
 	$("#main-form").submit(function(){
 		$("#main-form").children().prop('disabled',true);
 		restoreData();
+		document.getElementById("loading").style.display="none";
 		return false;
 	});
 });

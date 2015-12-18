@@ -25,6 +25,8 @@
 <link
 	href="style/font-awesome-4.3.0/font-awesome-4.3.0/css/font-awesome.min.css"
 	type="text/css" rel="stylesheet">
+<link href="style/loading.css" type="text/css" rel="stylesheet">	
+	
 <script type="text/javascript" src="js/location.js"></script>
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/date-util.js"></script>
@@ -51,7 +53,7 @@
 		response.getCharacterEncoding();
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
-		System.out.println(request.getCharacterEncoding());
+		
 		response.setContentType ("text/html;charset=UTF-8");
 		String error = (String) request.getAttribute("error");
 		if(error != null)
@@ -100,7 +102,6 @@ countAdd = '0';
 <script type="text/javascript" src="js/cong-van.js" charset="utf-8"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="Shortcut Icon" href="img/logo16.png" type="image/x-icon" />
-
 </head>
 <body>
 	
@@ -111,6 +112,7 @@ countAdd = '0';
 		
 
 		<div id="main-content">
+		<div id="loading"></div>
 			<div id="content-form">
 			<div id="title-content">Công văn</div>
 			
@@ -282,7 +284,7 @@ countAdd = '0';
 									<%
 										ArrayList<String> nguoiXlList = nguoiXlCongVan.get(count - 1);
 										if (nguoiXlList.size() > 0) {
-											System.out.println("size ngXlCv = " + nguoiXlList.size());
+											
 											StringBuilder cellHoTen = new StringBuilder("");   
 											for (String hoTen : nguoiXlList) {
 												cellHoTen.	append(hoTen + ", ");

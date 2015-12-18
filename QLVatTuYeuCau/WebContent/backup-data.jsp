@@ -19,6 +19,7 @@
 	href="style/font-awesome-4.3.0/font-awesome-4.3.0/css/font-awesome.min.css"
 	type="text/css" rel="stylesheet">
 <script type="text/javascript" src="js/location.js"></script>
+<link href="style/loading.css" type="text/css" rel="stylesheet">
 <script type="text/javascript" src="js/backup-data.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="Shortcut Icon" href="img/logo16.png" type="image/x-icon" />
@@ -44,6 +45,7 @@
     	%>
 	<div class="wrapper" id="wrapper">
 		<jsp:include page="header.jsp" />
+		<div id="loading"></div>
 		<div id="content">
 			<div id="content-wrapper">
 				<div id="title-content">Sao lưu dữ liệu</div>
@@ -53,9 +55,9 @@
 						<div id="view-table">
 							<table>
 								<tr style="background: #199e5e;">
-									<th class="head" style="width: 5%;">Chọn</th>
+									<th class="head" style="width: 100px;">Chọn</th>
 									
-									<th class="head" style="width: 20%;">Thời gian</th>
+									<th class="head" style="width: 200px;">Thời gian</th>
 									<th class="head" style="width: 70%;">Mô tả</th>
 								</tr>
 								<%

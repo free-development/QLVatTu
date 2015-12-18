@@ -37,39 +37,43 @@ public class VattuController extends HttpServlet {
 	private String filterValue = "";
    @RequestMapping("/manageVattu")
 	protected ModelAndView manageCtvt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	   HttpSession session = request.getSession(false);
-		if (session.getAttribute("nguoiDung") == null)
+	   try {
+		   HttpSession session = request.getSession(false);
+			if (session.getAttribute("nguoiDung") == null)
+				return new ModelAndView(siteMap.login);
+			session.removeAttribute("congVanList");
+			session.removeAttribute("ctVatTuList");
+			session.removeAttribute("soLuongList");
+			session.removeAttribute("yeuCauHash");
+			session.removeAttribute("ctVatTuHash");
+			session.removeAttribute("trangThaiList");
+			session.removeAttribute("donViList");
+			session.removeAttribute("errorList");
+		   VatTuDAO vatTuDAO = new VatTuDAO();
+			NoiSanXuatDAO noiSanXuatDAO = new NoiSanXuatDAO();
+			ChatLuongDAO chatLuongDAO = new ChatLuongDAO();
+			DonViTinhDAO donViTinhDAO = new DonViTinhDAO();
+			String action = request.getParameter("action");
+			this.filter = "";
+			this.filterValue = "";
+			long size = vatTuDAO.size();
+			ArrayList<VatTu> vatTuList =  (ArrayList<VatTu>) vatTuDAO.limit(page - 1, 10);
+			request.setAttribute("size", size);
+			ArrayList<NoiSanXuat> noiSanXuatList =  (ArrayList<NoiSanXuat>) noiSanXuatDAO.getAllNoiSanXuat();
+			ArrayList<ChatLuong> chatLuongList =  (ArrayList<ChatLuong>) chatLuongDAO.getAllChatLuong();
+			ArrayList<DonViTinh> donViTinhList =  (ArrayList<DonViTinh>) donViTinhDAO.getAllDonViTinh();
+			request.setAttribute("noiSanXuatList", noiSanXuatList);
+			request.setAttribute("chatLuongList", chatLuongList);
+			request.setAttribute("donViTinhList", donViTinhList);
+			request.setAttribute("vatTuList", vatTuList);
+			vatTuDAO.disconnect();
+			noiSanXuatDAO.disconnect();
+			chatLuongDAO.disconnect();
+			donViTinhDAO.disconnect();
+			return new ModelAndView("danh-muc-vat-tu");
+	   } catch (NullPointerException e) {
 			return new ModelAndView(siteMap.login);
-		session.removeAttribute("congVanList");
-		session.removeAttribute("ctVatTuList");
-		session.removeAttribute("soLuongList");
-		session.removeAttribute("yeuCauHash");
-		session.removeAttribute("ctVatTuHash");
-		session.removeAttribute("trangThaiList");
-		session.removeAttribute("donViList");
-		session.removeAttribute("errorList");
-	   VatTuDAO vatTuDAO = new VatTuDAO();
-		NoiSanXuatDAO noiSanXuatDAO = new NoiSanXuatDAO();
-		ChatLuongDAO chatLuongDAO = new ChatLuongDAO();
-		DonViTinhDAO donViTinhDAO = new DonViTinhDAO();
-		String action = request.getParameter("action");
-		this.filter = "";
-		this.filterValue = "";
-		long size = vatTuDAO.size();
-		ArrayList<VatTu> vatTuList =  (ArrayList<VatTu>) vatTuDAO.limit(page - 1, 10);
-		request.setAttribute("size", size);
-		ArrayList<NoiSanXuat> noiSanXuatList =  (ArrayList<NoiSanXuat>) noiSanXuatDAO.getAllNoiSanXuat();
-		ArrayList<ChatLuong> chatLuongList =  (ArrayList<ChatLuong>) chatLuongDAO.getAllChatLuong();
-		ArrayList<DonViTinh> donViTinhList =  (ArrayList<DonViTinh>) donViTinhDAO.getAllDonViTinh();
-		request.setAttribute("noiSanXuatList", noiSanXuatList);
-		request.setAttribute("chatLuongList", chatLuongList);
-		request.setAttribute("donViTinhList", donViTinhList);
-		request.setAttribute("vatTuList", vatTuList);
-		vatTuDAO.disconnect();
-		noiSanXuatDAO.disconnect();
-		chatLuongDAO.disconnect();
-		donViTinhDAO.disconnect();
-		return new ModelAndView("danh-muc-vat-tu");
+		}
 	}
    @RequestMapping(value="/preEditVattu", method=RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

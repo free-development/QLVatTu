@@ -12,7 +12,7 @@
 
 <link rel="stylesheet" href="style/style.css" type="text/css">
 <link href="style/don-vi-tinh.css" type="text/css" rel="stylesheet">
-
+<meta charset="UTF-8">
 <link
 	href="style/font-awesome-4.3.0/font-awesome-4.3.0/css/font-awesome.min.css"
 	type="text/css" rel="stylesheet">
@@ -85,7 +85,7 @@
 							<tr class="rowContent"
 								<%if (count % 2 == 0) out.println("style=\"background : #CCFFFF;\"");%>>
 								<td class="left-column"><input type="checkbox" name="dvtId"
-									value="<%=donViTinh.getDvtTen() %>" class="checkbox"></td>
+									value="<%=donViTinh.getDvtId() + "##" + donViTinh.getDvtTen() %>" class="checkbox"></td>
 <%-- 								<td class="col"><%=donViTinh.getDvtId() %></td> --%>
 								<td class="col"><%=donViTinh.getDvtTen() %></td>
 							</tr>

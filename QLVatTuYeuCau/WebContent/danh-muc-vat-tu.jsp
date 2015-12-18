@@ -338,7 +338,7 @@
 				</div>
 			</form>
 			
-						<form id="import-formct" onsubmit="showForm2('vattu','import-formct', false);" target="_blank" action="<%=siteMap.readExcelCt %>" method="post" enctype="multipart/form-data" style="height: 200px;width:350px;text-align: center;" onsubmit="document.body.style.cursor='wait'; return true;">
+						<form id="import-formct" onsubmit="showForm2('vattu','import-formct', false);" target="_blank" action="<%=siteMap.readExcelCt %>" method="post" enctype="multipart/form-data" style="height: 200px;width:350px;text-align: center;" >
 									<input type="file" name="file" accept=".xls, .xlsx" class="text" style="padding-left: 0px;">
 									<div class="group-button">
 										<input value="uploadFile" name="action" type="submit" class="button" style="width: 120px;font-size: 17px;text-align: center;" onclick="document.body.style.cursor='wait'; return true;">
@@ -587,7 +587,7 @@
 			int index = siteMap.vattuManage.lastIndexOf("/");
  			String url = siteMap.vattuManage.substring(index);
  			RequestDispatcher dispatcher =  request.getRequestDispatcher(url + "?action=manageVattu");
- 			System.out.println(url + "?action=manageVattu");
+ 			
  			dispatcher.forward(request, response);
  			return;
 	} %>

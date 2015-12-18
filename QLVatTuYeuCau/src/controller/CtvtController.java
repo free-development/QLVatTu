@@ -42,26 +42,31 @@ public class CtvtController extends HttpServlet {
 	private String searchMa = "";
    @RequestMapping("/manageCtvt")
 	protected ModelAndView manageCtvt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	   HttpSession session = request.getSession(false);
-		if (session.getAttribute("nguoiDung") == null)
-			return new ModelAndView(siteMap.login);
-		session.removeAttribute("congVanList");
-		session.removeAttribute("ctVatTuList");
-		session.removeAttribute("soLuongList");
-		session.removeAttribute("yeuCauHash");
-		session.removeAttribute("ctVatTuHash");
-		session.removeAttribute("trangThaiList");
-		session.removeAttribute("donViList");
-	   VatTuDAO vatTuDAO = new VatTuDAO();
-		CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
-		
-		long size = ctVatTuDAO.sizeTon();
-		ArrayList<CTVatTu> ctVatTuList =  (ArrayList<CTVatTu>) ctVatTuDAO.limitTonKho(page - 1, 10);
-		session.setAttribute("size", size);
-		session.setAttribute("objectList", ctVatTuList);
-		ctVatTuDAO.disconnect();
-		vatTuDAO.disconnect();
-		return new ModelAndView(siteMap.vatTuTonKho);
+	   try {
+		   HttpSession session = request.getSession(false);
+			if (session.getAttribute("nguoiDung") == null)
+				return new ModelAndView(siteMap.login);
+			session.removeAttribute("congVanList");
+			session.removeAttribute("ctVatTuList");
+			session.removeAttribute("soLuongList");
+			session.removeAttribute("yeuCauHash");
+			session.removeAttribute("ctVatTuHash");
+			session.removeAttribute("trangThaiList");
+			session.removeAttribute("donViList");
+			session.removeAttribute("errorList");
+		   VatTuDAO vatTuDAO = new VatTuDAO();
+			CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
+			
+			long size = ctVatTuDAO.sizeTon();
+			ArrayList<CTVatTu> ctVatTuList =  (ArrayList<CTVatTu>) ctVatTuDAO.limitTonKho(page - 1, 10);
+			session.setAttribute("size", size);
+			session.setAttribute("objectList", ctVatTuList);
+			ctVatTuDAO.disconnect();
+			vatTuDAO.disconnect();
+			return new ModelAndView(siteMap.vatTuTonKho);
+	   } catch (NullPointerException e) {
+		   return new ModelAndView(siteMap.login);
+	   }
 		
 	}
    
@@ -78,12 +83,16 @@ public class CtvtController extends HttpServlet {
 	
    @RequestMapping("/manageXuatTonKho")
 	protected ModelAndView manageXuatTonKho(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
-		HttpSession session = request.getSession(false);
-		ArrayList<CTVatTu> tonKhoList =  (ArrayList<CTVatTu>) ctVatTuDAO.tonKho();
-		session.setAttribute("objectList", tonKhoList);
-		ctVatTuDAO.disconnect();
-		return new ModelAndView(siteMap.xuatTonKho);
+		try {
+		   CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
+			HttpSession session = request.getSession(false);
+			ArrayList<CTVatTu> tonKhoList =  (ArrayList<CTVatTu>) ctVatTuDAO.tonKho();
+			session.setAttribute("objectList", tonKhoList);
+			ctVatTuDAO.disconnect();
+			return new ModelAndView(siteMap.xuatTonKho);
+		} catch (NullPointerException e) {
+			return new ModelAndView(siteMap.login);
+		}
 	}
    @RequestMapping(value="/showCTVatTu", method=RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -153,7 +162,6 @@ public class CtvtController extends HttpServlet {
 	@RequestMapping(value="/updateCTVattu", method=RequestMethod.GET, 
 		produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String updateCTVattu(@RequestParam("vtMaUpdate") String vtMaUpdate,  @RequestParam("nsxUpdate") String nsxUpdate, @RequestParam("clUpdate") String clUpdate, @RequestParam("dinhMucUpdate") String dinhMucUpdate, @RequestParam("soLuongTonUpdate") String soLuongTonUpdate) {
-		//System.out.println(vtMaUpdate + "&" + nsxUpdate + "&" + clUpdate + "&" + dinhMucUpdate + "&" + soLuongTonUpdate);
 		try {
 			CTVatTuDAO ctvtDAO = new CTVatTuDAO();
 			CTVatTu ctvt = ctvtDAO.getCTVatTu(vtMaUpdate, nsxUpdate, clUpdate);
@@ -174,7 +182,6 @@ public class CtvtController extends HttpServlet {
 	@RequestMapping(value = "/deleteCTVattu", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String deleteVattu(@RequestParam("ctvtList") String ctvtList) {
 		String[] str = ctvtList.split("\\, ");
-		//System.out.println(str[0]);
 		CTVatTuDAO ctvtDAO =  new CTVatTuDAO();
 		for(String ctvtId : str) {
 			ctvtDAO.deleteCTVatTu(Integer.parseInt(ctvtId));
@@ -198,11 +205,23 @@ public class CtvtController extends HttpServlet {
 	}
 	@RequestMapping("/danhMucVatTu")
 	protected ModelAndView danhMucVatTu(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try { 
 			HttpSession session = request.getSession(false);
+			session.removeAttribute("congVanList");
+			session.removeAttribute("ctVatTuList");
+			session.removeAttribute("soLuongList");
+			session.removeAttribute("yeuCauHash");
+			session.removeAttribute("ctVatTuHash");
+			session.removeAttribute("trangThaiList");
+			session.removeAttribute("donViList");
+			session.removeAttribute("errorList");
 			CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
 			ArrayList<CTVatTu> allCTVatTuList =  (ArrayList<CTVatTu>) ctVatTuDAO.getAllCTVatTu();
 			session.setAttribute("allCTVatTuList", allCTVatTuList);
 			ctVatTuDAO.disconnect();
 			return new ModelAndView(siteMap.xuatCTVatTu);
+		} catch (NullPointerException e) {
+			return new ModelAndView(siteMap.login);
+		}
 	}
 }
