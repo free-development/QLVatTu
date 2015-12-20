@@ -50,21 +50,21 @@
     </head>
     <body style="font-size: 20px;">
     	<%
-    		
-    		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
-    		if (authentication == null) {
-    			request.setAttribute("url", "index");
-    			RequestDispatcher dispatcher = request.getRequestDispatcher(siteMap.login + ".jsp");
-    			dispatcher.forward(request, response);
-    			return;
-    		}
-    		
-    			
-    		String adminMa = request.getServletContext().getInitParameter("adminMa");
-    		String chucDanh = authentication.getChucDanh().getCdMa();
-    		String truongPhongMa = request.getServletContext().getInitParameter("truongPhongMa");
-    		String vanThuMa = request.getServletContext().getInitParameter("vanThuMa");
-    		String nhanVienMa = request.getServletContext().getInitParameter("nhanVienMa");
+    		try {
+	    		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+	    		if (authentication == null) {
+	    			request.setAttribute("url", "index");
+	    			RequestDispatcher dispatcher = request.getRequestDispatcher(siteMap.login + ".jsp");
+	    			dispatcher.forward(request, response);
+	    			return;
+	    		}
+	    		
+	    			
+	    		String adminMa = request.getServletContext().getInitParameter("adminMa");
+	    		String chucDanh = authentication.getChucDanh().getCdMa();
+	    		String truongPhongMa = request.getServletContext().getInitParameter("truongPhongMa");
+	    		String vanThuMa = request.getServletContext().getInitParameter("vanThuMa");
+	    		String nhanVienMa = request.getServletContext().getInitParameter("nhanVienMa");
     	%>
     	<script type="text/javascript">
 chucDanhMa = '<%=chucDanh  %>';
@@ -258,4 +258,9 @@ msnv = '<%=authentication.getMsnv()  %>';
 				</div>
         </div>
     </body>
+    <%} catch (NullPointerException e){
+    	RequestDispatcher dispatcher = request.getRequestDispatcher(siteMap.login);
+    	dispatcher.forward(request, response);
+    	}%>
+    }
 </html>

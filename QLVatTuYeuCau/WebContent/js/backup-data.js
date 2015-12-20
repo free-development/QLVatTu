@@ -15,6 +15,7 @@ function showForm(formId, check){
 }
 function backupData(){
 	document.getElementById("loading").style.display="block";
+	document.body.style.cursor = "wait";
 	var moTa = $("#moTa").val();
 	$.ajax({
 		url: getRoot() +  "/backupData.html",	
@@ -42,14 +43,17 @@ function backupData(){
 	  			alert("Sao lưu dữ liệu thành công");
 	  		}
 	  		showForm("backup-form", false);
+	  		document.getElementById("loading").style.display="none";
+	  		document.body.style.cursor = "auto";
 	  	}
 	});
-	document.getElementById("loading").style.display="none";
+	
 	count ++;
 };
 function restoreData(){
 //	var id = $("#id:checked").val();
-	var idList = []
+	
+	var idList = [];
 //	$.each($("input[name='clMa']:checked"), function(){            
 //		clMaList.push($(this).val());
 //    });
@@ -58,7 +62,11 @@ function restoreData(){
     });
 	if (idList.length > 1)
 		alert("Bạn chỉ được chọn 1 dữ liệu để phục hồi!!!");
+	else if (idList.length < 1)
+		alert("Bạn phải chọn 1 dữ liệu để phục hồi!!!");
 	else {
+		document.getElementById("loading").style.display="block";
+		document.body.style.cursor = "wait";
 		$.ajax({
 			url: getRoot() +  "/restoreData.html",	
 		  	type: "GET",
@@ -67,13 +75,18 @@ function restoreData(){
 		  	mimeType: 'application/json',
 		  	data: { "id": idList[0]},
 		  	success: function(status) {
+		  		document.getElementById("loading").style.display="none";
+		  		document.body.style.cursor = "auto";
+//		  		document.element.
 		  		if (status == "success")
 		  			alert("Phục hồi dữ liệu thành công");
 		  		else
 		  			alert("Phục hồi dữ liệu thất bại");
 		  	}
 		});
+		
 	}
+//	
 //	location.reload();
 };
 $(document).ready(function(){
@@ -86,23 +99,19 @@ $(document).ready(function(){
 
 $(document).ready(function(){
 	$("#backup-form").submit(function(){
-//		document.body.style.cursor= 'img/default.gif';
-//		$('#wrapper').dis
-//		document.getElementById("wrapper").disabled=true;
-//		document.getElementById("main-form").disabled=true;
 		backupData();
-		
 		return false;
 	});
 	
 });
 
 $(document).ready(function(){
-	document.getElementById("loading").style.display="block";
+	
 	$("#main-form").submit(function(){
+//		document.getElementById("loading").style.display="block";
 		$("#main-form").children().prop('disabled',true);
 		restoreData();
-		document.getElementById("loading").style.display="none";
+//		document.getElementById("loading").style.display="none";
 		return false;
 	});
 });

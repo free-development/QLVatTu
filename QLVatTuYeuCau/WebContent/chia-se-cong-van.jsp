@@ -1,4 +1,5 @@
-﻿<%@page import="java.util.HashMap"%>
+﻿<%@page import="util.DateUtil"%>
+<%@page import="java.util.HashMap"%>
 <%@page import="model.CongVan"%>
 <%@page import="model.NguoiDung"%>
 <%@page import="model.VaiTro"%>
@@ -16,8 +17,7 @@
 <link rel="stylesheet" href="style/style.css"
 	type="text/css">	
 <link rel="stylesheet" href="style/style-chia-se.css" type="text/css">
-<!-- <link href="style/style-vat-tu.css" type="text/css" -->
-<!-- 	rel="stylesheet"> -->
+<link rel="stylesheet" href="style/loading.css">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="style/jquery.autocomplete.css" />
 	<script type="text/javascript" src="js/jquery.min.js"></script>
@@ -84,7 +84,7 @@
 	<div class="wrapper">
 		<jsp:include page="header.jsp" />
 		<div id="main-content">
-				
+				<div id="loading"></div>
 				<div id="title-content">Chia sẻ công văn</div>
 				
 					<div id="input-table" style="width: 1024px; margin: 0 auto;margin-top: 10px;">
@@ -93,9 +93,9 @@
 								<th style="text-align: left">Số công văn:</th>
 								<td class="b-column"><%=congVan.getCvSo() %></td>
 								<th class="c-column">Ngày đến:</th>
-								<td class="b-column"><%=congVan.getCvNgayNhan() %></td>
+								<td class="b-column"><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td>
 								<th class="e-column">Người lập phiếu:</th>
-								<td class="f-column">NV002</td>
+<!-- 								<td class="f-column">NV002</td> -->
 							</tr>
 						</table>
 					</div>
@@ -189,12 +189,12 @@
 				</form>
 				
 				<div id="view-chia-se">
-				<form action="">
+				<form action="" id="view-table-chia-se">
 				<%
 					if (vtNguoiDungHash.size() != 0 || vtNguoiDungHash == null) {
 				%>
 				<div id="title-content">Công việc đã chia sẻ</div>
-				<div id="view-table-chia-se" class="scroll-cs">
+				<div id="" class="scroll-cs">
 					<table style="width:1224px;">
 						<tr bgcolor= "#199e5e">
 						<th style="text-align: center;">Chọn</th>
@@ -228,7 +228,6 @@
 						</tr>
 						<%}%>
 					</table>
-					</div>
 					<div class="group-button">
 					<input type="hidden" value="save" name="action">
 						<button class="button" id="update" type="button">
@@ -239,20 +238,22 @@
 						</button>
 						
 					</div>
+					</div>
+					
 				</form>
 				</div>
-				<div style="color: red; text-align: center;">
 				<%}%>
-				</div>
 			</div>
-			<div id="update-form" style="top:30%;position:absolute;width:900px;left:20%;" >
-				<div id="view-table-cap-nhat"class="scroll">
+			<div id="update-form"  >
+				<div id="view-table-cap-nhat" class="scroll">
 				<div id="title-content" style="margin-bottom: 10px;">Cập nhật chia sẻ</div>
-				<table style="width:1024px;"></table>
-				</div>
+				<table></table>
 				<div class="group-button" id="updateButton">
 				<button type="button" class="button" id="updateCs">Lưu lại</button> 
+				<button type="button" class="button" id="exitCs">Thoát</button>
 				</div>
+				</div>
+				
 			</div>
 			</div>
 </body>

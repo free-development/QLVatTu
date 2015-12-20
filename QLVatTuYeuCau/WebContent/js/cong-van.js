@@ -102,6 +102,7 @@ function checkAdd(){
 	} else {
 //		$("body").css("cursor", "wait");
 		document.getElementById("loading").style.display="block";
+		document.body.style.cursor= "wait";
 		addCongVan();
 //		$("body").css("cursor", "default");
 //		document.getElementById("loading").style.display="none";
@@ -198,7 +199,7 @@ function confirmDelete(){
 }
 function addCongVan() {
 	
-	var cvSo = $('#add-form input:text[name=cvSo]').val();
+	//var cvSo = $('#add-form input:text[name=cvSo]').val();
 	var form = new FormData(document.getElementById('add-form'));
 	$.ajax({
 		url: getRoot() +  "/addCongVanInfo.html",	
@@ -230,7 +231,9 @@ function addCongVan() {
 		  		$('#add-form textarea[name=trichYeu]').val('');
 		  		$('#add-form textarea[name=moTa]').val('');
 		  		$('#add-form textarea[name=butPhe]').val('');
+		  		document.getElementById("loading").style.display="none";
 		  		hideAddForm();
+		  		
 		  		alert('Thêm công văn mới thành công');
 		  		location.assign("cong-van.jsp");
 		  		
@@ -242,6 +245,8 @@ function addCongVan() {
 	
 }
 function updateCongVan() {
+	document.getElementById("loading").style.display="block";
+	document.body.style.cursor = "wait";
 	var form = new FormData(document.getElementById('update-form'));
 	$.ajax({
 		url: getRoot() +  "/updateCongVanInfo.html",	
@@ -253,6 +258,8 @@ function updateCongVan() {
 		  type: 'POST',
 	  	
 	  	success: function(result) {
+	  		document.getElementById("loading").style.display="none";
+	  		document.body.style.cursor = "auto";
 	  		if (result == "error") 
 	  			alert('Có lỗi khi sửa công văn');
 	  		else if (result == "file error") {
@@ -456,6 +463,8 @@ function preUpdateCv(cv) {
 	});  
 }
 function deleteCv(cvId) {
+	document.getElementById("loading").style.display="block";
+	document.body.style.cursor = "wait";
 	$.ajax({
 		url: getRoot() +  "/deleteCv.html",	
 	  	type: "GET",
@@ -465,9 +474,14 @@ function deleteCv(cvId) {
 	    mimeType: 'application/json',
 	  	success: function() {
 			$('#scroll_content table tr').has('input[name="cvId"]:checked').remove();
-			alert("Cong van da bi xoa");
-	    } 
-	});  
+			document.getElementById("loading").style.display="none";
+	  		document.body.style.cursor = "auto";
+			alert("Công văn đã được xóa");
+			
+	    }
+	  	
+	});
+	
 }	
 function loadDataCv() {
 //	showForm('main-form','add-form', true);

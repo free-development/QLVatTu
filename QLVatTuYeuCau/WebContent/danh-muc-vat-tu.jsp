@@ -26,7 +26,7 @@
 <!-- <script> -->
 
 <!-- 	</script> -->
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
 
 <link rel="Shortcut Icon" href="img/logo16.png" type="image/x-icon" />
 

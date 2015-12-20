@@ -56,12 +56,13 @@ public class ReadExcelCongVan {
 			while (rows.hasNext()) {
 				row = (XSSFRow) rows.next();
 				Iterator cells = row.cellIterator();
-				int count = 0;
+				
 				String vtMa = "";
 				String nsxMa = "";
 				String clMa = "";
 				double soLuong = -1;
 				while (cells.hasNext()) {
+					int count = 0;
 					cell = (XSSFCell) cells.next();
 					if (cell.getCellType() == XSSFCell.CELL_TYPE_STRING) {
 						switch (count) {
@@ -164,6 +165,8 @@ public class ReadExcelCongVan {
 			Row row;
 			Cell cell;
 			Iterator rows = sheet.rowIterator();
+			if (rows.hasNext())
+				rows.next();
 			ArrayList<String> vtMaList = new ArrayList<String>();
 			ArrayList<String> nsxMaList = new ArrayList<String>();
 			ArrayList<String> clMaList = new ArrayList<String>();
@@ -201,7 +204,7 @@ public class ReadExcelCongVan {
 				}
 				if (vtMa.length() == 0 && nsxMa.length() == 0 && clMa.length() == 0 && soLuong <= 0)
 					break;
-				if (vtMa.length() == 0 || nsxMa.length() == 0 || clMa.length() == 0 || soLuong <= 0 )
+				if (vtMa.length() == 0 || soLuong <= 0 )
 				{
 					vtMaError.add(vtMa);
 					nsxMaError.add(nsxMa);
@@ -221,7 +224,7 @@ public class ReadExcelCongVan {
 					}
 					CTVatTuDAO ctvtDAO = new CTVatTuDAO();
 					CTVatTu ctVatTu = ctvtDAO.getCTVatTu(vtMa, nsxMa, clMa);
-					if (ctVatTu != null || ctVatTu.getDaXoa() == 0) {
+					if (ctVatTu != null && ctVatTu.getDaXoa() == 0) {
 						vtMaList.add(vtMa);
 						nsxMaList.add(nsxMa);
 						clMaList.add(clMa);

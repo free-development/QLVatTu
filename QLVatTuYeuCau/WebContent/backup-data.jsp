@@ -13,13 +13,14 @@
 <link rel="stylesheet" href="style/style-giao-dien-chinh.css"
 	type="text/css">
 <link rel="stylesheet" href="style/style.css" type="text/css">
+<link rel="stylesheet" href="style/loading.css" type="text/css">
+
 <link rel="stylesheet" href="style/style-backup-data.css" type="text/css">
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <link
 	href="style/font-awesome-4.3.0/font-awesome-4.3.0/css/font-awesome.min.css"
 	type="text/css" rel="stylesheet">
 <script type="text/javascript" src="js/location.js"></script>
-<link href="style/loading.css" type="text/css" rel="stylesheet">
 <script type="text/javascript" src="js/backup-data.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="Shortcut Icon" href="img/logo16.png" type="image/x-icon" />
@@ -45,12 +46,12 @@
     	%>
 	<div class="wrapper" id="wrapper">
 		<jsp:include page="header.jsp" />
-		<div id="loading"></div>
+		
 		<div id="content">
 			<div id="content-wrapper">
 				<div id="title-content">Sao lưu dữ liệu</div>
 				<div id="main-content">
-
+				<div id="loading"></div>
 					<form id="main-form" style="text-align: center;" method="get">
 						<div id="view-table">
 							<table>
@@ -76,7 +77,7 @@
 								<%} }%>
 							</table>
 						</div>
-
+<!-- 
 						<div id = "paging" >
 							<table style ="border-style: none;">
 								<tr>
@@ -94,7 +95,7 @@
 								</tr>
  							</table> 
 						</div> 
-
+ -->
 						<div class="group-button">
 							<button type="submit" class="button" id="preBackup">
 								<i class="fa fa-plus-circle"></i>&nbsp;Sao lưu dữ liệu

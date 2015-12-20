@@ -26,7 +26,6 @@
 <link rel="stylesheet" href="style/style-vat-tu.css" type="text/css">
 <link rel="stylesheet" href="style/jquery.autocomplete.css" type="text/css">
 <link href="style/style-yeu-cau.css"type="text/css" rel="stylesheet">
-<link rel="stylesheet" href="style/style-menu-tree.css" type="text/css">
 <link
 	href="style/font-awesome-4.3.0/font-awesome-4.3.0/css/font-awesome.min.css"
 	type="text/css" rel="stylesheet">
@@ -115,14 +114,14 @@
 				<form id="danh-sach-vat-tu">
 				<div id="view-search">
 				<div id="view-table-ds">
-				<table style="width:1024px;margin:0 auto;">
+				<table style="width:100%;">
 <!-- 					<tr><th >Ma vat tu</th><th >Ten vat tu</th><th >Noi san xuat</th><th >Chat luong</th><th >Don vi tinh</th><th ></th></tr> -->
 					<tr style="background-color: #199e5e">
 						<th style="text-align: center;" >Mã vật tư</th>
-						<th style="text-align: center;" >Tên vật tư</th>
-						<th style="text-align: center;">Nơi sản xuất</th>
+						<th style="text-align: center; width:30%;" >Tên vật tư</th>
+						<th style="text-align: center;">NSX</th>
 						<th style="text-align: center;" >Chất lượng</th>
-						<th style="text-align: center;" >Đơn vị tính</th>
+						<th style="text-align: center;" >ĐVT</th>
 						<th style="text-align: center;" >Số lượng tồn</th>
 						<th style="text-align: center;">Thêm</th></tr>
 					<tr></tr>
@@ -176,10 +175,10 @@
 								<tr>
 									<th class="a-column"style= "text-align: center;">Chọn</th>
 									<th class="b-column" style="text-align: center;">Mã vật tư</th>
-									<th class="c-column"style="text-align: center;">Tên vật tư</th>
-									<th class="e-column"style="text-align: center;">Nơi sản xuất</th>
+									<th class="c-column"style="text-align: center; width:30%;">Tên vật tư</th>
+									<th class="e-column"style="text-align: center;">NSX</th>
 									<th class="f-column"style="text-align: center;">Chất lượng</th>
-									<th class="g-column"style="text-align: center;">Đơn vị tính</th>
+									<th class="g-column"style="text-align: center;">ĐVT</th>
 									<th class="d-column"style="text-align: center;">Số lượng tồn</th>
 									<th class="d-column"style="text-align: center;">Số lượng thiếu</th>
 									<th >Đã cấp</th>
@@ -224,8 +223,8 @@
 			<form id="add-so-luong-form" onsubmit="return false">
 			<div class="form-title" style="margin-top: 10px;">Thêm yêu cầu vật tư</div>
 			<div id="view-table-them">
-			<table style= "width:900px; margin: 0 auto;margin-top: 10px;"  >
-				<tr><th >Mã vật tư</th><th >Tên vật tư</th><th >Nơi sản xuất</th><th >Chất lượng</th><th >Đơn vị tính</th><th >Số lượng tồn</th><th >Số lượng thiếu</th><th colspan="2">Chức năng</th></tr>
+			<table style= "width:100%; margin: 0 auto;margin-top: 10px;"  >
+				<tr><th >Mã vật tư</th><th style="width:30%;">Tên vật tư</th><th >NSX</th><th >Chất lượng</th><th >ĐVT</th><th >Số lượng tồn</th><th >Số lượng thiếu</th><th colspan="2">Chức năng</th></tr>
 				<tr>
 					<td><div id="vtMaAdd"></div></td>
 					<td><div id="vtTenAdd"></div></td>
@@ -250,8 +249,8 @@
 			<form id="update-so-luong-form" onsubmit="return false">
 			<div class = "form-title" style="margin-top: 10px;">Thay đổi số lượng thiếu</div>
 			<div id="view-table-doi" class="scroll-vat-tu">
-			<table style= "width:900px; margin: 0 auto;" >
-				<tr><th >Mã vật tư</th><th >Tên vật tư</th><th >Nơi sản xuất</th><th >Chất lượng</th><th >Đơn vị tính</th><th >Số lượng tồn</th><th >Số lượng thiếu</th><th colspan="2">Chức năng</th></tr>
+			<table style= "width:100%; margin: 0 auto;" >
+				<tr><th >Mã vật tư</th><th style="width: width:30%;">Tên vật tư</th><th >NSX</th><th >Chất lượng</th><th >ĐVT</th><th >Số lượng tồn</th><th >Số lượng thiếu</th><th colspan="2">Chức năng</th></tr>
 				<tr>
 					<td><div id="vtMaUpdate"></div></td>
 					<td><div id="vtTenUpdate"></div></td>
@@ -269,8 +268,8 @@
 			<form id="cap-so-luong-form" onsubmit="return false">
 			<div class = "form-title"style="margin-top: 10px;">Cấp phát vật tư</div>
 			<div id="view-table-cap" class="scroll-vat-tu">
-			<table style= "width:900px; margin: 0 auto;" >
-				<tr><th >Mã vật tư</th><th>Tên vật tư</th><th>Nơi sản xuất</th><th >Chất lượng</th><th >Đơn vị tính</th><th >Số lượng tồn</th><th >Số lượng thiếu</th><th>Số lượng cấp</th><th colspan="2">Chức năng</th></tr>
+			<table style= "width:100%; margin: 0 auto;" >
+				<tr><th >Mã vật tư</th><th style= "width:100%;">Tên vật tư</th><th>NSX</th><th >Chất lượng</th><th >ĐVT</th><th >Số lượng tồn</th><th >Số lượng thiếu</th><th>Số lượng cấp</th><th colspan="2">Chức năng</th></tr>
 				<tr>
 					<td><div id="vtMaCap"></div></td>
 					<td><div id="vtTenCap"></div></td>
@@ -281,7 +280,7 @@
 					<td><div id="soLuongTonCap"></div></td>
 					<td><div id="soLuongThieu"></div></td>
 					<td><input type="number" min=0 autofocus  name="soLuongCap" title="So luong phai la so!!!"  class="text" style="width: 80px;"></td>
-					<td><button class="button" type="button" id="capVatTu" >Lưu lại</button></td>
+					<td><button class="button" type="button" id="capVatTu" style="width: 80px;" >Lưu lại</button></td>
 					<td><button class="button" type="button" id="thoatCapVt">Thoát</button></td>
 				</tr>
 			</table>

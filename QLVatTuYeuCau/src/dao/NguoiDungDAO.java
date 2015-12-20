@@ -1,11 +1,13 @@
 package dao;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
 
 import util.StringUtil;
+import model.CTNguoiDung;
 import model.CTVatTu;
 import model.CongVan;
 import model.NguoiDung;
@@ -19,9 +21,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.LogicalExpression;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 
 import util.HibernateUtil;
 
@@ -103,17 +107,16 @@ public class NguoiDungDAO {
 		String sql = "select msnv from CTNguoiDung where khoa = 0";
 		Query query = session.createQuery(sql);
 		ArrayList<String> msnvList =  (ArrayList<String>) query.list();
-		Criteria cr = session.createCriteria(NguoiDung.class, "nguoiDung");
-		cr.createAlias("nguoiDung.chucDanh", "chucDanh");
 		if (msnvList.size() == 0)
 			return new ArrayList<String>();
-		
+		Criteria cr = session.createCriteria(NguoiDung.class, "nguoiDung");
+		cr.createAlias("nguoiDung.chucDanh", "chucDanh");
+		cr.setProjection(Projections.property("nguoiDung.hoTen"));
+		cr.add(Restrictions.in("msnv", msnvList));
 		if (cdIgnoreList != null && cdIgnoreList.size() > 0) {
 			Criterion ignoreExpression = Restrictions.in("chucDanh.cdMa", cdIgnoreList);
 			cr.add(Restrictions.not(ignoreExpression));
 		}
-		cr.add(Restrictions.in("msnv", msnvList));
-		
 		if (i.length() > 0)
 			cr.add(Restrictions.like("msnv", i+"%"));
 		ArrayList<String> list = (ArrayList<String>) cr.list();
@@ -122,21 +125,19 @@ public class NguoiDungDAO {
 	}
 	public ArrayList<String> startWithTen(ArrayList<String> cdIgnoreList, String i) {
 		session.beginTransaction();
-		
 		String sql = "select msnv from CTNguoiDung where khoa = 0";
 		Query query = session.createQuery(sql);
 		ArrayList<String> msnvList =  (ArrayList<String>) query.list();
-		Criteria cr = session.createCriteria(NguoiDung.class, "nguoiDung");
-		cr.createAlias("nguoiDung.chucDanh", "chucDanh");
 		if (msnvList.size() == 0)
 			return new ArrayList<String>();
-		
+		Criteria cr = session.createCriteria(NguoiDung.class, "nguoiDung");
+		cr.createAlias("nguoiDung.chucDanh", "chucDanh");
+		cr.setProjection(Projections.property("nguoiDung.hoTen"));
+		cr.add(Restrictions.in("msnv", msnvList));
 		if (cdIgnoreList != null && cdIgnoreList.size() > 0) {
 			Criterion ignoreExpression = Restrictions.in("chucDanh.cdMa", cdIgnoreList);
 			cr.add(Restrictions.not(ignoreExpression));
 		}
-		cr.add(Restrictions.in("msnv", msnvList));
-		
 		if (i.length() > 0)
 			cr.add(Restrictions.like("hoTen", i+"%"));
 		ArrayList<String> list = (ArrayList<String>) cr.list();
@@ -148,7 +149,7 @@ public class NguoiDungDAO {
 		Criteria cr = session.createCriteria(NguoiDung.class, "nguoiDung");
 		cr.createAlias("nguoiDung.chucDanh", "chucDanh");
 		if (i.length() > 0)
-			cr.add(Restrictions.like("hoTen", i+"%"));
+			cr.add(Restrictions.like("hoTen", new String(i.getBytes(), Charset.forName("UTF-8")), MatchMode.EXACT));
 		String sql = "select msnv from CTNguoiDung where khoa = 0";
 		Query query = session.createQuery(sql);
 		ArrayList<String> msnvList =  (ArrayList<String>) query.list();

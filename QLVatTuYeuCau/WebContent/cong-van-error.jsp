@@ -63,7 +63,7 @@
 						<button type="button" class="button" onclick="location.href='<%=siteMap.downloadCvError%>'">
 							<i class="fa fa-download"></i>&nbsp;&nbsp;Tải xuống
 						</button>
-						<button type="button" class="button" onclick="location.href='<%=siteMap.home%>'">
+						<button type="button" class="button" onclick="location.href='<%=siteMap.cvManage%>'">
 							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 						</button>
 					

@@ -144,7 +144,10 @@ $(document).ready(function() {
 			  		}
 			  	}
 			});
+			
 			$('#main-form').hide();
+			$('#view-table-chia-se').hide();
+			
 			$('#update-form').show();
 			
 		}	
@@ -152,6 +155,8 @@ $(document).ready(function() {
 });
 $(document).ready(function() {
 	$('#updateCs').click(function() {
+		document.getElementById("loading").style.display="block";
+  		document.body.style.cursor = "wait";
 		var vaiTro = $('#update-form input:checkbox[name=vaiTro]:checked').val();
 //		alert(msnv);
 		var vaiTroList = [];
@@ -189,16 +194,23 @@ $(document).ready(function() {
 				  		}
 			  			$('#vaiTro' + msnv).html(content);
 			  		}
+			  		document.getElementById("loading").style.display="none";
+			  		document.body.style.cursor = "auto";
+			  		$('input[name=msnv]').prop("checked", false);
+			  		$('#main-form').show();
+					$('#view-table-chia-se').show();
+					$('#update-form').hide();
 			  	}
 			});
-			$('#main-form').show();
-			$('#update-form').hide();
+			
 			
 	});   
 });
 
 
 function timKiemNguoidungCs(){
+	document.getElementById("loading").style.display="block";
+	document.body.style.cursor = "wait";
 	var hoTen = '';
 	var msnv = '';
 	var vaiTroList = [];
@@ -239,7 +251,8 @@ function timKiemNguoidungCs(){
 //	  			alert('#update #'+vtCongVanList[i].vtId);
 	  			$('#' + vtCongVanList[i].msnv + vtCongVanList[i].vtId).prop('checked',true);
 	  		}	
-			
+			document.getElementById("loading").style.display="none";
+	  		document.body.style.cursor = "auto";
 //			
 //			
 //			for(var i = 0; i < ndList.length; i++) { 
@@ -280,4 +293,17 @@ $(document).ready(function(){
 		timKiemNguoidungCs();
 		return false;
 	})
+});
+$(document).ready(function(){
+	$("#main-form").submit(function(){
+		document.getElementById("loading").style.display="block";
+  		document.body.style.cursor = "wait";
+	});
+});
+$(document).ready(function(){
+	$("#exitCs").click(function(){
+		$("#main-form").show();
+		$("#view-table-chia-se").show();
+		$("#update-form").hide();
+	});
 });

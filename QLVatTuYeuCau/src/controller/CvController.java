@@ -107,14 +107,14 @@ public class CvController extends HttpServlet{
 		Integer cvIdSearch = (Integer) request.getAttribute("cvId");
 		HashMap<String, Object> conditions = new HashMap<String, Object>();
 		HashMap<String, Boolean> orderBy = new HashMap<String, Boolean>();
-		
+		orderBy.put("soDen", true);
 		if (cvIdSearch != null && cvIdSearch !=0) {
 			conditions.put("cvId", cvIdSearch);
 		} 
 //		else 
 //			cvId = 0;
 		
-		orderBy.put("cvId", true);
+		orderBy.put("soDen", true);
     	ArrayList<CongVan> congVanList = (ArrayList<CongVan>) congVanDAO.searchLimit(msnvTemp, conditions, orderBy, 0, 3);
 		HashMap<Integer, File> fileHash = new HashMap<Integer, File>();
 		if (cdMa.equals(vanThuMa) || cdMa.equals(truongPhongMa) || cdMa.equals(adminMa) || cdMa.equals(phoPhongMa) || cdMa.equals(thuKyMa) ) {
@@ -264,8 +264,8 @@ public class CvController extends HttpServlet{
 			String cvSo = multipartRequest.getParameter("cvSo");
 			CongVanDAO congVanDAO = new CongVanDAO();
 			CongVan congVanAdd = new CongVan();
-			CongVan congVan = congVanDAO.getByCvSo(cvSo);
-			if (congVan == null || congVan.getDaXoa() == 1 || cvSo.length() == 0) {
+//			CongVan congVan = congVanDAO.getByCvSo(cvSo);
+//			if (congVan == null || congVan.getDaXoa() == 1 || cvSo.length() == 0) {
 				Date cvNgayDi = DateUtil.parseDate(multipartRequest.getParameter("ngayGoi"));
 				Date cvNgayNhan = DateUtil.parseDate(multipartRequest.getParameter("ngayNhan"));
 				int soDen = congVanDAO.getSoDenAdd(cvNgayNhan);
@@ -277,7 +277,10 @@ public class CvController extends HttpServlet{
 				butPhe = butPhe.replaceAll("\n", "<br>");
 				String moTa = multipartRequest.getParameter("moTa");
 				moTa = moTa.replaceAll("\n", "<br>");
-				int cvId;
+				int cvId = congVanDAO.getLastInsert();
+				congVanAdd = new CongVan (cvId, soDen, cvSo, cvNgayNhan, cvNgayDi, trichYeu, butPhe, new MucDich(mdMa), new TrangThai("CGQ",""), new DonVi(dvMa),0);
+				congVanDAO.addCongVan(congVanAdd);
+				/*
 				if (congVan == null) {
 					cvId = congVanDAO.getLastInsert();
 					congVanAdd = new CongVan (cvId, soDen, cvSo, cvNgayNhan, cvNgayDi, trichYeu, butPhe, new MucDich(mdMa), new TrangThai("CGQ",""), new DonVi(dvMa),0);
@@ -299,7 +302,7 @@ public class CvController extends HttpServlet{
 					cvId = congVan.getCvId();
 					congVanAdd = congVan;
 				}
-				
+				*/
 				MultipartFile fileUpload = multipartRequest.getFile("file");
 	        	String fileName = fileUpload.getOriginalFilename();
 	        	String fileNameFull = fileName;
@@ -316,11 +319,12 @@ public class CvController extends HttpServlet{
 	    		fileUpload.transferTo(file);
 	    		FileDAO fileDAO = new FileDAO();
 	    		File f =  new File(path, moTa, cvId);
+	    		/*
 	    		if (congVan == null)
 	    			fileDAO.addFile(f);
 	    		else
 	    			fileDAO.updateFile(f);
-	    		
+	    		*/
 	    		fileDAO.disconnect();
 	    		congVanDAO.disconnect();
 	    		CongVanDAO congVanDAO2 = new CongVanDAO();
@@ -350,9 +354,9 @@ public class CvController extends HttpServlet{
 				}
 				String content = "";
 				content += "&nbsp;&nbsp;+ Đơn vị: " + congVanResult.getDonVi().getDvTen() +"<br>";
-				content += "&nbsp;&nbsp;+ Ngày gởi " + cvNgayDi + "<br>";
+				content += "&nbsp;&nbsp;+ Ngày gởi " + DateUtil.toString(cvNgayDi) + "<br>";
 				content += "&nbsp;&nbsp;+ Mục đích: " + congVanResult.getMucDich().getMdTen() + "<br>";
-				content += "&nbsp;&nbsp;+ Ngày gởi: " + cvNgayNhan + "<br>";
+				content += "&nbsp;&nbsp;+ Ngày nhận: " +DateUtil.toString(cvNgayNhan) + "<br>";
 				content += "&nbsp;&nbsp;+ Trích yếu: " + trichYeu + "<br>";
 				content += "&nbsp;&nbsp;+ Bút phế: " + butPhe + "<br>";
 				if (fileNameFull != null) {
@@ -380,9 +384,9 @@ public class CvController extends HttpServlet{
 	    		objectList.add(congVanResult);
 	    		objectList.add(f);
 				return JSonUtil.toJson(objectList);	
-			} else {
-				return "exist";
-			}
+			//} else {
+				//return "exist";
+			//}
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 			return "error";
@@ -455,9 +459,9 @@ public class CvController extends HttpServlet{
 			
 			String content = "";
 			content += "&nbsp;&nbsp;+ Đơn vị: " + congVanResult.getDonVi().getDvTen() +"<br>";
-			content += "&nbsp;&nbsp;+ Ngày gởi " + cvNgayDi + "<br>";
+			content += "&nbsp;&nbsp;+ Ngày gởi " + DateUtil.toString(cvNgayDi) + "<br>";
 			content += "&nbsp;&nbsp;+ Mục đích: " + congVanResult.getMucDich().getMdTen() + "<br>";
-			content += "&nbsp;&nbsp;+ Ngày gởi: " + cvNgayNhan + "<br>";
+			content += "&nbsp;&nbsp;+ Ngày nhận: " + DateUtil.toString(cvNgayNhan) + "<br>";
 			content += "&nbsp;&nbsp;+ Trích yếu: " + trichYeu + "<br>";
 			content += "&nbsp;&nbsp;+ Bút phế: " + butPhe + "<br>";
 			if (fileNameFull != null) {
@@ -465,7 +469,7 @@ public class CvController extends HttpServlet{
 			}
 			Date currentDate = DateUtil.convertToSqlDate(new java.util.Date ());
 			NhatKyDAO nhatKyDAO = new NhatKyDAO();
-			NhatKy nhatKy = new NhatKy(authentication.getMsnv(), cvId + "#Thêm công văn số " + soDen + " nhận ngày " + cvNgayNhan, currentDate, content);
+			NhatKy nhatKy = new NhatKy(authentication.getMsnv(), cvId + "#Thay đổi công văn số " + soDen + " nhận ngày " + cvNgayNhan, currentDate, content);
 			nhatKyDAO.addNhatKy(nhatKy);
 			nhatKyDAO.disconnect();
 			ArrayList<Object> objectList = new ArrayList<Object>();
@@ -570,6 +574,7 @@ public class CvController extends HttpServlet{
 		
 		HashMap<String, Object> conditions = new HashMap<String, Object>();
 		HashMap<String, Boolean> orderBy = new HashMap<String, Boolean>();
+		orderBy.put("soDen", true);
 		String cdMa = nguoiDung.getChucDanh().getCdMa();
 		String msnvTemp = msnv;
 		if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || phoPhongMa.equals(cdMa) || cdMa.equals(thuKyMa))
@@ -681,7 +686,7 @@ public class CvController extends HttpServlet{
 		
 		HashMap<String, Object> conditions = new HashMap<String, Object>();
 		HashMap<String, Boolean> orderBy = new HashMap<String, Boolean>();
-		
+		orderBy.put("soDen", true);
 		if (ttMa.length() > 0)
 			conditions.put("trangThai.ttMa", ttMa);
 		if (column.length() > 0 && ((String) columnValue).length() > 0) {
@@ -775,7 +780,7 @@ public class CvController extends HttpServlet{
 		FileDAO fileDAO = new FileDAO();
 		HashMap<String, Object> conditions = new HashMap<String, Object>();
 		HashMap<String, Boolean> orderBy = new HashMap<String, Boolean>();
-		
+		orderBy.put("soDen", true);
 		if (ttMa.length() > 0)
 			conditions.put("trangThai.ttMa", ttMa);
 		if (column.length() > 0 && ((String) columnValue).length() > 0) {
@@ -880,7 +885,7 @@ public class CvController extends HttpServlet{
 		FileDAO fileDAO = new FileDAO();
 		HashMap<String, Object> conditions = new HashMap<String, Object>();
 		HashMap<String, Boolean> orderBy = new HashMap<String, Boolean>();
-		
+		orderBy.put("soDen", true);
 		
 		if (ttMa.length() > 0)
 			conditions.put("trangThai.ttMa", ttMa);
@@ -978,7 +983,7 @@ public class CvController extends HttpServlet{
 		FileDAO fileDAO = new FileDAO();
 		HashMap<String, Object> conditions = new HashMap<String, Object>();
 		HashMap<String, Boolean> orderBy = new HashMap<String, Boolean>();
-		
+		orderBy.put("soDen", true);
 		if (ttMa.length() > 0)
 			conditions.put("trangThai.ttMa", ttMa);
 		if (column.length() > 0 && columnValue.toString().length() > 0)  {
@@ -1072,7 +1077,7 @@ public class CvController extends HttpServlet{
 			FileDAO fileDAO = new FileDAO();
 			HashMap<String, Object> conditions = new HashMap<String, Object>();
 			HashMap<String, Boolean> orderBy = new HashMap<String, Boolean>();
-			
+			orderBy.put("soDen", true);
 			if (ttMa.length() > 0)
 				conditions.put("trangThai.ttMa", ttMa);
 			if (column.length() > 0 && ((String) columnValue).length() > 0)  {

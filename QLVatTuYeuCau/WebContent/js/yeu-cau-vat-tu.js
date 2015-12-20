@@ -127,10 +127,9 @@ function confirmDelete() {
 		ycList.push($(this).val());
 	})
 	var str = ycList.join(', ');
+	
 	if (ycList.length == 0)
-		alert('Bạn phải chọn 1 yêu cầu để sửa đổi!');
-	else if (ycList.length > 1)
-		alert('Bạn phải chọn 1 yêu cầu để sửa đổi!');
+		alert('Bạn phải chọn ít nhất 1 yêu cầu xóa!');
 	else if(confirm('Bạn có chắc xóa yêu cầu?'))
 		deleteYc(str);
 };
