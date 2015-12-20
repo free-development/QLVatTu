@@ -319,6 +319,7 @@ public class CvController extends HttpServlet{
 	    		fileUpload.transferTo(file);
 	    		FileDAO fileDAO = new FileDAO();
 	    		File f =  new File(path, moTa, cvId);
+	    		fileDAO.addFile(f);
 	    		/*
 	    		if (congVan == null)
 	    			fileDAO.addFile(f);

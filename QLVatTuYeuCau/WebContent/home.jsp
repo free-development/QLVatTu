@@ -1,6 +1,5 @@
 <%@page import="util.DateUtil"%>
-<%@page import="model.CTVatTu"%>
-<%@page import="javax.swing.JOptionPane"%>
+<%@page import="model.CTVatTu"%>	
 <%@page import="model.VaiTro"%>
 <%@page import="model.TrangThai"%>
 <%@page import="model.NhatKy"%>
