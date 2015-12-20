@@ -41,6 +41,8 @@ public class SessionController extends HttpServlet {
 	public @ResponseBody String loadBccv(@RequestParam("name") String sessionName, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		session.removeAttribute(sessionName);
+		System.out.println("welcome to remove session controller");
+		session.removeAttribute(sessionName);
 		return JSonUtil.toJson("success");
 	}
 }
