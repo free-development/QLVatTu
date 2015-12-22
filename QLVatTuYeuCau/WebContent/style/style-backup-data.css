@@ -122,10 +122,10 @@
 */
 #backup-form {
 	display: none;
-	width: 30%;;
+	width: 40%;;
 	left: 30%;
 	top: 40%;
-	height: 20%;
+	height: 23%;
 	z-index: 50;
 	position: fixed;
 	background-color: #DCEAF5;
@@ -136,4 +136,19 @@
 	margin-top: 1px;
 	border: outset;
 	border-color: #0000FF;
+}
+#content {
+	margin: 0 auto;
+}
+#main-form {
+	margin: 0 auto;
+	width: 80%;
+}
+.textarea {
+	font-size: 20px;
+	/*width: 300px;*/
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top:5px;
+	padding-bottom: 5px; 
 }

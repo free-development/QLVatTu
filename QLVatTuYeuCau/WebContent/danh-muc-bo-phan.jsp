@@ -105,7 +105,7 @@
 							<%} }%>
 						</table>
 					</div>
-					<div id = "paging" >
+					<div id = "paging" style="margin: 0 auto;">
 							<table style ="border-style: none;">
 								<tr>
 								<%long pageNum = size / 10;

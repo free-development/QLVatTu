@@ -336,6 +336,33 @@ td.input {
 	height: 50px;
 	z-index: 60;
 }
+#view-table table {
+    border-spacing: 0px;
+}
+#view-table table tr {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-style: dotted;
+	border-width: 1px;
+}
+#view-table table tr td{
+	border-style: dotted;
+	border-width: 1px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+}  
+#view-table table tr th{
+	border-style: dotted;
+	border-width: 1px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
 body {
 	font-size: 20px;
 }

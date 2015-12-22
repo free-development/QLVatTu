@@ -14,13 +14,13 @@
 	type="text/css">
 <link rel="stylesheet" href="style/style.css" type="text/css">
 <link rel="stylesheet" href="style/loading.css" type="text/css">
-
 <link rel="stylesheet" href="style/style-backup-data.css" type="text/css">
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <link
 	href="style/font-awesome-4.3.0/font-awesome-4.3.0/css/font-awesome.min.css"
 	type="text/css" rel="stylesheet">
 <script type="text/javascript" src="js/location.js"></script>
+<script type="text/javascript" src="js/date-util.js"></script>
 <script type="text/javascript" src="js/backup-data.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="Shortcut Icon" href="img/logo16.png" type="image/x-icon" />
@@ -39,7 +39,7 @@
 		String truongPhongMa = request.getServletContext().getInitParameter("truongPhongMa");
 		String vanThuMa = request.getServletContext().getInitParameter("vanThuMa");
 		ArrayList<BackupInfo> backupList = (ArrayList<BackupInfo>) request.getAttribute("backupList");
-		Long pageNumber = (Long) request.getAttribute("pageNumber");
+		Integer pageNumber = (Integer) request.getAttribute("pageNumber");
    	%>
 	<%
     		
@@ -49,7 +49,7 @@
 		
 		<div id="content">
 			<div id="content-wrapper">
-				<div id="title-content">Sao lưu dữ liệu</div>
+				<div id="title-content" style="margin-bottom: 20px;">Sao lưu dữ liệu</div>
 				<div id="main-content">
 				<div id="loading"></div>
 					<form id="main-form" style="text-align: center;" method="get">
@@ -77,9 +77,8 @@
 								<%} }%>
 							</table>
 						</div>
-<!-- 
-						<div id = "paging" >
-							<table style ="border-style: none;">
+						<div id = "paging" style="margin: 0 auto;">
+							<table style ="border-style: none;margin: 0 auto;">
 								<tr>
 								<%
 								
@@ -87,16 +86,20 @@
 								<td>Trang</td>
 									<td>
 										<%
-											
-											for(int i = 0; i < pageNumber; i++) { %>
-												<input type="button" value="<%=i+1%>" class="page">
-										<%} }%>
+											int p = (pageNumber <=9 ? pageNumber : 9) ;
+											for(int i = 0; i <=p; i++) { %>
+												<input type="button" value="<%=i+1%>" class="page" onclick="loadPage(<%=i%>)">
+										<%} 
+											if(pageNumber > 9)
+												out.println("<input type=\"button\" value=\"Sau >>\" class=\"pageMove\">");		
+											%>
+										<!-- <input type="button" value="Sau >>" class="pageMove"> -->		
+										<% }%>
 									</td>
 								</tr>
  							</table> 
 						</div> 
- -->
-						<div class="group-button">
+						<div class="button-group">
 							<button type="submit" class="button" id="preBackup">
 								<i class="fa fa-plus-circle"></i>&nbsp;Sao lưu dữ liệu
 							</button>
@@ -119,23 +122,23 @@
 	
 					<form id="backup-form" method="get"
 						action="backupdata.jsp">
-						<div class="input-table" style="margin-bottom: 5%;">
+						<div class="input-table">
 							<table>
 								<!-- <div class="form-title">Sao lưu dữ liệu</div> -->
-								<tr style= "text-align: center;">
-									<th style= "width:100px; text-align: left;">Thời gian:</th>
-									<td><%=DateUtil.toString(new Date()) %></td>
+								<tr>
+									<th style="width:100px; text-align: left;">Thời gian:</th>
+									<td style="width:400px;"><%=DateUtil.toString(new Date()) %></td>
 								</tr>
 								<tr style= "text-align: center;"> 
-									<th style="width:30%;  text-align: left;">Mô tả:</th>
-									<td><textarea name="moTa" class="text-area" required id = "moTa"
+									<th style="text-align: left;">Mô tả:</th>
+									<td ><textarea class="textarea" name="moTa" class="text-area" required id = "moTa" style="width: 400px;"
 										autofocus 
-										title="Bạn phải nhập mô tả trước khi sao lưu dữ liệu" style=" width: 100%;"></textarea><div id="requireMdMa" style="color: red;"></div></td>
+										title="Bạn phải nhập mô tả trước khi sao lưu dữ liệu" ></textarea></td>
 								</tr>
 								
 							</table>
 						</div>
-						<div class="group-button" style= "text-align: center;">
+						<div class="button-group" style= "text-align: center;">
 							<!-- 						<input type="hidden" name="action" value = "AddMd">  -->
 							<button class="button" type="submit" id="backupData">
 								<i class="fa fa-plus-circle"></i>&nbsp;Sao lưu

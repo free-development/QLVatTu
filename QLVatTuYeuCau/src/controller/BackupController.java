@@ -4,6 +4,7 @@ package controller;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,8 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -28,14 +28,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.sun.java_cup.internal.runtime.Symbol;
-
 import dao.BackupDB;
+import dao.VatTuDAO;
 import map.siteMap;
 import model.BackupInfo;
 import model.DBConnection;
+import model.VatTu;
 import util.HibernateUtil;
 import util.JSonUtil;
+import util.Log4jSimple;
 
 
 @Controller
@@ -47,6 +48,7 @@ public class BackupController extends HttpServlet {
 	@RequestMapping(value="/backupData", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String backupData(@RequestParam("moTa") String moTa){
+//		Logger log = Logger.getLogger(log4jExample.class.getName());
 		try {
 			moTa = moTa.replaceAll("\n", "<br>");
 			SimpleDateFormat dateFormater = new SimpleDateFormat("ss-mm-hh-dd-MM-yyyy");
@@ -65,32 +67,69 @@ public class BackupController extends HttpServlet {
 			String filePath = pathBackup + fileName;
 			BackupDB backupDb = new BackupDB(connection);
 			backupDb.backupDB("mysqldump", dbAddress, dbName, Integer.parseInt(dbPort), filePath);
+			String pathLogBackup = context.getInitParameter("pathLogBackup");
+			String fileNameIdBackup = "numberBackup.sysInfo";
+			File fileIdBackup = new File(pathLogBackup + fileNameIdBackup);
 			
-			String filePathLogBackup = context.getInitParameter("fileLogBackup");
-			//BackupInfo backupInfo = new BackupInfo(thoiGian, moTa, fileName);
-			File fileLogBackup = new File(filePathLogBackup);
+			if(!fileIdBackup.exists())
+				fileIdBackup.createNewFile();
+			// get page id
+			BufferedReader bufferFileId = new BufferedReader(new FileReader(fileIdBackup));
+			String content = bufferFileId.readLine();
 			
-			if(!fileLogBackup.exists())
-				fileLogBackup.createNewFile();
-			FileInputStream fileIn = new FileInputStream(fileLogBackup);
-			byte[] b = new byte[fileIn.available()]; 
-					fileIn.read(b);
-			FileWriter fileWriter = new FileWriter(fileLogBackup);
-			String content = "";
-			int stt = 0;
-			if (b.length > 0) {
-				content =  new String(b);
-				int index1 = content.indexOf("#####");
-				int lastBackup = Integer.parseInt(content.substring(0, index1));
-				stt = lastBackup + 1;
-				content = "\n" + content;
+			bufferFileId.close();
+			
+			int idTemp = 0;
+			
+			if (content !=null && content.length() > 0) 
+				idTemp = Integer.parseInt(content) - 1;
+			
+			File fileId = new File(pathLogBackup + "idInfo" + (idTemp / 10) + ".info");
+			idTemp ++;
+			if (fileId.exists()) {
+				FileInputStream fileIdInput = new FileInputStream(fileId);
+				byte[] b1 = new byte[fileIdInput.available()]; 
+				fileIdInput.read(b1);
+				fileIdInput.close();
+				
+				String contentId = new String(b1);
+				String contentBackup = "";
+				int temp = idTemp % 10;
+				if (temp == 0) {
+					fileId = new File(pathLogBackup + "idInfo" + (idTemp / 10) + ".info");
+				} else {
+					contentBackup = "\n" + contentId;
+				}
+				FileWriter fileWriterId = new FileWriter(fileId);
+				fileWriterId.write(temp + "#####" + thoiGian + "#####" + moTa + "#####" + filePath + contentBackup);
+				fileWriterId.close();
+			} else {
+				if (!fileId.exists())
+					fileId.createNewFile();
+				FileWriter fileWriterId = new FileWriter(fileId);
+				fileWriterId.write(0 + "#####" + thoiGian + "#####" + moTa + "#####" + filePath);
+				fileWriterId.close();
 			}
-			fileWriter.write(stt + "#####" + thoiGian + "#####" + moTa + "#####" + filePath + content );
-			BackupInfo backupInfo =  new BackupInfo(stt, thoiGian, moTa, filePath);
-			fileIn.close();
+			FileWriter fileWriter = new FileWriter(fileIdBackup);
+			fileWriter.write(new String("" + (idTemp + 1)));
 			fileWriter.close();
+			
+			BackupInfo backupInfo =  new BackupInfo(idTemp, thoiGian, moTa, filePath);
 			return JSonUtil.toJson(backupInfo);
-		} catch (IOException | NumberFormatException e){
+			
+		} catch (IOException e){
+			Log4jSimple.dubug("Lỗi nhập xuất file backup");
+			System.out.println("Lỗi nhập xuất file backup");
+			return JSonUtil.toJson("fail");
+		} catch (NumberFormatException e1){
+//			log("Lỗi định dạng số  backup");
+			Log4jSimple.dubug("Lỗi định dạng số  backup");
+			System.out.println("Lỗi định dạng số  backup");
+			return JSonUtil.toJson("fail");
+		} catch (IndexOutOfBoundsException e2){
+//			log("Lỗi chỉ số backup");
+			Log4jSimple.dubug("Lỗi chỉ số backup");
+			System.out.println("Lỗi chỉ số backup");
 			return JSonUtil.toJson("fail");
 		}
 	}
@@ -99,11 +138,16 @@ public class BackupController extends HttpServlet {
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String restoreData(@RequestParam("id") String stt){
 		try {
-			String filePathLogBackup = context.getInitParameter("fileLogBackup");
-//			java.io.File fileInput = new java.io.File(filePathLogBackup);
+			
+			String pathLogBackup = context.getInitParameter("pathLogBackup");
+			int id = Integer.parseInt(stt);
+			int idPage  = id / 10;
+			int idBackup = id % 10;
 			String pathFileRestore = "";
-			FileReader fileInput = new FileReader(filePathLogBackup);
+			System.out.println(pathLogBackup + "idInfo" + idPage + ".info");
+			FileReader fileInput = new FileReader(pathLogBackup + "idInfo" + idPage + ".info");
 			BufferedReader buff = new BufferedReader(fileInput);
+			
 			String line = "";
 			
 			while (true) {
@@ -111,16 +155,14 @@ public class BackupController extends HttpServlet {
 				if (line ==  null)
 					break;
 				String[] temp = line.split("\\#####");
-				if (temp[0].equals(stt)) {
+				if (temp[0].equals(""+idBackup)) {
+					System.out.println(temp[3]);
 					pathFileRestore = temp[3];
 					break;
 				}
 			}
 			String dbUser = context.getInitParameter("dbUser");
 			String dbPassword = context.getInitParameter("dbPassword");
-//			String dbAddress = context.getInitParameter("dbAddress");
-//			String dbPort = context.getInitParameter("dbPort");
-//			String dbName = context.getInitParameter("dbName");
 			
 			DBConnection connection = new DBConnection(dbUser, dbPassword);
 			BackupDB backupDb = new BackupDB(connection);
@@ -187,6 +229,9 @@ public class BackupController extends HttpServlet {
 //	}
 	@RequestMapping("/backupDBManage")
 	public ModelAndView getListBackup(HttpServletRequest request, HttpServletResponse response){
+		ArrayList<BackupInfo> backupList = new ArrayList<BackupInfo>();
+//		int size = 0;
+		int pageNumber = 0;
 		try {
 			HttpSession session = request.getSession(false);
 			session.removeAttribute("congVanList");
@@ -197,35 +242,37 @@ public class BackupController extends HttpServlet {
 			session.removeAttribute("trangThaiList");
 			session.removeAttribute("donViList");
 			session.removeAttribute("errorList");
-			ArrayList<BackupInfo> backupList = new ArrayList<BackupInfo>();
-			String filePathLogBackup = context.getInitParameter("fileLogBackup");
-//			java.io.File fileInput = new java.io.File(filePathLogBackup);
-			File fileLogBackup = new File(filePathLogBackup);
 			
-			if(!fileLogBackup.exists())
-				fileLogBackup.createNewFile();
-			FileReader fileInput = new FileReader(fileLogBackup);
+			String pathLogBackup = context.getInitParameter("pathLogBackup");
+			File fileId = new File(pathLogBackup + "numberBackup.sysInfo");
+			
+			FileReader fileInput = new FileReader(fileId);
 			BufferedReader buff = new BufferedReader(fileInput);
-			String line = "";
-			int size = 0;
-			
-			while (true) {
-				line = buff.readLine();
-				if (line ==  null)
-					break;
-				String[] temp = line.split("\\#####");
-//				StringBuilder time = new StringBuilder(temp[1].substring(0, 10));
-//				time.reverse();
-				BackupInfo backupInfo = new BackupInfo(Integer.parseInt(temp[0]), temp[1].substring(9), temp[2], temp[3]);
-				backupList.add(backupInfo);
-				size ++;
-			}
-			long pageNumber = (size % 10 == 0 ? size/10 : (size / 10) +1 );
+			pageNumber = (Integer.parseInt(buff.readLine()) - 1)/ 10;
+			buff.close();
+//			for (int i = pageNumber; i >= 0 ; i--) {
+				FileReader fileIdInput = new FileReader(pathLogBackup + "idInfo" + pageNumber + ".info");
+				BufferedReader buff2 = new BufferedReader(fileIdInput);
+				String line = "";
+				while (true) {
+					line = buff2.readLine();
+					if (line ==  null)
+						break;
+					String[] temp = line.split("\\#####");
+					BackupInfo backupInfo = new BackupInfo(Integer.parseInt(temp[0]), temp[1].substring(9), temp[2], temp[3]);
+					backupList.add(backupInfo);
+				}
+				buff2.close();
+//			}
 			request.setAttribute("backupList", backupList);
 			request.setAttribute("pageNumber", pageNumber);
 			
 			buff.close();
 			fileInput.close();
+			return new ModelAndView(siteMap.backupDataPage);
+		} catch (FileNotFoundException e4) {
+			request.setAttribute("backupList", backupList);
+			request.setAttribute("pageNumber", pageNumber);
 			return new ModelAndView(siteMap.backupDataPage);
 		} catch (NullPointerException e3) {
 			return new ModelAndView(siteMap.login);
@@ -240,5 +287,54 @@ public class BackupController extends HttpServlet {
 			return new ModelAndView(siteMap.login);
 		}
 		
+	}
+	@RequestMapping(value="/loadPageBackup", method=RequestMethod.GET, 
+			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	 public @ResponseBody String loadPageVatTu(@RequestParam("pageNumber") String pageNumber) {
+		try{
+			int page = Integer.parseInt(pageNumber);
+			ArrayList<Object> objectList = new ArrayList<Object>();
+			String pathLogBackup = context.getInitParameter("pathLogBackup");
+			FileReader fileIn = new FileReader(pathLogBackup + "numberBackup.sysInfo");
+			BufferedReader buffFileIn = new BufferedReader(fileIn);
+			int size = Integer.parseInt(buffFileIn.readLine());
+			buffFileIn.close();
+			page = (size - 1)/ 10 - page;
+//			int idPage = page / 10;
+//			int idBackup = page % 10;
+			System.out.println(pathLogBackup + "idInfo" + page + ".info");
+			FileReader fileIdInput = new FileReader(pathLogBackup + "idInfo" + page + ".info");
+			BufferedReader buffFileIdInput = new BufferedReader(fileIdInput);
+			ArrayList<BackupInfo> vatTuList = new ArrayList<BackupInfo>() ;
+			String line = "";
+			while((line = buffFileIdInput.readLine()) != null) {
+				String[] temp = line.split("\\#####");
+				BackupInfo backupInfo = new BackupInfo(Integer.parseInt(temp[0]), temp[1].substring(9), temp[2], temp[3]);
+				vatTuList.add(backupInfo);
+			}
+			buffFileIdInput.close();
+			objectList.add(vatTuList);
+			objectList.add(size);
+			return JSonUtil.toJson(objectList);
+		} catch (FileNotFoundException e){
+			Log4jSimple.dubug("Lỗi nhập xuất file backup");
+			System.out.println("Lỗi nhập xuất file backup");
+			return JSonUtil.toJson("fail");
+		} catch (NumberFormatException e1){
+//			log("Lỗi định dạng số  backup");
+			Log4jSimple.dubug("Lỗi định dạng số  backup");
+			System.out.println("Lỗi định dạng số  backup");
+			return JSonUtil.toJson("fail");
+		} catch (IndexOutOfBoundsException e2){
+//			log("Lỗi chỉ số backup");
+			Log4jSimple.dubug("Lỗi chỉ số backup");
+			System.out.println("Lỗi chỉ số backup");
+			return JSonUtil.toJson("fail");
+		} catch (IOException e5){
+	//		log("Lỗi chỉ số backup");
+			Log4jSimple.dubug("Lỗi nhập xuất");
+			System.out.println("Lỗi nhập xuất");
+			return JSonUtil.toJson("fail");
+		}
 	}
 }
