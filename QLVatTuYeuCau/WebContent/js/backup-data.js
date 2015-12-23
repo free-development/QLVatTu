@@ -89,6 +89,21 @@ function restoreData(){
 //	
 //	location.reload();
 };
+function loadBackupInfo(backupList) {
+	for(i = 0;i < length; i++ ) {
+		var backupInfo = backupList[i];
+		var cells = '';
+		var style = '';
+		if (i % 2 == 0)
+			style = 'style=\"background : #CCFFFF;\"';
+		var cells = '<td class=\"left-column\"><input type=\"checkbox\" name=\"id\"'
+				+ ' value=\"' + backupInfo.stt + '\" id=\"id\" class=\"checkbox\"></td>'
+				+ '<td class=\"col\">' + backupInfo.thoiGian + '</td>'
+				+ '<td class=\"col\">' + backupInfo.moTa + '</td>';
+		var row = '<tr ' +style + 'class = \"rowContent\">' + cells + '</tr>';
+		$('#view-table table tr:first').after(row);
+	}
+}
 function loadPage(pageNumber){
 		
 		if (pageNumber == 'Next') {
@@ -118,20 +133,7 @@ function loadPage(pageNumber){
 			  		alert(backupList);
 			  		var length = backupList.length;
 			  		$('#view-table table .rowContent').remove();
-						for(i = 0;i < length; i++ ) {
-							var backupInfo = backupList[i];
-							var cells = '';
-							var style = '';
-							if (i % 2 == 0)
-								style = 'style=\"background : #CCFFFF;\"';
-//							str = '<tr class=\"rowContent\" ' + style + '>'
-	 					cells = '<td class=\"left-column\"><input type=\"checkbox\" name=\"id\"'
-	 							+ ' value=\"' + backupInfo.stt + '\" id=\"id\" class=\"checkbox\"></td>'
-	 							+ '<td class=\"col\">' + backupInfo.thoiGian + '</td>'
-	 							+ '<td class=\"col\">' + backupInfo.moTa + '</td>';
-	 					var row = '<tr ' +style + 'class = \"rowContent\">' + cells + '</tr>';
-	 					$('#view-table table tr:first').after(row);
-						}
+					loadBackupInfo(backupList);
 					var button = '';
 				if(pageNumber == 'Next') {
 					for (var i = 0; i < 10; i++) {
@@ -162,6 +164,21 @@ function loadPage(pageNumber){
 			  	}
 			});
 }
+function filterData(filter, value1, value2) {
+	$.ajax({
+		url: getRoot() +  "/filterBackup.html",	
+	  	type: "GET",
+	  	dateType: "JSON",
+	  	data: {"filter": filter, "value1": value1, "value2": value2},
+	  	contentType: 'application/json',
+	    mimeType: 'application/json',
+	    success: function(backupList) {
+	    	$('#view-table table .rowContent').remove();
+			loadBackupInfo(backupList);
+	    } 
+	});
+}
+
 $(document).ready(function(){
 	$("#preBackup").click(function(){
 		showForm('backup-form', true);
@@ -192,5 +209,34 @@ $(document).ready(function(){
 $(document).ready(function(){
 	$("#exitBackup").click(function(){
 		showForm("backup-form", false);
+	});
+});
+$(document).ready(function(){
+	$("#filter").change	(function(){
+		var filter = $(this).val();
+		if (filter == "all") {
+			$('#value1').val('');
+			$('#value1').prop('readonly', true);
+//			$('#value1').focus();
+			$('#value1').css('background-color', '#D1D1E0');
+			$('#value2').prop('readonly', true);
+			$('#value2').css('background-color', '#D1D1E0');
+			filterData(filter, value1, null);
+		} else if (filter == "description") {
+			$('#searchContent').html('<input placeholder="Nội dung tìm kiếm" style=\"font-size: 20px;\" type=\"search\" id=\"value1\" class = \"text\" title=\"Nhập mô tả\" autofocus>');
+			
+			$('#value1').val('');
+			$('#value1').focus();
+		} else if (filter == "date") {
+			var content = '&nbsp;&nbsp; Từ ngày <input style=\"font-size: 20px; width: 180px;\" type=\"date\" id=\"value1\" class = \"text\" title=\"Chọn ngày bắt đầu\" autofocus>'
+						+ '&nbsp; &nbsp; Đến ngày <input style=\"font-size: 20px; width: 180px;\" type=\"date\" id=\"value2\" class = \"text\" title=\"Chọn ngày kết thúc\">'
+			$('#searchContent').html(content);
+			var d = Date();
+			
+			alert(currentDate);
+//			$('#value2').val(currentDate);
+			$('#value2').val(currentDate);
+			$('#value1').focus();
+		}
 	});
 });

@@ -4,45 +4,54 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.CTVatTu;
-import model.DonVi;
+import model.NguoiDung;
 import model.NoiSanXuat;
 import util.JSonUtil;
+import util.Log4jSimple;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import dao.DonViDAO;
 import dao.NoiSanXuatDAO;
 import map.siteMap;
-
 
 @Controller
 public class NsxController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	HttpSession session;  
+	@Autowired
+	private ServletContext context;
 	int page = 1;
+	private static final Logger logger = Logger.getLogger(NsxController.class);
 	@RequestMapping("/manageNsx")
-	public ModelAndView manageNsx(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ModelAndView manageNsx(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		try {
+			
 			HttpSession session = request.getSession(false);
-			if (session.getAttribute("nguoiDung") == null)
+			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+			String adminMa = context.getInitParameter("adminMa");
+			if (authentication == null) { 
+				logger.error("Không chứng thực truy cập danh mục nơi sản xuất");
 				return new ModelAndView(siteMap.login);
+			} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+				logger.error("Truy cập bất hợp pháp vào danh mục nơi sản xuất");
+				return new ModelAndView(siteMap.login);
+			}
 			session.removeAttribute("congVanList");
 			session.removeAttribute("ctVatTuList");
 			session.removeAttribute("soLuongList");
@@ -53,47 +62,90 @@ public class NsxController extends HttpServlet {
 			session.removeAttribute("errorList");
 			NoiSanXuatDAO noiSanXuatDAO = new NoiSanXuatDAO();
 			request.getCharacterEncoding();
-	    	response.getCharacterEncoding();
-	    	request.setCharacterEncoding("UTF-8");
-	    	response.setCharacterEncoding("UTF-8");  
+			response.getCharacterEncoding();
+			request.setCharacterEncoding("UTF-8");
+			response.setCharacterEncoding("UTF-8");
 			long size = noiSanXuatDAO.size();
-			ArrayList<NoiSanXuat> noiSanXuatList =  (ArrayList<NoiSanXuat>) noiSanXuatDAO.limit(page - 1, 10);
+			ArrayList<NoiSanXuat> noiSanXuatList = (ArrayList<NoiSanXuat>) noiSanXuatDAO
+					.limit(page - 1, 10);
 			
 			request.setAttribute("size", size);
 			noiSanXuatDAO.disconnect();
-			return new ModelAndView("danh-muc-noi-san-xuat", "noiSanXuatList", noiSanXuatList);
+			
+			return new ModelAndView("danh-muc-noi-san-xuat", "noiSanXuatList",
+					noiSanXuatList);
+			
+		} catch (NullPointerException e) {
+			logger.error("test");
+			return new ModelAndView(siteMap.login);
+		}
+	}
+	
+	@RequestMapping("/exportNsx")
+	public ModelAndView exportNsx(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		try {
+			HttpSession session = request.getSession(false);
+			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+			String adminMa = context.getInitParameter("adminMa");
+			if (authentication == null) { 
+				logger.error("Không chứng thực truy cập danh mục nơi sản xuất");
+				return new ModelAndView(siteMap.login);
+			} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+				logger.error("Truy cập bất hợp pháp vào danh mục nơi sản xuất");
+				return new ModelAndView(siteMap.login);
+			}
+			NoiSanXuatDAO noiSanXuatDAO = new NoiSanXuatDAO();
+			ArrayList<NoiSanXuat> allNoiSanXuatList = (ArrayList<NoiSanXuat>) noiSanXuatDAO
+					.getAllNoiSanXuat();
+			session.setAttribute("objectList", allNoiSanXuatList);
+			noiSanXuatDAO.disconnect();
+			return new ModelAndView(siteMap.xuatNsx);
 		} catch (NullPointerException e) {
 			return new ModelAndView(siteMap.login);
 		}
 	}
-	@RequestMapping("/exportNsx")
-	public ModelAndView exportNsx(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		NoiSanXuatDAO noiSanXuatDAO = new NoiSanXuatDAO();
-		ArrayList<NoiSanXuat> allNoiSanXuatList =  (ArrayList<NoiSanXuat>) noiSanXuatDAO.getAllNoiSanXuat();
+	
+	@RequestMapping(value = "/preEditNsx", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String preEditNsx(@RequestParam("nsxMa") String nsxMa,
+			HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		session.setAttribute("objectList", allNoiSanXuatList);
-		noiSanXuatDAO.disconnect();
-		return new ModelAndView(siteMap.xuatNsx);
-	}
-	@RequestMapping(value="/preEditNsx", method=RequestMethod.GET, 
-			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	 public @ResponseBody String preEditNsx(@RequestParam("nsxMa") String nsxMa) {
+		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+		String adminMa = context.getInitParameter("adminMa");
+		if (authentication == null) {
+			logger.error("Không chứng thực truy cập danh mục nơi sản xuất");
+			return JSonUtil.toJson("authentication error");
+		} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+			logger.error("Truy cập bất hợp pháp vào danh mục nơi sản xuất");
+			return JSonUtil.toJson("authentication error");
+		}
 		NoiSanXuatDAO noiSanXuatDAO = new NoiSanXuatDAO();
 		NoiSanXuat nsx = noiSanXuatDAO.getNoiSanXuat(nsxMa);
 		noiSanXuatDAO.disconnect();
 		return JSonUtil.toJson(nsx);
 	}
 	
-	@RequestMapping(value="/addNsx", method=RequestMethod.GET, 
-			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	 public @ResponseBody String addNsx(@RequestParam("nsxMa") String nsxMa, @RequestParam("nsxTen") String nsxTen) {
+	@RequestMapping(value = "/addNsx", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String addNsx(@RequestParam("nsxMa") String nsxMa,
+			@RequestParam("nsxTen") String nsxTen, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		NguoiDung authentication = (NguoiDung) session
+				.getAttribute("nguoiDung");
+		String adminMa = context.getInitParameter("adminMa");
+		if (authentication == null) {
+			logger.error("Không chứng thực truy cập danh mục nơi sản xuất");
+			return JSonUtil.toJson("authentication error");
+		} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+			logger.error("Truy cập bất hợp pháp vào danh mục nơi sản xuất");
+			return JSonUtil.toJson("authentication error");
+		}
 		String result = "success";
 		NoiSanXuatDAO noiSanXuatDAO = new NoiSanXuatDAO();
 		NoiSanXuat nsx = noiSanXuatDAO.getNoiSanXuat(nsxMa);
-		if(nsx == null) {
-			noiSanXuatDAO.addNoiSanXuat(new NoiSanXuat(nsxMa, nsxTen,0));
-			result = "success";	
-		} else if(nsx !=null && nsx.getDaXoa()== 1){
+		if (nsx == null) {
+			noiSanXuatDAO.addNoiSanXuat(new NoiSanXuat(nsxMa, nsxTen, 0));
+			result = "success";
+		} else if (nsx != null && nsx.getDaXoa() == 1) {
 			nsx.setNsxMa(nsxMa);
 			nsx.setNsxTen(nsxTen);
 			nsx.setDaXoa(0);
@@ -102,36 +154,73 @@ public class NsxController extends HttpServlet {
 			result = "fail";
 		}
 		noiSanXuatDAO.disconnect();
-			return JSonUtil.toJson(result);
+		return JSonUtil.toJson(result);
 	}
 	
-	@RequestMapping(value="/updateNsx", method=RequestMethod.GET, 
-			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	 public @ResponseBody String updateNsx(@RequestParam("nsxMaUpdate") String nsxMaUpdate, @RequestParam("nsxTenUpdate") String nsxTenUpdate) {
+	@RequestMapping(value = "/updateNsx", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String updateNsx(
+			@RequestParam("nsxMaUpdate") String nsxMaUpdate,
+			@RequestParam("nsxTenUpdate") String nsxTenUpdate,
+			HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+		String adminMa = context.getInitParameter("adminMa");
+		if (authentication == null) {
+			logger.error("Không chứng thực truy cập danh mục nơi sản xuất");
+			return JSonUtil.toJson("authentication error");
+		} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+			logger.error("Truy cập bất hợp pháp vào danh mục nơi sản xuất");
+			return JSonUtil.toJson("authentication error");
+		}
 		NoiSanXuatDAO noiSanXuatDAO = new NoiSanXuatDAO();
-		NoiSanXuat nsx = new NoiSanXuat(nsxMaUpdate, nsxTenUpdate,0);
+		NoiSanXuat nsx = new NoiSanXuat(nsxMaUpdate, nsxTenUpdate, 0);
 		noiSanXuatDAO.updateNoiSanXuat(nsx);
 		noiSanXuatDAO.disconnect();
-		return JSonUtil.toJson(nsx);
+		return JSonUtil.toJson("success");
 	}
-	@RequestMapping(value="/deleteNsx", method=RequestMethod.GET, 
-			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	 public @ResponseBody String deleteNsx(@RequestParam("nsxList") String nsxList) {
+	
+	@RequestMapping(value = "/deleteNsx", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String deleteNsx(
+			@RequestParam("nsxList") String nsxList, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+		String adminMa = context.getInitParameter("adminMa");
+		if (authentication == null) {
+			logger.error("Không chứng thực truy cập danh mục nơi sản xuất");
+			return JSonUtil.toJson("authentication error");
+		} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+			logger.error("Truy cập bất hợp pháp vào danh mục nơi sản xuất");
+			return JSonUtil.toJson("authentication error");
+		}
 		String[] str = nsxList.split("\\, ");
 		
-		NoiSanXuatDAO noiSanXuatDAO =  new NoiSanXuatDAO();
-		for(String nsxMa : str) {
+		NoiSanXuatDAO noiSanXuatDAO = new NoiSanXuatDAO();
+		for (String nsxMa : str) {
 			noiSanXuatDAO.deleteNoiSanXuat(nsxMa);
 		}
 		noiSanXuatDAO.disconnect();
-		return JSonUtil.toJson(nsxList);
+		return JSonUtil.toJson("success");
 	}
-	@RequestMapping(value="/loadPageNsx", method=RequestMethod.GET, 
-			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	 public @ResponseBody String loadPageNsx(@RequestParam("pageNumber") String pageNumber) {
+	
+	@RequestMapping(value = "/loadPageNsx", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String loadPageNsx(
+			@RequestParam("pageNumber") String pageNumber,
+			HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		NguoiDung authentication = (NguoiDung) session
+				.getAttribute("nguoiDung");
+		String adminMa = context.getInitParameter("adminMa");
+		if (authentication == null) {
+			logger.error("Không chứng thực truy cập danh mục nơi sản xuất");
+			return JSonUtil.toJson("authentication error");
+		} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+			logger.error("Truy cập bất hợp pháp vào danh mục nơi sản xuất");
+			return JSonUtil.toJson("authentication error");
+		}
 		NoiSanXuatDAO noiSanXuatDAO = new NoiSanXuatDAO();
 		int page = Integer.parseInt(pageNumber);
-		ArrayList<NoiSanXuat> nsxList = (ArrayList<NoiSanXuat>) noiSanXuatDAO.limit((page -1 ) * 10, 10);
+		ArrayList<NoiSanXuat> nsxList = (ArrayList<NoiSanXuat>) noiSanXuatDAO
+				.limit((page - 1) * 10, 10);
 		noiSanXuatDAO.disconnect();
 		return JSonUtil.toJson(nsxList);
 	}

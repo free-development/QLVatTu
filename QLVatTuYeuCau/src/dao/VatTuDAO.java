@@ -122,7 +122,7 @@ public class VatTuDAO {
 public ArrayList<String> startWithTen(String i) {
 		session.beginTransaction();
 
-		String sql = "select vtTen from VatTu where vtTen LIKE :vtTen";
+		String sql = "select vtTen from VatTu where daXoa=0 and vtTen LIKE :vtTen";
 		Query query = session.createQuery(sql);
 		query.setParameter("vtTen", i+"%");
 		ArrayList<String> list = (ArrayList<String>) query.list();
@@ -152,7 +152,7 @@ public ArrayList<VatTu> searchVtTenLimit(String i, int first, int limit) {
 }
  public ArrayList<String> startWithMa(String i) {
 	session.beginTransaction();
-	String sql = "select vtMa from VatTu where vtMa LIKE :vtMa";
+	String sql = "select vtMa from VatTu where daXoa=0 and vtMa LIKE :vtMa";
 	Query query = session.createQuery(sql);
 	query.setParameter("vtMa", i+"%");
 	ArrayList<String> list = (ArrayList<String>) query.list();

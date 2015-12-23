@@ -36,38 +36,42 @@
  			  	contentType: 'application/json',
  			    mimeType: 'application/json',
  			  	success: function(objectList){
- 			  		var vtList = objectList[0];
- 			  		var size = objectList[1];
- 			  		if(vtList.length>0){
- 			  			$('#view-table-vat-tu table .rowContent').remove();
-						for(i = 0;i < vtList.length; i++ ) {
-							style = '';
-							if (i % 2 == 0)
-								style = 'style=\"background : #CCFFFF;\"';
-							vattu = vtList[i];
-							//alert(vtList[i].vtMa);
-		 			  		
-					  				$('#view-table-vat-tu table tr:first').after('<tr class=\"rowContent\"' + style +  '><td class=\"left-column\"><input type=\"checkbox\" name=\"vtMa\" value=\"' +vattu.vtMa 
-									+ '\"</td><td class=\"col\">'+ vattu.vtMa +'</td><td class=\"col\" style=\"text-align: left;\">' + vattu.vtTen
-									+'</td><td class=\"col\" style=\"text-align: center;width: 200px;\">' + vattu.dvt.dvtTen
-									+'</td><td style=\"text-align: center;\"><button type=\"button\" class=\"button-xem\" value=\"Xem\" onclick=\"showCTVatTu(\''
-									+vattu.vtMa+'\');\">Xem</button></td></tr>');
-						}
-						var strPage = '';
-						for (i = 0; i < size; i++) {
-							strPage += '<input type=\"button\" class=\"page\" name="\page\" value=\"' + (i + 1) + '\"  onclick=\"loadPageVatTu(' + i + ')\">  ';
-							if (i == 10)
-								break;
-						}
-						if (size > 10) {
-							strPage = '<input type=\"button\" name="\page\" class=\"page\" value=\"<< Trước\" onclick= \"loadPageVatTu(\'Previous\');\">  ' 
-							+ strPage + ' <input type=\"button\" name="\page\" class=\"page\" value=\">> Sau\" onclick= \"loadPageVatTu(\'Next\');\"> ';
-						}
-						$('#paging').html(strPage);
+ 			  		if (objectList == "authentication error") {
+ 			  			location.assign("login.jsp");
+ 			  		} else {
+	 			  		var vtList = objectList[0];
+	 			  		var size = objectList[1];
+	 			  		if(vtList.length>0){
+	 			  			$('#view-table-vat-tu table .rowContent').remove();
+							for(i = 0;i < vtList.length; i++ ) {
+								style = '';
+								if (i % 2 == 0)
+									style = 'style=\"background : #CCFFFF;\"';
+								vattu = vtList[i];
+								//alert(vtList[i].vtMa);
+			 			  		
+						  				$('#view-table-vat-tu table tr:first').after('<tr class=\"rowContent\"' + style +  '><td class=\"left-column\"><input type=\"checkbox\" name=\"vtMa\" value=\"' +vattu.vtMa 
+										+ '\"</td><td class=\"col\">'+ vattu.vtMa +'</td><td class=\"col\" style=\"text-align: left;\">' + vattu.vtTen
+										+'</td><td class=\"col\" style=\"text-align: center;width: 200px;\">' + vattu.dvt.dvtTen
+										+'</td><td style=\"text-align: center;\"><button type=\"button\" class=\"button-xem\" value=\"Xem\" onclick=\"showCTVatTu(\''
+										+vattu.vtMa+'\');\">Xem</button></td></tr>');
+							}
+							var strPage = '';
+							for (i = 0; i < size; i++) {
+								strPage += '<input type=\"button\" class=\"page\" name="\page\" value=\"' + (i + 1) + '\"  onclick=\"loadPageVatTu(' + i + ')\">  ';
+								if (i == 10)
+									break;
+							}
+							if (size > 10) {
+								strPage = '<input type=\"button\" name="\page\" class=\"page\" value=\"<< Trước\" onclick= \"loadPageVatTu(\'Previous\');\">  ' 
+								+ strPage + ' <input type=\"button\" name="\page\" class=\"page\" value=\">> Sau\" onclick= \"loadPageVatTu(\'Next\');\"> ';
+							}
+							$('#paging').html(strPage);
+	 			  		}
+	 			  		else {
+	 			  				alert("Không tìm thấy vật tư!");
+			  			}
  			  		}
- 			  		else {
- 			  				alert("Không tìm thấy vật tư!");
-		  			}
  			  	}
 			});
 		}
@@ -97,7 +101,9 @@
 		 			    mimeType: 'application/json',
 					  	
 		 			  	success: function(result) {
-					  		if(result == "fail")
+		 			  		if (result == "authentication error") {
+		 			  			location.assign("login.jsp");
+		 			  		} else if(result == "fail")
 			 				{
 					  			alert("Vật tư "+ vtMa + " đã tồn tại ");
 					  		}
@@ -144,12 +150,15 @@
 					mimeType: "application/json",
 					
 					success: function(vt){
-						
-						$('input:text[name=vtMaUpdate]').val(vt.vtMa);
-					  	$('input:text[name=vtTenUpdate]').val(vt.vtTen);
-						$('#donvitinhUp option[value='+vt.dvt.dvtId+']').prop('selected',true);
-						$('#aa').focus();
-					  	showForm2(formId1,formId2, check);
+						if (vt == "authentication error") {
+	 			  			location.assign("login.jsp");
+	 			  		} else {	
+							$('input:text[name=vtMaUpdate]').val(vt.vtMa);
+						  	$('input:text[name=vtTenUpdate]').val(vt.vtTen);
+							$('#donvitinhUp option[value='+vt.dvt.dvtId+']').prop('selected',true);
+							$('#aa').focus();
+						  	showForm2(formId1,formId2, check);
+	 			  		}
 					}
 					
 				});
@@ -183,17 +192,20 @@
 					    mimeType: 'application/json',
 						  	
 						  	success: function(vt) {
-						  		$('table tr').has('input[name="vtMa"]:checked').remove();
-						  		$('#view-table-vat-tu table tr:first').after('<tr class=\"rowContent\"><td class=\"left-column\"><input type=\"checkbox\" name=\"vtMa\" value=\"' +vtMaUpdate + '\"</td><td class=\"col\">'+ vtMaUpdate +'</td><td class=\"col\">' + vtTenUpdate+'</td><td class=\"col\" style=\"text-align: center;\">' 
-						  				+ vt.dvt.dvtTen+'</td><td style=\"text-align: center;\"><button type=\"button\" class=\"button-xem\" value=\"Xem\" onclick=\"showCTVatTu(\''
-										+vtMaUpdate+'\');\">Xem</button></td></tr>');
-						  		$('input:text[name=vtMaUpdate]').val('');			 
-						  		$('input:text[name=vtTenUpdate]').val('');
-								$('select[name=dvtUpdate]').val('');
-								showForm2('vattu','update-form', false);
-						  		alert("Thay đổi thành công vật tư có mã "+vtMaUpdate+ " !");
-						  		$('input[name="vtMa"]:checked').prop('checked',false);	
-						  		
+						  		if (vt == "authentication error") {
+			 			  			location.assign("login.jsp");
+			 			  		} else {
+							  		$('table tr').has('input[name="vtMa"]:checked').remove();
+							  		$('#view-table-vat-tu table tr:first').after('<tr class=\"rowContent\"><td class=\"left-column\"><input type=\"checkbox\" name=\"vtMa\" value=\"' +vtMaUpdate + '\"</td><td class=\"col\">'+ vtMaUpdate +'</td><td class=\"col\">' + vtTenUpdate+'</td><td class=\"col\" style=\"text-align: center;\">' 
+							  				+ vt.dvt.dvtTen+'</td><td style=\"text-align: center;\"><button type=\"button\" class=\"button-xem\" value=\"Xem\" onclick=\"showCTVatTu(\''
+											+vtMaUpdate+'\');\">Xem</button></td></tr>');
+							  		$('input:text[name=vtMaUpdate]').val('');			 
+							  		$('input:text[name=vtTenUpdate]').val('');
+									$('select[name=dvtUpdate]').val('');
+									showForm2('vattu','update-form', false);
+							  		alert("Thay đổi thành công vật tư có mã "+vtMaUpdate+ " !");
+							  		$('input[name="vtMa"]:checked').prop('checked',false);	
+			 			  		}	
 						  	}
 						});
  			}
@@ -233,9 +245,12 @@
 		  	contentType: 'application/json',
 		    mimeType: 'application/json',
  		  	success: function(result) {
- 		  		
-	 		  			$('#view-table-vat-tu table tr').has('input[name="vtMa"]:checked').remove();
-	 		  			alert('Vật tư có mã ' + str + " đã được xóa");	  			
+ 		  		if (result == "authentication error") {
+			  			location.assign("login.jsp");
+		  		} else { 
+ 		  			$('#view-table-vat-tu table tr').has('input[name="vtMa"]:checked').remove();
+ 		  			alert('Vật tư có mã ' + str + " đã được xóa");
+ 		  		}
  		    } 
  		});  
  	}
@@ -253,44 +268,47 @@
 		    mimeType: 'application/json',
 		 
 			success: function(listCTVatTu){
+				if (listCTVatTu == "authentication error") {
+			  			location.assign("login.jsp");
+		  		} else {
+					$('#view-table-chi-tiet table .rowContent').remove();
+	//				if(listCTVatTu.a == null)
+	//					alert("1");
+	//					else alert("2");
+				//	alert(listCTVatTu.vtMa)
+					if(listCTVatTu.vtMa != null) {
+						$('#add-chitiet input:text[name=vtMa]').val(listCTVatTu.vtMa);
+						$('#add-chitiet input:text[name=vtTen]').val(listCTVatTu.vtTen);
+						$('#add-chitiet input:text[name=dvt]').val(listCTVatTu.dvt.dvtTen);
+						alert("Không có chi tiết vật tư!");
+					}
+					else {
+						if(listCTVatTu.length>0){
+						
+								for(i = 0;i < listCTVatTu.length; i++ ) {
 				
-				$('#view-table-chi-tiet table .rowContent').remove();
-//				if(listCTVatTu.a == null)
-//					alert("1");
-//					else alert("2");
-			//	alert(listCTVatTu.vtMa)
-				if(listCTVatTu.vtMa != null) {
-					$('#add-chitiet input:text[name=vtMa]').val(listCTVatTu.vtMa);
-					$('#add-chitiet input:text[name=vtTen]').val(listCTVatTu.vtTen);
-					$('#add-chitiet input:text[name=dvt]').val(listCTVatTu.dvt.dvtTen);
-					alert("Không có chi tiết vật tư!");
-				}
-				else {
-					if(listCTVatTu.length>0){
-					
-							for(i = 0;i < listCTVatTu.length; i++ ) {
-			
-							$('#view-table-chi-tiet table tr:first').after("<tr class=\"rowContent\"><td class=\"left-column\"><input type=\"checkbox\" name=\"ctvtId\" value=\""
-									+ listCTVatTu[i].ctvtId + "\" id=\"checkbox\"></td>"
-									+"<td class=\"col\">" +listCTVatTu[i].vatTu.vtMa+ "</td>"
-									+"<td class=\"col\" style=\"text-align: left;width: 300px;\">" +listCTVatTu[i].vatTu.vtTen+ "</td>"
-									+"<td class=\"col\" style=\"text-align: left;\">" +listCTVatTu[i].noiSanXuat.nsxTen+ "</td>"
-									+"<td class=\"col\" style=\"text-align: left;\">" +listCTVatTu[i].chatLuong.clTen+ "</td>"
-									+"<td class=\"col\">" +listCTVatTu[i].vatTu.dvt.dvtTen+ "</td>"
-									+"<td class=\"col\">" +listCTVatTu[i].dinhMuc+ "</td>"
-									+"<td class=\"col\">" +listCTVatTu[i].soLuongTon+ "</td></tr>");
+								$('#view-table-chi-tiet table tr:first').after("<tr class=\"rowContent\"><td class=\"left-column\"><input type=\"checkbox\" name=\"ctvtId\" value=\""
+										+ listCTVatTu[i].ctvtId + "\" id=\"checkbox\"></td>"
+										+"<td class=\"col\">" +listCTVatTu[i].vatTu.vtMa+ "</td>"
+										+"<td class=\"col\" style=\"text-align: left;width: 300px;\">" +listCTVatTu[i].vatTu.vtTen+ "</td>"
+										+"<td class=\"col\" style=\"text-align: left;\">" +listCTVatTu[i].noiSanXuat.nsxTen+ "</td>"
+										+"<td class=\"col\" style=\"text-align: left;\">" +listCTVatTu[i].chatLuong.clTen+ "</td>"
+										+"<td class=\"col\">" +listCTVatTu[i].vatTu.dvt.dvtTen+ "</td>"
+										+"<td class=\"col\">" +listCTVatTu[i].dinhMuc+ "</td>"
+										+"<td class=\"col\">" +listCTVatTu[i].soLuongTon+ "</td></tr>");
+								}
+								vtMa = listCTVatTu[0].vatTu.vtMa;
+								vtTen = listCTVatTu[0].vatTu.vtTen;
+								dvt = listCTVatTu[0].vatTu.dvt.dvtTen;
+								$('#add-chitiet input:text[name=vtMa]').val(vtMa);
+								$('#add-chitiet input:text[name=vtTen]').val(vtTen);
+								$('#add-chitiet input[name=dvt]').val(dvt);
+								
 							}
-							vtMa = listCTVatTu[0].vatTu.vtMa;
-							vtTen = listCTVatTu[0].vatTu.vtTen;
-							dvt = listCTVatTu[0].vatTu.dvt.dvtTen;
-							$('#add-chitiet input:text[name=vtMa]').val(vtMa);
-							$('#add-chitiet input:text[name=vtTen]').val(vtTen);
-							$('#add-chitiet input[name=dvt]').val(dvt);
-							
-						}
-				}
-				//showForm(formId, check);
-				showForm2('vattu','chitiet',true);
+					}
+					//showForm(formId, check);
+					showForm2('vattu','chitiet',true);
+		  		}
 			}
 		  	
   		});
@@ -368,6 +386,9 @@
  			    mimeType: 'application/json',
  			  	
  			  	success: function(objectList) {
+ 			  		if (objectList == "authentication error") {
+ 			  			location.assign("login.jsp");
+ 			  		} else 
  			  		var size = objectList[1];
  			  		var vtList = objectList[0];
  			  		var length = vtList.length;

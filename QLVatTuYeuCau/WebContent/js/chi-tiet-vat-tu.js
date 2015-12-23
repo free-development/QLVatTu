@@ -61,8 +61,9 @@
  			    mimeType: 'application/json',
 			  	
  			  	success: function(ctvt) {
- 			  		
-			  		if(ctvt != "")
+ 			  		if (ctvt == "authentication error") {
+ 			  			location.assign("login.jsp");
+ 			  		} else if(ctvt != "")
 	 				{
 					$('#view-table-chi-tiet table tr:first').after('<tr class=\"rowContent\"><td class=\"left-column\"><input type=\"checkbox\" name=\"ctvtId\" value=\"' 
 							+ctvt.ctvtId + '\"</td><td class=\"col\">'
@@ -117,21 +118,24 @@
 					mimeType: "application/json",
 					
 					success: function(vt){
-						
-						$('#update-chitiet input:text[name=vtMaUpdate]').val(vt.vatTu.vtMa);
-					  	$('#update-chitiet input:text[name=vtTenUpdate]').val(vt.vatTu.vtTen);
-//					  	$('#noisanxuatUp option[value='+vt.noiSanXuat.nsxMa+']').prop('selected',true);
-//					  	$('#chatluongUp option[value='+vt.chatLuong.clMa+']').prop('selected',true);
-					  	$('#update-chitiet input:text[name=nsxUpdate]').val(vt.noiSanXuat.nsxTen);
-					  	$('#update-chitiet input[name=maNsx]').val(vt.noiSanXuat.nsxMa);
-					  	$('#update-chitiet input[name=maCl]').val(vt.chatLuong.clMa);
-						$('#update-chitiet input:text[name=clUpdate]').val(vt.chatLuong.clTen);
-						$('#update-chitiet input:text[name=dvtUpdate]').val(vt.vatTu.dvt.dvtTen);
-						$('#update-chitiet input[name=dinhMucUpdate]').val(vt.dinhMuc);
-						$('#update-chitiet input[name=soLuongTonUpdate]').val(vt.soLuongTon);
-					  	
-						showForm2('chitiet' ,'update-chitiet', check);
-						$('#dinhMucFocus').focus();
+						if (vt == "authentication error") {
+	 			  			location.assign("login.jsp");
+	 			  		} else {
+							$('#update-chitiet input:text[name=vtMaUpdate]').val(vt.vatTu.vtMa);
+						  	$('#update-chitiet input:text[name=vtTenUpdate]').val(vt.vatTu.vtTen);
+	//					  	$('#noisanxuatUp option[value='+vt.noiSanXuat.nsxMa+']').prop('selected',true);
+	//					  	$('#chatluongUp option[value='+vt.chatLuong.clMa+']').prop('selected',true);
+						  	$('#update-chitiet input:text[name=nsxUpdate]').val(vt.noiSanXuat.nsxTen);
+						  	$('#update-chitiet input[name=maNsx]').val(vt.noiSanXuat.nsxMa);
+						  	$('#update-chitiet input[name=maCl]').val(vt.chatLuong.clMa);
+							$('#update-chitiet input:text[name=clUpdate]').val(vt.chatLuong.clTen);
+							$('#update-chitiet input:text[name=dvtUpdate]').val(vt.vatTu.dvt.dvtTen);
+							$('#update-chitiet input[name=dinhMucUpdate]').val(vt.dinhMuc);
+							$('#update-chitiet input[name=soLuongTonUpdate]').val(vt.soLuongTon);
+						  	
+							showForm2('chitiet' ,'update-chitiet', check);
+							$('#dinhMucFocus').focus();
+	 			  		}
 					}
 					
 				});
@@ -168,27 +172,30 @@
 			    mimeType: 'application/json',
 				  	
 				  	success: function(ctvt) {
-				  		$('table tr').has('input[name="ctvtId"]:checked').remove();
-				  		$('#view-table-chi-tiet table tr:first').after('<tr class="rowContent"><td class=\"left-column\"><input type=\"checkbox\" name=\"ctvtId\" value=\"' 
-				  				+ctvt.ctvtId + '\"</td><td class=\"col\">'
-				  				+ vtMaUpdate +'</td><td class=\"col\">'
-				  				+ vtTenUpdate +'</td><td class=\"col\">'
-				  				+ ctvt.noiSanXuat.nsxTen +'</td><td class=\"col\">'
-				  				+ ctvt.chatLuong.clTen +'</td><td class=\"col\">'
-				  				+ dvtUpdate +'</td><td class=\"col\">'
-				  				+ dinhMucUpdate +'</td><td class=\"col\">'
-				  				+ soLuongTonUpdate+'</td></tr>');
-				  		$('input:text[name=vtMaUpdate]').val('');			 
-				  		$('input:text[name=vtTenUpdate]').val('');
-				  		$('input:text[name=nsxUpdate]').val('');
-				  		$('input:text[name=clUpdate]').val('');
-						$('input:text[name=dvtUpdate]').val('');
-						$('input[name=dinhMucUpdate]').val('');
-						$('input[name=soLuongTonUpdate]').val('');
-						showForm2('chitiet' ,'update-chitiet', false);
-				  		alert("Sửa thành công chi tiết vật tư có mã "+ vtMaUpdate+ " !");
-				  		$('input[name="ctvtId"]:checked').prop('checked',false);
-				  	
+				  		if (ctvt == "authentication error") {
+	 			  			location.assign("login.jsp");
+	 			  		} else {
+					  		$('table tr').has('input[name="ctvtId"]:checked').remove();
+					  		$('#view-table-chi-tiet table tr:first').after('<tr class="rowContent"><td class=\"left-column\"><input type=\"checkbox\" name=\"ctvtId\" value=\"' 
+					  				+ctvt.ctvtId + '\"</td><td class=\"col\">'
+					  				+ vtMaUpdate +'</td><td class=\"col\">'
+					  				+ vtTenUpdate +'</td><td class=\"col\">'
+					  				+ ctvt.noiSanXuat.nsxTen +'</td><td class=\"col\">'
+					  				+ ctvt.chatLuong.clTen +'</td><td class=\"col\">'
+					  				+ dvtUpdate +'</td><td class=\"col\">'
+					  				+ dinhMucUpdate +'</td><td class=\"col\">'
+					  				+ soLuongTonUpdate+'</td></tr>');
+					  		$('input:text[name=vtMaUpdate]').val('');			 
+					  		$('input:text[name=vtTenUpdate]').val('');
+					  		$('input:text[name=nsxUpdate]').val('');
+					  		$('input:text[name=clUpdate]').val('');
+							$('input:text[name=dvtUpdate]').val('');
+							$('input[name=dinhMucUpdate]').val('');
+							$('input[name=soLuongTonUpdate]').val('');
+							showForm2('chitiet' ,'update-chitiet', false);
+					  		alert("Sửa thành công chi tiết vật tư có mã "+ vtMaUpdate+ " !");
+					  		$('input[name="ctvtId"]:checked').prop('checked',false);
+	 			  		}
 				  	}
 				});
  	}
@@ -218,10 +225,13 @@
  		  	data: { "ctvtList": str},
 		  	contentType: 'application/json',
 		    mimeType: 'application/json',
- 		  	success: function() {
- 		  		$('#view-table-chi-tiet table tr').has('input[name="ctvtId"]:checked').remove();
- 		  		alert('Chi tiết vật tư có mã ' + str + " đã bị xóa");	
-				
+ 		  	success: function(result) {
+ 		  		if (result == "authentication error") {
+			  			location.assign("login.jsp");
+		  		} else {
+	 		  		$('#view-table-chi-tiet table tr').has('input[name="ctvtId"]:checked').remove();
+	 		  		alert('Chi tiết vật tư có mã ' + str + " đã bị xóa");	
+		  		}
  		    } 
  		});  
  	}
@@ -289,52 +299,56 @@
  			    mimeType: 'application/json',
  			  	
  			  	success: function(objectList) {
- 			  		var size = objectList[1];
- 			  		var ctvtList = objectList[0];
- 			  		var length = ctvtList.length;
- 			  		$('#view-table-chi-tiet table .rowContent').remove();
- 						for(i = 0;i < length; i++ ) {
- 							var ctvt = ctvtList[i];
- 							var cells = '';
- 							var style = '';
- 							if (i % 2 == 0)
- 								style = 'style=\"background : #CCFFFF;\"';
-		 					cells = '<td class=\"col\">' + ctvt.vatTu.vtMa + '</td>'
-		 							+'<td class=\"col\" style=\"text-align: left;\">' + ctvt.vatTu.vtTen + '</td>'
-	 								+ '<td class=\"col\" style=\"text-align: left;\">' + ctvt.noiSanXuat.nsxTen+ '</td>'
-	 								+ '<td class=\"col\" style=\"text-align: left;\">' + ctvt.chatLuong.clTen+ '</td>'
-	 								+ '<td class=\"col\">' + ctvt.vatTu.dvt.dvtTen+ '</td>'
-	 								+ '<td class=\"col\">' + ctvt.dinhMuc+ '</td>'
-	 								+ '<td class=\"col\">' + ctvt.soLuongTon+ '</td>'
-		 					var row = '<tr class=\"rowContent\" ' + style + '>' + cells + '</tr>';
-		 					$('#view-table-chi-tiet table tr:first').after(row);
- 						}
- 					var button = '';
-					if(pageNumber == 'Next') {
-						for (var i = 0; i < 10; i++) {
-							var t = ((p -1) * 5 + i + 1);
+ 			  		if (result == "authentication error") {
+ 			  			location.assign("login.jsp");
+ 			  		} else {
+	 			  		var size = objectList[1];
+	 			  		var ctvtList = objectList[0];
+	 			  		var length = ctvtList.length;
+	 			  		$('#view-table-chi-tiet table .rowContent').remove();
+	 						for(i = 0;i < length; i++ ) {
+	 							var ctvt = ctvtList[i];
+	 							var cells = '';
+	 							var style = '';
+	 							if (i % 2 == 0)
+	 								style = 'style=\"background : #CCFFFF;\"';
+			 					cells = '<td class=\"col\">' + ctvt.vatTu.vtMa + '</td>'
+			 							+'<td class=\"col\" style=\"text-align: left;\">' + ctvt.vatTu.vtTen + '</td>'
+		 								+ '<td class=\"col\" style=\"text-align: left;\">' + ctvt.noiSanXuat.nsxTen+ '</td>'
+		 								+ '<td class=\"col\" style=\"text-align: left;\">' + ctvt.chatLuong.clTen+ '</td>'
+		 								+ '<td class=\"col\">' + ctvt.vatTu.dvt.dvtTen+ '</td>'
+		 								+ '<td class=\"col\">' + ctvt.dinhMuc+ '</td>'
+		 								+ '<td class=\"col\">' + ctvt.soLuongTon+ '</td>'
+			 					var row = '<tr class=\"rowContent\" ' + style + '>' + cells + '</tr>';
+			 					$('#view-table-chi-tiet table tr:first').after(row);
+	 						}
+	 					var button = '';
+						if(pageNumber == 'Next') {
+							for (var i = 0; i < 10; i++) {
+								var t = ((p -1) * 5 + i + 1);
+								
+								button += '<input type=\"button\" value=\"' + ((p -1) * 5 + i + 1) + '\" class=\"page\" onclick= \"loadPageCTVatTu(' + ((p -1)*5 + i)  +')\">&nbsp;';
+								if (t > size)
+									break;
+							}
+							button = '<input type=\"button\" class=\"pageMove\" value=\"<<Trước\" onclick= \"loadPageCTVatTu(\'Previous\')\">&nbsp;'  + button;
+							if ((p + 1) * 5 < size)
+								button += '<input type=\"button\" class=\"pageMove\" value=\"Sau>>\" onclick= \"loadPageCTVatTu(\'Next\');\">';
+							$('#paging').html(button);
+							$('.page')[5].focus();
+						} else if (pageNumber == 'Previous'){
+							if (p > 0)
+								p = p -1;
+							for (var i = 0; i < 10; i++)
+								button += '<input type=\"button\" value=\"' + (p * 5 + i + 1) + '\" class=\"page\" onclick= \"loadPageCTVatTu(' + (p * 5 + i)  +')\">&nbsp;';
 							
-							button += '<input type=\"button\" value=\"' + ((p -1) * 5 + i + 1) + '\" class=\"page\" onclick= \"loadPageCTVatTu(' + ((p -1)*5 + i)  +')\">&nbsp;';
-							if (t > size)
-								break;
+							button = button + '<input type=\"button\" class=\"pageMove\" value=\"Sau >>\" onclick= \"loadPageCTVatTu(\'Next\');\">';
+							if (p >= 1)
+								button = '<input type=\"button\" class=\"pageMove\" value=\"<< Trước\" onclick= \"loadPageCTVatTu(\'Previous\')\">&nbsp;' + button;
+							$('#paging').html(button);	
+							$('.page')[4].focus();
 						}
-						button = '<input type=\"button\" class=\"pageMove\" value=\"<<Trước\" onclick= \"loadPageCTVatTu(\'Previous\')\">&nbsp;'  + button;
-						if ((p + 1) * 5 < size)
-							button += '<input type=\"button\" class=\"pageMove\" value=\"Sau>>\" onclick= \"loadPageCTVatTu(\'Next\');\">';
-						$('#paging').html(button);
-						$('.page')[5].focus();
-					} else if (pageNumber == 'Previous'){
-						if (p > 0)
-							p = p -1;
-						for (var i = 0; i < 10; i++)
-							button += '<input type=\"button\" value=\"' + (p * 5 + i + 1) + '\" class=\"page\" onclick= \"loadPageCTVatTu(' + (p * 5 + i)  +')\">&nbsp;';
-						
-						button = button + '<input type=\"button\" class=\"pageMove\" value=\"Sau >>\" onclick= \"loadPageCTVatTu(\'Next\');\">';
-						if (p >= 1)
-							button = '<input type=\"button\" class=\"pageMove\" value=\"<< Trước\" onclick= \"loadPageCTVatTu(\'Previous\')\">&nbsp;' + button;
-						$('#paging').html(button);	
-						$('.page')[4].focus();
-					}
+ 			  		}
  			  	}
  			});
     }

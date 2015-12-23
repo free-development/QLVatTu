@@ -151,7 +151,7 @@ public class siteMap {
 	public static final String  xuatCTVatTuError = "import-excelError";
 	// map home page
 	public static final String homePageManage = home + "home.html";
-	public static final String homePage = "index";
+	public static final String homePage = "home";
 	
 	// map backup - restore data
 	public static final String loadBackup= home + "backupDBManage.html";

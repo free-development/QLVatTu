@@ -22,6 +22,9 @@
 <script type="text/javascript" src="js/location.js"></script>
 <script type="text/javascript" src="js/date-util.js"></script>
 <script type="text/javascript" src="js/backup-data.js"></script>
+<script type="text/javascript">
+	var currentDate = '<%=DateUtil.convertToSqlDate(new Date()) %>';
+</script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="Shortcut Icon" href="img/logo16.png" type="image/x-icon" />
 </head>
@@ -51,7 +54,24 @@
 			<div id="content-wrapper">
 				<div id="title-content" style="margin-bottom: 20px;">Sao lưu dữ liệu</div>
 				<div id="main-content">
-				<div id="loading"></div>
+					<div id="loading"></div>
+					<form id="option-form" method="get" action ="Timkiemsaoluu.jsp">
+						<table style="margin:0 auto; margin-top: 30px;">
+							<tr>
+								<td style="font-weight: bold;">Tìm kiếm &nbsp</td>
+								<td style="text-align: left">
+								<select 
+									title="Tùy chọn tìm kiếm" class="select" id="filter" name="filter" style="font-size: 20px;" >
+										<option value="all" style = "padding: 0 auto;" selected>-- Tất cả--</option>
+										<option value="description" style = "padding: 0 auto;">Mô tả</option>
+										<option value="date" style = "padding: 0 auto;">Thời gian</option>
+								</select>
+								</td>
+								
+								<td style="text-align: left; margin-left: 10px;" id="searchContent">&nbsp;&nbsp;<input style="font-size: 20px; background: #D1D1E0;" readonly type="search" id="value1" class = "text" title="Nhập mô tả" placeholder="Nội dung tìm kiếm"></td>
+							</tr>
+						</table>
+					</form>
 					<form id="main-form" style="text-align: center;" method="get">
 						<div id="view-table">
 							<table>
@@ -103,17 +123,18 @@
 							<button type="submit" class="button" id="preBackup">
 								<i class="fa fa-plus-circle"></i>&nbsp;Sao lưu dữ liệu
 							</button>
+							&nbsp;
 							<button type="submit" class="button">
 								<i class="fa fa-pencil fa-fw"></i>&nbsp;Phục hồi dữ liệu
 							</button>
 							
 							&nbsp;
 							<button class="button" type="reset">
-								<i class="fa fa-spinner"></i>&nbsp;&nbsp;Bỏ qua
+								<i class="fa fa-spinner"></i>&nbsp;Bỏ qua
 							</button>
 							&nbsp;
 							<button type="button" class="button" onclick="location.href='<%=siteMap.home%>'">
-								<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
+								<i class="fa fa-sign-out"></i>&nbsp;Thoát
 							</button>
 						</div>
 					</form>
@@ -144,7 +165,7 @@
 								<i class="fa fa-plus-circle"></i>&nbsp;Sao lưu
 							</button>
 							<button type="reset" class="button">
-								<i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại
+								<i class="fa fa-refresh"></i>&nbsp;Nhập lại
 							</button>
 							&nbsp;
 <%-- 						<button type="button" class="button" id="exit" onclick="location.href='<%=siteMap.loadBackup%>'"> --%>

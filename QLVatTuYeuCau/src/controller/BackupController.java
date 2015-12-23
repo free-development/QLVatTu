@@ -118,17 +118,17 @@ public class BackupController extends HttpServlet {
 			return JSonUtil.toJson(backupInfo);
 			
 		} catch (IOException e){
-			Log4jSimple.dubug("Lỗi nhập xuất file backup");
+			Log4jSimple.debug("Lỗi nhập xuất file backup");
 			System.out.println("Lỗi nhập xuất file backup");
 			return JSonUtil.toJson("fail");
 		} catch (NumberFormatException e1){
 //			log("Lỗi định dạng số  backup");
-			Log4jSimple.dubug("Lỗi định dạng số  backup");
+			Log4jSimple.debug("Lỗi định dạng số  backup");
 			System.out.println("Lỗi định dạng số  backup");
 			return JSonUtil.toJson("fail");
 		} catch (IndexOutOfBoundsException e2){
 //			log("Lỗi chỉ số backup");
-			Log4jSimple.dubug("Lỗi chỉ số backup");
+			Log4jSimple.debug("Lỗi chỉ số backup");
 			System.out.println("Lỗi chỉ số backup");
 			return JSonUtil.toJson("fail");
 		}
@@ -302,7 +302,6 @@ public class BackupController extends HttpServlet {
 			page = (size - 1)/ 10 - page;
 //			int idPage = page / 10;
 //			int idBackup = page % 10;
-			System.out.println(pathLogBackup + "idInfo" + page + ".info");
 			FileReader fileIdInput = new FileReader(pathLogBackup + "idInfo" + page + ".info");
 			BufferedReader buffFileIdInput = new BufferedReader(fileIdInput);
 			ArrayList<BackupInfo> vatTuList = new ArrayList<BackupInfo>() ;
@@ -317,24 +316,84 @@ public class BackupController extends HttpServlet {
 			objectList.add(size);
 			return JSonUtil.toJson(objectList);
 		} catch (FileNotFoundException e){
-			Log4jSimple.dubug("Lỗi nhập xuất file backup");
+			Log4jSimple.debug("Lỗi nhập xuất file backup");
 			System.out.println("Lỗi nhập xuất file backup");
 			return JSonUtil.toJson("fail");
 		} catch (NumberFormatException e1){
 //			log("Lỗi định dạng số  backup");
-			Log4jSimple.dubug("Lỗi định dạng số  backup");
+			Log4jSimple.debug("Lỗi định dạng số  backup");
 			System.out.println("Lỗi định dạng số  backup");
 			return JSonUtil.toJson("fail");
 		} catch (IndexOutOfBoundsException e2){
 //			log("Lỗi chỉ số backup");
-			Log4jSimple.dubug("Lỗi chỉ số backup");
+			Log4jSimple.debug("Lỗi chỉ số backup");
 			System.out.println("Lỗi chỉ số backup");
 			return JSonUtil.toJson("fail");
 		} catch (IOException e5){
 	//		log("Lỗi chỉ số backup");
-			Log4jSimple.dubug("Lỗi nhập xuất");
+			Log4jSimple.debug("Lỗi nhập xuất");
 			System.out.println("Lỗi nhập xuất");
 			return JSonUtil.toJson("fail");
 		}
 	}
+	/*
+	@RequestMapping(value="/filterDataBackup", method=RequestMethod.GET, 
+			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	 public @ResponseBody String filterDataBackup(@RequestParam("filter") String filter, @RequestParam("value1") String value1, @RequestParam("value2") String value2, HttpServletRequest request) {
+		
+		try{
+			ArrayList<BackupInfo> backupList = new ArrayList<BackupInfo>();
+			if ("all".equals(filter)) {
+				
+			} else if ("description".equals(filter)){
+				
+			} else if ("date".equals(filter)){
+				
+			}
+			
+			int page = Integer.parseInt(pageNumber);
+			ArrayList<Object> objectList = new ArrayList<Object>();
+			String pathLogBackup = context.getInitParameter("pathLogBackup");
+			FileReader fileIn = new FileReader(pathLogBackup + "numberBackup.sysInfo");
+			BufferedReader buffFileIn = new BufferedReader(fileIn);
+			int size = Integer.parseInt(buffFileIn.readLine());
+			buffFileIn.close();
+			page = (size - 1)/ 10 - page;
+//			int idPage = page / 10;
+//			int idBackup = page % 10;
+			FileReader fileIdInput = new FileReader(pathLogBackup + "idInfo" + page + ".info");
+			BufferedReader buffFileIdInput = new BufferedReader(fileIdInput);
+			ArrayList<BackupInfo> vatTuList = new ArrayList<BackupInfo>() ;
+			String line = "";
+			while((line = buffFileIdInput.readLine()) != null) {
+				String[] temp = line.split("\\#####");
+				BackupInfo backupInfo = new BackupInfo(Integer.parseInt(temp[0]), temp[1].substring(9), temp[2], temp[3]);
+				vatTuList.add(backupInfo);
+			}
+			buffFileIdInput.close();
+			objectList.add(vatTuList);
+			objectList.add(size);
+			return JSonUtil.toJson(backupList);
+		} catch (FileNotFoundException e){
+			Log4jSimple.debug("Lỗi nhập xuất file backup");
+			System.out.println("Lỗi nhập xuất file backup");
+			return JSonUtil.toJson("fail");
+		} catch (NumberFormatException e1){
+//			log("Lỗi định dạng số  backup");
+			Log4jSimple.debug("Lỗi định dạng số  backup");
+			System.out.println("Lỗi định dạng số  backup");
+			return JSonUtil.toJson("fail");
+		} catch (IndexOutOfBoundsException e2){
+//			log("Lỗi chỉ số backup");
+			Log4jSimple.debug("Lỗi chỉ số backup");
+			System.out.println("Lỗi chỉ số backup");
+			return JSonUtil.toJson("fail");
+		} catch (IOException e5){
+	//		log("Lỗi chỉ số backup");
+			Log4jSimple.debug("Lỗi nhập xuất");
+			System.out.println("Lỗi nhập xuất");
+			return JSonUtil.toJson("fail");
+		}
+	}
+	*/
 }

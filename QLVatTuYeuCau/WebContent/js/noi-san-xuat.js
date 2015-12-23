@@ -43,11 +43,13 @@ function preUpdateNsx(formId, check) {
 		    mimeType: 'application/json',
 		  	
 		  	success: function(nsx) {
-		  		
-			  	$('input:text[name=nsxMaUpdate]').val(nsx.nsxMa);
-			  	$('input:text[name=nsxTenUpdate]').val(nsx.nsxTen);
-		  		showForm(formId, check);	
-		  		
+		  		if (nsx == "authentication error") {
+		  			location.assign("login.jsp");
+		  		} else {
+				  	$('input:text[name=nsxMaUpdate]').val(nsx.nsxMa);
+				  	$('input:text[name=nsxTenUpdate]').val(nsx.nsxTen);
+			  		showForm(formId, check);	
+		  		}
 		  	}
 		});
 	}
@@ -82,9 +84,13 @@ function confirmDelete(){
 	  	data: { "nsxList": str},
 	  	contentType: 'application/json',
 	    mimeType: 'application/json',
-	  	success: function() {
-					$('table tr').has('input[name="nsxMa"]:checked').remove();
-					alert('Nơi sản xuất có mã ' + str + " đã bị xóa");
+	  	success: function(result) {
+	  		if (result == "authentication error") {
+	  			location.assign("login.jsp");
+	  		} else {
+				$('table tr').has('input[name="nsxMa"]:checked').remove();
+				alert('Nơi sản xuất có mã ' + str + " đã bị xóa");
+	  		}
 	    } 
 	});  
 } 
@@ -105,8 +111,9 @@ function addNsx() {
 		  	
 		  	success: function(result) {
 		//			  		alert(result);
-		  		if (result == "success")
-			  	{
+		  		if (result == "authentication error") {
+		  			location.assign("login.jsp");
+		  		} else if (result == "success") {
 			  		$('#view-table table tr:first').after('<tr class=\"rowContent\"><td class=\"left-column\"><input type=\"checkbox\" name=\"nsxMa\" value=\"' +nsxMa + '\"</td><td class=\"col\">'+ nsxMa +'</td><td class=\"col\">' + nsxTen+'</td></tr>');
 			  		$('#add-form input:text[name=nsxMa]').val('');
 					$('#add-form input:text[name=nsxTen]').val('');
@@ -150,12 +157,16 @@ if (nsxTenUpdate == '')
 			    mimeType: 'application/json',
 			  	
 			  	success: function(nsx) {
-			  		$('table tr').has('input[name="nsxMa"]:checked').remove();
-			  		$('#view-table table tr:first').after('<tr class="rowContent"><td class=\"left-column\"><input type=\"checkbox\" name=\"nsxMa\" value=\"' +nsxMaUpdate + '\"</td><td class=\"col\">'+ nsxMaUpdate +'</td><td class=\"col\">' + nsxTenUpdate+'</td></tr>');
-			  		$('input:text[name=nsxMaUpdate]').val('');
-					nsxTenUpdate = $('input:text[name=nsxTenUpdate]').val('');
-			  		showForm("update-form", false);	
-			  		alert("Thay đổi thành công nơi sản xuất có mã "+ nsxMaUpdate);
+			  		if (nsx == "authentication error") {
+			  			location.assign("login.jsp");
+			  		} else {
+				  		$('table tr').has('input[name="nsxMa"]:checked').remove();
+				  		$('#view-table table tr:first').after('<tr class="rowContent"><td class=\"left-column\"><input type=\"checkbox\" name=\"nsxMa\" value=\"' +nsxMaUpdate + '\"</td><td class=\"col\">'+ nsxMaUpdate +'</td><td class=\"col\">' + nsxTenUpdate+'</td></tr>');
+				  		$('input:text[name=nsxMaUpdate]').val('');
+						nsxTenUpdate = $('input:text[name=nsxTenUpdate]').val('');
+				  		showForm("update-form", false);	
+				  		alert("Thay đổi thành công nơi sản xuất có mã "+ nsxMaUpdate);
+			  		}
 			  	}
 			});
 	}

@@ -252,7 +252,7 @@
 						<tr>
 							<th style="text-align: left"><label for="MVT">Tên vật tư</label></th>
 							<td><input name="vtTen" size="30px" align=right type="text" onkeypress="changeVtTen();"
-								class="text" required title="Mã vật tư không được để trống"><div id="requireVtTen" style="color: red"></div></td>
+								class="text" required title="Tên vật tư không được để trống"><div id="requireVtTen" style="color: red"></div></td>
 						</tr>
 						
 						<tr>
@@ -497,7 +497,7 @@
 						
 						<tr>
 							<th style="text-align: left"><label for="DM">Định mức</label></th>
-							<td><input name="dinhMuc" style="width: 100px" type="number" onkeypress="changeDM();"></td>
+							<td><input name="dinhMuc" style="width: 100px" class="text" type="number" onkeypress="changeDM();"></td>
 						</tr>
 						<tr>
 							<th style="text-align: left"><label for="DVT">Chất lượng</label></th>
