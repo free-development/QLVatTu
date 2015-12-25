@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,9 +14,12 @@ import javax.servlet.http.HttpSession;
 import map.siteMap;
 import model.CongVan;
 import model.DonVi;
+import model.NguoiDung;
 import model.TrangThai;
 import model.YeuCau;
 
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,14 +33,19 @@ import dao.YeuCauDAO;
 @Controller
 public class BcbdnController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	@Autowired
+	private ServletContext context;
+	private static final Logger logger = Logger.getLogger(BcbdnController.class);
 	@RequestMapping("/manageBcbdn")
 	protected ModelAndView manageBcbdn(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
 			HttpSession session = request.getSession(false);
-			if (session.getAttribute("nguoiDung") == null)
-				response.sendRedirect("login.jsp");
+			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+			if (authentication == null) { 
+				logger.error("Không chứng thực truy cập báo cáo bảng đề nghị");
+				return new ModelAndView(siteMap.login);
+			}
 			session.removeAttribute("congVanList");
 			session.removeAttribute("ctVatTuList");
 			session.removeAttribute("soLuongList");
@@ -104,6 +113,7 @@ public class BcbdnController extends HttpServlet {
 			}
 			return new ModelAndView("login");
 		} catch (NullPointerException e) {
+			logger.error("Lỗi khi cập báo cáo bảng đề nghị");
 			return new ModelAndView(siteMap.login);
 		}
 	}

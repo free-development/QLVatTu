@@ -159,7 +159,6 @@ public class CongVanDAO {
 		return id;
 	}
 	public int getSoDenAdd(Date cvNgayNhan) {
-		System.out.println(cvNgayNhan.getMonth());
 		session.beginTransaction();
 		Criteria cr =  session.createCriteria(CongVan.class);
 		cr.setProjection(Projections.max("soDen"));
@@ -198,12 +197,12 @@ public class CongVanDAO {
 //		cr.add(tt1);
 		cr.add(andExp);
 		if ((ngaybd != null || ngaybd != null)) {
-			System.out.println(ngaybd + "*" + ngaykt);
+			
 			if (ngaybd == null)
 				ngaybd = ngaykt;
 			else if (ngaykt == null)
 				ngaykt = ngaybd;
-			System.out.println(ngaybd + "*" + ngaykt);
+			
 			Criterion ngay = Restrictions.between("cvNgayNhan", ngaybd, ngaykt);
 //			LogicalExpression andNgay = Restrictions.and(andExp, ngay);
 			cr.add(ngay);
@@ -322,7 +321,7 @@ public class CongVanDAO {
 					sql += " and " + key + " = :" + key;
 				}
 		}
-		System.out.println(sql);
+		
 		sql += " order by cvNgayNhan DESC";
 		Query query = session.createQuery(sql);
 		query.setParameter("year", year);
@@ -540,7 +539,6 @@ public long size(String msnv, HashMap<String, Object> conditions) {
 				condition += " or ";
 			condition += "( ";
 			checkYear = true;
-			System.out.println(y);
 			condition += "YEAR(cvNgayNhan) = " + y;
 			HashSet<Integer> monthList = month.get(y); 
 			if (monthList != null && monthList.size() > 0) {
@@ -576,7 +574,7 @@ public long size(String msnv, HashMap<String, Object> conditions) {
 			condition += ")";
 		}
 		condition += " )";
-		System.out.println(condition);
+		
 		if (condition.length() <= 4)
 			return expression;
 		Criterion ex = Restrictions.sqlRestriction(condition);
@@ -596,7 +594,7 @@ public long size(String msnv, HashMap<String, Object> conditions) {
 				condition += " or ";
 			condition += "( ";
 			checkYear = true;
-			System.out.println(y);
+			
 			condition += "YEAR(cvNgayNhan) = " + y;
 			HashSet<Integer> monthList = month.get(y); 
 			if (monthList != null) {
@@ -632,7 +630,7 @@ public long size(String msnv, HashMap<String, Object> conditions) {
 			condition += ")";
 		}
 		condition += " )";
-		System.out.println(condition);
+		
 		if (condition.length() == 0)
 			return expression;
 		else
@@ -640,51 +638,7 @@ public long size(String msnv, HashMap<String, Object> conditions) {
 		
 		return condition;
 	}
-	public static void main(String[] args) {
-		HashMap<Integer, HashSet<Integer>> month = new HashMap<Integer, HashSet<Integer>>();
-		HashMap<String, HashSet<Integer>> date = new HashMap<String, HashSet<Integer>>();
-		
-		
-		HashMap<String, Object> conditions = new HashMap<String, Object>();
-		HashSet<Integer> monthList = new HashSet<Integer>();
-		
-		monthList.add(10);
-		monthList.add(10);
-		monthList.add(9);
-		monthList.add(12);
-		monthList.add(1);
-		monthList.add(2);
-		month.put(2015, monthList);
-		month.put(2013, null);
-		HashSet<Integer> dateList = new HashSet<Integer>();
-		
-		dateList.add(10);
-		dateList.add(2);
-		date.put("2015#10", dateList);
-//		monthList.add(10);
-//		monthList.add(12);
-//		year.put(2015, monthList);
-//		
-//		HashSet<Integer> dateList = new HashSet<Integer>();
-//		dateList.add(1);
-//		dateList.add(10);
-//		dateList.add(20);
-//		month.put(1, dateList);
-//		month.put(9, null);
-		LogicalExpression ex = new CongVanDAO().addTimeExpression(null, month, date);
-		conditions.put("time", ex);
-		ArrayList<CongVan> cvList = new CongVanDAO().searchLimit(null, conditions, null, 0, 100);
-		System.out.println(cvList.size());
-	}
 }
+	
 
-/*
- * (
- * 		YEAR(cvNgayNhan) = 1 and (MONTH(cvNgayNhan) = 1 or MONTH(cvNgayNhan) = 2 or MONTH(cvNgayNhan) = 20) ) 
- * 		or YEAR(cvNgayNhan) = 2014 and (MONTH(cvNgayNhan) = 11 or MONTH(cvNgayNhan) = 12) 
- * )
- * YEAR(cvNgayNhan) = 2014 and (MONTH(cvNgayNhan) = 11 
- * 			and ( DAY(cvNgayNhan) = 1 or  DAY(cvNgayNhan) = 2 or MONTH(cvNgayNhan) = 12) 
- * or YEAR(cvNgayNhan) = 2015
 
- */

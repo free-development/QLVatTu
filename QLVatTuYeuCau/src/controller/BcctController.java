@@ -4,12 +4,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,6 +26,7 @@ import map.siteMap;
 import model.CTVatTu;
 import model.CongVan;
 import model.DonVi;
+import model.NguoiDung;
 import model.TrangThai;
 import model.YeuCau;
 import util.DateUtil;
@@ -30,14 +34,19 @@ import util.DateUtil;
 @Controller
 public class BcctController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	@Autowired
+	private ServletContext context;
+	private static final Logger logger = Logger.getLogger(BcctController.class);
 	@RequestMapping("/manageBcct")
 	protected ModelAndView manageBcbdn(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
 			HttpSession session = request.getSession(false);
-			if (session.getAttribute("nguoiDung") == null)
+			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+			if (authentication == null) { 
+				logger.error("Không chứng thực truy cập báo cáo chi tiết");
 				return new ModelAndView(siteMap.login);
+			}
 			session.removeAttribute("congVanList");
 			session.removeAttribute("ctVatTuList");
 			session.removeAttribute("soLuongList");
@@ -53,8 +62,6 @@ public class BcctController extends HttpServlet {
 			DonViDAO donViDAO = new DonViDAO();
 			CongVanDAO congVanDAO = new CongVanDAO();
 			if ("manageBcbdn".equalsIgnoreCase(action)) {
-				
-				
 				ArrayList<TrangThai> trangThaiList = (ArrayList<TrangThai>) trangThaiDAO.getAllTrangThai();
 				ArrayList<DonVi> donViList = (ArrayList<DonVi>) donViDAO.getAllDonVi();
 				ArrayList<CongVan> congVanList = (ArrayList<CongVan>) congVanDAO.getAllCongVan();
@@ -122,6 +129,7 @@ public class BcctController extends HttpServlet {
 			}
 			return new ModelAndView("login");
 		} catch (NullPointerException e) {
+			logger.error("Lỗi khi báo cáo chi tiết: " + e.getMessage());
 			return new ModelAndView(siteMap.login);
 		}
 	}

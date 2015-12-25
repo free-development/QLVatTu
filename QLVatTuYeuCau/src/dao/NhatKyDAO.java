@@ -131,13 +131,5 @@ public class NhatKyDAO {
 	public void disconnect() {
 		session.disconnect();
 	}
-	public static void main(String[] args) {
-//		ArrayList<CongVan> congVanList = new CongVanDAO().getTrangThai("", "", null, null);
-//		System.out.println(new NhatKyDAO().size(congVanList));
-		NhatKyDAO nhatKyDAO = new NhatKyDAO();
-		Date currentDate = DateUtil.convertToSqlDate(new java.util.Date ());
-		nhatKyDAO.addNhatKy(new NhatKy("quoioln", "", currentDate, "chia se cong van"));
-		nhatKyDAO.disconnect();
-		nhatKyDAO.close();
-	}
+	
 }

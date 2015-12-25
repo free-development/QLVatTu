@@ -47,8 +47,8 @@
     <param-value>TK</param-value>
   </context-param>
   <context-param>
-    <param-name>capPhatId</param-name>
-    <param-value>3</param-value>
+    <param-name>capPhatMa</param-name>
+    <param-value>CVT</param-value>
   </context-param>
   <context-param>
     <param-name>account</param-name>

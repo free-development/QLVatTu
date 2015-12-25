@@ -74,7 +74,9 @@ function showForm(formId, check){
 				    mimeType: 'application/json',
 				  	success: function(result) {
 				  		//alert(result);
-				  		if(result == "success"){
+				  		if (result == "authentication error") {
+							location.assign("login.jsp");
+						} else if(result == "success"){
 				  			$('input:text[name=msnv]').val('');
 							$('input:password[name=passOld]').val('');
 							alert("Đổi mật khẩu thành công!");

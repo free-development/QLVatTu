@@ -52,30 +52,6 @@ function checkAdd(){
 	var file = $('#add-form input[name=file]').val();
 	var moTa = $('#add-form textarea[name=moTa]').val();
 
-////	if(cvSo == ''){
-////		$('#requireSoCv').html('Vui lòng nhập số công văn');
-////		return false;
-////	}
-//	if(ngayNhan == ''){
-//		$('#requireNgayNhan').html('Vui lòng chọn ngày nhận công văn');
-//		return false;
-//	}
-//	else if(mucDich == null){
-//		$('#requireMucDich').html('Vui lòng chọn mục đích');
-//		return false;
-//	}
-//	else if(donVi == null){
-//		$('#requireDonVi').html('Vui lòng chọn đơn vị');
-//		return false;
-//	}
-//	else if(file == ''){
-//		$('#requireFile').html('Vui lòng đính kèm file');
-//		return false;
-//	}
-//	else if(moTa == ''){
-//		$('#requireMoTa').html('Vui lòng nhập nội dung');
-//		return false;
-//	}
 	if(cvSo.length > 20){
 		$('#requireSoCv').html('Số công văn đến phải không được quá 20 ký tự');
 		return false;
@@ -100,12 +76,9 @@ function checkAdd(){
 		$('#requireMoTa').html('Vui lòng nhập nội dung');
 		return false;
 	} else {
-//		$("body").css("cursor", "wait");
 		document.getElementById("loading").style.display="block";
 		document.body.style.cursor= "wait";
 		addCongVan();
-//		$("body").css("cursor", "default");
-//		document.getElementById("loading").style.display="none";
 	}
 }
 function changeSoCv(){
@@ -139,9 +112,6 @@ function changeDonViUp(){
 function changeFileUp(){
 	$('#requireFileUp').html('');
 } 	
-//function changeTrangThaiUp(){
-//	$('#requireTrangThaiUp').html('');
-//}
 function checkUp(){
 	var ngayNhan = $('#update-form input:text[name=ngayNhanUpdate]').val();
 	var mucDich = $('#update-form select[name=mucDichUpdate]').val();
@@ -169,7 +139,6 @@ function checkUp(){
 		$('#requireTrangThaiUp').html('Vui lòng cập nhật trạng thái');
 		return false;
 	}
-//	return true;
 	updateCongVan();
 }
 function checkCongVan() {
@@ -199,7 +168,6 @@ function confirmDelete(){
 }
 function addCongVan() {
 	
-	//var cvSo = $('#add-form input:text[name=cvSo]').val();
 	var form = new FormData(document.getElementById('add-form'));
 	$.ajax({
 		url: getRoot() +  "/addCongVanInfo.html",	
@@ -211,10 +179,12 @@ function addCongVan() {
 		  type: 'POST',
 	  	
 	  	success: function(result) {
-	  		if (result == "exist")
+	  		if (result == "authentication error") {
+				location.assign("login.jsp");
+			} else if (result == "exist")
 	  			alert('Công văn đã tồn tại');
-	  		else if (result == "error") 
-	  			alert('Có lỗi khi thêm công văn');
+	  		else if (result == "authentication error") 
+	  			location.assign("login.jsp");
 	  		else if (result == "file error") {
 	  			alert('Tệp đính kèm không hợp lệ. Vui lòng kiểm tra và cập nhật lại!!!');
 	  			window.location.assign("cong-van-error.jsp")
@@ -258,23 +228,26 @@ function updateCongVan() {
 		  type: 'POST',
 	  	
 	  	success: function(result) {
-	  		document.getElementById("loading").style.display="none";
-	  		document.body.style.cursor = "auto";
-	  		if (result == "error") 
-	  			alert('Có lỗi khi sửa công văn');
-	  		else if (result == "file error") {
-	  			alert('Tệp đính kèm không hợp lệ. Vui lòng kiểm tra và cập nhật lại!!!');
-	  			window.location.assign("cong-van-error.jsp")
-	  		}
-	  		else {
-	  			var objectList = JSON.parse(result);
-		  		loadAddCongVan(objectList, "update");
-		  		hideUpdateForm();
-		  		$('#scroll_content table tr').has('input[name="cvId"]:checked').remove();
-		  		alert('Sửa đổi công văn thành công');
-		  		window.location.reload();
-	  		}
-	  		
+	  		if (result == "authentication error") {
+				location.assign("login.jsp");
+			} else {
+		  		document.getElementById("loading").style.display="none";
+		  		document.body.style.cursor = "auto";
+		  		if (result == "authentication error") 
+		  			location.assign("login.jsp");
+		  		else if (result == "file error") {
+		  			alert('Tệp đính kèm không hợp lệ. Vui lòng kiểm tra và cập nhật lại!!!');
+		  			window.location.assign("cong-van-error.jsp")
+		  		}
+		  		else {
+		  			var objectList = JSON.parse(result);
+			  		loadAddCongVan(objectList, "update");
+			  		hideUpdateForm();
+			  		$('#scroll_content table tr').has('input[name="cvId"]:checked').remove();
+			  		alert('Sửa đổi công văn thành công');
+			  		window.location.reload();
+		  		}
+			}
 	  	}
 	});
 	
@@ -419,46 +392,47 @@ function preUpdateCv(cv) {
 	  	contentType: 'application/json',
 	    mimeType: 'application/json',
 	  	success: function(objectList) {
-//			$('table').has('input[name="cvId"]:checked').remove();
-//			alert("Cong van da bi xoa");
-	  		//alert(congVan.trangThai.ttMa);
-	  		var congVan = objectList[0];
-	  		
-			$('#update-form input:hidden[name=cvId]').val(congVan.cvId);
-	  		$('#update-form input:text[name=soDen]').val(congVan.soDen);
-	  		$('#update-form input:text[name=cvSo]').val(congVan.cvSo);
-	  		$('#update-form input:text[name=ngayGoiUpdate]').val(congVan.cvNgayGoi);
-	  		$('#update-form input:text[name=ngayNhanUpdate]').val(congVan.cvNgayNhan);
-	  		$('#update-form select[name=donViUpdate] option[value=' + congVan.donVi.dvMa+']').prop('selected',true);
-//	  		$('#dvtUp option[value='+vt.dvt.dvtTen+']').prop('selected',true);
-//	  		$('#update-form input[name=file]').val(fileName);
-	  		$('#update-form select[name=mucDichUpdate] option[value=' + congVan.mucDich.mdMa+']').prop('selected',true);
-	  		$('#update-form textarea[name=trichYeuUpdate]').val(congVan.trichYeu);
-	  		$('#update-form textarea[name=butPheUpdate]').val(congVan.butPhe);
-//	  		$('#update-form input:radio[name=ttMaUpdate][value='+congVan.trangThai.ttMa+']').prop('checked',true);
-//	  		$('#linkCv').html('<a href=\"' + path + '\" target=\"_blank\">Xem công văn</a>')
-	  		var file = objectList[1];
-	  		var fileNameFull = '';
-	  		if (file != null) {
-		  		var path = file.diaChi;
-		  		var index = path.lastIndexOf("/");
-				var index2 = path.lastIndexOf("-");
-				var index3 = path.lastIndexOf(".");
-				fileNameFull = path.substring(index + 1, index2);
-				if (index3 != -1)
-					fileNameFull += path.substring(index3);
-				$('#linkCv').attr('href', getRoot() + 'downloadFile.html?action=download&file=' + congVan.cvId);
-				$('#update-form textarea[name=moTa]').val(file.moTa);
-	  		} else {
-	  			$('#linkCv').attr('href', '');
-	  			$('#update-form textarea[name=moTa]').val('Không có ghi chú');
+	  		if (objectList == "authentication error") 
+	  			location.assign("login.jsp");
+	  		else {
+		  		var congVan = objectList[0];
+		  		
+				$('#update-form input:hidden[name=cvId]').val(congVan.cvId);
+		  		$('#update-form input:text[name=soDen]').val(congVan.soDen);
+		  		$('#update-form input:text[name=cvSo]').val(congVan.cvSo);
+		  		$('#update-form input:text[name=ngayGoiUpdate]').val(congVan.cvNgayGoi);
+		  		$('#update-form input:text[name=ngayNhanUpdate]').val(congVan.cvNgayNhan);
+		  		$('#update-form select[name=donViUpdate] option[value=' + congVan.donVi.dvMa+']').prop('selected',true);
+	//	  		$('#dvtUp option[value='+vt.dvt.dvtTen+']').prop('selected',true);
+	//	  		$('#update-form input[name=file]').val(fileName);
+		  		$('#update-form select[name=mucDichUpdate] option[value=' + congVan.mucDich.mdMa+']').prop('selected',true);
+		  		$('#update-form textarea[name=trichYeuUpdate]').val(congVan.trichYeu);
+		  		$('#update-form textarea[name=butPheUpdate]').val(congVan.butPhe);
+	//	  		$('#update-form input:radio[name=ttMaUpdate][value='+congVan.trangThai.ttMa+']').prop('checked',true);
+	//	  		$('#linkCv').html('<a href=\"' + path + '\" target=\"_blank\">Xem công văn</a>')
+		  		var file = objectList[1];
+		  		var fileNameFull = '';
+		  		if (file != null) {
+			  		var path = file.diaChi;
+			  		var index = path.lastIndexOf("/");
+					var index2 = path.lastIndexOf("-");
+					var index3 = path.lastIndexOf(".");
+					fileNameFull = path.substring(index + 1, index2);
+					if (index3 != -1)
+						fileNameFull += path.substring(index3);
+					$('#linkCv').attr('href', getRoot() + 'downloadFile.html?action=download&file=' + congVan.cvId);
+					$('#update-form textarea[name=moTa]').val(file.moTa);
+		  		} else {
+		  			$('#linkCv').attr('href', '');
+		  			$('#update-form textarea[name=moTa]').val('Không có ghi chú');
+		  		}
+		  		$('#linkCv').html(fileNameFull);
+		  		$('#update-form textarea[name=butPheUpdate]').val(congVan.butPhe);
+		  		
+		  		showForm('main-form', 'update-form', true);
+		  		showForm('time-form', 'update-form', true);
+		  		showForm('search-form', 'update-form', true);
 	  		}
-	  		$('#linkCv').html(fileNameFull);
-	  		$('#update-form textarea[name=butPheUpdate]').val(congVan.butPhe);
-	  		
-	  		showForm('main-form', 'update-form', true);
-	  		showForm('time-form', 'update-form', true);
-	  		showForm('search-form', 'update-form', true);
 	    }
 	});  
 }
@@ -472,39 +446,26 @@ function deleteCv(cvId) {
 	  	data: { "cvId": cvId},
 	  	contentType: 'application/json',
 	    mimeType: 'application/json',
-	  	success: function() {
-			$('#scroll_content table tr').has('input[name="cvId"]:checked').remove();
-			document.getElementById("loading").style.display="none";
-	  		document.body.style.cursor = "auto";
-			alert("Công văn đã được xóa");
-			
+	  	success: function(result) {
+	  		if (result == "authentication error") 
+	  			location.assign("login.jsp");
+	  		else {
+		  		$('#scroll_content table tr').has('input[name="cvId"]:checked').remove();
+				document.getElementById("loading").style.display="none";
+		  		document.body.style.cursor = "auto";
+		  		alert("Công văn đã được xóa");
+	  		}
 	    }
 	  	
 	});
 	
 }	
 function loadDataCv() {
-//	showForm('main-form','add-form', true);
 	showForm('main-form','add-form', true);
 	hideForm('search-form', true);
 	hideForm('time-form', true);
 }
-function chiaSeCv() {
-//	var cvId = $('input:checkbox[name=cvId]:checked').val();
-	
-		$.ajax({
-			url: getRoot() +  "/chiaSeCv.html",	
-		  	type: "GET",
-		  	dateType: "JSON",
-		  	data: { "cvId": cvId},
-		  	contentType: 'application/json',
-		    mimeType: 'application/json',
-		   
-		});  
-}
 function loadByYear(year, checked) {
-//	var root = getRoot();
-//	var root = ${pageContext.request.contextPath};
 	$.ajax({
 		url:  getRoot() + "/loadByYear.html",	
 	  	type: "GET",
@@ -513,41 +474,58 @@ function loadByYear(year, checked) {
 	  	contentType: 'application/json',
 	    mimeType: 'application/json',
 	    success: function(objectList) {
-	    	// load month 
-	    	var monthList = objectList[2];
-	    	var content = '';
-	    	var length = monthList.length;
-	    	var monthLi = '';
-	    	var monthOl = '';
-	    	for(var i = 0; i< length; i++) {
-	    		monthLi += 	'<li id = \"month' + monthList[i] + '\">' 
-							+ '<label for=\"y' + year + 'm' + monthList[i] + '\">' + 'Tháng ' + monthList[i]  + '</label>' 
-							+' <input type="checkbox" class=\"month\" id=\"y' + year+ 'm' + monthList[i] +  '\" value = \"'+ year + '#' + monthList[i]  + '\"  ' + '\"/>' 
-							+ '<ol></ol> </li>'; 
-	    	}
-	    	var yearLi = '';
-	    	var s = '  <script type=\"text/javascript\">'
-	    		+ '$(\'.month\').bind(\'change\', function(){'
-	    		+ 'var checked = $( this ).is( ":checked" );'
-	    		+ 'var str = $(this).val();'
-	    		+ 'var temp = str.split("#");'
-	    		+ 'loadByMonth(temp[0], temp[1], checked);'
-	    		+ '}); </script> ';
-	    	$('#year'+year + ' ol').html(monthLi + s);
-	    	// load congVan
-	    	var congVanList = objectList[0];
-	    	var fileList = objectList[1];
-	    	var size = objectList[3];
-	    	var nguoiXlCongVan = objectList[4];
-	  		var vaiTroList = objectList[5];
-	  		var vtCongVanList = objectList[6];
-	    	loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVanList);
-	    	loadPageNumber(0, '',size);
+	    	if (objectList == "authentication error") 
+	  			location.assign("login.jsp");
+	  		else {
+		    	// load month
+	  			var count = 0; 
+		    	var congVanList = objectList[count];
+		    	count ++;
+		    	var fileList = objectList[count];
+		    	count ++;
+		    	var monthList = objectList[count];
+		    	count ++;
+		    	var size = objectList[count];
+		    	count ++;
+		    	var nguoiXlCongVan;
+		    	if (chucDanhMa != nhanVienMa) {
+			    	nguoiXlCongVan = objectList[count];
+			    	count ++;
+		    	}
+		    	
+		  		var vaiTroList = objectList[count];
+		  		count ++;
+		  		var vtCongVanList = objectList[count];
+		  		count ++;
+		    	
+		    	var content = '';
+		    	var length = monthList.length;
+		    	var monthLi = '';
+		    	var monthOl = '';
+		    	for(var i = 0; i< length; i++) {
+		    		monthLi += 	'<li id = \"month' + monthList[i] + '\">' 
+								+ '<label for=\"y' + year + 'm' + monthList[i] + '\">' + 'Tháng ' + monthList[i]  + '</label>' 
+								+' <input type="checkbox" class=\"month\" id=\"y' + year+ 'm' + monthList[i] +  '\" value = \"'+ year + '#' + monthList[i]  + '\"  ' + '\"/>' 
+								+ '<ol></ol> </li>'; 
+		    	}
+		    	var yearLi = '';
+		    	var s = '  <script type=\"text/javascript\">'
+		    		+ '$(\'.month\').bind(\'change\', function(){'
+		    		+ 'var checked = $( this ).is( ":checked" );'
+		    		+ 'var str = $(this).val();'
+		    		+ 'var temp = str.split("#");'
+		    		+ 'loadByMonth(temp[0], temp[1], checked);'
+		    		+ '}); </script> ';
+		    	$('#year'+year + ' ol').html(monthLi + s);
+		    	// load congVan
+		    	
+		    	loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVanList);
+		    	loadPageNumber(0, '',size);
+	  		}
 	    } 
 	});  
 }
 function loadByMonth(year, month, checked) {
-//	var checked = $( ".month" ).is( ":checked" );
 	$.ajax({
 		url: getRoot() +  "/loadByMonth.html",	
 	  	type: "GET",
@@ -556,35 +534,39 @@ function loadByMonth(year, month, checked) {
 	  	contentType: 'application/json',
 	    mimeType: 'application/json',
 	    success: function(objectList) {
-	    	var content = '';
-	    	var dateList = objectList[2];
-	    	var length = dateList.length;
-	    	var dateLi = '';
-	    	var dateOl = '';
-	    	for(var i = 0; i< length; i++) {
-	    		dateLi += 	'<li id = \"date' + dateList[i] + '\">' 
-							+ '<label for=\"y' + year + 'm'  + month + 'd' + dateList[i] + '\">' + 'Ngày ' + dateList[i]  + '</label>' 
-//							+' <input type="button" class=\"date\" id=\"y' + year + 'm'  + month + 'd' + dateList[i] +'\" value =\"' + year + '#' + month  + '#' + dateList[i] + '\"' + '\"/>'
-							+' <input type="checkbox" class=\"date\" id=\"y' + year+ 'm' + month + 'd' + dateList[i] +  '\" value = \"'+ year + '#' + month  + '#' + dateList[i]  + '\"  ' + '\"/>'
-							+ '</li>'; 
-	    	}
-	    	var s = '  <script type=\"text/javascript\">'
-	    		+ '$(\'.date\').bind(\'change\', function(){'
-	    		+ 'var checked = $( this ).is( ":checked" );'
-	    		+ 'var str = $(this).val();'
-	    		+ 'var temp = str.split("#");'
-	    		+ 'loadByDate(temp[0], temp[1], temp[2], checked);'
-	    		+ '}); </script> ';
-	    	$('#month'+month + ' ol').html(dateLi + s);
-	    	// load Cong van
-	    	var congVanList = objectList[0];
-	    	var fileList = objectList[1];
-	    	var size = objectList[3];
-	    	var nguoiXlCongVan = objectList[4];
-	  		var vaiTroList = objectList[5];
-	  		var vtCongVanList = objectList[6];
-	    	loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVanList);
-	    	loadPageNumber(0, '',size);
+	    	if (objectList == "authentication error") 
+	  			location.assign("login.jsp");
+	  		else {
+		    	var content = '';
+		    	var dateList = objectList[2];
+		    	var length = dateList.length;
+		    	var dateLi = '';
+		    	var dateOl = '';
+		    	for(var i = 0; i< length; i++) {
+		    		dateLi += 	'<li id = \"date' + dateList[i] + '\">' 
+								+ '<label for=\"y' + year + 'm'  + month + 'd' + dateList[i] + '\">' + 'Ngày ' + dateList[i]  + '</label>' 
+	//							+' <input type="button" class=\"date\" id=\"y' + year + 'm'  + month + 'd' + dateList[i] +'\" value =\"' + year + '#' + month  + '#' + dateList[i] + '\"' + '\"/>'
+								+' <input type="checkbox" class=\"date\" id=\"y' + year+ 'm' + month + 'd' + dateList[i] +  '\" value = \"'+ year + '#' + month  + '#' + dateList[i]  + '\"  ' + '\"/>'
+								+ '</li>'; 
+		    	}
+		    	var s = '  <script type=\"text/javascript\">'
+		    		+ '$(\'.date\').bind(\'change\', function(){'
+		    		+ 'var checked = $( this ).is( ":checked" );'
+		    		+ 'var str = $(this).val();'
+		    		+ 'var temp = str.split("#");'
+		    		+ 'loadByDate(temp[0], temp[1], temp[2], checked);'
+		    		+ '}); </script> ';
+		    	$('#month'+month + ' ol').html(dateLi + s);
+		    	// load Cong van
+		    	var congVanList = objectList[0];
+		    	var fileList = objectList[1];
+		    	var size = objectList[3];
+		    	var nguoiXlCongVan = objectList[4];
+		  		var vaiTroList = objectList[5];
+		  		var vtCongVanList = objectList[6];
+		    	loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVanList);
+		    	loadPageNumber(0, '',size);
+	  		}
 	    } 
 	});  
 }
@@ -813,14 +795,19 @@ function loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVa
 		+ '$(\'.month\').bind(\'change\', function(){'
 		+ 'var checked = $( this ).is( ":checked" );'
 		+ 'var str = $(this).val();'
-		+ 'alert(str);'
 		+ 'var temp = str.split("#");'
-		+ 'alert(temp[0]);'
 		+ 'loadByYear(temp[0], temp[1], monthchecked);'
 	+ '});'
 		+ ' $(\'.ttMaVtUpdate\').bind(\'change\', function(){'
 			+ ' var trangThaiVt = $(this).val(); '
 			+ ' changeTrangThaiVt(trangThaiVt) ;'
+			
+	    		+ '$(\'.month\').bind(\'change\', function(){'
+	    		+ 'var checked = $( this ).is( ":checked" );'
+	    		+ 'var str = $(this).val();'
+	    		+ 'var temp = str.split("#");'
+	    		+ 'loadByMonth(temp[0], temp[1], checked);'
+	    		+ '}); ';
 	+ '}); </script> ';
 	$('.scroll_content table').html(tables + s);
 	if (check == false) {
@@ -836,14 +823,28 @@ function loadByDate(year, month, date, checked) {
 	  	contentType: 'application/json',
 	    mimeType: 'application/json',
 	    success: function(objectList) {
-	    	var congVanList = objectList[0];
-	    	var fileList = objectList[1];
-	    	var size = objectList[2];
-	    	var nguoiXlCongVan = objectList[3];
-	  		var vaiTroList = objectList[4];
-	  		var vtCongVanList = objectList[5];
-	    	loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVanList);
-	    	loadPageNumber(0, '',size);
+	    	if (objectList == "authentication error") 
+	  			location.assign("login.jsp");
+	  		else {
+	  			var count = 0;
+		    	var congVanList = objectList[count];
+		    	count ++;
+		    	var fileList = objectList[count];
+		    	count ++;
+		    	var size = objectList[count];
+		    	count ++;
+		    	var nguoiXlCongVan;
+		    	if (chucDanhMa != nhanVienMa) {
+			    	nguoiXlCongVan = objectList[count];
+			    	count ++;
+		    	}
+		  		var vaiTroList = objectList[count];
+		  		count ++;
+		  		var vtCongVanList = objectList[count];
+		  		count ++;
+		    	loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVanList);
+		    	loadPageNumber(0, '',size);
+	  		}
 	    } 
 	});
 };
@@ -857,14 +858,27 @@ function filterData(filter, filterValue) {
 	  	contentType: 'application/json',
 	    mimeType: 'application/json',
 	    success: function(objectList) {
-	    	var congVanList = objectList[0];
-	    	var fileList = objectList[1];
-	    	var size = objectList[2];
-	    	var nguoiXlCongVan = objectList[3];
-	  		var vaiTroList = objectList[4];
-	  		var vtCongVanList = objectList[5];
-	    	loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVanList);
-	    	loadPageNumber(0, '',size);
+	    	if (objectList == "authentication error") 
+	  			location.assign("login.jsp");
+	  		else {
+	  			var count = 0;
+		    	var congVanList = objectList[count];
+		    	count ++;
+		    	var fileList = objectList[count];
+		    	count ++;
+		    	var size = objectList[count];
+		    	count ++;
+		    	if (chucDanhMa != nhanVienMa) {
+			  		var nguoiXlCongVan = objectList[count];
+			  		count ++;
+		  		}
+		  		var vaiTroList = objectList[count];
+		  		count ++;
+		  		var vtCongVanList = objectList[count];
+		  		count ++;
+		    	loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVanList);
+		    	loadPageNumber(0, '',size);
+	  		}
 	    } 
 	});
 }
@@ -878,14 +892,28 @@ function searchByTrangThai(trangThai) {
 	  	contentType: 'application/json',
 	    mimeType: 'application/json',
 	    success: function(objectList) {
-	    	var congVanList = objectList[0];
-	    	var fileList = objectList[1];
-	    	var size = objectList[2];
-	    	var nguoiXlCongVan = objectList[3];
-	  		var vaiTroList = objectList[4];
-	  		var vtCongVanList = objectList[5];
-	    	loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVanList);
-			 loadPageNumber(0, '',size)
+	    	if (objectList == "authentication error") 
+	  			location.assign("login.jsp");
+	  		else {
+	  			var count = 0;
+		    	var congVanList = objectList[count];
+		    	count ++;
+		    	var fileList = objectList[count];
+		    	count ++;
+		    	var size = objectList[count];
+		    	count ++;
+		    	var nguoiXlCongVan;
+		    	if (chucDanhMa != nhanVienMa) {
+			    	var nguoiXlCongVan = objectList[count];
+			    	count ++;
+		    	}
+		  		var vaiTroList = objectList[count];
+		  		count ++;
+		  		var vtCongVanList = objectList[count];
+		  		count ++;
+		    	loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVanList);
+				 loadPageNumber(0, '',size)
+	  		}
 	    } 
 	});
 }
@@ -958,15 +986,18 @@ function loadPage(pageNumber) {
 	  	contentType: 'application/json',
 	    mimeType: 'application/json',
 	  	success: function(objectList) {
-	  		var size = objectList[2];
-	  		var congVanList = objectList[0];
-	  		var fileList = objectList[1];
-	  		var nguoiXlCongVan = objectList[3];
-	  		var vaiTroList = objectList[4];
-	  		var vtCongVanList = objectList[5];
-	    	loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVanList);
-	  		loadPageNumber(p, pageNumber,size) ;
-					
+	  		if (objectList == "authentication error") 
+	  			location.assign("login.jsp");
+	  		else {
+		  		var size = objectList[2];
+		  		var congVanList = objectList[0];
+		  		var fileList = objectList[1];
+		  		var nguoiXlCongVan = objectList[3];
+		  		var vaiTroList = objectList[4];
+		  		var vtCongVanList = objectList[5];
+		    	loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVanList);
+		  		loadPageNumber(p, pageNumber,size) ;
+	  		}
 	  	}
 	});
 };
@@ -1043,19 +1074,20 @@ $(document).ready(function(){
 	$('.year').change(function(){
 		var checked = $( this ).is( ":checked" );
 		var year = $(this).val();
-			loadByYear(year, checked);
+		loadByYear(year, checked);
 	});
 });
+/*
 $(document).ready(function(){
 	$('.month').change(function(){
 		var checked = $( this ).is( ":checked" );
 		var str = $(this).val();
-		alert(str);
 		var temp = str.split("#");
 		alert(temp[0]);
 			loadByYear(year, checked);
 	});
 });
+*/
 /*
 $(document).ready(function(){
 	$('.month').change(function(){
@@ -1096,13 +1128,16 @@ function getDonVi() {
 	    mimeType: 'application/json',
 	  	
 	  	success: function(donViList) {
-	  		for (i = 0; i < donViList.length; i++) {
-	  			content += '<option value=\"' + donViList[i].dvMa + '\">' + donViList[i].dvTen + '</option>';
-	  		}
-	  		content = '<select class=\"select\" id=\"filterValue\" name=\"filterValue\">' + content + '</select>';
-	  		$('#searchContent').html(content);
+	  		if (donViList == "authentication error") 
+	  			location.assign("login.jsp");
+	  		else {
+		  		for (i = 0; i < donViList.length; i++) {
+		  			content += '<option value=\"' + donViList[i].dvMa + '\">' + donViList[i].dvTen + '</option>';
+		  		}
+		  		content = '<select class=\"select\" id=\"filterValue\" name=\"filterValue\">' + content + '</select>';
+		  		$('#searchContent').html(content);
+		  	}
 	  	}
-	
 	}); 
 }
 function getMucDich() {
@@ -1115,13 +1150,16 @@ function getMucDich() {
 	    mimeType: 'application/json',
 	  	
 	  	success: function(mucDichList) {
-	  		for (i = 0; i < mucDichList.length; i++) {
-	  			content += '<option value=\"' + mucDichList[i].mdMa + '\">' + mucDichList[i].mdTen + '</option>';
+	  		if (mucDichList == "authentication error") 
+	  			location.assign("login.jsp");
+	  		else {
+		  		for (i = 0; i < mucDichList.length; i++) {
+		  			content += '<option value=\"' + mucDichList[i].mdMa + '\">' + mucDichList[i].mdTen + '</option>';
+		  		}
+		  		content = '<select class=\"select\" id=\"filterValue\" name=\"filterValue\">' + content + '</select>';
+		  		$('#searchContent').html(content);
 	  		}
-	  		content = '<select class=\"select\" id=\"filterValue\" name=\"filterValue\">' + content + '</select>';
-	  		$('#searchContent').html(content);
 	  	}
-	
 	}); 
 }
 $(document).ready(function(){
@@ -1159,9 +1197,11 @@ function changeTrangThaiCv(trangThai) {
 	    mimeType: 'application/json',
 	  	
 	  	success: function(status) {
-		  if (status == "success")
+	  		if (status == "authentication error") 
+	  			location.assign("login.jsp");
+	  		else if (status == "success")
 			  alert("Bạn đã thay đổi trạng thái của công văn thành công!!!");
-		  else
+	  		else
 			  alert("Bạn không thể thay đổi trạng thái của công văn!!!");
 	  	}
 	});
@@ -1178,8 +1218,9 @@ function changeTrangThaiVt(trangThai) {
 	    mimeType: 'application/json',
 	  	
 	  	success: function(status) {
-	  		if (status == "changTtCongVan") {
-	  			
+	  		if (status == "authentication error") 
+	  			location.assign("login.jsp");
+	  		else if (status == "changTtCongVan") {
 	  			alert("Bạn đã thay đổi trạng thái của công văn thành công!!!");
 	  			$('#' + cvId + 'ttMaCongVan').html('Đã cấp đủ hàng');
 	  		}

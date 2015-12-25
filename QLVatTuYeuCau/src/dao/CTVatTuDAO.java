@@ -104,7 +104,6 @@ public class CTVatTuDAO {
 		String sql = "update CTVatTu set daXoa = 1 where ctvtId = " + ctVtId;		
 		Query query = session.createQuery(sql);
 		int kq =  query.executeUpdate();
-		System.out.print("delete " + kq);
 		session.getTransaction().commit();
 	}
 	public CTVatTu getCTVatTuById(final int ctvtId) {
@@ -406,9 +405,6 @@ public class CTVatTuDAO {
 		session.getTransaction().commit();
 		return ctvatTuList;
 	}
-	public static void main(String[] args) {
-		CTVatTu ctvt = new CTVatTuDAO().getCTVatTu("12102108", "KXD", "001");
-		System.out.println(ctvt.getVatTu().getVtMa()+ "#" + ctvt.getNoiSanXuat().getNsxMa() +"#" + ctvt.getChatLuong().getClMa());
-	}
+	
 }
 

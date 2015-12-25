@@ -79,31 +79,35 @@ function loadBaoCao() {
 	  	contentType: 'application/json',
 	    mimeType: 'application/json',
 	  	success: function(congVanList) {
-	  		$('#view-table table .rowContent').remove();
-	  		var length = congVanList.length;
-	  		var content = "";
-	  		
-	  		for (var i = 0; i < length; i++ ) {
-	  			var congVan = congVanList[i];
-	  			var style = '';
-	  			if (i % 2 == 0)
-	  				style = ' style=\"background : #CCFFFF;\" ';
-	  			else
-	  				style = ' style=\"background : #FFFFFF;\" ';
-	  			content += '<tr class=\"rowContent\"' + style + '>'
-	  					+ '<td style=\"width: 50px; text-align: center;\">' + congVan.soDen + '</td>'
-						
-						+ '<td style=\"width: 100px; text-align: center;\">' + parseDate(congVan.cvNgayNhan) + '</td>'
-						+ '<td style=\"width: 50px; text-align: center;\">' + congVan.cvSo + '</td>'	
-						+ '<td style=\"width: 50px; text-align: center;\">' + parseDate(congVan.cvNgayNhan) + '</td>'
-						+ '<td style=\"text-align: left; width: 300px;\">' + congVan.mucDich.mdTen + '</td>'
-						+ '<td style=\"text-align: left; width: 100px;\">' + congVan.donVi.dvTen + '</td>'
-						+ '<td style=\"width: 50px;\">' + congVan.trichYeu + '</td>'
-						+ '<td style=\"text-align: left; width: 100px;\">' + congVan.butPhe + '</td>'
-						+ '<td style=\"text-align: left; width: 150px;\">' + congVan.trangThai.ttTen + '</td>'
-						+ '</tr>';
-	  		}
-	  		$('#view-table table tr:last').after(content);
+	  		if (congVanList == "authentication error") {
+				location.assign("login.jsp");
+			} else {
+		  		$('#view-table table .rowContent').remove();
+		  		var length = congVanList.length;
+		  		var content = "";
+		  		
+		  		for (var i = 0; i < length; i++ ) {
+		  			var congVan = congVanList[i];
+		  			var style = '';
+		  			if (i % 2 == 0)
+		  				style = ' style=\"background : #CCFFFF;\" ';
+		  			else
+		  				style = ' style=\"background : #FFFFFF;\" ';
+		  			content += '<tr class=\"rowContent\"' + style + '>'
+		  					+ '<td style=\"width: 50px; text-align: center;\">' + congVan.soDen + '</td>'
+							
+							+ '<td style=\"width: 100px; text-align: center;\">' + parseDate(congVan.cvNgayNhan) + '</td>'
+							+ '<td style=\"width: 50px; text-align: center;\">' + congVan.cvSo + '</td>'	
+							+ '<td style=\"width: 50px; text-align: center;\">' + parseDate(congVan.cvNgayNhan) + '</td>'
+							+ '<td style=\"text-align: left; width: 300px;\">' + congVan.mucDich.mdTen + '</td>'
+							+ '<td style=\"text-align: left; width: 100px;\">' + congVan.donVi.dvTen + '</td>'
+							+ '<td style=\"width: 50px;\">' + congVan.trichYeu + '</td>'
+							+ '<td style=\"text-align: left; width: 100px;\">' + congVan.butPhe + '</td>'
+							+ '<td style=\"text-align: left; width: 150px;\">' + congVan.trangThai.ttTen + '</td>'
+							+ '</tr>';
+		  		}
+		  		$('#view-table table tr:last').after(content);
+			}
 	  	}
 	});
 };

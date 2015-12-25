@@ -5,6 +5,9 @@ package dao;
 
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
+
+import controller.BackupController;
 import util.HibernateUtil;
 import model.DBConnection;
 
@@ -13,6 +16,7 @@ import model.DBConnection;
  *
  */
 public class BackupDB {
+	private static final Logger logger = Logger.getLogger(BackupController.class);
 	private DBConnection connection;
 //	private String dumpExePath;
 //	private String path;
@@ -91,18 +95,19 @@ public class BackupDB {
             int processComplete = runtimeProcess.waitFor();
  
             if (processComplete == 0) {
-                System.out.println("Backup restored successfully with " + source);
+                logger.info("Backup restored successfully with " + source);
 //                Thread.sleep(10);
                 return true;
+				
             } else {
-            	System.out.println("Could not restore the backup " + source);
+            	logger.error("Could not restore the backup " + source);
             }
             runtimeProcess.destroy();
             runTime.freeMemory();
             
 //            Thread.sleep(10000);
         } catch (Exception ex) {
-        	System.out.println(ex.getCause());
+        	logger.error(ex.getCause());
         }
  
         return false;

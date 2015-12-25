@@ -358,19 +358,5 @@ public class YeuCauDAO {
 	public void disconnect() {
 		session.disconnect();
 	}
-	public static void main(String[] args) {
-//		ArrayList<CongVan> congVanList = new CongVanDAO().getTrangThai("", "", null, null);
-//		System.out.println(new YeuCauDAO().size(congVanList));
-//		YeuCauDAO yeuCauDAO = new YeuCauDAO();
-//		YeuCau yeuCau = yeuCauDAO.getYeuCau(2,1);
-		HashMap<String, Object> condtions = new HashMap<String, Object>();
-		condtions.put("geCvNgayNhan", new Date(115,7, 28));
-		condtions.put("leCvNgayNhan", new Date(115,9, 28));
-		
-//		condtions.put("geCvNgayNhan", new Date(115,8, 28));
-//		condtions.put("leCvNgayNhan", new Date(115,9, 28));
-//		System.out.println(new YeuCauDAO().getCongVanByCtvtId(26).get(0).getTrangThai().getTtTen());
-		System.out.println(new YeuCauDAO().sumByCtvtId(26));
-		System.out.println(new YeuCauDAO().distinctCtvt(null));
-	}
+	
 }

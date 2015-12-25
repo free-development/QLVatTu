@@ -59,11 +59,13 @@ public class ChiaSeCvController extends HttpServlet {
 			String adminMa = context.getInitParameter("adminMa");
 			String truongPhongMa = context.getInitParameter("truongPhongMa");
 			String phoPhongMa = context.getInitParameter("phoPhongMa");
+			String vanThuMa = context.getInitParameter("vanThuMa");
 			if (authentication == null) { 
 				logger.error("Không chứng thực chia sẻ công văn");
 				return new ModelAndView(siteMap.login);
 			} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)
 					&& !authentication.getChucDanh().getCdMa().equals(truongPhongMa)
+					&& !authentication.getChucDanh().getCdMa().equals(vanThuMa)
 					&& !authentication.getChucDanh().getCdMa().equals(phoPhongMa)) {
 				logger.error("Không có quyền chia sẻ công văn");
 				return new ModelAndView(siteMap.login);
@@ -110,10 +112,10 @@ public class ChiaSeCvController extends HttpServlet {
 			nguoiDungDAO.disconnect();
 			return new ModelAndView(siteMap.chiaSeCv);
 		} catch (NullPointerException e) {
-			logger.error("NullPointer Exception khi truy cập chia sẻ công văn: " + e.getStackTrace());
+			logger.error("NullPointer Exception khi truy cập chia sẻ công văn: " + e.getMessage());
 			return new ModelAndView(siteMap.login);
 		} catch (NumberFormatException e2){
-			logger.error("NumberFormat Exception khi truy cập chia sẻ công văn: " + e2.getStackTrace());
+			logger.error("NumberFormat Exception khi truy cập chia sẻ công văn: " + e2.getMessage());
 			return new ModelAndView(siteMap.login);
 		}
 	}
@@ -215,7 +217,7 @@ public class ChiaSeCvController extends HttpServlet {
 			vaiTroDAO.disconnect();
 			return new ModelAndView(siteMap.chiaSeCv);
 		} catch (NullPointerException e){
-			logger.error("NullPointer Exception khi chia sẻ công văn: "  + e.getStackTrace());
+			logger.error("NullPointer Exception khi chia sẻ công văn: "  + e.getMessage());
 			return new ModelAndView(siteMap.login);
 		}
 	}
@@ -261,7 +263,7 @@ public class ChiaSeCvController extends HttpServlet {
 			vaiTroDAO.disconnect();
 			return JSonUtil.toJson(objectList);
 		} catch (NullPointerException e) {
-			logger.error("NullPointer Exception khi show cập nhật chia sẻ công văn: "  + e.getStackTrace());
+			logger.error("NullPointer Exception khi show cập nhật chia sẻ công văn: "  + e.getMessage());
 			return JSonUtil.toJson("authentication error");
 		}
 	}
@@ -358,10 +360,10 @@ public class ChiaSeCvController extends HttpServlet {
 			vaiTroDAO.disconnect();
 			return JSonUtil.toJson(objectList);
 		} catch (NullPointerException e) {
-			logger.error("NullPointer Exception khi cập nhật chia sẻ công văn: " + e.getStackTrace());
+			logger.error("NullPointer Exception khi cập nhật chia sẻ công văn: " + e.getMessage());
 			return JSonUtil.toJson("authentication error");
 		} catch (IndexOutOfBoundsException e2) {
-			logger.error("IndexOutOfBounds Exception khi cập nhật chia sẻ công văn: " + e2.getStackTrace());
+			logger.error("IndexOutOfBounds Exception khi cập nhật chia sẻ công văn: " + e2.getMessage());
 			return JSonUtil.toJson("authentication error");
 		}
 	}
@@ -398,10 +400,10 @@ public class ChiaSeCvController extends HttpServlet {
 			ndDAO.disconnect();
 			return JSonUtil.toJson(objectList);
 		} catch (NullPointerException e) {
-			logger.error("NullPointer Exception khi phân trang chia sẻ công văn: " + e.getStackTrace());
+			logger.error("NullPointer Exception khi phân trang chia sẻ công văn: " + e.getMessage());
 			return JSonUtil.toJson("authentication error");
 		} catch (NumberFormatException e2) {
-			logger.error("NumberFormat Exception khi phân trang chia sẻ công văn: " + e2.getStackTrace());
+			logger.error("NumberFormat Exception khi phân trang chia sẻ công văn: " + e2.getMessage());
 			return JSonUtil.toJson("authentication error");
 		}
 	}
@@ -454,7 +456,7 @@ public class ChiaSeCvController extends HttpServlet {
 			objectList.add(vtNguoiDungList);
 			return JSonUtil.toJson(objectList);
 		} catch (NullPointerException e) {
-			logger.error("NullPointer Exception khi phân tìm người chia sẻ: " + e.getStackTrace());
+			logger.error("NullPointer Exception khi phân tìm người chia sẻ: " + e.getMessage());
 			return JSonUtil.toJson("authentication error");
 		}
 	}

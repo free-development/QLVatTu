@@ -80,7 +80,7 @@ public class CvController extends HttpServlet{
     private String adminMa = "";
     private String vanThuMa = "";
     private String thuKyMa = "";
-    private int vtCapVt = 0;
+    private String vtCapVt = "";
     
     public ModelAndView getCongvan( HttpServletRequest request) {
     	try {
@@ -95,7 +95,7 @@ public class CvController extends HttpServlet{
 	    	vanThuMa = context.getInitParameter("vanThuMa");
 	    	adminMa = context.getInitParameter("adminMa");
 	    	thuKyMa = context.getInitParameter("thuKyMa");
-	    	vtCapVt = Integer.parseInt(context.getInitParameter("capPhatId"));
+	    	vtCapVt = context.getInitParameter("capPhatMa");
 			
 	    	NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoiDung");
 	    	String msnv = nguoiDung.getMsnv();
@@ -193,7 +193,7 @@ public class CvController extends HttpServlet{
 	
 			return new ModelAndView(siteMap.congVan);
     	} catch (NullPointerException e) {
-    		logger.error("Lỗi khi truy cập công văn: " + e.getStackTrace());
+    		logger.error("Lỗi khi truy cập công văn: " + e.getMessage());
     		return new ModelAndView(siteMap.login);
     	}
     }
@@ -268,10 +268,10 @@ public class CvController extends HttpServlet{
        		request.setAttribute("cvId", cvId);
        		return getCongvan(request);
        	} catch (NumberFormatException e) {
-       		logger.error("Lỗi khi tìm kiếm công văn: " + e.getStackTrace());
+       		logger.error("Lỗi khi tìm kiếm công văn: " + e.getMessage());
     		return new ModelAndView(siteMap.login);
        	} catch (NullPointerException e) {
-       		logger.error("Lỗi khi tìm kiếm công văn: " + e.getStackTrace());
+       		logger.error("Lỗi khi tìm kiếm công văn: " + e.getMessage());
     		return new ModelAndView(siteMap.login);
        	}
     }
@@ -395,7 +395,7 @@ public class CvController extends HttpServlet{
 				//return "exist";
 			//}
 		} catch (IllegalStateException | IOException | NullPointerException e) {
-			logger.error("Lỗi khi thêm công văn: " + e.getStackTrace());
+			logger.error("Lỗi khi thêm công văn: " + e.getMessage());
     		return JSonUtil.toJson("authentication error");
 		}
 	}
@@ -508,7 +508,7 @@ public class CvController extends HttpServlet{
     		objectList.add(f);
 			return JSonUtil.toJson(objectList);
     	} catch (NullPointerException | NumberFormatException | IllegalStateException | IOException e) {
-    		logger.error("Lỗi khi cập nhật công văn: " + e.getStackTrace());
+    		logger.error("Lỗi khi cập nhật công văn: " + e.getMessage());
     		return JSonUtil.toJson("authentication error");
 		}
 	}
@@ -559,7 +559,7 @@ public class CvController extends HttpServlet{
 			nhatKyDAO.disconnect();
 			return JSonUtil.toJson(cvId);
 		} catch (NullPointerException | NumberFormatException e) {
-			logger.error("Lỗi khi xóa công văn: " + e.getStackTrace());
+			logger.error("Lỗi khi xóa công văn: " + e.getMessage());
     		return JSonUtil.toJson("authentication error");
 		}
 		
@@ -600,7 +600,7 @@ public class CvController extends HttpServlet{
 			
 			return JSonUtil.toJson(objectList);
 		} catch (NullPointerException | NumberFormatException e) {
-			logger.error("Lỗi khi show cập nhật công văn: " + e.getStackTrace());
+			logger.error("Lỗi khi show cập nhật công văn: " + e.getMessage());
     		return JSonUtil.toJson("authentication error");
 		}
 		
@@ -698,21 +698,29 @@ public class CvController extends HttpServlet{
 			congVanDAO.disconnect();
 			fileDAO.disconnect();
 			ArrayList<Object> objectList = new ArrayList<Object>(); 
-			objectList.add(0, congVanList);
-			objectList.add(1, fileList);
-			objectList.add(2, monthList);
+			int count = 0;
+			objectList.add(count, congVanList);
+			count ++;
+			objectList.add(count, fileList);
+			count ++;
+			objectList.add(count, monthList);
+			count ++;
 			long page = (size % 3 == 0 ? size/3 : (size/3) +1 );
-			objectList.add(3, page);
+			objectList.add(count, page);
+			count ++;
 			if (msnvTemp == null) {
-				objectList.add(4, nguoiXlCongVan);
+				objectList.add(count, nguoiXlCongVan);
+				count ++;
 			}
 			if (cdMa.equals(nhanVienMa) || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
-				objectList.add(5, vaiTroList);
-				objectList.add(6, vtCongVanList);
+				objectList.add(count, vaiTroList);
+				count ++;
+				objectList.add(count, vtCongVanList);
+				count ++;
 			}
 			return JSonUtil.toJson(objectList);
 		} catch (NullPointerException| NumberFormatException e) {
-			logger.error("Lỗi khi load by year công văn: " + e.getStackTrace());
+			logger.error("Lỗi khi load by year công văn: " + e.getMessage());
     		return JSonUtil.toJson("authentication error");
 		}
 	}
@@ -815,22 +823,29 @@ public class CvController extends HttpServlet{
 			
 			congVanDAO.disconnect();
 			fileDAO.disconnect();
-			ArrayList<Object> objectList = new ArrayList<Object>(); 
-			objectList.add(0, congVanList);
-			objectList.add(1, fileList);
-			objectList.add(2, dateList);
+			ArrayList<Object> objectList = new ArrayList<Object>();
+			int count = 0;
+			objectList.add(count, congVanList);
+			count ++;
+			objectList.add(count, fileList);
+			count ++;
+			objectList.add(count, dateList);
+			count ++;
 			long page = (size % 3 == 0 ? size/3 : (size/3) +1 );
-			objectList.add(3, page);
+			objectList.add(count, page);
 			if (msnvTemp == null) {
-				objectList.add(4, nguoiXlCongVan);
+				objectList.add(count, nguoiXlCongVan);
+				count ++;
 			}
 			if (cdMa.equals(nhanVienMa) || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
-				objectList.add(5, vaiTroList);
-				objectList.add(6, vtCongVanList);
+				objectList.add(count, vaiTroList);
+				count ++;
+				objectList.add(count, vtCongVanList);
+				count ++;
 			}
 			return JSonUtil.toJson(objectList);
 		} catch (NullPointerException | NumberFormatException e) {
-			logger.error("Lỗi khi load by month công văn: " + e.getStackTrace());
+			logger.error("Lỗi khi load by month công văn: " + e.getMessage());
     		return JSonUtil.toJson("authentication error");
 		}
 	}
@@ -929,20 +944,27 @@ public class CvController extends HttpServlet{
 			congVanDAO.disconnect();
 			fileDAO.disconnect();
 			ArrayList<Object> objectList = new ArrayList<Object>(); 
-			objectList.add(0, congVanList);
-			objectList.add(1, fileList);
+			int count = 0;
+			objectList.add(count, congVanList);
+			count ++;
+			objectList.add(count, fileList);
+			count ++;
 			long page = (size % 3 == 0 ? size/3 : (size/3) +1 ); 
-			objectList.add(2, page);
+			objectList.add(count, page);
+			count ++;
 			if (msnvTemp == null) {
-				objectList.add(3, nguoiXlCongVan);
+				objectList.add(count, nguoiXlCongVan);
+				count ++;
 			}
 			if (cdMa.equals(nhanVienMa) || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
-				objectList.add(4, vaiTroList);
-				objectList.add(5, vtCongVanList);
+				objectList.add(count, vaiTroList);
+				count ++;
+				objectList.add(count, vtCongVanList);
+				count ++;
 			}
 			return JSonUtil.toJson(objectList);
 		} catch (NullPointerException | NumberFormatException e) {
-			logger.error("Lỗi khi load by date công văn: " + e.getStackTrace());
+			logger.error("Lỗi khi load by date công văn: " + e.getMessage());
     		return JSonUtil.toJson("authentication error");
 		}
 	}
@@ -1029,21 +1051,28 @@ public class CvController extends HttpServlet{
 				size = congVanDAO.size(msnvTemp, conditions);
 			congVanDAO.disconnect();
 			fileDAO.disconnect();
-			ArrayList<Object> objectList = new ArrayList<Object>(); 
-			objectList.add(0, congVanList);
-			objectList.add(1, fileList);
+			ArrayList<Object> objectList = new ArrayList<Object>();
+			int count = 0;
+			objectList.add(count, congVanList);
+			count ++;
+			objectList.add(count, fileList);
+			count ++;
 			long page = (size % 3 == 0 ? size/3 : (size/3) +1 ); 
-			objectList.add(2, page);
+			objectList.add(count, page);
+			count ++;
 			if (msnvTemp == null) {
-				objectList.add(3, nguoiXlCongVan);
+				objectList.add(count, nguoiXlCongVan);
+				count ++;
 			} 
 			if (cdMa.equals(nhanVienMa) || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
-				objectList.add(4, vaiTroList);
-				objectList.add(5, vtCongVanList);
+				objectList.add(count, vaiTroList);
+				count ++;
+				objectList.add(count, vtCongVanList);
+				count ++;
 			}
 			return JSonUtil.toJson(objectList);
 		} catch (NullPointerException e) {
-			logger.error("Lỗi khi tìm kiếm công văn: " + e.getStackTrace());
+			logger.error("Lỗi khi tìm kiếm công văn: " + e.getMessage());
     		return JSonUtil.toJson("authentication error");
 		} 
 	}
@@ -1139,21 +1168,28 @@ public class CvController extends HttpServlet{
 				size = congVanDAO.size(msnvTemp, conditions);
 			congVanDAO.disconnect();
 			fileDAO.disconnect();
-			ArrayList<Object> objectList = new ArrayList<Object>(); 
-			objectList.add(0, congVanList);
-			objectList.add(1, fileList);
+			ArrayList<Object> objectList = new ArrayList<Object>();
+			int count = 0;
+			objectList.add(count, congVanList);
+			count ++;
+			objectList.add(count, fileList);
+			count ++;
 			long page = (size % 3 == 0 ? size/3 : (size/3) +1 ); 
-			objectList.add(2, page);
+			objectList.add(count, page);
+			count ++;
 			if (msnvTemp == null) {
-				objectList.add(3, nguoiXlCongVan);
+				objectList.add(count, nguoiXlCongVan);
+				count ++;
 			}
 			if (cdMa.equals(nhanVienMa) || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
-				objectList.add(4, vaiTroList);
-				objectList.add(5, vtCongVanList);
+				objectList.add(count, vaiTroList);
+				count ++;
+				objectList.add(count, vtCongVanList);
+				count ++;
 			}
 			return JSonUtil.toJson(objectList);
 		} catch (NullPointerException e) {
-			logger.error("Lỗi khi filter công văn: " + e.getStackTrace());
+			logger.error("Lỗi khi filter công văn: " + e.getMessage());
     		return JSonUtil.toJson("authentication error");
 		}
 	}
@@ -1242,22 +1278,29 @@ public class CvController extends HttpServlet{
 				size = congVanDAO.size(msnvTemp, conditions);
 			congVanDAO.disconnect();
 			fileDAO.disconnect();
-			ArrayList<Object> objectList = new ArrayList<Object>(); 
-			objectList.add(0,congVanList);
-			objectList.add(1, fileList);
+			ArrayList<Object> objectList = new ArrayList<Object>();
+			int count = 0;
+			objectList.add(count,congVanList);
+			count ++;
+			objectList.add(count, fileList);
+			count ++;
 			long page = (size % 3 == 0 ? size/3 : (size/3) +1 );
-			objectList.add(2, page);
+			objectList.add(count, page);
+			count ++;
 			if (msnvTemp == null) {
-				objectList.add(3, nguoiXlCongVan);
+				objectList.add(count, nguoiXlCongVan);
+				count ++;
 			} 
 			if (cdMa.equals(nhanVienMa) || cdMa.equals(phoPhongMa) || vanThuMa.equals(cdMa) || adminMa.equals(cdMa) || thuKyMa.equals(cdMa)) {
-				objectList.add(4, vaiTroList);
-				objectList.add(5,vtCongVanList);
+				objectList.add(count, vaiTroList);
+				count ++;
+				objectList.add(count,vtCongVanList);
+				count ++;
 			}
 //			session.setMaxInactiveInterval(5000);
 			return JSonUtil.toJson(objectList);
 		} catch (NullPointerException | NumberFormatException e) {
-			logger.error("Lỗi khi phân trang công văn: " + e.getStackTrace());
+			logger.error("Lỗi khi phân trang công văn: " + e.getMessage());
     		return JSonUtil.toJson("authentication error");
 		}
 	}
@@ -1298,7 +1341,7 @@ public class CvController extends HttpServlet{
 			}
 			return JSonUtil.toJson("success");
 		} catch (NullPointerException | NumberFormatException | HibernateException e) {
-			logger.error("Lỗi khi thay đổi trạng thái cv công văn: " + e.getStackTrace());
+			logger.error("Lỗi khi thay đổi trạng thái cv công văn: " + e.getMessage());
     		return JSonUtil.toJson("authentication error");
 		}
 	}
@@ -1333,7 +1376,7 @@ public class CvController extends HttpServlet{
 			}
 			return JSonUtil.toJson("fail");
 		} catch (NullPointerException | IndexOutOfBoundsException | HibernateException e) {
-			logger.error("Lỗi khi thay đổi trạng thái vai trò công văn: " + e.getStackTrace());
+			logger.error("Lỗi khi thay đổi trạng thái vai trò công văn: " + e.getMessage());
     		return JSonUtil.toJson("authentication error");
 		}
 	}

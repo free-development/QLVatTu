@@ -25,7 +25,9 @@ function backupData(){
 	  	mimeType: 'application/json',
 	  	data: { "moTa": moTa},
 	  	success: function(backupInfo) {
-	  		if (backupInfo == "fail") {
+	  		if (backupInfo == "authentication error") {
+				location.assign("login.jsp");
+			} else if (backupInfo == "fail") {
 	  			alert("Sao lưu dữ liệu thất bại");
 	  		} else {
 	  			var style = '';
@@ -75,13 +77,17 @@ function restoreData(){
 		  	mimeType: 'application/json',
 		  	data: { "id": idList[0]},
 		  	success: function(status) {
-		  		document.getElementById("loading").style.display="none";
-		  		document.body.style.cursor = "auto";
-//		  		document.element.
-		  		if (status == "success")
-		  			alert("Phục hồi dữ liệu thành công");
-		  		else
-		  			alert("Phục hồi dữ liệu thất bại");
+		  		if (result == "authentication error") {
+					location.assign("login.jsp");
+				} else {
+			  		document.getElementById("loading").style.display="none";
+			  		document.body.style.cursor = "auto";
+	//		  		document.element.
+			  		if (status == "success")
+			  			alert("Phục hồi dữ liệu thành công");
+			  		else
+			  			alert("Phục hồi dữ liệu thất bại");
+				}
 		  	}
 		});
 		
@@ -106,35 +112,38 @@ function loadBackupInfo(backupList) {
 }
 function loadPage(pageNumber){
 		
-		if (pageNumber == 'Next') {
-			var lastPage = document.getElementsByClassName('page')[9].value;
-			var p = (lastPage) / 5;
-			var page = lastPage;
-		}
-		else if (pageNumber == 'Previous') {
-			var firstPage = document.getElementsByClassName('page')[0].value;
-			var p = (firstPage - 1) / 5;
-			var page =  firstPage-2;
-		}
-		else {
-			page = pageNumber;
-		}
-	    	$.ajax({
-				url: getRoot() +  "/loadPageBackup.html",	
-			  	type: "GET",
-			  	dateType: "JSON",
-			  	data: { "pageNumber": page},
-			  	contentType: 'application/json',
-			    mimeType: 'application/json',
-			  	
-			  	success: function(objectList) {
-			  		var size = objectList[1];
-			  		var backupList = objectList[0];
-			  		alert(backupList);
-			  		var length = backupList.length;
-			  		$('#view-table table .rowContent').remove();
-					loadBackupInfo(backupList);
-					var button = '';
+	if (pageNumber == 'Next') {
+		var lastPage = document.getElementsByClassName('page')[9].value;
+		var p = (lastPage) / 5;
+		var page = lastPage;
+	}
+	else if (pageNumber == 'Previous') {
+		var firstPage = document.getElementsByClassName('page')[0].value;
+		var p = (firstPage - 1) / 5;
+		var page =  firstPage-2;
+	}
+	else {
+		page = pageNumber;
+	}
+	$.ajax({
+		url: getRoot() +  "/loadPageBackup.html",	
+	  	type: "GET",
+	  	dateType: "JSON",
+	  	data: { "pageNumber": page},
+	  	contentType: 'application/json',
+	    mimeType: 'application/json',
+	  	
+	  	success: function(objectList) {
+	  		if (objectList == "authentication error") {
+				location.assign("login.jsp");
+			} else {
+		  		var size = objectList[1];
+		  		var backupList = objectList[0];
+		  		alert(backupList);
+		  		var length = backupList.length;
+		  		$('#view-table table .rowContent').remove();
+				loadBackupInfo(backupList);
+				var button = '';
 				if(pageNumber == 'Next') {
 					for (var i = 0; i < 10; i++) {
 						var t = ((p -1) * 5 + i + 1);
@@ -161,8 +170,9 @@ function loadPage(pageNumber){
 					$('#paging').html(button);	
 					$('.page')[4].focus();
 				}
-			  	}
-			});
+			}
+	  	}
+	});
 }
 function filterData(filter, value1, value2) {
 	$.ajax({
@@ -173,8 +183,12 @@ function filterData(filter, value1, value2) {
 	  	contentType: 'application/json',
 	    mimeType: 'application/json',
 	    success: function(backupList) {
-	    	$('#view-table table .rowContent').remove();
-			loadBackupInfo(backupList);
+	    	if (result == "authentication error") {
+				location.assign("login.jsp");
+			} else {
+		    	$('#view-table table .rowContent').remove();
+				loadBackupInfo(backupList);
+			}
 	    } 
 	});
 }

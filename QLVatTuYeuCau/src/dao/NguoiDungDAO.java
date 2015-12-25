@@ -224,7 +224,5 @@ public class NguoiDungDAO {
 		if (session.isConnected())
 			session.disconnect();
 	}
-	public static void main(String[] args) {
-		System.out.println(new NguoiDungDAO().searchHoten("V", null));
-	}
+	
 }

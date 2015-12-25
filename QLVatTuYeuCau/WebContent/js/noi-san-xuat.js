@@ -202,21 +202,25 @@ $(document).ready(function() {
 		    mimeType: 'application/json',
 		  	
 		  	success: function(nsxList) {
-		  		$('#view-table table .rowContent').remove();
-				if(nsxList.length>0){
-					for(i = 0;i < nsxList.length; i++ ) {
-						var nsx = nsxList[i] ;
-						var style = '';	
-						if (i % 2 == 0)
-							style = 'style=\"background : #CCFFFF;\"';
-						var str = '';
-						str = '<tr class=\"rowContent\" ' + style + '>'
-							+ '<td class=\"left-column\"><input type=\"checkbox\" name=\"nsxMa\" value=\"' 
-							+ nsx.nsxMa +'\" class=\"checkbox\"></td>'
-							+ '<td class=\"col\">' + nsx.nsxMa + '</td>'
-							+ '<td class=\"col\">' + nsx.nsxTen + '</td>'
-							+ '</tr>';
-						$('#view-table table tr:first').after(str);
+		  		if (nsxList == "authentication error") {
+					location.assign("login.jsp");
+				} else {
+			  		$('#view-table table .rowContent').remove();
+					if(nsxList.length>0){
+						for(i = 0;i < nsxList.length; i++ ) {
+							var nsx = nsxList[i] ;
+							var style = '';	
+							if (i % 2 == 0)
+								style = 'style=\"background : #CCFFFF;\"';
+							var str = '';
+							str = '<tr class=\"rowContent\" ' + style + '>'
+								+ '<td class=\"left-column\"><input type=\"checkbox\" name=\"nsxMa\" value=\"' 
+								+ nsx.nsxMa +'\" class=\"checkbox\"></td>'
+								+ '<td class=\"col\">' + nsx.nsxMa + '</td>'
+								+ '<td class=\"col\">' + nsx.nsxTen + '</td>'
+								+ '</tr>';
+							$('#view-table table tr:first').after(str);
+						}
 					}
 				}
 		  	}

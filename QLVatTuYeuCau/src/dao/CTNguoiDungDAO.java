@@ -196,8 +196,5 @@ public class CTNguoiDungDAO {
 		session.getTransaction().commit(); 
 		return mk;
 	}
-	public static void main(String[] args){
-		CTNguoiDungDAO ctnd = new CTNguoiDungDAO();
-		System.out.println(ctnd.size());
-	}
+	
 }

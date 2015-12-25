@@ -33,6 +33,7 @@ import dao.VatTuDAO;
 import map.siteMap;
 import model.BackupInfo;
 import model.DBConnection;
+import model.NguoiDung;
 import model.VatTu;
 import util.HibernateUtil;
 import util.JSonUtil;
@@ -44,12 +45,22 @@ public class BackupController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@Autowired
 	private ServletContext context;
+	private static final Logger logger = Logger.getLogger(BackupController.class);
 	
 	@RequestMapping(value="/backupData", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String backupData(@RequestParam("moTa") String moTa){
-//		Logger log = Logger.getLogger(log4jExample.class.getName());
+	public @ResponseBody String backupData(@RequestParam("moTa") String moTa, HttpServletRequest request){
 		try {
+			HttpSession session = request.getSession(false);
+			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+			String adminMa = context.getInitParameter("adminMa");
+			if (authentication == null) { 
+				logger.error("Không chứng thực backup data");
+				return JSonUtil.toJson("authentication error");
+			} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+				logger.error("Không có quyền backup data");
+				return JSonUtil.toJson("authentication error");
+			}
 			moTa = moTa.replaceAll("\n", "<br>");
 			SimpleDateFormat dateFormater = new SimpleDateFormat("ss-mm-hh-dd-MM-yyyy");
 			Date dateCurrent = new Date();
@@ -117,28 +128,26 @@ public class BackupController extends HttpServlet {
 			BackupInfo backupInfo =  new BackupInfo(idTemp, thoiGian, moTa, filePath);
 			return JSonUtil.toJson(backupInfo);
 			
-		} catch (IOException e){
-			Log4jSimple.debug("Lỗi nhập xuất file backup");
-			System.out.println("Lỗi nhập xuất file backup");
-			return JSonUtil.toJson("fail");
-		} catch (NumberFormatException e1){
-//			log("Lỗi định dạng số  backup");
-			Log4jSimple.debug("Lỗi định dạng số  backup");
-			System.out.println("Lỗi định dạng số  backup");
-			return JSonUtil.toJson("fail");
-		} catch (IndexOutOfBoundsException e2){
-//			log("Lỗi chỉ số backup");
-			Log4jSimple.debug("Lỗi chỉ số backup");
-			System.out.println("Lỗi chỉ số backup");
+		} catch (IOException | NumberFormatException | IndexOutOfBoundsException  e){
+			logger.error("Lỗi backup database");
 			return JSonUtil.toJson("fail");
 		}
 	}
 	
 	@RequestMapping(value="/restoreData", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String restoreData(@RequestParam("id") String stt){
+	public @ResponseBody String restoreData(@RequestParam("id") String stt, HttpServletRequest request){
 		try {
-			
+			HttpSession session = request.getSession(false);
+			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+			String adminMa = context.getInitParameter("adminMa");
+			if (authentication == null) { 
+				logger.error("Không chứng thực restore data");
+				return JSonUtil.toJson("authentication error");
+			} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+				logger.error("Không có quyền restore data");
+				return JSonUtil.toJson("authentication error");
+			}
 			String pathLogBackup = context.getInitParameter("pathLogBackup");
 			int id = Integer.parseInt(stt);
 			int idPage  = id / 10;
@@ -172,6 +181,7 @@ public class BackupController extends HttpServlet {
 			
 			return JSonUtil.toJson("success");
 		} catch (IOException | NumberFormatException e){
+			logger.error("Lỗi restore data: " + e.getMessage());
 			return JSonUtil.toJson("fail");
 		}
 	}
@@ -234,6 +244,15 @@ public class BackupController extends HttpServlet {
 		int pageNumber = 0;
 		try {
 			HttpSession session = request.getSession(false);
+			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+			String adminMa = context.getInitParameter("adminMa");
+			if (authentication == null) { 
+				logger.error("Không chứng thực truy cập quản lý backup database");
+				return new ModelAndView(siteMap.login);
+			} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+				logger.error("Không có quyền truy cập quản lý database");
+				return new ModelAndView(siteMap.login);
+			}
 			session.removeAttribute("congVanList");
 			session.removeAttribute("ctVatTuList");
 			session.removeAttribute("soLuongList");
@@ -270,28 +289,26 @@ public class BackupController extends HttpServlet {
 			buff.close();
 			fileInput.close();
 			return new ModelAndView(siteMap.backupDataPage);
-		} catch (FileNotFoundException e4) {
-			request.setAttribute("backupList", backupList);
-			request.setAttribute("pageNumber", pageNumber);
-			return new ModelAndView(siteMap.backupDataPage);
-		} catch (NullPointerException e3) {
-			return new ModelAndView(siteMap.login);
-		} catch (IndexOutOfBoundsException e2) {
-			System.out.println("IndexOutOfBoundsException");
-			return new ModelAndView(siteMap.login);
-		} catch (NumberFormatException e1) {
-			System.out.println("number format exception");
-			return new ModelAndView(siteMap.login);
-		} catch (IOException e) {
-			System.out.println("IO exception");
+		} catch (NullPointerException | IndexOutOfBoundsException | NumberFormatException | IOException e) {
+			logger.error("Lỗi truy cập quản lý database: " + e.getMessage());
 			return new ModelAndView(siteMap.login);
 		}
 		
 	}
 	@RequestMapping(value="/loadPageBackup", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	 public @ResponseBody String loadPageVatTu(@RequestParam("pageNumber") String pageNumber) {
+	 public @ResponseBody String loadPageVatTu(@RequestParam("pageNumber") String pageNumber, HttpServletRequest request) {
 		try{
+			HttpSession session = request.getSession(false);
+			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+			String adminMa = context.getInitParameter("adminMa");
+			if (authentication == null) { 
+				logger.error("Không chứng thực phân trang backup data");
+				return JSonUtil.toJson("authentication error");
+			} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+				logger.error("Không có quyền phân trang backup data");
+				return JSonUtil.toJson("authentication error");
+			}
 			int page = Integer.parseInt(pageNumber);
 			ArrayList<Object> objectList = new ArrayList<Object>();
 			String pathLogBackup = context.getInitParameter("pathLogBackup");
@@ -316,84 +333,18 @@ public class BackupController extends HttpServlet {
 			objectList.add(size);
 			return JSonUtil.toJson(objectList);
 		} catch (FileNotFoundException e){
-			Log4jSimple.debug("Lỗi nhập xuất file backup");
-			System.out.println("Lỗi nhập xuất file backup");
+			logger.error("FileNotFound Exception khi phân trang backup data: " + e.getMessage());
 			return JSonUtil.toJson("fail");
-		} catch (NumberFormatException e1){
-//			log("Lỗi định dạng số  backup");
-			Log4jSimple.debug("Lỗi định dạng số  backup");
-			System.out.println("Lỗi định dạng số  backup");
+		} catch (NumberFormatException e){
+			logger.error("NullPointer Exception file khi phân trang backup data: " + e.getMessage());;
 			return JSonUtil.toJson("fail");
-		} catch (IndexOutOfBoundsException e2){
-//			log("Lỗi chỉ số backup");
-			Log4jSimple.debug("Lỗi chỉ số backup");
-			System.out.println("Lỗi chỉ số backup");
+		} catch (IndexOutOfBoundsException e){
+			logger.error("IndexOutOfBounds Exception khi phân trang backup data: " + e.getMessage());
 			return JSonUtil.toJson("fail");
-		} catch (IOException e5){
-	//		log("Lỗi chỉ số backup");
-			Log4jSimple.debug("Lỗi nhập xuất");
-			System.out.println("Lỗi nhập xuất");
+		} catch (IOException e){
+			logger.error("IO Exception khi phân trang backup data: " + e.getMessage());
 			return JSonUtil.toJson("fail");
 		}
 	}
-	/*
-	@RequestMapping(value="/filterDataBackup", method=RequestMethod.GET, 
-			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	 public @ResponseBody String filterDataBackup(@RequestParam("filter") String filter, @RequestParam("value1") String value1, @RequestParam("value2") String value2, HttpServletRequest request) {
-		
-		try{
-			ArrayList<BackupInfo> backupList = new ArrayList<BackupInfo>();
-			if ("all".equals(filter)) {
-				
-			} else if ("description".equals(filter)){
-				
-			} else if ("date".equals(filter)){
-				
-			}
-			
-			int page = Integer.parseInt(pageNumber);
-			ArrayList<Object> objectList = new ArrayList<Object>();
-			String pathLogBackup = context.getInitParameter("pathLogBackup");
-			FileReader fileIn = new FileReader(pathLogBackup + "numberBackup.sysInfo");
-			BufferedReader buffFileIn = new BufferedReader(fileIn);
-			int size = Integer.parseInt(buffFileIn.readLine());
-			buffFileIn.close();
-			page = (size - 1)/ 10 - page;
-//			int idPage = page / 10;
-//			int idBackup = page % 10;
-			FileReader fileIdInput = new FileReader(pathLogBackup + "idInfo" + page + ".info");
-			BufferedReader buffFileIdInput = new BufferedReader(fileIdInput);
-			ArrayList<BackupInfo> vatTuList = new ArrayList<BackupInfo>() ;
-			String line = "";
-			while((line = buffFileIdInput.readLine()) != null) {
-				String[] temp = line.split("\\#####");
-				BackupInfo backupInfo = new BackupInfo(Integer.parseInt(temp[0]), temp[1].substring(9), temp[2], temp[3]);
-				vatTuList.add(backupInfo);
-			}
-			buffFileIdInput.close();
-			objectList.add(vatTuList);
-			objectList.add(size);
-			return JSonUtil.toJson(backupList);
-		} catch (FileNotFoundException e){
-			Log4jSimple.debug("Lỗi nhập xuất file backup");
-			System.out.println("Lỗi nhập xuất file backup");
-			return JSonUtil.toJson("fail");
-		} catch (NumberFormatException e1){
-//			log("Lỗi định dạng số  backup");
-			Log4jSimple.debug("Lỗi định dạng số  backup");
-			System.out.println("Lỗi định dạng số  backup");
-			return JSonUtil.toJson("fail");
-		} catch (IndexOutOfBoundsException e2){
-//			log("Lỗi chỉ số backup");
-			Log4jSimple.debug("Lỗi chỉ số backup");
-			System.out.println("Lỗi chỉ số backup");
-			return JSonUtil.toJson("fail");
-		} catch (IOException e5){
-	//		log("Lỗi chỉ số backup");
-			Log4jSimple.debug("Lỗi nhập xuất");
-			System.out.println("Lỗi nhập xuất");
-			return JSonUtil.toJson("fail");
-		}
-	}
-	*/
+	
 }

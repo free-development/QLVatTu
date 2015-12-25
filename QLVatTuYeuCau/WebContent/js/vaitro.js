@@ -31,12 +31,15 @@ function preUpdatevt(formId, check){
 			mimeType: "application/json",
 			
 			success: function(vt){		
-				
-				$('input:text[name=vtMaUpdate]').val(vt.vtMa);
-				$('input:text[name=vtTenUpdate]').val(vt.vtTen);
-				
-			  	showForm(formId, check);
-			  	$('#vtUpFocus').focus();
+				if (vt == "authentication error") {
+					location.assign("login.jsp");
+				} else {
+					$('input:text[name=vtMaUpdate]').val(vt.vtMa);
+					$('input:text[name=vtTenUpdate]').val(vt.vtTen);
+					
+				  	showForm(formId, check);
+				  	$('#vtUpFocus').focus();
+				}
 			}
 			
 		});
@@ -66,9 +69,13 @@ function confirmDelete(){
 	  	data: { "vtList": str},
 	  	contentType: 'application/json',
 	    mimeType: 'application/json',
-	  	success: function(vtList) {
-	  		$('table tr').has('input[name="vtMa"]:checked').remove();
-	  		alert('Vai trò ' + str + " đã được xóa");
+	  	success: function(result) {
+	  		if (result == "authentication error") {
+				location.assign("login.jsp");
+			} else {
+		  		$('table tr').has('input[name="vtMa"]:checked').remove();
+		  		alert('Vai trò ' + str + " đã được xóa");
+			}
 	    } 
 	});  
 } 
@@ -91,7 +98,9 @@ function addvt() {
 		    mimeType: 'application/json',
 		  	
 		  	success: function(result) {
-		  		if(result == "success")
+		  		if (vt == "authentication error") {
+					location.assign("login.jsp");
+				} else if(result == "success")
  				{
 					$('#view-table table tr:first').after('<tr><td class=\"left-column\"><input type=\"checkbox\" name=\"vtMa\" value=\"' + vtMa +'\"</td><td class=\"col\">' + vtMa + '</td><td class=\"col\">' + vtTen+'</td></tr>');
 					$('#add-form input:text[name=vtTen]').val('');
@@ -129,12 +138,16 @@ function updatevt(vtMaUpdate, vtTenUpdate) {
 		    mimeType: 'application/json',
 		  	
 		  	success: function(vt) {
-		  		$('table tr').has('input[name="vtMa"]:checked').remove();
-		  		$('#view-table table tr:first').after('<tr><td class=\"left-column\"><input type=\"checkbox\" name=\"vtMa\" value=\"' + vtMaUpdate + '\"</td><td class=\"col\">' + vtMaUpdate + '</td><td class=\"col\">' + vtTenUpdate +'</td></tr>');						
-		  		showForm("update-form", false);	
-		  		alert("Thay đổi thành công vai trò "+ vtTenUpdate);
-		  		vtTenUpdate = $('input:text[name=vtTenUpdate]').val('');
-		  		$('input[name="vtMa"]:checked').prop('checked',false);
+		  		if (vt == "authentication error") {
+					location.assign("login.jsp");
+				} else {
+			  		$('table tr').has('input[name="vtMa"]:checked').remove();
+			  		$('#view-table table tr:first').after('<tr><td class=\"left-column\"><input type=\"checkbox\" name=\"vtMa\" value=\"' + vtMaUpdate + '\"</td><td class=\"col\">' + vtMaUpdate + '</td><td class=\"col\">' + vtTenUpdate +'</td></tr>');						
+			  		showForm("update-form", false);	
+			  		alert("Thay đổi thành công vai trò "+ vtTenUpdate);
+			  		vtTenUpdate = $('input:text[name=vtTenUpdate]').val('');
+			  		$('input[name="vtMa"]:checked').prop('checked',false);
+				}
 		  	}
 		});
 	}
@@ -175,21 +188,25 @@ $(document).ready(function() {
 		    mimeType: 'application/json',
 		  	
 		  	success: function(vtList) {
-		  		$('#view-table table .rowContent').remove();
-				if(vtList.length>0){
-					for(i = 0;i < vtList.length; i++ ) {
-						var vt = vtList[i] ;
-						var style = '';	
-						if (i % 2 == 0)
-							style = 'style=\"background : #CCFFFF;\"';
-						var str = '';
-						str = '<tr class=\"rowContent\" ' + style + '>'
-							+ '<td class=\"left-column\"><input type=\"checkbox\" name=\"vtMa\" value=\"' 
-							+ vt.vtTen +'\" class=\"checkbox\"></td>'
-							+ '<td class=\"col\">' + vt.vtMa + '</td>'
-							+ '<td class=\"col\">' + vt.vtTen + '</td>'
-							+ '</tr>';
-						$('#view-table table tr:first').after(str);
+		  		if (vtList == "authentication error") {
+					location.assign("login.jsp");
+				} else {
+			  		$('#view-table table .rowContent').remove();
+					if(vtList.length>0){
+						for(i = 0;i < vtList.length; i++ ) {
+							var vt = vtList[i] ;
+							var style = '';	
+							if (i % 2 == 0)
+								style = 'style=\"background : #CCFFFF;\"';
+							var str = '';
+							str = '<tr class=\"rowContent\" ' + style + '>'
+								+ '<td class=\"left-column\"><input type=\"checkbox\" name=\"vtMa\" value=\"' 
+								+ vt.vtTen +'\" class=\"checkbox\"></td>'
+								+ '<td class=\"col\">' + vt.vtMa + '</td>'
+								+ '<td class=\"col\">' + vt.vtTen + '</td>'
+								+ '</tr>';
+							$('#view-table table tr:first').after(str);
+						}
 					}
 				}
 		  	}

@@ -94,7 +94,7 @@ public class CdController extends HttpServlet {
 			chucDanhDAO.disconnect();
 			return JSonUtil.toJson(cd);
 		} catch (NullPointerException e) {
-			logger.error("NullPointer khi show cập nhật chức danh: " + e.getStackTrace());
+			logger.error("NullPointer khi show cập nhật chức danh: " + e.getMessage());
 			return JSonUtil.toJson("authentication error");
 		}
 	}
@@ -121,10 +121,10 @@ public class CdController extends HttpServlet {
 			cdDAO.disconnect();
 			return JSonUtil.toJson(cdList);
 		} catch (NullPointerException e) {
-			logger.error("NullPointer Exception khi xóa chức danh: " + e.getStackTrace());
+			logger.error("NullPointer Exception khi xóa chức danh: " + e.getMessage());
 			return JSonUtil.toJson("authentication error");
 		} catch  (IndexOutOfBoundsException e2) {
-			logger.error("IndexOutOfBounda Exception khi xóa chức danh: " + e2.getStackTrace());
+			logger.error("IndexOutOfBounda Exception khi xóa chức danh: " + e2.getMessage());
 			return JSonUtil.toJson("authentication error");
 		}
 	}
@@ -161,7 +161,7 @@ public class CdController extends HttpServlet {
 			chucDanhDAO.disconnect();
 			return JSonUtil.toJson(result);
 		} catch (NullPointerException e) {
-			logger.error("NullPointer Exception khi thêm chức danh: " + e.getStackTrace());
+			logger.error("NullPointer Exception khi thêm chức danh: " + e.getMessage());
 			return JSonUtil.toJson("authentication error");
 		}
 	}
@@ -186,7 +186,7 @@ public class CdController extends HttpServlet {
 			chucDanhDAO.disconnect();
 			return JSonUtil.toJson(cd);
 		} catch (NullPointerException e) {
-			logger.error("NullPointer Exception khi cập nhật chức danh: " + e.getStackTrace());
+			logger.error("NullPointer Exception khi cập nhật chức danh: " + e.getMessage());
 			return JSonUtil.toJson("authentication error");
 		}
 	}
@@ -211,10 +211,10 @@ public class CdController extends HttpServlet {
 			cdDAO.disconnect();
 			return JSonUtil.toJson(cdList);
 		} catch (NullPointerException e) {
-			logger.error("NullPointer Exception khi phân trang chức danh: " + e.getStackTrace());
+			logger.error("NullPointer Exception khi phân trang chức danh: " + e.getMessage());
 			return JSonUtil.toJson("authentication error");
 		} catch (NumberFormatException e2) {
-			logger.error("NumberFormat Exception khi phân trang chức danh: " + e2.getStackTrace());
+			logger.error("NumberFormat Exception khi phân trang chức danh: " + e2.getMessage());
 			return JSonUtil.toJson("authentication error");
 		}
 	}

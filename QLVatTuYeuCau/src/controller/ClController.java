@@ -191,7 +191,7 @@ public class ClController extends HttpServlet {
 			chatLuongDAO.disconnect();
 			return JSonUtil.toJson(result);
 		} catch (NullPointerException e) {
-			logger.error("NullPointer Exception khi thêm chất lượng: " + e.getStackTrace());
+			logger.error("NullPointer Exception khi thêm chất lượng: " + e.getMessage());
 			return JSonUtil.toJson("authentication error");
 		}
 			
@@ -217,7 +217,7 @@ public class ClController extends HttpServlet {
 			chatLuongDAO.disconnect();
 			return JSonUtil.toJson(cl);
 		} catch (NullPointerException e) {
-			logger.error("NullPointer Exception khi cập nhật chất lượng: " + e.getStackTrace());
+			logger.error("NullPointer Exception khi cập nhật chất lượng: " + e.getMessage());
 			return JSonUtil.toJson("authentication error");
 		}
 	}
@@ -241,10 +241,10 @@ public class ClController extends HttpServlet {
 			clDAO.disconnect();
 			return JSonUtil.toJson(clList);
 		} catch (NullPointerException e) {
-			logger.error("NullPointer Exception khi phân trang chất lượng: " + e.getStackTrace());
+			logger.error("NullPointer Exception khi phân trang chất lượng: " + e.getMessage());
 			return JSonUtil.toJson("authentication error");
 		} catch (NumberFormatException e2) {
-			logger.error("NumberFormat Exception khi phân trang chất lượng: " + e2.getStackTrace());
+			logger.error("NumberFormat Exception khi phân trang chất lượng: " + e2.getMessage());
 			return JSonUtil.toJson("authentication error");
 		}
 	}

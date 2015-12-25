@@ -275,9 +275,5 @@ public class VTCongVanDAO {
 		}
 		return check;
 	}
-	public static void main(String[] args) {
-//		ArrayList<VaiTro> cvIdList = new VTCongVanDAO().getVaiTro(17, "b1203954");
-		ArrayList<String> trangThaiList = new VTCongVanDAO().getTtByCvId(51);
-		System.out.println(trangThaiList);
-	}
+	
 }

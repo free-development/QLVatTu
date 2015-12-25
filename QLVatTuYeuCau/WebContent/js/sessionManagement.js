@@ -9,8 +9,12 @@ function removeSession(name) {
 	  	data: { "name": name},
 	  	contentType: 'application/json',
 	    mimeType: 'application/json',
-	    success: function(){
-	    	window.close();
+	    success: function(result){
+	    	if (result == "authentication error") {
+				location.assign("login.jsp");
+			} else {
+				window.close();
+			}
 	    }	  	
 	});
 }

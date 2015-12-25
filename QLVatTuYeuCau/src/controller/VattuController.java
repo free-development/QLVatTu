@@ -270,7 +270,7 @@ public class VattuController extends HttpServlet {
 			logger.error("Lỗi NullPointer Exception trên khi xóa vật tư do sai url");
 			return JSonUtil.toJson("authentication error");
 		} catch (IndexOutOfBoundsException e2) {
-			logger.error("IndexOutOfBoundsException khi xóa vật tư: " + e2.getStackTrace());
+			logger.error("IndexOutOfBoundsException khi xóa vật tư: " + e2.getMessage());
 			return JSonUtil.toJson("authentication error");
 		}
 	}

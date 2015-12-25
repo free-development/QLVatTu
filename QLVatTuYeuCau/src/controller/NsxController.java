@@ -221,7 +221,7 @@ public class NsxController extends HttpServlet {
 			logger.error("NullPointer Exception khi xóa nơi sản xuát");
 			return JSonUtil.toJson("authentication error");
 		} catch (IndexOutOfBoundsException e2) {
-			logger.error("IndexOutOfBoundsException khi xóa nơi sản xuất: " + e2.getStackTrace());
+			logger.error("IndexOutOfBoundsException khi xóa nơi sản xuất: " + e2.getMessage());
 			return JSonUtil.toJson("authentication error");
 		}
 	}

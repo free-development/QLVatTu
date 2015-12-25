@@ -112,8 +112,6 @@ public class NoiSanXuatDAO {
 		session.getTransaction().commit();
 		return nsx;
 	}
-	public static void main(String[] args) {
-		System.out.println(new NoiSanXuatDAO().getByNameNsx("Việt Nam"));
-	}
+	
 	
 }

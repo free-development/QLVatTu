@@ -308,7 +308,7 @@ public class CtvtController extends HttpServlet {
 			logger.error("NumberFormat Exception khi xóa chi tiết vật tư");
 			return JSonUtil.toJson("authentication error");
 		} catch (IndexOutOfBoundsException e2) {
-			logger.error("IndexOutOfBoundsException khi xóa chi tiết vật tư: " + e2.getStackTrace());
+			logger.error("IndexOutOfBoundsException khi xóa chi tiết vật tư: " + e2.getMessage());
 			return JSonUtil.toJson("authentication error");
 		}
 	}

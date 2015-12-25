@@ -175,8 +175,7 @@ public ArrayList<VatTu> searchVtTenLimit(String i, int first, int limit) {
 	}
 	public long size(String filter, String filterValue) {
 		session.beginTransaction();
-		System.out.println(filter);
-		System.out.println(filterValue);
+
 		String sql = "select count(vtMa) from VatTu where daXoa = 0";
 		
 		if (filter.length() > 0  && filterValue.length() > 0) {

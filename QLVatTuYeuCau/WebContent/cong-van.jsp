@@ -39,7 +39,7 @@
 		String adminMa = request.getServletContext().getInitParameter("adminMa");
 		String thuKyMa = request.getServletContext().getInitParameter("thuKyMa");
 		String hosting = request.getServletContext().getInitParameter("hosting");
-		int capPhatMa = Integer.parseInt(request.getServletContext().getInitParameter("capPhatId"));
+		String capPhatMa = request.getServletContext().getInitParameter("capPhatMa");
    		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
    		if (authentication == null) {
    			session.setAttribute("url", siteMap.cvManage+ "?action=manageCv");
@@ -316,23 +316,23 @@ countAdd = '0';
 											int i = 0;
 											for (VaiTro vt : vaiTro) {
 												VTCongVan vtcv = vtCongVan.get(i);
-												if (vt.getVtId() == capPhatMa || chucDanh.equals(adminMa))
+												if (vt.getVtMa().equals(capPhatMa) || chucDanh.equals(adminMa))
 													capPhat = true;
 												i++;
 									%>
 										<tr>
 										<td><%=vt.getVtTen() %>: &nbsp;&nbsp;&nbsp;</td>
 										<td>
-											<input type="radio" <%if ("CGQ".equals(vtcv.getTrangThai().getTtMa())) out.println(" checked ");%> name="<%=vtcv.getMsnv() + "#" + vtcv.getCvId() + "#" + vtcv.getVtId() %>"  value="<%=vtcv.getMsnv() + "#" + vtcv.getCvId() + "#" + vtcv.getVtId() + "#"+"CGQ"%>"  class="ttMaVtUpdate"> 	
-											<label for="<%=vtcv.getMsnv() + "#" + vtcv.getCvId() + "#" + vtcv.getVtId() + "#"+"CGQ"%>">Chưa giải quyết</label>&nbsp;&nbsp;&nbsp;
+											<input type="radio" <%if ("CGQ".equals(vtcv.getTrangThai().getTtMa())) out.println(" checked ");%> name="<%=vtcv.getMsnv() + "#" + vtcv.getCvId() + "#" + vtcv.getVtMa() %>"  value="<%=vtcv.getMsnv() + "#" + vtcv.getCvId() + "#" + vtcv.getVtMa() + "#"+"CGQ"%>"  class="ttMaVtUpdate"> 	
+											<label for="<%=vtcv.getMsnv() + "#" + vtcv.getCvId() + "#" + vtcv.getVtMa() + "#"+"CGQ"%>">Chưa giải quyết</label>&nbsp;&nbsp;&nbsp;
 										</td>
 										<td>
-											<input type="radio" <%if ("DGQ".equals(vtcv.getTrangThai().getTtMa())) out.println(" checked ");%> name="<%=vtcv.getMsnv() + "#" + vtcv.getCvId() + "#" + vtcv.getVtId()  %>"  value="<%=vtcv.getMsnv() + "#" + vtcv.getCvId() + "#" + vtcv.getVtId() + "#"+"DGQ"%>" class="ttMaVtUpdate" >
-											<label for="<%=vtcv.getMsnv() + "#" + vtcv.getCvId() + "#" + vtcv.getVtId() + "#"+"DGQ"%>">Còn thiếu hàng</label>&nbsp;&nbsp;&nbsp;
+											<input type="radio" <%if ("DGQ".equals(vtcv.getTrangThai().getTtMa())) out.println(" checked ");%> name="<%=vtcv.getMsnv() + "#" + vtcv.getCvId() + "#" + vtcv.getVtMa()  %>"  value="<%=vtcv.getMsnv() + "#" + vtcv.getCvId() + "#" + vtcv.getVtMa() + "#"+"DGQ"%>" class="ttMaVtUpdate" >
+											<label for="<%=vtcv.getMsnv() + "#" + vtcv.getCvId() + "#" + vtcv.getVtMa() + "#"+"DGQ"%>">Còn thiếu hàng</label>&nbsp;&nbsp;&nbsp;
 										</td>
 										<td>
-											<input type="radio" <%if ("DaGQ".equals(vtcv.getTrangThai().getTtMa())) out.println(" checked ");%> name="<%=vtcv.getMsnv() + "#" + vtcv.getCvId() + "#" + vtcv.getVtId()  %>"  value="<%=vtcv.getMsnv() + "#" + vtcv.getCvId() + "#" + vtcv.getVtId() + "#"+"DaGQ"%>" class="ttMaVtUpdate">
-											<label for="<%=vtcv.getMsnv() + "#" + vtcv.getCvId() + "#" + vtcv.getVtId() + "#"+""%>">Đã cấp đủ hàng</label>&nbsp;&nbsp;&nbsp;
+											<input type="radio" <%if ("DaGQ".equals(vtcv.getTrangThai().getTtMa())) out.println(" checked ");%> name="<%=vtcv.getMsnv() + "#" + vtcv.getCvId() + "#" + vtcv.getVtMa()  %>"  value="<%=vtcv.getMsnv() + "#" + vtcv.getCvId() + "#" + vtcv.getVtMa() + "#"+"DaGQ"%>" class="ttMaVtUpdate">
+											<label for="<%=vtcv.getMsnv() + "#" + vtcv.getCvId() + "#" + vtcv.getVtMa() + "#"+""%>">Đã cấp đủ hàng</label>&nbsp;&nbsp;&nbsp;
 										</td>
 											<div id="requireTrangThaiUp" style="color: red"></div>
 										</tr>
@@ -485,10 +485,14 @@ countAdd = '0';
 												$('.month').bind('change', function() {
 													var checked = $( this ).is( ":checked" );
 													var str = $(this).val();
-													alert(str);
 													var temp = str.split("#");
-													alert(temp[0]);
-														loadByYear(year, checked);
+														loadByMonth(temp[0], temp[1], checked);
+												});
+												$('.date').bind('change', function(){
+										    		 var checked = $( this ).is( ":checked" );
+										    		 var str = $(this).val();
+										    		 var temp = str.split("#");
+										    		 loadByDate(temp[0], temp[1], temp[2], checked);
 												});
 										</script>
 <!-- 				</div> -->
