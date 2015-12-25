@@ -77,7 +77,7 @@ DEFAULT CHARACTER SET = utf8;
 /*==============================================================*/
 create table CONGVAN
 (
-   CVID                 int not null,
+   CVID                 int primary  key auto_increment not null,
 --   FILEID               int not null,
    DVMA                 varchar(10) not null,
    TTMA                 varchar(10) not null,
@@ -88,8 +88,7 @@ create table CONGVAN
    CVNGAYDI             date,
    TRICHYEU             text,
    BUTPHE               text,
-   DAXOA int(2) default 0,
-   primary key (CVID)
+   DAXOA int(2) default 0
 ) ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8 ;
 
@@ -192,7 +191,7 @@ DEFAULT CHARACTER SET = utf8;
 create table NOISANXUAT
 (
    NSXMA                char(3) not null,
-   NSXTEN               varchar(20),
+   NSXTEN               varchar(200),
    DAXOA int(2) default 0,
    primary key (NSXMA)
 ) ENGINE = InnoDB
@@ -243,10 +242,11 @@ DEFAULT CHARACTER SET = utf8;
 /*==============================================================*/
 /* Table: VAITRO                                                */
 /*==============================================================*/
-create table VAITRO
+drop table  IF EXISTS VAITRO;
+create table if not EXISTS VAITRO
 (
-   VTID   int primary key auto_increment,
-   VTTEN                varchar(50),
+   VTMA   varchar(3) primary key,
+   VTTEN                varchar(200),
    DAXOA int(2) default 0
 )ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -301,11 +301,13 @@ create table VTCONGVAN
 (
    CVID                 int not null,
    MSNV                 varchar(20) not null,
-   VTID                 int not null,
+   VTMA                 varchar(3) not null,
    TTMA varchar(10) not null,
    DAXOA int(2) default 0,
-   primary key (CVID, MSNV, VTID),
-   constraint fk_ttMa foreign key (TTMA) references TRANGTHAI(TTMA)
+   primary key (CVID, MSNV, VTMA),
+   constraint fk_ttMa foreign key (TTMA) references TRANGTHAI(TTMA),
+   constraint fk_vtMa foreign key (VTMA) references VAITRO(VTMA),
+   constraint fk_cvId foreign key (CVID) references CONGVAN(CVID)
 ) ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 

@@ -30,10 +30,13 @@ function showForm(formId, check){
 		    mimeType: 'application/json',
 		  	
 		  	success: function(md) {
-			  	$('input:text[name=mdMaUpdate]').val(md.mdMa);
-			  	$('input:text[name=mdTenUpdate]').val(md.mdTen);
-		  		showForm(formId, check);	
-		  		
+		  		if (md == "authentication") {
+		  			location.assign("login.jsp");
+		  		} else {
+				  	$('input:text[name=mdMaUpdate]').val(md.mdMa);
+				  	$('input:text[name=mdTenUpdate]').val(md.mdTen);
+			  		showForm(formId, check);	
+		  		}
 		  	}
 		});
 		}
@@ -67,9 +70,13 @@ function showForm(formId, check){
 		  	data: { "mdList": str},
 		  	contentType: 'application/json',
 		    mimeType: 'application/json',
-		  	success: function() {
-						$('table tr').has('input[name="mdMa"]:checked').remove();
-						alert('Mục đích có mã ' + str + " đã bị xóa");
+		  	success: function(result) {
+		  		if (result == "authentication") {
+		  			location.assign("login.jsp");
+		  		} else {
+					$('table tr').has('input[name="mdMa"]:checked').remove();
+					alert('Mục đích có mã ' + str + " đã bị xóa");
+		  		}
 		    } 
 		});  
 	} 
@@ -94,7 +101,9 @@ function showForm(formId, check){
 		  	contentType: 'application/json',
 		    mimeType: 'application/json',
 		    success: function(result) {
-				if(result == "success")
+		    	if (result == "authentication") {
+		  			location.assign("login.jsp");
+		  		} else if(result == "success")
 				{
 		  		 	$('input:text[name=mdMa]').val(mdMa);
 				  	$('input:text[name=mdTen]').val(mdTen);
@@ -147,12 +156,16 @@ function showForm(formId, check){
 		    mimeType: 'application/json',
 		  	
 		  	success: function(md) {
-		  		$('table tr').has('input[name="mdMa"]:checked').remove();
-		  		$('#view-table table tr:first').after('<tr class="rowContent"><td class=\"left-column\"><input type=\"checkbox\" name=\"mdMa\" value=\"' +mdMaUpdate + '\"</td><td class=\"col\">'+ mdMaUpdate +'</td><td class=\"col\">' + mdTenUpdate+'</td></tr>');
-		  		$('input:text[name=mdMaUpdate]').val('');
-				mdTenUpdate = $('input:text[name=mdTenUpdate]').val('');
-				$('input[name="mdMa"]:checked').prop('checked',false);
-		  		showForm("update-form", false);	
+		  		if (md == "authentication") {
+		  			location.assign("login.jsp");
+		  		} else {
+			  		$('table tr').has('input[name="mdMa"]:checked').remove();
+			  		$('#view-table table tr:first').after('<tr class="rowContent"><td class=\"left-column\"><input type=\"checkbox\" name=\"mdMa\" value=\"' +mdMaUpdate + '\"</td><td class=\"col\">'+ mdMaUpdate +'</td><td class=\"col\">' + mdTenUpdate+'</td></tr>');
+			  		$('input:text[name=mdMaUpdate]').val('');
+					mdTenUpdate = $('input:text[name=mdTenUpdate]').val('');
+					$('input[name="mdMa"]:checked').prop('checked',false);
+			  		showForm("update-form", false);
+		  		}
 		  	}
 		});
 	}
@@ -171,23 +184,27 @@ function showForm(formId, check){
  			    mimeType: 'application/json',
  			  	
  			  	success: function(mdList) {
- 			  		$('#view-table table .rowContent').remove();
- 					if(mdList.length>0){
- 						for(i = 0;i < mdList.length; i++ ) {
- 							var md = mdList[i] ;
- 							var style = '';	
- 							if (i % 2 == 0)
- 								style = 'style=\"background : #CCFFFF;\"';
- 							var str = '';
- 							str = '<tr class=\"rowContent\" ' + style + '>'
- 								+ '<td class=\"left-column\"><input type=\"checkbox\" name=\"mdMa\" value=\"' 
- 								+ md.mdMa +'\" class=\"checkbox\"></td>'
- 								+ '<td class=\"col\">' + md.mdMa + '</td>'
- 								+ '<td class=\"col\">' + md.mdTen + '</td>'
- 								+ '</tr>';
- 							$('#view-table table tr:first').after(str);
- 						}
- 					}
+ 			  		if (mdList == "authentication") {
+ 			  			location.assign("login.jsp");
+ 			  		} else {
+	 			  		$('#view-table table .rowContent').remove();
+	 					if(mdList.length>0){
+	 						for(i = 0;i < mdList.length; i++ ) {
+	 							var md = mdList[i] ;
+	 							var style = '';	
+	 							if (i % 2 == 0)
+	 								style = 'style=\"background : #CCFFFF;\"';
+	 							var str = '';
+	 							str = '<tr class=\"rowContent\" ' + style + '>'
+	 								+ '<td class=\"left-column\"><input type=\"checkbox\" name=\"mdMa\" value=\"' 
+	 								+ md.mdMa +'\" class=\"checkbox\"></td>'
+	 								+ '<td class=\"col\">' + md.mdMa + '</td>'
+	 								+ '<td class=\"col\">' + md.mdTen + '</td>'
+	 								+ '</tr>';
+	 							$('#view-table table tr:first').after(str);
+	 						}
+	 					}
+ 			  		}
  			  	}
  			});
  	    });	

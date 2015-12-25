@@ -62,7 +62,7 @@
 				dispatcher.forward(request, response);
 				return;
 			}
-			Long size = (Long) request.getAttribute("size");
+			Long size = (Long) request.getAttribute("size") - 1;
     	%>
 	<div class="wrapper">
 <jsp:include page="header.jsp" />

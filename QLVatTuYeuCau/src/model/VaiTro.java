@@ -3,36 +3,17 @@ package model;
 import java.io.Serializable;
 
 public class VaiTro implements Serializable{
-	private int vtId;
+	private String vtMa;
 	private String vtTen;
 	private int daXoa;
 	public VaiTro() {
-		this.vtId = 0;
+		this.vtMa = "";
 		this.vtTen = "";
 		this.daXoa = 0;
 	}
 	
-	/**
-	 * @param vtTen
-	 */
-	public VaiTro(String vtTen) {
-		this.vtTen = vtTen;
-	}
-	
-	/**
-	 * @param vtId
-	 * @param vtTen
-	 */
-	public VaiTro(int vtId) {
-		this.vtId = vtId;
-	}
-	public VaiTro(int vtId, String vtTen,int daXoa) {
-		this.vtId = vtId;
-		this.vtTen = vtTen;
-		this.daXoa = daXoa;
-	}
-
-	public VaiTro(String vtTen,int daXoa) {
+	public VaiTro(String vtMa, String vtTen, int daXoa) {
+		this.vtMa = vtMa;
 		this.vtTen = vtTen;
 		this.daXoa = daXoa;
 	}
@@ -46,17 +27,17 @@ public class VaiTro implements Serializable{
 	}
 
 	/**
-	 * @return the vtId
+	 * @return the vtMa
 	 */
-	public final int getVtId() {
-		return vtId;
+	public final String getVtMa() {
+		return vtMa;
 	}
 
 	/**
-	 * @param vtId the vtId to set
+	 * @param vtMa the vtMa to set
 	 */
-	public final void setVtId(int vtId) {
-		this.vtId = vtId;
+	public final void setVtMa(String vtMa) {
+		this.vtMa = vtMa;
 	}
 
 	/**

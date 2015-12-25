@@ -28,9 +28,9 @@ public class VaiTroDAO {
 		session = template.openSession();
 	}
 	// trong day phai la kieu int
-	public VaiTro getVaiTro(final int vtId) {
+	public VaiTro getVaiTro(final String vtMa) {
 		session.beginTransaction();
-		VaiTro vaiTro = (VaiTro) session.get(VaiTro.class, vtId);
+		VaiTro vaiTro = (VaiTro) session.get(VaiTro.class, vtMa);
 		session.getTransaction().commit();
 		return vaiTro;
 	}
@@ -69,7 +69,7 @@ public class VaiTroDAO {
 	}
 	public long size() {
 		session.beginTransaction();
-		String sql = "select count(vtId) from VaiTro where daXoa = 0";
+		String sql = "select count(vtMa) from VaiTro where daXoa = 0";
 		Query query =  session.createQuery(sql);
 		long size = (long) query.list().get(0);
 		session.getTransaction().commit();
@@ -92,9 +92,9 @@ public class VaiTroDAO {
 		session.saveOrUpdate(vt);
 		session.getTransaction().commit();
 	}
-	public void deleteVaiTro(int vtId){
+	public void deleteVaiTro(String vtMa){
 		session.beginTransaction();
-		String sql = "update VaiTro set daXoa = 1 where vtId = " + vtId;		
+		String sql = "update VaiTro set daXoa = 1 where vtMa = " + vtMa;		
 		Query query = session.createQuery(sql);
 		query.executeUpdate();
 		session.getTransaction().commit();
@@ -106,10 +106,10 @@ public class VaiTroDAO {
 		query.executeUpdate();
 		session.getTransaction().commit();
 	}
-	public int getVaiTroDAO(final int vtId) {
+	public int getVaiTroDAO(final int vtMa) {
 		session.beginTransaction();
 		Criteria cr = session.createCriteria(VaiTro.class);
-		Criterion expVtId = Restrictions.eq("vtId", vtId);
+		Criterion expVtId = Restrictions.eq("vtMa", vtMa);
 		cr.add(expVtId);
 		int l =  cr.list().size();
 		session.getTransaction().commit();
@@ -123,10 +123,13 @@ public class VaiTroDAO {
 		if (session.isConnected())
 			session.disconnect();
 	}
+	public void commit() {
+		session.getTransaction().commit();
+	}
 	public ArrayList<VaiTro> getVaiTro(ArrayList<VTCongVan> vtcvList) {
 		ArrayList<VaiTro> vaiTroList = new ArrayList<VaiTro>();
 		for  (VTCongVan vtCongVan : vtcvList) {
-			VaiTro vaiTro = getVaiTro(vtCongVan.getVtId());
+			VaiTro vaiTro = getVaiTro(vtCongVan.getVtMa());
 			vaiTroList.add(vaiTro);
 		}
 		return vaiTroList;

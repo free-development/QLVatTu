@@ -81,135 +81,171 @@ public class ClController extends HttpServlet {
 	
 	@RequestMapping("/exportCl")
 	public ModelAndView exportCl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession(false);
-		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
-		String adminMa = context.getInitParameter("adminMa");
-		if (authentication == null) { 
-			logger.error("Không chứng thực truy cập danh mục chất lượng");
-			return new ModelAndView(siteMap.login);
-		} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
-			logger.error("Truy cập bất hợp pháp vào danh mục chất lượng");
+		try {
+			HttpSession session = request.getSession(false);
+			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+			String adminMa = context.getInitParameter("adminMa");
+			if (authentication == null) { 
+				logger.error("Không chứng thực truy cập danh mục chất lượng");
+				return new ModelAndView(siteMap.login);
+			} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+				logger.error("Truy cập bất hợp pháp vào danh mục chất lượng");
+				return new ModelAndView(siteMap.login);
+			}
+			ChatLuongDAO chatLuongDAO = new ChatLuongDAO();
+			ArrayList<ChatLuong> allChatLuongList =  (ArrayList<ChatLuong>) chatLuongDAO.getAllChatLuong();
+			session.setAttribute("objectList", allChatLuongList);
+			chatLuongDAO.disconnect();
+			return new ModelAndView(siteMap.xuatCl);
+		} catch(NullPointerException e) {
+			logger.error("NullPointer Exception khi xuất chất lượng");
 			return new ModelAndView(siteMap.login);
 		}
-		ChatLuongDAO chatLuongDAO = new ChatLuongDAO();
-		ArrayList<ChatLuong> allChatLuongList =  (ArrayList<ChatLuong>) chatLuongDAO.getAllChatLuong();
-		session.setAttribute("objectList", allChatLuongList);
-		chatLuongDAO.disconnect();
-		return new ModelAndView(siteMap.xuatCl);
 	}
 	@RequestMapping(value="/preUpdateCl", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String preUpdateCl(@RequestParam("clMa") String clMa, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
-		String adminMa = context.getInitParameter("adminMa");
-		if (authentication == null) { 
-			logger.error("Không chứng thực truy cập danh mục chất lượng");
-			JSonUtil.toJson("authentication error");
-		} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
-			logger.error("Truy cập bất hợp pháp vào danh mục chất lượng");
-			JSonUtil.toJson("authentication error");
+		try {
+			HttpSession session = request.getSession(false);
+			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+			String adminMa = context.getInitParameter("adminMa");
+			if (authentication == null) { 
+				logger.error("Không chứng thực truy cập danh mục chất lượng");
+				JSonUtil.toJson("authentication error");
+			} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+				logger.error("Truy cập bất hợp pháp vào danh mục chất lượng");
+				JSonUtil.toJson("authentication error");
+			}
+			ChatLuongDAO chatLuongDAO = new ChatLuongDAO();
+			ChatLuong cl = chatLuongDAO.getChatLuong(clMa);
+			chatLuongDAO.disconnect();
+			return JSonUtil.toJson(cl);
+		} catch (NullPointerException e) {
+			logger.error("NullPointer Exception khi show cập nhật chất lượng");
+			return JSonUtil.toJson("authentication error");
 		}
-		ChatLuongDAO chatLuongDAO = new ChatLuongDAO();
-		ChatLuong cl = chatLuongDAO.getChatLuong(clMa);
-		chatLuongDAO.disconnect();
-		return JSonUtil.toJson(cl);
 	}
 	@RequestMapping(value="/deleteCl", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String deleteCl(@RequestParam("clList") String clList, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
-		String adminMa = context.getInitParameter("adminMa");
-		if (authentication == null) { 
-			logger.error("Không chứng thực truy cập danh mục chất lượng");
-			JSonUtil.toJson("authentication error");
-		} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
-			logger.error("Truy cập bất hợp pháp vào danh mục chất lượng");
-			JSonUtil.toJson("authentication error");
+		try {
+			HttpSession session = request.getSession(false);
+			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+			String adminMa = context.getInitParameter("adminMa");
+			if (authentication == null) { 
+				logger.error("Không chứng thực truy cập danh mục chất lượng");
+				JSonUtil.toJson("authentication error");
+			} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+				logger.error("Truy cập bất hợp pháp vào danh mục chất lượng");
+				JSonUtil.toJson("authentication error");
+			}
+			String[] str = clList.split("\\, ");
+			
+			ChatLuongDAO clDAO =  new ChatLuongDAO();
+			for(String clMa : str) {
+				clDAO.deleteChatLuong(clMa);
+			}
+			clDAO.disconnect();
+			return JSonUtil.toJson("success");
+		} catch (NullPointerException e) {
+			logger.error("NullPointer Exception xóa xuất chất lượng");
+			return JSonUtil.toJson("authentication error");
+		} catch (IndexOutOfBoundsException e) {
+			logger.error("IndexOutOfBounds Exception khi xóa chất lượng");
+			return JSonUtil.toJson("authentication error");
 		}
-		String[] str = clList.split("\\, ");
-		
-		ChatLuongDAO clDAO =  new ChatLuongDAO();
-		for(String clMa : str) {
-			clDAO.deleteChatLuong(clMa);
-		}
-		clDAO.disconnect();
-		return JSonUtil.toJson("success");
 	}
 
 	@RequestMapping(value="/addCl", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String addCl(@RequestParam("clMa") String clMa, @RequestParam("clTen") String clTen, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
-		String adminMa = context.getInitParameter("adminMa");
-		if (authentication == null) { 
-			logger.error("Không chứng thực truy cập danh mục chất lượng");
-			JSonUtil.toJson("authentication error");
-		} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
-			logger.error("Truy cập bất hợp pháp vào danh mục chất lượng");
-			JSonUtil.toJson("authentication error");
+		try {
+			HttpSession session = request.getSession(false);
+			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+			String adminMa = context.getInitParameter("adminMa");
+			if (authentication == null) { 
+				logger.error("Không chứng thực truy cập danh mục chất lượng");
+				JSonUtil.toJson("authentication error");
+			} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+				logger.error("Truy cập bất hợp pháp vào danh mục chất lượng");
+				JSonUtil.toJson("authentication error");
+			}
+			String result = "success";
+			ChatLuongDAO chatLuongDAO = new ChatLuongDAO();
+			ChatLuong cl = chatLuongDAO.getChatLuong(clMa);
+			if(cl == null) 
+			{
+				chatLuongDAO.addChatLuong(new ChatLuong(clMa, clTen,0));
+				result = "success";	
+			}
+			else if(cl.getDaXoa()== 1){
+				cl.setClMa(clMa);
+				cl.setClTen(clTen);
+				cl.setDaXoa(0);
+				chatLuongDAO.updateChatLuong(cl);
+			}
+			else
+			{
+				result = "fail";
+			}
+			chatLuongDAO.disconnect();
+			return JSonUtil.toJson(result);
+		} catch (NullPointerException e) {
+			logger.error("NullPointer Exception khi thêm chất lượng: " + e.getStackTrace());
+			return JSonUtil.toJson("authentication error");
 		}
-		String result = "success";
-		ChatLuongDAO chatLuongDAO = new ChatLuongDAO();
-		ChatLuong cl = chatLuongDAO.getChatLuong(clMa);
-		if(cl == null) 
-		{
-			chatLuongDAO.addChatLuong(new ChatLuong(clMa, clTen,0));
-			result = "success";	
-		}
-		else if(cl.getDaXoa()== 1){
-			cl.setClMa(clMa);
-			cl.setClTen(clTen);
-			cl.setDaXoa(0);
-			chatLuongDAO.updateChatLuong(cl);
-		}
-		else
-		{
-			result = "fail";
-		}
-		chatLuongDAO.disconnect();
-		return JSonUtil.toJson(result);
 			
 	}
 	
 	@RequestMapping(value="/updateCl", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String updateCl(@RequestParam("clMaUpdate") String clMaUpdate, @RequestParam("clTenUpdate") String clTenUpdate, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
-		String adminMa = context.getInitParameter("adminMa");
-		if (authentication == null) { 
-			logger.error("Không chứng thực truy cập danh mục chất lượng");
-			JSonUtil.toJson("authentication error");
-		} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
-			logger.error("Truy cập bất hợp pháp vào danh mục chất lượng");
-			JSonUtil.toJson("authentication error");
+		try {
+			HttpSession session = request.getSession(false);
+			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+			String adminMa = context.getInitParameter("adminMa");
+			if (authentication == null) { 
+				logger.error("Không chứng thực truy cập danh mục chất lượng");
+				JSonUtil.toJson("authentication error");
+			} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+				logger.error("Truy cập bất hợp pháp vào danh mục chất lượng");
+				JSonUtil.toJson("authentication error");
+			}
+			ChatLuong cl = new ChatLuong(clMaUpdate, clTenUpdate,0);
+			ChatLuongDAO chatLuongDAO = new ChatLuongDAO();
+			chatLuongDAO.updateChatLuong(cl);
+			chatLuongDAO.disconnect();
+			return JSonUtil.toJson(cl);
+		} catch (NullPointerException e) {
+			logger.error("NullPointer Exception khi cập nhật chất lượng: " + e.getStackTrace());
+			return JSonUtil.toJson("authentication error");
 		}
-		ChatLuong cl = new ChatLuong(clMaUpdate, clTenUpdate,0);
-		ChatLuongDAO chatLuongDAO = new ChatLuongDAO();
-		chatLuongDAO.updateChatLuong(cl);
-		chatLuongDAO.disconnect();
-		return JSonUtil.toJson(cl);
 	}
 	@RequestMapping(value="/loadPageCl", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String loadPageCl(@RequestParam("pageNumber") String pageNumber, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
-		String adminMa = context.getInitParameter("adminMa");
-		if (authentication == null) { 
-			logger.error("Không chứng thực truy cập danh mục chất lượng");
-			JSonUtil.toJson("authentication error");
-		} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
-			logger.error("Truy cập bất hợp pháp vào danh mục chất lượng");
-			JSonUtil.toJson("authentication error");
+		try {
+			HttpSession session = request.getSession(false);
+			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+			String adminMa = context.getInitParameter("adminMa");
+			if (authentication == null) { 
+				logger.error("Không chứng thực truy cập danh mục chất lượng");
+				JSonUtil.toJson("authentication error");
+			} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+				logger.error("Truy cập bất hợp pháp vào danh mục chất lượng");
+				JSonUtil.toJson("authentication error");
+			}
+			ChatLuongDAO clDAO = new ChatLuongDAO();
+			int page = Integer.parseInt(pageNumber);
+			ArrayList<ChatLuong> clList = (ArrayList<ChatLuong>) clDAO.limit((page -1 ) * 10, 10);
+			clDAO.disconnect();
+			return JSonUtil.toJson(clList);
+		} catch (NullPointerException e) {
+			logger.error("NullPointer Exception khi phân trang chất lượng: " + e.getStackTrace());
+			return JSonUtil.toJson("authentication error");
+		} catch (NumberFormatException e2) {
+			logger.error("NumberFormat Exception khi phân trang chất lượng: " + e2.getStackTrace());
+			return JSonUtil.toJson("authentication error");
 		}
-		ChatLuongDAO clDAO = new ChatLuongDAO();
-		int page = Integer.parseInt(pageNumber);
-		ArrayList<ChatLuong> clList = (ArrayList<ChatLuong>) clDAO.limit((page -1 ) * 10, 10);
-		clDAO.disconnect();
-		return JSonUtil.toJson(clList);
 	}
 }

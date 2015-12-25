@@ -71,11 +71,12 @@
 <%-- 				<div id="greeting"style="color: #6600FF;height:20px;"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chào:&nbsp;<%=authentication.getHoTen() %></b></div> --%>
 			<div id="title-content">Danh mục vai trò</div>
 				<form id="main-form">
-					<div id="view-table" style="margin: 0 auto;">
-						<table>
+					<div id="view-table" style="margin: 0 auto; width: 80%;">
+						<table style="margin: 0 auto;">
 							<tr style="background: #199e5e">
 								<th class="left-column"><input type="checkbox"
 									class="checkAll"></th>
+								<th class="col">Mã vai trò</th>
 								<th class="right-column">Tên vai trò</th>
 							</tr>
 							<%
@@ -84,8 +85,9 @@
 							for(VaiTro vaiTro : listVaiTro) {count++ ;%>
 							<tr class="rowContent"
 								<%if (count % 2 == 1) out.println("style=\"background : #CCFFFF;\"");%>>
-								<td class="left-column"><input type="checkbox" name="vtId"
-									value="<%=vaiTro.getVtTen() %>" class="checkbox"></td>
+								<td class="left-column"><input type="checkbox" name="vtMa"
+									value="<%=vaiTro.getVtMa() %>" class="checkbox"></td>
+								<td class="col"><%=vaiTro.getVtMa() %></td>
 								<td class="col"><%=vaiTro.getVtTen() %></td>
 							</tr>
 							<%} }%>
@@ -138,8 +140,14 @@
 						<table >
 							<div class="form-title">Thêm vai trò</div>
 							<tr>
-								<th class="label"><label for="tenvaitro">Tên vai trò</label></th>
-								<td><input id="vtFocus" name="vtTen" size="30px" type="text" onkeypress="changevtTen();"
+								<th class="label"><label for="vtMa">Mã vai trò: </label></th>
+								<td><input id="vtMa" name="vtMa" size="5" type="text" onkeypress="changevtTen();"
+									class="text" required title="Tên vai trò không được để trống"></td>
+							</tr>
+							<tr><td></td><td><div id="requirevtMa" style="color: red"></div></td></tr>
+							<tr>
+								<th class="label"><label for="tenvaitro">Tên vai trò: </label></th>
+								<td><input id="tenvaitro" name="vtTen" size="30px" type="text" onkeypress="changevtTen();"
 									class="text" required title="Tên vai trò không được để trống"><div id="requirevtTen" style="color: red"></div></td>
 							</tr>
 						</table>
@@ -164,6 +172,11 @@
 						<table>
 							<div class="form-title">Cập nhật vai trò</div>
 							<tr>
+								<th><label for="vtMaUpdate">Mã vai trò: </label></th>
+								<td><input id="vtMa" name="vtMaUpdate" size="5px" type="text" onkeypress="changevtTenUp();"
+									class="text" required readonly style="background-color: #D1D1E0;" title="Tên vai trò không được để trống"><div id="requirevtTenUp" style="color: red"></div></td>
+							</tr>
+							<tr>
 								<th><label for="tenvaitro">Tên vai trò</label></th>
 								<td><input id="vtUpFocus" name="vtTenUpdate" size="30px" type="text" onkeypress="changevtTenUp();"
 									class="text" required title="Tên vai trò không được để trống"><div id="requirevtTenUp" style="color: red"></div></td>
@@ -175,7 +188,7 @@
 						<button type="button" class="button" onclick="confirmUpdatevt();">
 							<i class="fa fa-floppy-o"></i>&nbsp;Lưu lại
 						</button>
-						<button  type="button" class="button" onclick="resetUpdatevt();">
+						<button  type="reset" class="button" >
 							<i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại
 						</button>
 						<button type="button" class="button"

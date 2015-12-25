@@ -53,7 +53,7 @@ public class ChucDanhDAO {
 	}
 	public long size() {
 		session.beginTransaction();
-		String sql = "select count(cdMa) from ChucDanh";
+		String sql = "select count(cdMa) from ChucDanh where daXoa = 0";
 		Query query =  session.createQuery(sql);
 		long size = (long) query.list().get(0);
 		session.getTransaction().commit();

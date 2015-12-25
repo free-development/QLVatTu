@@ -3,9 +3,8 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="model.VaiTro" table="VAITRO">
-		<id name="vtId" type="int" access="field">
-			<column name="VTID" />
-			<generator class="increment" />
+		<id name="vtMa" type="string" access="field">
+			<column name="VTMA" />
 		</id>
 		<property name="vtTen" type="java.lang.String" access="field">
 			<column name="VTTEN" />

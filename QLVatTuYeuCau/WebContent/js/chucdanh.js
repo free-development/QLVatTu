@@ -29,10 +29,14 @@ function preUpdateCd(formId, check) {
 	    mimeType: 'application/json',
 	  	
 	  	success: function(cd) {
-		  	$('input:text[name=cdMaUpdate]').val(cd.cdMa);
-		  	$('input:text[name=cdTenUpdate]').val(cd.cdTen);
-	  		showForm(formId, check);	
-	  		$('#cdTenUp').focus();
+	  		if (cd == "authentication error") {
+	  			location.assign("login.jsp");
+	  		} else {
+			  	$('input:text[name=cdMaUpdate]').val(cd.cdMa);
+			  	$('input:text[name=cdTenUpdate]').val(cd.cdTen);
+		  		showForm(formId, check);	
+		  		$('#cdTenUp').focus();
+	  		}
 	  	}
 	});
 	}
@@ -57,47 +61,33 @@ $(document).ready(function() {
 			    mimeType: 'application/json',
 			  	
 			  	success: function(cdList) {
-			  		$('#view-table table .rowContent').remove();
-					if(cdList.length>0){
-						for(i = 0;i < cdList.length; i++ ) {
-							var cd = cdList[i] ;
-							var style = '';	
-							if (i % 2 == 0)
-								style = 'style=\"background : #CCFFFF;\"';
-							var str = '';
-							str = '<tr class=\"rowContent\" ' + style + '>'
-								+ '<td class=\"left-column\"><input type=\"checkbox\" name=\"cdMa\" value=\"' 
-								+ cd.cdMa +'\" class=\"checkbox\"></td>'
-								+ '<td class=\"col\">' + cd.cdMa + '</td>'
-								+ '<td class=\"col\">' + cd.cdTen + '</td>'
-								+ '</tr>';
-							$('#view-table table tr:first').after(str);
+			  		if (cd == "authentication error") {
+			  			location.assign("login.jsp");
+			  		} else {
+				  		$('#view-table table .rowContent').remove();
+						if(cdList.length>0){
+							for(i = 0;i < cdList.length; i++ ) {
+								var cd = cdList[i] ;
+								var style = '';	
+								if (i % 2 == 0)
+									style = 'style=\"background : #CCFFFF;\"';
+								var str = '';
+								str = '<tr class=\"rowContent\" ' + style + '>'
+									+ '<td class=\"left-column\"><input type=\"checkbox\" name=\"cdMa\" value=\"' 
+									+ cd.cdMa +'\" class=\"checkbox\"></td>'
+									+ '<td class=\"col\">' + cd.cdMa + '</td>'
+									+ '<td class=\"col\">' + cd.cdTen + '</td>'
+									+ '</tr>';
+								$('#view-table table tr:first').after(str);
+							}
 						}
-					}
+			  		}
 			  	}
 			});
 	    });	
 	})   
-	$(document).ready(function() {
-$('#add-form').keypress(function(e) {
- var key = e.which;
- if(key == 13)  // the enter key code
-  {
-	 addCd();
-    return false;  
-  }
-});   
-});   
-$(document).ready(function() {
-$('#update-form').keypress(function(e) {
- var key = e.which;
- if(key == 13)  // the enter key code
-  {
-    updateCd();
-    return false;  
-  }
-});   
-});  
+ 
+
 function confirmDeleteCd(){
 	var cdMa = $('input:checkbox[name=cdMa]:checked').val();
 	var cdMaList = [];
@@ -119,49 +109,49 @@ function confirmDeleteCd(){
 	  	data: { "cdList": str},
 	  	contentType: 'application/json',
 	    mimeType: 'application/json',
-	  	success: function() {
-					$('table tr').has('input[name="cdMa"]:checked').remove();
-					alert('Chức danh có mã ' + str + " đã bị xóa");
+	  	success: function(result) {
+	  		if (result == "authentication error") {
+	  			location.assign("login.jsp");
+	  		} else {
+				$('table tr').has('input[name="cdMa"]:checked').remove();
+				alert('Chức danh có mã ' + str + " đã được xóa");
+	  		}
 	    } 
 	});  
 } 
 	
-	function addCd() {
+function addCd() {
 	var cdMa = $('#add-form input:text[name= cdMa]').val();
 	var cdTen = $('#add-form input:text[name=cdTen]').val();
-	if(cdMa == '') 
-	{
+	if(cdMa == '') {
 		$('#requireCdMa').html('Vui lòng nhập mã chức danh');
+	} else if (cdTen == '') {
+		$('#requireCdTen').html('Vui lòng nhập tên chức danh');
 	}
-	else if (cdTen == '')
-		{
-			$('#requireCdTen').html('Vui lòng nhập tên chức danh');
-		}
-	else{
-	$.ajax({
-		url: "/QLVatTuYeuCau/addCd.html",	
-	  	type: "GET",
-	  	dateType: "JSON",
-	  	data: { "cdMa": cdMa, "cdTen": cdTen},
-	  	contentType: 'application/json',
-	    mimeType: 'application/json',
-	    success: function(result) {
-	    if(result == "success")
-			{
-	    	$('input:text[name=cdMa]').val(cdMa);
-			  	$('input:text[name=cdTen]').val(cdTen);
-		  		$('#view-table table tr:first').after('<tr class="rowContent"><td class=\"left-column\"><input type=\"checkbox\" name=\"cdMa\" value=\"' +cdMa + '\"</td><td class=\"col\">'+ cdMa +'</td><td class=\"col\">' + cdTen+'</td></tr>');
-		  		$('#add-form input:text[name=cdMa]').val('');
-				$('#add-form input:text[name=cdTen]').val('');
-		  		showForm("add-form", false);
-		  		alert(cdMa + " đã được thêm ");	
-			}
-	  		else{
-	  			alert(cdMa + " đã tồn tại ");
-	  		}
-	  			
-  	}
-	});
+	else {
+		$.ajax({
+			url: "/QLVatTuYeuCau/addCd.html",	
+		  	type: "GET",
+		  	dateType: "JSON",
+		  	data: { "cdMa": cdMa, "cdTen": cdTen},
+		  	contentType: 'application/json',
+		    mimeType: 'application/json',
+		    success: function(result) {
+		    	if (result == "authentication error") {
+		  			location.assign("login.jsp");
+		  		} else if(result == "success") {
+		  			$('input:text[name=cdMa]').val(cdMa);
+				  	$('input:text[name=cdTen]').val(cdTen);
+			  		$('#view-table table tr:first').after('<tr class="rowContent"><td class=\"left-column\"><input type=\"checkbox\" name=\"cdMa\" value=\"' +cdMa + '\"</td><td class=\"col\">'+ cdMa +'</td><td class=\"col\">' + cdTen+'</td></tr>');
+			  		$('#add-form input:text[name=cdMa]').val('');
+					$('#add-form input:text[name=cdTen]').val('');
+			  		showForm("add-form", false);
+			  		alert(cdMa + " đã được thêm ");	
+				} else if (result == "fail") {
+		  			alert(cdMa + " đã tồn tại ");
+		  		}
+		    }
+		});
 	}
 }
 	function changeCdMa(){
@@ -199,35 +189,39 @@ function confirmDeleteCd(){
 	  	contentType: 'application/json',
 	    mimeType: 'application/json',
 	  	success: function(cd) {
-	  		$('table tr').has('input[name="cdMa"]:checked').remove();
-	  		$('#view-table table tr:first').after('<tr class="rowContent"><td class=\"left-column\"><input type=\"checkbox\" name=\"cdMa\" value=\"' +cdMaUpdate + '\"</td><td class=\"col\">'+ cdMaUpdate +'</td><td class=\"col\">' + cdTenUpdate+'</td></tr>');
-	  		$('input:text[name=cdMaUpdate]').val('');
-			cdTenUpdate = $('input:text[name=cdTenUpdate]').val('');
-			$('input[name="cdMa"]:checked').prop('checked',false);
-	  		showForm("update-form", false);	
+	  		if (cd == "authentication error") {
+	  			location.assign("login.jsp");
+	  		} else {
+		  		$('table tr').has('input[name="cdMa"]:checked').remove();
+		  		$('#view-table table tr:first').after('<tr class="rowContent"><td class=\"left-column\"><input type=\"checkbox\" name=\"cdMa\" value=\"' +cdMaUpdate + '\"</td><td class=\"col\">'+ cdMaUpdate +'</td><td class=\"col\">' + cdTenUpdate+'</td></tr>');
+		  		$('input:text[name=cdMaUpdate]').val('');
+				cdTenUpdate = $('input:text[name=cdTenUpdate]').val('');
+				$('input[name="cdMa"]:checked').prop('checked',false);
+		  		showForm("update-form", false);
+	  		} 
 	  	}
 	});
 }
 	function resetUpdateCD(){
 		$('#update-form input:text[name=cdTenUpdate]').val('');
 	}
-	$(document).ready(function() {
-	 	$('#add-form').keypress(function(e) {
-	 	 var key = e.which;
-	 	 if(key == 13)  // the enter key code
-	 	  {
-	 		addCd();
-	 	    return false;  
-	 	  }
-	 	});   
-	 	});   
-	 	$(document).ready(function() {
-	 	$('#update-form').keypress(function(e) {
-	 	 var key = e.which;
-	 	 if(key == 13)  // the enter key code
-	 	  {
-	 		confirmUpdateCd();
-	 	    return false;  
-	 	  }
-	 	});   
-	 	});
+$(document).ready(function() {
+ 	$('#add-form').keypress(function(e) {
+ 	 var key = e.which;
+ 	 if(key == 13)  // the enter key code
+ 	  {
+ 		addCd();
+ 	    return false;  
+ 	  }
+ 	});   
+});   
+$(document).ready(function() {
+ 	$('#update-form').keypress(function(e) {
+ 	 var key = e.which;
+ 	 if(key == 13)  // the enter key code
+ 	  {
+ 		confirmUpdateCd();
+ 	    return false;  
+ 	  }
+ 	});   
+});

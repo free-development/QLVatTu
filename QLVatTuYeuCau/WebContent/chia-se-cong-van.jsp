@@ -78,7 +78,7 @@
 	ArrayList<NguoiDung> nguoiDungList = (ArrayList<NguoiDung>) session.getAttribute("nguoiDungList");
 	CongVan congVan = (CongVan) session.getAttribute("congVan");
 	HashMap<String,NguoiDung> vtNguoiDungHash = (HashMap<String,NguoiDung>) request.getAttribute("vtNguoiDungHash");
-	HashMap<String, HashMap<Integer, VaiTro>> vaiTroHash = (HashMap<String, HashMap<Integer, VaiTro>>) request.getAttribute("vaiTroHash");
+	HashMap<String, HashMap<String, VaiTro>> vaiTroHash = (HashMap<String, HashMap<String, VaiTro>>) request.getAttribute("vaiTroHash");
 	//Long pageNum = (Long) request.getAttribute("page");
 	%>
 	<div class="wrapper">
@@ -94,7 +94,7 @@
 								<td class="b-column"><%=congVan.getCvSo() %></td>
 								<th class="c-column">Ngày đến:</th>
 								<td class="b-column"><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td>
-								<th class="e-column">Người lập phiếu:</th>
+<!-- 								<th class="e-column">Người lập phiếu:</th> -->
 <!-- 								<td class="f-column">NV002</td> -->
 							</tr>
 						</table>
@@ -147,14 +147,14 @@
 								<td class="tbody-nguoidung" style="width: 50px;"><%=nguoiDung.getMsnv() %></td>
 								<td class="tbody-nguoidung" style="width: 200px;"><%=nguoiDung.getHoTen() %></td>
 								<% for(VaiTro vaiTro : vaiTroList) {
-									int vtId = vaiTro.getVtId();
-									HashMap<Integer, VaiTro> vtHash = vaiTroHash.get(msnv);
+									String vtMa = vaiTro.getVtMa();
+									HashMap<String, VaiTro> vtHash = vaiTroHash.get(msnv);
 									boolean check = false;
-									if (vtNguoiDungHash.get(msnv) != null && vtHash.get(vtId) != null)
+									if (vtNguoiDungHash.get(msnv) != null && vtHash.get(vtMa) != null)
 										check = true;
 								%>
 								<td class="checkbox" style="text-align: center;">
-									<input type="checkbox" name="vaiTro" <%if (check) out.print("checked "); %> value="<%	out.print(msnv + "#" + vtId); %>" id = "<%=msnv+vtId%>">
+									<input type="checkbox" name="vaiTro" <%if (check) out.print("checked "); %> value="<%	out.print(msnv + "#" + vtMa); %>" id = "<%=msnv+vtMa%>">
 								</td>
 								<%} %>
 							</tr>
@@ -179,9 +179,9 @@
 						<button class="btn">
 							<i class="fa fa-floppy-o"></i>&nbsp;Lưu lại
 						</button>
-						<button type="reset" class="btn">
-							<i class="fa fa-refresh"></i>&nbsp;&nbsp;Bỏ qua
-						</button>
+<!-- 						<button type="reset" class="btn"> -->
+<!-- 							<i class="fa fa-refresh"></i>&nbsp;&nbsp;Bỏ qua -->
+<!-- 						</button> -->
 						<button type="button" id="print_button" class="button"  onclick="location.href='<%=siteMap.congVan+".jsp" %>'">
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 					</button>
@@ -203,7 +203,7 @@
 						<%
 							int i = 0;
 							for(String msnv :  vtNguoiDungHash.keySet()) {
-								HashMap<Integer, VaiTro> vtHash = vaiTroHash.get(msnv);
+								HashMap<String, VaiTro> vtHash = vaiTroHash.get(msnv);
 								NguoiDung nguoiDung =  vtNguoiDungHash.get(msnv);
 								String hoTen = nguoiDung.getHoTen();
 								i++;
@@ -215,8 +215,8 @@
 							<td id="vaiTro<%=msnv%>">
 								<%
 									StringBuilder str1 = new StringBuilder("");
-									for(Integer vtId : vtHash.keySet()) {
-										VaiTro vaiTro = vtHash.get(vtId);
+									for(String vtMa : vtHash.keySet()) {
+										VaiTro vaiTro = vtHash.get(vtMa);
 										str1.append(vaiTro.getVtTen() + "<br>");
 									}
 									int end = str1.length();

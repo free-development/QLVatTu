@@ -56,8 +56,9 @@ function showForm2(formId1, formId2, check){
 		 			    mimeType: 'application/json',
 					  	
 		 			  	success: function(result) {
-		 			  		if(result == "success")
-			 				{
+		 			  		if (result == "authentication error") {
+		 			  			location.assign("login.jsp");
+		 			  		} else if(result == "success") {
 		 			  			$('#view-table-bo-phan table tr:first').after('<tr class="rowContent"><td class=\"left-column\"><input type=\"checkbox\" name=\"dvMa\" value=\"'+ dvMa + '\"</td><td class=\"col\">' + dvMa +'</td><td class=\"col\">' + dvTen+'</td><td class=\"col\">' + sdt+'</td><td class=\"col\">'+ diaChi+'</td><td class=\"col\">'+ email+'</td></tr>');
 								$('#add-form input:text[name=dvMa]').val('');
 					 			$('#add-form input:text[name=dvTen]').val('');
@@ -66,8 +67,7 @@ function showForm2(formId1, formId2, check){
 					 			$('#add-form input:text[name=email]').val('');
 					 			showForm("add-form", false);
 					 			alert(dvMa + " đã được thêm! ");	
-							}
-					  		else{
+							} else {
 					  			alert(dvMa + " đã tồn tại ");
 					  		}
 		 			  	}
@@ -102,14 +102,17 @@ function showForm2(formId1, formId2, check){
 					mimeType: "application/json",
 					
 					success: function(dv){
-						
-						$('input:text[name=dvMaUpdate]').val(dv.dvMa);
-					  	$('input:text[name=dvTenUpdate]').val(dv.dvTen);
-					  	$('input:text[name=sdtUpdate]').val(dv.sdt);
-					  	$('input:text[name=diaChiUpdate]').val(dv.diaChi);
-					  	$('input:text[name=emailUpdate]').val(dv.email);
-					  	showForm(formId, check);
-					  	 $('#dvTenFocus').focus();
+						if (dv == "authentication error") {
+	 			  			location.assign("login.jsp");
+	 			  		} else {	
+							$('input:text[name=dvMaUpdate]').val(dv.dvMa);
+						  	$('input:text[name=dvTenUpdate]').val(dv.dvTen);
+						  	$('input:text[name=sdtUpdate]').val(dv.sdt);
+						  	$('input:text[name=diaChiUpdate]').val(dv.diaChi);
+						  	$('input:text[name=emailUpdate]').val(dv.email);
+						  	showForm(formId, check);
+						  	 $('#dvTenFocus').focus();
+	 			  		}
 					}
 				});
 			}
@@ -168,21 +171,25 @@ function showForm2(formId1, formId2, check){
 					    mimeType: 'application/json',
 					  	
 					  	success: function(dv) {
-					  		$('table tr').has('input[name="dvMa"]:checked').remove();
-							$('#view-table-bo-phan table tr:first').after('<tr class="rowContent"><td class=\"left-column\"><input type=\"checkbox\" name=\"dvMa\" value=\"' +dvMaUpdate + '\"</td><td class=\"col\">'
-									 + dvMaUpdate +'</td><td class=\"col\">' 
-									 + dvTenUpdate +'</td><td class=\"col\">' 
-									 + sdtUpdate +'</td><td class=\"col\">' 
-									 + diaChiUpdate +'</td><td class=\"col\">' 
-									 + emailUpdate +'</td></tr>');
-					  		$('input:text[name=dvMaUpdate]').val('');
-							dvTenUpdate = $('input:text[name=dvTenUpdate]').val('');
-							sdtUpdate = $('input:text[name=sdtUpdate]').val('');
-							diaChiUpdate = $('input:text[name=diaChiUpdate]').val('');
-							emailUpdate = $('input:text[name=emailUpdate]').val('');
-					  		showForm("update-form", false);	
-					  		alert("Thay đổi thành công bộ phân có mã "+ dvMaUpdate);
-					  		$('input[name="dvMa"]:checked').prop('checked',false);
+					  		if (dv == "authentication error") {
+		 			  			location.assign("login.jsp");
+		 			  		} else {
+						  		$('table tr').has('input[name="dvMa"]:checked').remove();
+								$('#view-table-bo-phan table tr:first').after('<tr class="rowContent"><td class=\"left-column\"><input type=\"checkbox\" name=\"dvMa\" value=\"' +dvMaUpdate + '\"</td><td class=\"col\">'
+										 + dvMaUpdate +'</td><td class=\"col\">' 
+										 + dvTenUpdate +'</td><td class=\"col\">' 
+										 + sdtUpdate +'</td><td class=\"col\">' 
+										 + diaChiUpdate +'</td><td class=\"col\">' 
+										 + emailUpdate +'</td></tr>');
+						  		$('input:text[name=dvMaUpdate]').val('');
+								dvTenUpdate = $('input:text[name=dvTenUpdate]').val('');
+								sdtUpdate = $('input:text[name=sdtUpdate]').val('');
+								diaChiUpdate = $('input:text[name=diaChiUpdate]').val('');
+								emailUpdate = $('input:text[name=emailUpdate]').val('');
+						  		showForm("update-form", false);	
+						  		alert("Thay đổi thành công bộ phân có mã "+ dvMaUpdate);
+						  		$('input[name="dvMa"]:checked').prop('checked',false);
+		 			  		}
 					  	}
 					});
 			}
@@ -217,9 +224,13 @@ function showForm2(formId1, formId2, check){
 			  	data: { "dvList": str},
 			  	contentType: 'application/json',
 			    mimeType: 'application/json',
-			  	success: function() {
-							$('table tr').has('input[name="dvMa"]:checked').remove();
-							alert('Bộ phận có mã ' + str + " đã bị xóa");
+			  	success: function(result) {
+			  		if (result == "authentication error") {
+ 			  			location.assign("login.jsp");
+ 			  		} else {
+						$('table tr').has('input[name="dvMa"]:checked').remove();
+						alert('Bộ phận có mã ' + str + " đã bị xóa");
+ 			  		}
 			    } 
 			});  
 		}
@@ -285,25 +296,29 @@ function showForm2(formId1, formId2, check){
  	 			    mimeType: 'application/json',
  	 			  	
  	 			  	success: function(dvList) {
- 	 			  		$('#view-table-bo-phan table .rowContent').remove();
- 	 					if(dvList.length>0){
- 	 						for(i = 0;i < dvList.length; i++ ) {
- 	 							var dv = dvList[i] ;
- 	 							var style = '';	
- 	 							if (i % 2 == 0)
- 	 								style = 'style=\"background : #CCFFFF;\"';
- 	 							var str = '';
- 	 							str = '<tr class=\"rowContent\" ' + style + '>'
- 	 								+ '<td class=\"left-column\"><input type=\"checkbox\" name=\"dvMa\" value=\"' 
- 	 								+ dv.dvMa +'\" class=\"checkbox\"></td>'
- 	 								+ '<td class=\"mid-column\" style=\"font-family:.VnTime;text-align: left;\">' + dv.dvMa + '</td>'
- 	 								+ '<td class=\"column-2\" style=\"text-align: left;\">' + dv.dvTen + '</td>'
- 	 								+ '<td class=\"column-3\" style=\"text-align: left;\">' + dv.sdt + '</td>'
- 	 								+ '<td class=\"column-4\" style=\"text-align: left;\">' + dv.diaChi + '</td>'
- 	 								+ '<td class=\"column-5\" style=\"text-align: left;\">' + dv.email + '</td>'
- 	 								+ '</tr>';
- 	 							$('#view-table-bo-phan table tr:first').after(str);
- 	 						}
+	 	 			  	if (result == "authentication error") {
+	 			  			location.assign("login.jsp");
+	 			  		} else {
+	 	 			  		$('#view-table-bo-phan table .rowContent').remove();
+	 	 					if(dvList.length>0){
+	 	 						for(i = 0;i < dvList.length; i++ ) {
+	 	 							var dv = dvList[i] ;
+	 	 							var style = '';	
+	 	 							if (i % 2 == 0)
+	 	 								style = 'style=\"background : #CCFFFF;\"';
+	 	 							var str = '';
+	 	 							str = '<tr class=\"rowContent\" ' + style + '>'
+	 	 								+ '<td class=\"left-column\"><input type=\"checkbox\" name=\"dvMa\" value=\"' 
+	 	 								+ dv.dvMa +'\" class=\"checkbox\"></td>'
+	 	 								+ '<td class=\"mid-column\" style=\"font-family:.VnTime;text-align: left;\">' + dv.dvMa + '</td>'
+	 	 								+ '<td class=\"column-2\" style=\"text-align: left;\">' + dv.dvTen + '</td>'
+	 	 								+ '<td class=\"column-3\" style=\"text-align: left;\">' + dv.sdt + '</td>'
+	 	 								+ '<td class=\"column-4\" style=\"text-align: left;\">' + dv.diaChi + '</td>'
+	 	 								+ '<td class=\"column-5\" style=\"text-align: left;\">' + dv.email + '</td>'
+	 	 								+ '</tr>';
+	 	 							$('#view-table-bo-phan table tr:first').after(str);
+	 	 						}
+	 	 					}
  	 					}
  	 			  	}
  	 			});

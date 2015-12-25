@@ -31,10 +31,13 @@ function showForm(formId, check){
 					mimeType: "application/json",
 					
 					success: function(dvt){		
-						
-						$('input:text[name=dvtTenUpdate]').val(dvt.dvtTen);
-					  	showForm(formId, check);
-					  	$('#dvtUpFocus').focus();
+						if (dvt == "authentication") {
+							location.assign("login.jsp");
+						} else {
+							$('input:text[name=dvtTenUpdate]').val(dvt.dvtTen);
+						  	showForm(formId, check);
+						  	$('#dvtUpFocus').focus();
+						}
 					},
 					error : function(e) {
 						alert("Có lỗi xảy ra");
@@ -87,7 +90,9 @@ function showForm(formId, check){
 			  	contentType: 'application/json',
 			    mimeType: 'application/json',
 			  	success: function(dvtList) {
-			  		if (dvtList == "fail") {
+			  		if (dvtList == "authentication") {
+						location.assign("login.jsp");
+					} else if (dvtList == "fail") {
 			  			alert("Đã có lỗi xảy ra!!!");
 			  			location.assign("login.jsp");
 			  		} else {
@@ -118,7 +123,9 @@ function showForm(formId, check){
 		 			    mimeType: 'application/json',
 					  	
 		 			  	success: function(result) {
-					  		if(result == "fail")
+		 			  		if (result == "authentication") {
+								location.assign("login.jsp");
+							} else if(result == "fail")
 			 				{
 					  			alert("Đơn vị tính "+ dvtTen + " đã tồn tại ");	
 							}
@@ -157,7 +164,9 @@ function showForm(formId, check){
 					    mimeType: 'application/json',
 					  	
 					  	success: function(dvt) {
-					  		if (dvt == "fail") {
+					  		if (dvt == "authentication") {
+								location.assign("login.jsp");
+							} else if (dvt == "fail") {
 					  			alert("Đã có lỗi xảy ra");
 					  			location.assign("login.jsp");
 					  		} else {
@@ -204,23 +213,27 @@ function showForm(formId, check){
  				    mimeType: 'application/json',
  				  	
  				  	success: function(dvtList) {
- 				  		$('#view-table table .rowContent').remove();
- 						if(dvtList.length>0){
- 							for(i = 0;i < dvtList.length; i++ ) {
- 								var dvt = dvtList[i] ;
- 								var style = '';	
- 								if (i % 2 == 0)
- 									style = 'style=\"background : #CCFFFF;\"';
- 								var str = '';
- 								str = '<tr class=\"rowContent\" ' + style + '>'
- 									+ '<td class=\"left-column\"><input type=\"checkbox\" name=\"dvtId\" value=\"' 
- 									+ dvt.dvtTen +'\" class=\"checkbox\"></td>'
-// 									+ '<td class=\"col\">' + dvt.dvtId + '</td>'
- 									+ '<td class=\"col\">' + dvt.dvtTen + '</td>'
- 									+ '</tr>';
- 								$('#view-table table tr:first').after(str);
- 							}
- 						}
+ 				  		if (dvtList == "authentication") {
+							location.assign("login.jsp");
+						} else {
+	 				  		$('#view-table table .rowContent').remove();
+	 						if(dvtList.length>0){
+	 							for(i = 0;i < dvtList.length; i++ ) {
+	 								var dvt = dvtList[i] ;
+	 								var style = '';	
+	 								if (i % 2 == 0)
+	 									style = 'style=\"background : #CCFFFF;\"';
+	 								var str = '';
+	 								str = '<tr class=\"rowContent\" ' + style + '>'
+	 									+ '<td class=\"left-column\"><input type=\"checkbox\" name=\"dvtId\" value=\"' 
+	 									+ dvt.dvtTen +'\" class=\"checkbox\"></td>'
+	// 									+ '<td class=\"col\">' + dvt.dvtId + '</td>'
+	 									+ '<td class=\"col\">' + dvt.dvtTen + '</td>'
+	 									+ '</tr>';
+	 								$('#view-table table tr:first').after(str);
+	 							}
+	 						}
+						}
  				  	}
  				});
  		    });	

@@ -18,7 +18,7 @@
 		<composite-id>
 			<key-property name="cvId" column="CVID" type="int"></key-property>
 			<key-property name="msnv" column="MSNV" type="string"></key-property>
-			<key-property name="vtId" column="VTID" type="int"></key-property>
+			<key-property name="vtMa" column="VTMA" type="string"></key-property>
 		</composite-id>
 		<many-to-one name="trangThai" class="model.TrangThai" fetch ="join"  > 
  			<column name="TTMA" /> 

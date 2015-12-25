@@ -90,11 +90,11 @@ public class VTCongVanDAO {
 		session.getTransaction().commit();
 		return result;
 	}
-	public String getVaiTro(int vtId) {
+	public String getVaiTro(String vtMa) {
 		session.beginTransaction();
-		String sql = "select vtTen from VaiTro where vtId = :vtId";
+		String sql = "select vtTen from VaiTro where vtMa = :vtMa";
 		Query query = session.createQuery(sql);
-		query.setParameter("vtId", vtId);
+		query.setParameter("vtMa", vtMa);
 		String vaiTro = (String) query.list().get(0);
 		session.getTransaction().commit();
 		return vaiTro;
@@ -117,13 +117,13 @@ public class VTCongVanDAO {
 		session.getTransaction().commit();
 		return nguoiDungHash;
 	}
-	public HashMap<Integer, VaiTro> toVaiTro(ArrayList<VTCongVan> vtcvList) {
-		HashMap<Integer, VaiTro>  vaiTroList = new HashMap<Integer, VaiTro> ();
+	public HashMap<String, VaiTro> toVaiTro(ArrayList<VTCongVan> vtcvList) {
+		HashMap<String, VaiTro>  vaiTroList = new HashMap<String, VaiTro> ();
 		for (VTCongVan vtCongVan : vtcvList) {
 			
-			VaiTro vaiTro = new VaiTroDAO().getVaiTro(vtCongVan.getVtId());
-			int vtId = vaiTro.getVtId();
-			vaiTroList.put(vtId, vaiTro);
+			VaiTro vaiTro = new VaiTroDAO().getVaiTro(vtCongVan.getVtMa());
+			String vtMa = vaiTro.getVtMa();
+			vaiTroList.put(vtMa, vaiTro);
 		}
 		return vaiTroList;
 	}
@@ -131,23 +131,23 @@ public class VTCongVanDAO {
 		session.beginTransaction();
 		Criteria cr = session.createCriteria(VTCongVan.class);
 		cr.add(Restrictions.eq("cvId", cvId));
-		cr.setProjection(Projections.property("vtId"));
-		ArrayList<Integer> vtIdList = (ArrayList<Integer>) cr.list();
+		cr.setProjection(Projections.property("vtMa"));
+		ArrayList<Integer> vtMaList = (ArrayList<Integer>) cr.list();
 		session.getTransaction().commit();
-		return vtIdList;
+		return vtMaList;
 	}
 	public ArrayList<VaiTro> getVaiTroByCvId(final int cvId) {
 		session.beginTransaction();
 		Criteria cr = session.createCriteria(VaiTro.class);
 		Criteria cr1 = session.createCriteria(VTCongVan.class);
 		cr1.add(Restrictions.eq("cvId", cvId));
-		cr1.setProjection(Projections.property("vtId"));
-		ArrayList<Integer> vtIdList = (ArrayList<Integer>) cr1.list();
-		if (vtIdList.size() == 0) {
+		cr1.setProjection(Projections.property("vtMa"));
+		ArrayList<Integer> vtMaList = (ArrayList<Integer>) cr1.list();
+		if (vtMaList.size() == 0) {
 			session.getTransaction().commit();
 			return new ArrayList<VaiTro>();
 		}
-		cr.add(Restrictions.in("vtId", vtIdList));
+		cr.add(Restrictions.in("vtMa", vtMaList));
 		ArrayList<VaiTro> vaiTroList = (ArrayList<VaiTro>) cr.list();
 		
 		session.getTransaction().commit();
@@ -158,15 +158,15 @@ public class VTCongVanDAO {
 		Criteria cr = session.createCriteria(VaiTro.class);
 		Criteria cr1 = session.createCriteria(VTCongVan.class);
 		cr1.add(Restrictions.eq("cvId", cvId));
-		cr1.setProjection(Projections.property("vtId"));
+		cr1.setProjection(Projections.property("vtMa"));
 		cr1.add(Restrictions.eq("msnv", msnv));
-		ArrayList<Integer> vtIdList = (ArrayList<Integer>) cr1.list();
+		ArrayList<Integer> vtMaList = (ArrayList<Integer>) cr1.list();
 		
-		if (vtIdList.size() == 0) {
+		if (vtMaList.size() == 0) {
 			session.getTransaction().commit();
 			return new ArrayList<VaiTro>();
 		}
-		cr.add(Restrictions.in("vtId", vtIdList));
+		cr.add(Restrictions.in("vtMa", vtMaList));
 		ArrayList<VaiTro> vaiTroList = (ArrayList<VaiTro>) cr.list();
 		
 		session.getTransaction().commit();
@@ -176,7 +176,7 @@ public class VTCongVanDAO {
 		session.beginTransaction();
 		Criteria cr = session.createCriteria(NguoiDung.class);
 		
-//		ArrayList<Integer> vtIdList = getVtIdByCvId(cvId);
+//		ArrayList<Integer> vtMaList = getVtIdByCvId(cvId);
 		Criteria cr1 = session.createCriteria(VTCongVan.class);
 		cr1.add(Restrictions.eq("cvId", cvId));
 		cr1.setProjection(Projections.property("msnv"));
@@ -209,7 +209,7 @@ public class VTCongVanDAO {
 	}
 	public ArrayList<Integer> groupByMsnvLimit(String msnv, int first, int limit) {
 		session.beginTransaction();
-		String sql = "select distinct(cvId) from VTCongVan where  ttMa != 'DaGQ' and msnv = :msnv order by vtId desc";
+		String sql = "select distinct(cvId) from VTCongVan where  ttMa != 'DaGQ' and msnv = :msnv order by vtMa desc";
 		Query query = session.createQuery(sql);
 		query.setParameter("msnv", msnv);
 		query.setFirstResult(first);
@@ -228,7 +228,7 @@ public class VTCongVanDAO {
 		return vaiTroList;
 	}
 	
-	public VTCongVan getVTCongVan(String msnv, int cvId, int vtId) {
+	public VTCongVan getVTCongVan(String msnv, int cvId, String vtMa) {
 		session.beginTransaction();
 		Criteria cr = session.createCriteria(VTCongVan.class);
 		cr.add(Restrictions.eq("msnv", msnv));
@@ -242,12 +242,11 @@ public class VTCongVanDAO {
 		Criteria cr = session.createCriteria("VTCongVan");
 		ArrayList<ArrayList<String>> trangThaiList = new ArrayList<ArrayList<String>>();
 		int count = 0;
-		TrangThaiDAO trangThaiDAO = new TrangThaiDAO();
 		for (Integer cvId : cvIdList) {
 			ArrayList<String> trangThaiCongVanList = new ArrayList<String>();
 			ArrayList<VaiTro> vtCongVanList = vaiTroList.get(count);
 			for (VaiTro vaiTro : vtCongVanList) {
-				VTCongVan vtCongVan = getVTCongVan(msnv, cvId, vaiTro.getVtId());
+				VTCongVan vtCongVan = getVTCongVan(msnv, cvId, vaiTro.getVtMa());
 				trangThaiCongVanList.add(vtCongVan.getTrangThai().getTtTen());
 			}
 			trangThaiList.add(trangThaiCongVanList);

@@ -12,21 +12,7 @@ function showForm(formId, check){
 function confirmDelete(){
 	return confirm('Bạn có chắc xóa');
 }
-//$(document).ready(function() {
-//	$('#update').click(function(){
-//		alert('OK');
-//	});
-//});
 
-function sendMail() {
-    var link = "mailto:camtien.le1994@gmail.com"
-             + "?cc=evncantho@gmail.com"
-             + "&subject=" + escape("This is my subject")
-             + "&body=" + escape(document.getElementById('myText').value)
-    ;
-
-    window.location.href = link;
-}
 function loadPageCscv(pageNumber) {
 	
 	var page = 0;
@@ -52,9 +38,12 @@ function loadPageCscv(pageNumber) {
 	  	data: { "pageNumber": page},
 	  	mimeType: 'application/json',
 	  	success: function(objectList) {
-	  		var size = objectList[1];
-	  		var ndList = objectList[0];
-	  		var length = ndList.length;
+	  		if (objectList == "authentication error") {
+	  			location.assign("login.jsp");
+	  		} else {
+		  		var size = objectList[1];
+		  		var ndList = objectList[0];
+		  		var length = ndList.length;
 	  			$('#view-table table .rowContent').remove();
 				for(i = 0; i < length; i++ ) {
 					var nd = ndList[i];
@@ -68,30 +57,31 @@ function loadPageCscv(pageNumber) {
 					var row = '<tr ' +style + 'class = \"rowContent\">' + cells + '</tr>';
 					 $('#view-table table tr:first').after(row);
 				}
-					var button = '';
-					if(pageNumber == 'Next') {
-						for (var i = 0; i < 10; i++) {
-							var t = ((p -1) * 5 + i + 1);
-							
-							button += '<input type=\"button\" value=\"' + ((p -1) * 5 + i + 1) + '\" class=\"page\" onclick= \"loadPageCscv(' + ((p -1)*5 + i)  +')\">&nbsp;';
-							if (t > size)
-								break;
-						}
-						button = '<input type=\"button\" value=\"<<\" onclick= \"loadPageCscv(\'Previous\')\">&nbsp;'  + button;
-						if ((p + 1) * 5 < size)
-							button += '<input type=\"button\" value=\">>\" onclick= \"loadPageCscv(\'Next\');\">';
-						$('#paging').html(button);
-					} else if (pageNumber == 'Previous'){
-						if (p > 0)
-							p = p -1;
-						for (var i = 0; i < 10; i++)
-							button += '<input type=\"button\" value=\"' + (p * 5 + i + 1) + '\" class=\"page\" onclick= \"loadPageCscv(' + (p * 5 + i)  +')\">&nbsp;';
+				var button = '';
+				if(pageNumber == 'Next') {
+					for (var i = 0; i < 10; i++) {
+						var t = ((p -1) * 5 + i + 1);
 						
-						button = button + '<input type=\"button\" value=\">>\" onclick= \"loadPageCscv(\'Next\');\">';
-						if (p >= 1)
-							button = '<input type=\"button\" value=\"<<\" onclick= \"loadPageCscv(\'Previous\')\">&nbsp;' + button;
-						$('#paging').html(button);	
+						button += '<input type=\"button\" value=\"' + ((p -1) * 5 + i + 1) + '\" class=\"page\" onclick= \"loadPageCscv(' + ((p -1)*5 + i)  +')\">&nbsp;';
+						if (t > size)
+							break;
 					}
+					button = '<input type=\"button\" value=\"<<\" onclick= \"loadPageCscv(\'Previous\')\">&nbsp;'  + button;
+					if ((p + 1) * 5 < size)
+						button += '<input type=\"button\" value=\">>\" onclick= \"loadPageCscv(\'Next\');\">';
+					$('#paging').html(button);
+				} else if (pageNumber == 'Previous'){
+					if (p > 0)
+						p = p -1;
+					for (var i = 0; i < 10; i++)
+						button += '<input type=\"button\" value=\"' + (p * 5 + i + 1) + '\" class=\"page\" onclick= \"loadPageCscv(' + (p * 5 + i)  +')\">&nbsp;';
+					
+					button = button + '<input type=\"button\" value=\">>\" onclick= \"loadPageCscv(\'Next\');\">';
+					if (p >= 1)
+						button = '<input type=\"button\" value=\"<<\" onclick= \"loadPageCscv(\'Previous\')\">&nbsp;' + button;
+					$('#paging').html(button);	
+				}
+	  		}
 	  	}
 	});
 }
@@ -118,38 +108,40 @@ $(document).ready(function() {
 			  	contentType: 'application/json',
 			    mimeType: 'application/json',
 			  	success: function(objectList) {
-			  		var nguoiDung = objectList[0];
-			  		var vaiTroList = objectList[1];
-			  		var vtCongVanList= objectList[2];
-			  		var head = '';
-			  		var length = vaiTroList.length;
-			  		for(var i = 0; i < length; i++) {
-			  			head += '<th>' + vaiTroList[i].vtTen + '</th>';
-			  		}
-			  		head = '<tr><th>Msnv</th>' + head + '</tr>';
-			  		
-			  		var content = '';
-			  		for(var i = 0; i < length; i++) {
-			  			content += '<td><input type=\"checkbox\" class=\"checkbox\" name=\"vaiTro\" value=\"' + vaiTroList[i].vtId + '\" id=\"' + vaiTroList[i].vtId + '\"></td>';
-			  		}
-			  		content = '<tr><td>' + nguoiDung +'</td>' + content + '</tr>';
-			  		var button = '<button type=\"button\" class=\"button\" id=\"updateCs\">Luu lai</button>';
-			  		
-			  		$('#update-form table').html(head + content + button);
-			  	//	$('#updateButton').html(button);
-//			  		alert(vtCongVanList.length);
-			  		for (var i = 0; i < vtCongVanList.length; i++) {
-//			  			alert('#update #'+vtCongVanList[i].vtId);
-			  			$('#'+vtCongVanList[i].vtId).prop('checked',true);
-			  		}
+			  		if (objectList == "authentication error") {
+			  			location.assign("login.jsp");
+			  		} else {	
+				  		var nguoiDung = objectList[0];
+				  		var vaiTroList = objectList[1];
+				  		var vtCongVanList= objectList[2];
+				  		var head = '';
+				  		var length = vaiTroList.length;
+				  		for(var i = 0; i < length; i++) {
+				  			head += '<th>' + vaiTroList[i].vtTen + '</th>';
+				  		}
+				  		head = '<tr><th>Msnv</th>' + head + '</tr>';
+				  		
+				  		var content = '';
+				  		for(var i = 0; i < length; i++) {
+				  			content += '<td><input type=\"checkbox\" class=\"checkbox\" name=\"vaiTro\" value=\"' + vaiTroList[i].vtMa + '\" id=\"' + vaiTroList[i].vtMa + '\"></td>';
+				  		}
+				  		content = '<tr><td>' + nguoiDung +'</td>' + content + '</tr>';
+				  		var button = '<button type=\"button\" class=\"button\" id=\"updateCs\">Luu lai</button>';
+				  		
+				  		$('#update-form table').html(head + content + button);
+				  	//	$('#updateButton').html(button);
+	//			  		alert(vtCongVanList.length);
+				  		for (var i = 0; i < vtCongVanList.length; i++) {
+	//			  			alert('#update #'+vtCongVanList[i].vtMa);
+				  			$('#'+vtCongVanList[i].vtMa).prop('checked',true);
+				  		}
+				  	}
+			  		$('#main-form').hide();
+					$('#view-table-chia-se').hide();
+					
+					$('#update-form').show();
 			  	}
 			});
-			
-			$('#main-form').hide();
-			$('#view-table-chia-se').hide();
-			
-			$('#update-form').show();
-			
 		}	
 	});   
 });
@@ -164,15 +156,17 @@ $(document).ready(function() {
 			vaiTroList.push($(this).val());
 		});
 		var str = vaiTroList.join(', ');
-			$.ajax({
-				url: getRoot() +  "/updateYeuCau.html",	
-			  	type: "GET",
-			  	dateType: "JSON",
-			  	data: { "vaiTroList": str},
-			  	contentType: 'application/json',
-			    mimeType: 'application/json',
-			  	success: function(objectList) {
-//			  		alert('OK');
+		$.ajax({
+			url: getRoot() +  "/updateYeuCau.html",	
+		  	type: "GET",
+		  	dateType: "JSON",
+		  	data: { "vaiTroList": str},
+		  	contentType: 'application/json',
+		    mimeType: 'application/json',
+		  	success: function(objectList) {
+		  		if (objectList == "authentication error") {
+		  			location.assign("login.jsp");
+		  		} else {
 			  		var vaiTroList = objectList[0];
 			  		var msnv = objectList[1];
 			  		
@@ -189,8 +183,8 @@ $(document).ready(function() {
 				  		for (var i = 0; i < vaiTroList.length; i++) {
 				  			content += vaiTroList[i].vtTen + '<br>';
 //				  			$('#view-table input[name=' +   + ']')
-				  		//	alert('#view-table input:checkbox[name=vaiTro][value='+ (msnv + '#' + vaiTroList[i].vtId ) + ']');
-				  			$('#' + msnv + ' input:checkbox[name=vaiTro][value=\"'+ (msnv + '#' + vaiTroList[i].vtId ) + '\"]').prop('checked',true);
+				  		//	alert('#view-table input:checkbox[name=vaiTro][value='+ (msnv + '#' + vaiTroList[i].vtMa ) + ']');
+				  			$('#' + msnv + ' input:checkbox[name=vaiTro][value=\"'+ (msnv + '#' + vaiTroList[i].vtMa ) + '\"]').prop('checked',true);
 				  		}
 			  			$('#vaiTro' + msnv).html(content);
 			  		}
@@ -201,9 +195,8 @@ $(document).ready(function() {
 					$('#view-table-chia-se').show();
 					$('#update-form').hide();
 			  	}
-			});
-			
-			
+		  	}
+		});
 	});   
 });
 
@@ -219,9 +212,6 @@ function timKiemNguoidungCs(){
 		hoTen = $('#search input[name=nguoidung]').val();
 	else 
 		msnv = $('#search input[name=nguoidung]').val();
-//	
-//	alert(hoten);
-//	alert(msnv);
 	
 	$.ajax({
 		url: getRoot() +  "/timKiemNguoidungCs.html",	
@@ -231,63 +221,39 @@ function timKiemNguoidungCs(){
 	  	contentType: 'application/json',
 	    mimeType: 'application/json',
 	  	success: function(objectList){
-	  		var vaiTroList = objectList[0];
-	  		var ndList = objectList[1];
-	  		var vtCongVanList = objectList[2];
-	  		var content = '';
-	  		var count = 0;
-	  		$('.rowContent').remove();
-	  		for(var i = 0; i < ndList.length; i++) { 
-	  			content += '<tr class=\"rowContent\"><td class=\"tbody-nguoidung\">'+ndList[i].msnv+'</td><td class=\"tbody-nguoidung\">'+ndList[i].hoTen
-				+'</td>';
-	  			for(var j = 0; j < vaiTroList.length; j++) {
-					content += '<td><input type=\"checkbox\" class=\"checkbox\" name=\"vaiTro\" value=\"' + vaiTroList[j].vtId + '\" id=\"' + ndList[i].msnv + vaiTroList[j].vtId + '\"></td>';
-				}
-	  			content += '</tr>';
+	  		if (objectList == "authentication error") {
+	  			location.assign("login.jsp");
+	  		} else {
+		  		var vaiTroList = objectList[0];
+		  		var ndList = objectList[1];
+		  		var vtCongVanList = objectList[2];
+		  		var content = '';
+		  		
+		  		var count = 0;
+		  		$('.rowContent').remove();
+		  		for(var i = 0; i < ndList.length; i++) {
+		  			var style = '';
+		  			if (i % 2 == 1) 
+		  				style = "background: #CCFFFF;"
+		  			content += '<tr class=\"rowContent\" style = \"' + style + '\"><td class=\"tbody-nguoidung\">'+ndList[i].msnv+'</td><td class=\"tbody-nguoidung\">'+ndList[i].hoTen
+					+'</td>';
+		  			for(var j = 0; j < vaiTroList.length; j++) {
+						content += '<td><input type=\"checkbox\" class=\"checkbox\" name=\"vaiTro\" value=\"' + vaiTroList[j].vtMa + '\" id=\"' + ndList[i].msnv + vaiTroList[j].vtMa + '\"></td>';
+					}
+		  			content += '</tr>';
+		  		}
+				$('#view-table table tr:first').after(content);
+	//			content = '<tr>'+ 
+				for (var i = 0; i < vtCongVanList.length; i++) {
+	//	  			alert('#update #'+vtCongVanList[i].vtMa);
+		  			$('#' + vtCongVanList[i].msnv + vtCongVanList[i].vtMa).prop('checked',true);
+		  		}	
+				document.getElementById("loading").style.display="none";
+		  		document.body.style.cursor = "auto";
 	  		}
-			$('#view-table table tr:first').after(content);
-//			content = '<tr>'+ 
-			for (var i = 0; i < vtCongVanList.length; i++) {
-//	  			alert('#update #'+vtCongVanList[i].vtId);
-	  			$('#' + vtCongVanList[i].msnv + vtCongVanList[i].vtId).prop('checked',true);
-	  		}	
-			document.getElementById("loading").style.display="none";
-	  		document.body.style.cursor = "auto";
-//			
-//			
-//			for(var i = 0; i < ndList.length; i++) { 
-//				$('#view-table-chia-se table tr:first').after('<tr id=\"row\" class =\"rowContent\" id=\"'+ndList[i].msnv+'\">'+'<td class=\"tbody-nguoidung\">'+ndList[i].msnv+'</td><td class=\"tbody-nguoidung\">'+ndList[i].hoTen+'</td></tr>');
-//				for(var i = 0; i < vaiTroList.length; i++) {
-//					int vtId = vaiTroList[i].vtId;
-//				<td class="checkbox" style="text-align: center;">
-//					<input type="checkbox" name="vaiTro" <%if (check) out.print("checked "); %> value="<%	out.print(msnv + "#" + vtId); %>" >
-//				</td>
-//				<%} %>
-//			</tr>'
 	  	}
 	});
 }
-//$(document).ready(function() {
-//	$('#sendMail').click(function() {
-//		var email = $('#view-mail input:text[name=email]').val();
-//		var chude = $('#view-mail input:text[name=chude]').val();
-//		var noidung = $('#view-mail textarea[name=noidung]').val();
-//		$.ajax({
-//			url: getRoot() +  "/sendMail.html",	
-//		  	type: "GET",
-//		  	dateType: "JSON",
-//		  	data: { "email": email, "chude": chude, "noidung": noidung},
-//		  	contentType: 'application/json',
-//		    mimeType: 'application/json',
-//		  	success: function(result) {
-//		  		alert("OK");	
-//		  	}
-//		});
-//		$('#main-form').hide();
-//		//$('#update-form').hide();
-//		//$('#mail-form').show();
-//	});   
-//});
 $(document).ready(function(){
 	$('#search-nguoiDung').submit(function(){
 		timKiemNguoidungCs();

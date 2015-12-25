@@ -7,33 +7,22 @@ public class VTCongVan implements Serializable{
 
 	private int cvId;
 
-	private int vtId;
+	private String vtMa;
 
 	private String msnv;
 	private TrangThai trangThai;
 	private int daXoa;
 	public VTCongVan() {
 		this.cvId = 0;
-		this.vtId = 0;
+		this.vtMa = "";
 		this.msnv = "";
 		this.trangThai = new TrangThai();
 		this.daXoa = 0;
 	}
 
-	/**
-	 * @param cvId
-	 * @param vtId
-	 * @param msnv
-	 */
-	public VTCongVan(int cvId, int vtId, String msnv, TrangThai trangThai) {
+	public VTCongVan(int cvId, String vtMa, String msnv, TrangThai trangThai, int daXoa) {
 		this.cvId = cvId;
-		this.vtId = vtId;
-		this.msnv = msnv;
-		this.trangThai = trangThai;
-	}
-	public VTCongVan(int cvId, int vtId, String msnv, TrangThai trangThai, int daXoa) {
-		this.cvId = cvId;
-		this.vtId = vtId;
+		this.vtMa = vtMa;
 		this.msnv = msnv;
 		this.trangThai = trangThai;
 		this.daXoa = daXoa;
@@ -69,17 +58,17 @@ public class VTCongVan implements Serializable{
 	}
 
 	/**
-	 * @return the vtId
+	 * @return the vtMa
 	 */
-	public int getVtId() {
-		return vtId;
+	public String getVtMa() {
+		return vtMa;
 	}
 
 	/**
-	 * @param vtId the vtId to set
+	 * @param vtMa the vtMa to set
 	 */
-	public void setVtId(int vtId) {
-		this.vtId = vtId;
+	public void setVtMa(String vtMa) {
+		this.vtMa = vtMa;
 	}
 
 	/**

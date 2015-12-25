@@ -4,6 +4,7 @@ package controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,8 +15,12 @@ import javax.servlet.http.HttpSession;
 import model.ChatLuong;
 import model.ChucDanh;
 import model.MucDich;
+import model.NguoiDung;
 import model.NoiSanXuat;
 
+import org.apache.commons.lang3.ObjectUtils.Null;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,15 +38,24 @@ import map.siteMap;
 
 @Controller
 public class CdController extends HttpServlet {
+	@Autowired
+	private ServletContext context;
+	private static final Logger logger = Logger.getLogger(CdController.class);
 	private static final long serialVersionUID = 1L;
 	int page = 1;
 	@RequestMapping("/manageCd")
 	public ModelAndView manageCd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			HttpSession session = request.getSession(false);
-			if (session.getAttribute("nguoiDung") == null)
+			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+			String adminMa = context.getInitParameter("adminMa");
+			if (authentication == null) { 
+				logger.error("Không chứng thực truy cập danh mục mục đích");
 				return new ModelAndView(siteMap.login);
-			session.removeAttribute("congVanList");
+			} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+				logger.error("Không có quyền truy cập danh mục mục đích");
+				return new ModelAndView(siteMap.login);
+			}
 			session.removeAttribute("ctVatTuList");
 			session.removeAttribute("soLuongList");
 			session.removeAttribute("yeuCauHash");
@@ -63,67 +77,145 @@ public class CdController extends HttpServlet {
 	
 	@RequestMapping(value="/preUpdateCd", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	 public @ResponseBody String preUpdateCd(@RequestParam("cdMa") String cdMa) {
-		ChucDanhDAO chucDanhDAO = new ChucDanhDAO();
-		ChucDanh cd = chucDanhDAO.getChucDanh(cdMa);
-		chucDanhDAO.disconnect();
-		return JSonUtil.toJson(cd);
+	 public @ResponseBody String preUpdateCd(@RequestParam("cdMa") String cdMa, HttpServletRequest request) {
+		try {
+			HttpSession session = request.getSession(false);
+			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+			String adminMa = context.getInitParameter("adminMa");
+			if (authentication == null) { 
+				logger.error("Không chứng thực truy cập danh mục mục đích");
+				return JSonUtil.toJson("authentication error");
+			} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+				logger.error("Không có quyền truy cập danh mục mục đích");
+				return JSonUtil.toJson("authentication error");
+			}
+			ChucDanhDAO chucDanhDAO = new ChucDanhDAO();
+			ChucDanh cd = chucDanhDAO.getChucDanh(cdMa);
+			chucDanhDAO.disconnect();
+			return JSonUtil.toJson(cd);
+		} catch (NullPointerException e) {
+			logger.error("NullPointer khi show cập nhật chức danh: " + e.getStackTrace());
+			return JSonUtil.toJson("authentication error");
+		}
 	}
 	
 	@RequestMapping(value="/deleteCd", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	 public @ResponseBody String deleteCd(@RequestParam("cdList") String cdList) {
-		String[] str = cdList.split("\\, ");
-		
-		ChucDanhDAO cdDAO =  new ChucDanhDAO();
-		for(String cdMa : str) {
-			cdDAO.deleteChucDanh(cdMa);
+	 public @ResponseBody String deleteCd(@RequestParam("cdList") String cdList, HttpServletRequest request) {
+		try {
+			HttpSession session = request.getSession(false);
+			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+			String adminMa = context.getInitParameter("adminMa");
+			if (authentication == null) { 
+				logger.error("Không chứng thực truy cập danh mục mục đích");
+				return JSonUtil.toJson("authentication error");
+			} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+				logger.error("Không có quyền truy cập danh mục mục đích");
+				return JSonUtil.toJson("authentication error");
+			}
+			String[] str = cdList.split("\\, ");
+			ChucDanhDAO cdDAO =  new ChucDanhDAO();
+			for(String cdMa : str) {
+				cdDAO.deleteChucDanh(cdMa);
+			}
+			cdDAO.disconnect();
+			return JSonUtil.toJson(cdList);
+		} catch (NullPointerException e) {
+			logger.error("NullPointer Exception khi xóa chức danh: " + e.getStackTrace());
+			return JSonUtil.toJson("authentication error");
+		} catch  (IndexOutOfBoundsException e2) {
+			logger.error("IndexOutOfBounda Exception khi xóa chức danh: " + e2.getStackTrace());
+			return JSonUtil.toJson("authentication error");
 		}
-		cdDAO.disconnect();
-		return JSonUtil.toJson(cdList);
 	}
 	@RequestMapping(value="/addCd", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	 public @ResponseBody String addCd(@RequestParam("cdMa") String cdMa, @RequestParam("cdTen") String cdTen) {
-		String result = "success";
-		ChucDanhDAO chucDanhDAO = new ChucDanhDAO();
-		ChucDanh cd = chucDanhDAO.getChucDanh(cdMa);
-		if(cd == null) 
-		{
-			chucDanhDAO.addChucDanh(new ChucDanh(cdMa, cdTen,0));
-			result = "success";	
+	 public @ResponseBody String addCd(@RequestParam("cdMa") String cdMa, @RequestParam("cdTen") String cdTen, HttpServletRequest request) {
+		try {
+			HttpSession session = request.getSession(false);
+			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+			String adminMa = context.getInitParameter("adminMa");
+			if (authentication == null) { 
+				logger.error("Không chứng thực truy cập danh mục mục đích");
+				return JSonUtil.toJson("authentication error");
+			} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+				logger.error("Không có quyền truy cập danh mục mục đích");
+				return JSonUtil.toJson("authentication error");
+			}
+			String result = "success";
+			ChucDanhDAO chucDanhDAO = new ChucDanhDAO();
+			ChucDanh cd = chucDanhDAO.getChucDanh(cdMa);
+			if(cd == null) {
+				chucDanhDAO.addChucDanh(new ChucDanh(cdMa, cdTen,0));
+				result = "success";	
+			}
+			else if (cd !=null && cd.getDaXoa()== 1){
+				cd.setCdMa(cdMa);
+				cd.setCdTen(cdTen);
+				cd.setDaXoa(0);
+				chucDanhDAO.updateChucDanh(cd);
+			}
+			else {
+				result = "fail";
+			}
+			chucDanhDAO.disconnect();
+			return JSonUtil.toJson(result);
+		} catch (NullPointerException e) {
+			logger.error("NullPointer Exception khi thêm chức danh: " + e.getStackTrace());
+			return JSonUtil.toJson("authentication error");
 		}
-		else if(cd !=null && cd.getDaXoa()== 1){
-			cd.setCdMa(cdMa);
-			cd.setCdTen(cdTen);
-			cd.setDaXoa(0);
-			chucDanhDAO.updateChucDanh(cd);
-		}
-		else
-		{
-			result = "fail";
-		}
-		chucDanhDAO.disconnect();
-		return JSonUtil.toJson(result);
 	}
 	
 	@RequestMapping(value="/updateCd", method=RequestMethod.GET, 
 	produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	 public @ResponseBody String updateCd(@RequestParam("cdMaUpdate") String cdMaUpdate, @RequestParam("cdTenUpdate") String cdTenUpdate) {
-		ChucDanhDAO chucDanhDAO = new ChucDanhDAO();
-		ChucDanh cd = new ChucDanh(cdMaUpdate, cdTenUpdate,0);
-		chucDanhDAO.updateChucDanh(cd);
-		chucDanhDAO.disconnect();
-		return JSonUtil.toJson(cd);
+	 public @ResponseBody String updateCd(@RequestParam("cdMaUpdate") String cdMaUpdate, @RequestParam("cdTenUpdate") String cdTenUpdate, HttpServletRequest request) {
+		try {
+			HttpSession session = request.getSession(false);
+			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+			String adminMa = context.getInitParameter("adminMa");
+			if (authentication == null) { 
+				logger.error("Không chứng thực truy cập danh mục mục đích");
+				return JSonUtil.toJson("authentication error");
+			} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+				logger.error("Không có quyền truy cập danh mục mục đích");
+				return JSonUtil.toJson("authentication error");
+			}
+			ChucDanhDAO chucDanhDAO = new ChucDanhDAO();
+			ChucDanh cd = new ChucDanh(cdMaUpdate, cdTenUpdate,0);
+			chucDanhDAO.updateChucDanh(cd);
+			chucDanhDAO.disconnect();
+			return JSonUtil.toJson(cd);
+		} catch (NullPointerException e) {
+			logger.error("NullPointer Exception khi cập nhật chức danh: " + e.getStackTrace());
+			return JSonUtil.toJson("authentication error");
+		}
 	}
 	
 	@RequestMapping(value="/loadPageCd", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	 public @ResponseBody String loadPageCd(@RequestParam("pageNumber") String pageNumber) {
-		ChucDanhDAO cdDAO = new ChucDanhDAO();
-		int page = Integer.parseInt(pageNumber);
-		ArrayList<ChucDanh> cdList = (ArrayList<ChucDanh>) cdDAO.limit((page -1 ) * 10, 10);
-		cdDAO.disconnect();
-		return JSonUtil.toJson(cdList);
+	 public @ResponseBody String loadPageCd(@RequestParam("pageNumber") String pageNumber, HttpServletRequest request) {
+		try {
+			HttpSession session = request.getSession(false);
+			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+			String adminMa = context.getInitParameter("adminMa");
+			if (authentication == null) { 
+				logger.error("Không chứng thực truy cập danh mục mục đích");
+				return JSonUtil.toJson("authentication error");
+			} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+				logger.error("Không có quyền truy cập danh mục mục đích");
+				return JSonUtil.toJson("authentication error");
+			}
+			ChucDanhDAO cdDAO = new ChucDanhDAO();
+			int page = Integer.parseInt(pageNumber);
+			ArrayList<ChucDanh> cdList = (ArrayList<ChucDanh>) cdDAO.limit((page -1 ) * 10, 10);
+			cdDAO.disconnect();
+			return JSonUtil.toJson(cdList);
+		} catch (NullPointerException e) {
+			logger.error("NullPointer Exception khi phân trang chức danh: " + e.getStackTrace());
+			return JSonUtil.toJson("authentication error");
+		} catch (NumberFormatException e2) {
+			logger.error("NumberFormat Exception khi phân trang chức danh: " + e2.getStackTrace());
+			return JSonUtil.toJson("authentication error");
+		}
 	}
 }
