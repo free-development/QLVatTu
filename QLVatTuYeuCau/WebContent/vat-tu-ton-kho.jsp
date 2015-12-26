@@ -140,7 +140,7 @@
 							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Báo cáo tồn kho
 						</button></a>
 						&nbsp;
-						<button type="button" class="button" onclick="location.href='<%=siteMap.home%>'">
+						<button type="button" class="button" onclick="location.href='<%=siteMap.homePageManage %>'">
 							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 						</button>
 					</div>			

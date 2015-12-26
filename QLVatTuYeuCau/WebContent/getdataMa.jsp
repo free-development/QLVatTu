@@ -14,6 +14,7 @@
 		out.println(country);
 	}
 	*/
+	vatTuDAO.disconnect();
 	for (String vatTuName : vatTuList) {
 		out.println(vatTuName);
 	}

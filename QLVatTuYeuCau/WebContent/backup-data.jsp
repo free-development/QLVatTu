@@ -133,7 +133,7 @@
 								<i class="fa fa-spinner"></i>&nbsp;Bỏ qua
 							</button>
 							&nbsp;
-							<button type="button" class="button" onclick="location.href='<%=siteMap.home%>'">
+							<button type="button" class="button" onclick="location.href='<%=siteMap.homePageManage %>'">
 								<i class="fa fa-sign-out"></i>&nbsp;Thoát
 							</button>
 						</div>

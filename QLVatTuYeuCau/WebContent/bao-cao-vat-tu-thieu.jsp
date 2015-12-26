@@ -141,7 +141,7 @@
 									if (congVan.getDaXoa() == 0)							
 										cell.append("<a style=\"color: red; text-decoration: underline; \" href=" + siteMap.searchCongVan + "?congVan=" + congVan.getCvId() + ">" + congVan.getSoDen() + " - " + DateUtil.toString(congVan.getCvNgayNhan()) + " </a>" + ", ");
 									else 
-										cell.append(congVan.getSoDen() + " - " + DateUtil.toString(congVan.getCvNgayNhan()) + "(Đã xóa))");
+										cell.append(congVan.getSoDen() + " - " + DateUtil.toString(congVan.getCvNgayNhan()) + "(Đã xóa)), ");
 								}
 								int len = cell.length();
 								cell.delete(len - 2, len);
@@ -162,7 +162,7 @@
 				</button>
 				&nbsp;
 				
-				<button type="button" class="button" onclick="location.href='<%=siteMap.home%>'">
+				<button type="button" class="button" onclick="location.href='<%=siteMap.homePageManage %>'">
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 					</button>
 			</div>

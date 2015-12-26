@@ -104,7 +104,7 @@
 											<span> &nbsp; <input type="search" id="searchName" class="text-search" name="vattu"/>						
 														<script>
 														$("#searchName").autocomplete("getdataMa.jsp");
-														$("#searchName").autocomplete("getdata.jsp");
+// 														$("#searchName").autocomplete("getdata.jsp");
 // 														i = 0;
 // 															$('#checkTen').check(function() {
 // 																var check = $(this).val();
@@ -229,7 +229,7 @@
 <!-- 					<i class="fa fa-print"></i>&nbsp;&nbsp;In -->
 <!-- 				</button> -->
 				&nbsp;
-				<button type="button" class="button" onclick="location.href='<%=siteMap.home%>'">
+				<button type="button" class="button" onclick="location.href='<%=siteMap.homePageManage %>'">
 					<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 				</button>
 			</div>

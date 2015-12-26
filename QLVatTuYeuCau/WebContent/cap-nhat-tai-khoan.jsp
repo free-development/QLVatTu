@@ -75,6 +75,7 @@
 	<div class="wrapper">
 		<jsp:include page="header.jsp" />
 		<div id="main-content">
+		<div id= "loading"></div>
 				<table style="margin:0 auto; margin-bottom: 10px;">		
 					<tr>		
 					<th  style="text-align: left; color: black; font-size: 19px;">*Tìm kiếm mã</th>
@@ -155,7 +156,7 @@
 						<button type="reset" class="button" type="button">
 							<i class="fa fa-refresh"></i>&nbsp;&nbsp;Bỏ qua
 						</button>
-						<button type="button" class="button" onclick="location.href='<%=siteMap.home%>'">
+						<button type="button" class="button" onclick="location.href='<%=siteMap.homePageManage %>'">
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 					</button>
 					</div>

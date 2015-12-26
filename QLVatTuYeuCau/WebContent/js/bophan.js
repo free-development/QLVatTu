@@ -296,7 +296,7 @@ function showForm2(formId1, formId2, check){
  	 			    mimeType: 'application/json',
  	 			  	
  	 			  	success: function(dvList) {
-	 	 			  	if (result == "authentication error") {
+	 	 			  	if (dvList == "authentication error") {
 	 			  			location.assign("login.jsp");
 	 			  		} else {
 	 	 			  		$('#view-table-bo-phan table .rowContent').remove();

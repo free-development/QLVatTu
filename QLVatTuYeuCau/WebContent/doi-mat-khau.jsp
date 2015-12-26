@@ -85,7 +85,7 @@
 						<i class="fa fa-refresh"></i>&nbsp;Nhập lại
 					</button>
 					&nbsp;
-					<button type="button" class="button" onclick="location.href='<%=siteMap.home%>'">
+					<button type="button" class="button" onclick="location.href='<%=siteMap.homePageManage %>'">
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 					</button>
 				</div>

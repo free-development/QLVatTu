@@ -171,6 +171,7 @@ public class DvtController extends HttpServlet {
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	 public @ResponseBody String deletedvt(@RequestParam("dvtList") String dvtList, HttpServletRequest request) {
 		try {
+			System.out.println(dvtList);
 			String[] str = dvtList.split("##");
 			DonViTinhDAO dvtDAO =  new DonViTinhDAO();
 			for(String dvtId : str) {

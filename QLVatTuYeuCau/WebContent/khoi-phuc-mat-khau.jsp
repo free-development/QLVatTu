@@ -73,16 +73,16 @@
 	<div class="wrapper">
 		<jsp:include page="header.jsp" />
 		<div id="main-content">
-		<form id="main-form">
+		<form action="timKiemNguoiDung.jsp" method="get" id = "search-nguoidung">
 				<div id="title-content">Danh sách tài khoản</div>
 				<table style="margin:0 auto;margin-bottom: 10px;">		
 					<tr>		
-					<th  style="text-align: left; color: black; font-size: 19px;">*Tìm kiếm mã</th>
+					<th  style="text-align: left; color: black; font-size: 20px;">*Tìm kiếm mã</th>
 								<td>
 									<div class="search_form1" id="search">		
 										
 										
-										<form>												
+																						
 											<span> &nbsp; <input type="search" id="searchName" class="text-search" name="nguoidung"/>						
 														 												
 												<td><input type="checkbox" value="check" class="checkbox" style="text-align: center;" id="checkTen"/></td>
@@ -90,7 +90,7 @@
 											</span>
 											
 												<td> <span class="search-button"> &nbsp; <button type="button" class="btn-search" style="background-color: #00A69B;" onclick="timKiemNguoidung()"><i class="fa fa-search"></i></button></span></td>						
-										</form>
+										
 										<script>
 														$('#searchName').autocomplete("getdataMsnv.jsp");
 														$('#searchName').autocomplete("getdataHoten.jsp");	
@@ -99,6 +99,8 @@
 									</td>
 					</tr>					
 				</table>
+				</form>
+				<form id="main-form">
 				<div id="view-table-chia-se">
 					<table style="width:1024px;">
 						<tr bgcolor= "#199e5e">
@@ -151,7 +153,7 @@
 						<i class="fa fa-refresh"></i>&nbsp;Nhập lại
 					</button>
 					&nbsp;
-					<button type="button" class="button" onclick="location.href='<%=siteMap.home%>'">
+					<button type="button" class="button" onclick="location.href='<%=siteMap.homePageManage %>'">
 							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 						</button>
 				</div>

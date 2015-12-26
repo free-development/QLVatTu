@@ -466,3 +466,15 @@ $(document).ready(function() {
 		return false;
 	});   
 });
+$(document).ready(function() {
+	$('#checkTen').change(function() {
+		var checked = $( this ).is( ":checked" );
+		if (checked) {
+//			$("searchName").attr('autocomplete', 'off');
+			$("#searchName").autocomplete("getdata.jsp");
+		} else {
+			$("#searchName").autocomplete("getdataMa.jsp");
+		}
+		
+	});   
+});

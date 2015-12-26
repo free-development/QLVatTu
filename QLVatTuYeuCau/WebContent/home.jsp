@@ -51,12 +51,11 @@
     	<%
     		try {
 	    		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
-	    		if (authentication == null) {
-	    			request.setAttribute("url", "index");
-	    			RequestDispatcher dispatcher = request.getRequestDispatcher(siteMap.login + ".jsp");
-	    			dispatcher.forward(request, response);
-	    			return;
-	    		}
+// 	    		if (authentication == null) {
+// 	    			RequestDispatcher dispatcher = request.getRequestDispatcher(siteMap.login + ".jsp");
+// 	    			dispatcher.forward(request, response);
+// 	    			return;
+// 	    		}
 	    		
 	    			
 	    		String adminMa = request.getServletContext().getInitParameter("adminMa");

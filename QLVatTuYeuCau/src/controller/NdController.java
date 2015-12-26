@@ -335,7 +335,8 @@ produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JS
 			Mail mail = new Mail();
 			mail.setFrom(account);
 			mail.setTo(nguoiDung.getEmail());
-			mail.setSubject("Mật khẩu mới");
+//			mail.setSubject("Mật khẩu mới");
+			mail.setSubject("Mat khau moi");
 			String content = "Bạn đã được khôi phục mật khẩu.\n";
 			content += "Mật khẩu mới của bạn là: \n" + mk + "\n Vui lòng đăng nhập vào hệ thống làm việc để kiểm tra.\n Thân mến!";
 			mail.setContent(content);
@@ -452,16 +453,14 @@ produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JS
 			long size = nguoiDungDAO.size();
 			ArrayList<NguoiDung> nguoiDungList =  (ArrayList<NguoiDung>) nguoiDungDAO.limit(ignoreList , page - 1, 10);
 			request.setAttribute("size", size);
-			NguoiDungDAO ndDAO = new NguoiDungDAO();
 			request.setAttribute("nguoiDungList", nguoiDungList);
-			nguoiDungDAO.disconnect();
 			return new ModelAndView(siteMap.resetPasswordPage, "nguoiDungList", nguoiDungList);
 		} catch (NullPointerException e) {
 			logger.error("Lỗi khi reset mật khẩu người dùng: " + e.getMessage());
 			return new ModelAndView(siteMap.login);
 		}
 	}
-	/*
+	
 	@RequestMapping("updateNguoiDung")
 	public ModelAndView updateNguoiDung(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
@@ -469,10 +468,10 @@ produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JS
 			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
 			String adminMa = context.getInitParameter("adminMa");
 			if (authentication == null) { 
-				logger.error("Không chứng thực truy cập quản lý người dùng");
+				logger.error("Không chứng thực truy cập cập nhật người dùng");
 				return new ModelAndView(siteMap.login);
 			} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
-				logger.error("Không có quyền truy cập quản lý người dùng");
+				logger.error("Không có quyền truy cập nhật người dùng");
 				return new ModelAndView(siteMap.login);
 			}
 			String truongPhongMa = context.getInitParameter("truongPhongMa");
@@ -493,17 +492,17 @@ produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JS
 			nguoiDungDAO.disconnect();
 			return new ModelAndView(siteMap.updateNguoiDungPage, "chucDanhList", chucDanhList);
 		} catch (NullPointerException e) {
-			
+			logger.error("Lỗi khi truy cập nhật người dùng: " + e.getMessage());
+			return new ModelAndView(siteMap.login);
 		}
 	}
-	*/
+	
 	@RequestMapping(value="/loadHoten", method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String loadHoten(@RequestParam("msnv") String msnv, HttpServletRequest request) {
 		try {
 			HttpSession session = request.getSession(false);
 			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
-			String adminMa = context.getInitParameter("adminMa");
 			if (authentication == null) { 
 				logger.error("Không chứng thực truy cập quản lý người dùng");
 				return JSonUtil.toJson("authentication error"); 
@@ -595,7 +594,6 @@ produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JS
 		try {
 			HttpSession session = request.getSession(false);
 			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
-			String adminMa = context.getInitParameter("adminMa");
 			if (authentication == null) { 
 				logger.error("Không chứng thực tìm kiếm người dùng");
 				return JSonUtil.toJson("authentication error"); 

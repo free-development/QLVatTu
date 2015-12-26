@@ -1318,8 +1318,11 @@ public class CvController extends HttpServlet{
 			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
 			String cdMa = authentication.getChucDanh().getCdMa();
 	    	String nhanVienMa = context.getInitParameter("nhanVienMa");
+	    	String thuKyMa = context.getInitParameter("thuKyMa");
+	    	String vanThuMa = context.getInitParameter("vanThuMa");
+	    	String phoPhongMa = context.getInitParameter("phoPhongMa");
 			String[] temp = trangThai.split("\\#");
-			if (cdMa.equals(nhanVienMa)) {
+			if (cdMa.equals(nhanVienMa) || cdMa.equals(vanThuMa) || cdMa.equals(phoPhongMa)) {
 				VTCongVanDAO vtCongVanDAO = new VTCongVanDAO();
 				String msnv = temp[0];
 				int cvId = Integer.parseInt(temp[1]);

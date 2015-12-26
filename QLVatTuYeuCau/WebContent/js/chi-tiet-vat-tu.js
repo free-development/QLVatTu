@@ -299,7 +299,7 @@
  			    mimeType: 'application/json',
  			  	
  			  	success: function(objectList) {
- 			  		if (result == "authentication error") {
+ 			  		if (objectList == "authentication error") {
  			  			location.assign("login.jsp");
  			  		} else {
 	 			  		var size = objectList[1];
@@ -370,5 +370,5 @@ $(document).ready(function() {
 		 confirmUpdateCTVattu();
 	    return false;  
 	  }
-	});   
+	});
 });  

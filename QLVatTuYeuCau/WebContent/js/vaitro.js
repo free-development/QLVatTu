@@ -98,7 +98,7 @@ function addvt() {
 		    mimeType: 'application/json',
 		  	
 		  	success: function(result) {
-		  		if (vt == "authentication error") {
+		  		if (result == "authentication error") {
 					location.assign("login.jsp");
 				} else if(result == "success")
  				{

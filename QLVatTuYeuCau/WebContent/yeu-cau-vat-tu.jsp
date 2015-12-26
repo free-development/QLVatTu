@@ -100,7 +100,7 @@
 											<span> &nbsp; <input type="search" id="searchName" class="text-search" name="vattu"/>						
 														<script>
 														$("#searchName").autocomplete("getdataMa.jsp");
-														$("#searchName").autocomplete("getdata.jsp");	
+// 														$("#searchName").autocomplete("getdata.jsp");	
 														</script> 												
 												<td><input type="checkbox" value="check" class="checkbox" style="text-align: center;" id="checkTen"/></td>
 												<td  style="text-align: center; color:#6600FF; font-size: 19px;">Theo tên</td>&nbsp;&nbsp;&nbsp;

@@ -15,6 +15,7 @@
 		out.println(country);
 	}
 	*/
+	nguoiDungDAO.disconnect();
 	for (String nguoiDungName : nguoiDungList) {
 		out.println(nguoiDungName);
 	}
