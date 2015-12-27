@@ -240,11 +240,13 @@ function updateCongVan() {
 		  			window.location.assign("cong-van-error.jsp")
 		  		}
 		  		else {
+		  			/*
 		  			var objectList = JSON.parse(result);
 			  		loadAddCongVan(objectList, "update");
 			  		hideUpdateForm();
 			  		$('#scroll_content table tr').has('input[name="cvId"]:checked').remove();
 			  		alert('Sửa đổi công văn thành công');
+			  		*/
 			  		window.location.reload();
 		  		}
 			}

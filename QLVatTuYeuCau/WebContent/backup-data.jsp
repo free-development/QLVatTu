@@ -55,6 +55,7 @@
 				<div id="title-content" style="margin-bottom: 20px;">Sao lưu dữ liệu</div>
 				<div id="main-content">
 					<div id="loading"></div>
+					<!-- 
 					<form id="option-form" method="get" action ="Timkiemsaoluu.jsp">
 						<table style="margin:0 auto; margin-top: 30px;">
 							<tr>
@@ -72,6 +73,7 @@
 							</tr>
 						</table>
 					</form>
+					 -->
 					<form id="main-form" style="text-align: center;" method="get">
 						<div id="view-table">
 							<table>

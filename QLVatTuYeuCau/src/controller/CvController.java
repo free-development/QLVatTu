@@ -290,7 +290,7 @@ public class CvController extends HttpServlet{
 				return JSonUtil.toJson("authentication error");
 			} else {
 				String cdMa = authentication.getChucDanh().getCdMa();
-				String adminMa = context.getInitParameter("pathFile");
+				String adminMa = context.getInitParameter("adminMa");
 				String vanThuMa = context.getInitParameter("vanThuMa");
 				String thuKyMa = context.getInitParameter("thuKyMa");
 				if (!adminMa.equals(cdMa) &&!vanThuMa.equals(cdMa)
@@ -412,10 +412,10 @@ public class CvController extends HttpServlet{
 				return JSonUtil.toJson("authentication error");
 			} else {
 				String cdMa = authentication.getChucDanh().getCdMa();
-				String adminMa = context.getInitParameter("pathFile");
+				String adminMa = context.getInitParameter("adminMa");
 				String vanThuMa = context.getInitParameter("vanThuMa");
 				String thuKyMa = context.getInitParameter("thuKyMa");
-				if (!adminMa.equals(cdMa) &&!vanThuMa.equals(cdMa)
+				if (!adminMa.equals(cdMa) && !vanThuMa.equals(cdMa)
 						&& !thuKyMa.equals(cdMa)) { 
 				logger.error("Không có quyền thay đổi công văn");
 				return JSonUtil.toJson("authentication error");
@@ -577,12 +577,12 @@ public class CvController extends HttpServlet{
 				return JSonUtil.toJson("authentication error");
 			} else {
 				String cdMa = authentication.getChucDanh().getCdMa();
-				String adminMa = context.getInitParameter("pathFile");
+				String adminMa = context.getInitParameter("adminMa");
 				String vanThuMa = context.getInitParameter("vanThuMa");
 				String thuKyMa = context.getInitParameter("thuKyMa");
 				if (!adminMa.equals(cdMa) &&!vanThuMa.equals(cdMa)
 						&& !thuKyMa.equals(cdMa)) { 
-				logger.error("Không có quyền thêm công văn");
+				logger.error("Không có quyền show update công văn");
 				return JSonUtil.toJson("authentication error");
 				}
 			}
