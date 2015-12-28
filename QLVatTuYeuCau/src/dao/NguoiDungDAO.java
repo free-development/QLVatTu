@@ -165,12 +165,53 @@ public class NguoiDungDAO {
 		session.getTransaction().commit();
 		return list;
 	}
+	public ArrayList<NguoiDung> searchHotenKhoa(String i, ArrayList<String> cdIgnoreList) {
+		session.beginTransaction();
+		Criteria cr = session.createCriteria(NguoiDung.class, "nguoiDung");
+		cr.createAlias("nguoiDung.chucDanh", "chucDanh");
+		if (i.length() > 0)
+			cr.add(Restrictions.like("hoTen", new String(i.getBytes(), Charset.forName("UTF-8")), MatchMode.EXACT));
+		String sql = "select msnv from CTNguoiDung where";
+		Query query = session.createQuery(sql);
+		ArrayList<String> msnvList =  (ArrayList<String>) query.list();
+		if (msnvList.size() == 0)
+			return new ArrayList<NguoiDung>();
+		cr.add(Restrictions.in("msnv", msnvList));
+		if (cdIgnoreList != null && cdIgnoreList.size() > 0) {
+			Criterion ignoreExpression = Restrictions.in("chucDanh.cdMa", cdIgnoreList);
+			cr.add(Restrictions.not(ignoreExpression));
+		}
+		ArrayList<NguoiDung> list = (ArrayList<NguoiDung>) cr.list();
+		
+		session.getTransaction().commit();
+		return list;
+	}
 	
 	public ArrayList<NguoiDung> searchMsnv(String i, ArrayList<String> cdIgnoreList) {
 		session.beginTransaction();
 		Criteria cr = session.createCriteria(NguoiDung.class, "nguoiDung");
 		cr.createAlias("nguoiDung.chucDanh", "chucDanh");
 		String sql = "select msnv from CTNguoiDung where khoa = 0";
+		Query query = session.createQuery(sql);
+		ArrayList<String> msnvList =  (ArrayList<String>) query.list();
+		if (msnvList.size() == 0)
+			return new ArrayList<NguoiDung>();
+		cr.add(Restrictions.in("msnv", msnvList));
+		if (i.length() > 0)
+			cr.add(Restrictions.like("msnv", i+"%"));
+		if (cdIgnoreList != null && cdIgnoreList.size() > 0) {
+			Criterion ignoreExpression = Restrictions.in("chucDanh.cdMa", cdIgnoreList);
+			cr.add(Restrictions.not(ignoreExpression));
+		}
+		ArrayList<NguoiDung> list = (ArrayList<NguoiDung>) cr.list();
+		session.getTransaction().commit();
+		return list;
+	}
+	public ArrayList<NguoiDung> searchMsnvKhoa(String i, ArrayList<String> cdIgnoreList) {
+		session.beginTransaction();
+		Criteria cr = session.createCriteria(NguoiDung.class, "nguoiDung");
+		cr.createAlias("nguoiDung.chucDanh", "chucDanh");
+		String sql = "select msnv from CTNguoiDung where khoa = 1";
 		Query query = session.createQuery(sql);
 		ArrayList<String> msnvList =  (ArrayList<String>) query.list();
 		if (msnvList.size() == 0)
@@ -224,5 +265,6 @@ public class NguoiDungDAO {
 		if (session.isConnected())
 			session.disconnect();
 	}
+
 	
 }

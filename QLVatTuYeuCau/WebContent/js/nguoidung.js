@@ -298,19 +298,19 @@ function checkPassword()
 //    });	
 //})   
 function loadPageNd(pageNumber){
-if (pageNumber == 'Next') {
-	var lastPage = document.getElementsByClassName('page')[9].value;
-	var p = (lastPage) / 5;
-	var page = lastPage;
-}
-else if (pageNumber == 'Previous') {
-	var firstPage = document.getElementsByClassName('page')[0].value;
-	var p = (firstPage - 1) / 5;
-	var page =  firstPage-2;
-}
-else {
-	page = pageNumber;
-}
+	if (pageNumber == 'Next') {
+		var lastPage = document.getElementsByClassName('page')[9].value;
+		var p = (lastPage) / 5;
+		var page = lastPage;
+	}
+	else if (pageNumber == 'Previous') {
+		var firstPage = document.getElementsByClassName('page')[0].value;
+		var p = (firstPage - 1) / 5;
+		var page =  firstPage-2;
+	}
+	else {
+		page = pageNumber;
+	}
 	$.ajax({
 		url: getRoot() +  "/loadPageNd.html",	
 	  	type: "GET",
@@ -326,7 +326,7 @@ else {
 		  		var size = objectList[1];
 		  		var ndList = objectList[0];
 		  		var length = ndList.length;
-		  		$('#view-table-chia-se table .rowContent').remove();
+		  		$('#view-table table .rowContent').remove();
 					for(i = 0;i < length; i++ ) {
 						var nd = ndList[i];
 						var cells = '';
@@ -344,7 +344,7 @@ else {
 							+ '<td class=\"col\">' + nd.diaChi + '</td>'
 							+ '<td class=\"col\">' + nd.sdt + '</td>'
 						var row = '<tr class=\"rowContent\" ' + style + '>' + cells + '</tr>';
-	 					$('#view-table-chia-se table tr:first').after(row);
+	 					$('#view-table table tr:first').after(row);
 					}
 				var button = '';
 				if(pageNumber == 'Next') {
@@ -665,6 +665,53 @@ function loadPageNdKP(pageNumber){
 	  	}
 	});
 }
+ function timKiemNguoidungKhoa(){
+		var hoTen = '';
+		var msnv = '';
+		var check = $('#checkTen:checked').val();
+		if (check != null)
+			hoTen = $('#search-nguoidung-khoa input[name=nguoidung]').val();
+		else 
+			msnv = $('#search-nguoidung-khoa input[name=nguoidung]').val();
+		
+		$.ajax({
+			url: getRoot() +  "/timNguoiDungKhoa.html",	
+		  	type: "GET",
+		  	dateType: "JSON",
+		  	data: { "msnv": msnv, "hoTen": hoTen},
+		  	contentType: 'application/json',
+		    mimeType: 'application/json',
+		  	success: function(ndList){
+		  		if (ndList == "authentication error") {
+		  			location.assign("login.jsp");
+		  		} else {
+			  		if(ndList.length>0){
+			  			//alert('OKs');
+			  			var content = '';
+			  			$('#view-table table .rowContent').remove();
+						for(i = 0;i < ndList.length; i++ ) {
+							nd = ndList[i];
+							var style = '';
+							if  (i % 2 == 1)
+								style = 'style=\"background : #CCFFFF;\"'
+							//alert(ndList[i].msnv);
+			  				content +='<tr class=\"rowContent\"' + style + '><td style=\"text-align: center\"><input type=\"checkbox\" name=\"msnv\" value=\"' +nd.msnv 
+							+ '\"</td><td class=\"col\">'+ nd.msnv +'</td><td class=\"col\">' + nd.hoTen
+							+'</td><td class=\"col\">' + nd.chucDanh.cdTen
+							+'</td><td class=\"col\">' + nd.email
+							+'</td><td class=\"col\">' + nd.diaChi
+							+'</td><td class=\"col\">' + nd.sdt
+							+'</tr>';
+						}
+						$('#view-table table tr:first').after(content);
+			  		}
+			  		else {
+		  				alert("Không tìm thấy tài khoản!");
+		  			}
+		  		}
+		  	}
+		});
+	}
  
  function timKiemNguoidungCs(){
 	var hoTen = '';
@@ -703,7 +750,53 @@ function loadPageNdKP(pageNumber){
 	  	}
 	});
 }
-
+ function timKiemNguoidungKpmk(){
+		var hoTen = '';
+		var msnv = '';
+		var check = $('#checkTen:checked').val();
+		if (check != null)
+			hoTen = $('#search-nguoidung input[name=nguoidung]').val();
+		else 
+			msnv = $('#search-nguoidung input[name=nguoidung]').val();
+		
+		$.ajax({
+			url: getRoot() +  "/timKiemNguoidung.html",	
+		  	type: "GET",
+		  	dateType: "JSON",
+		  	data: { "msnv": msnv, "hoTen": hoTen},
+		  	contentType: 'application/json',
+		    mimeType: 'application/json',
+		  	success: function(ndList){
+		  		if (ndList == "authentication error") {
+		  			location.assign("login.jsp");
+		  		} else {
+			  		if(ndList.length>0){
+			  			//alert('OKs');
+			  			var content = '';
+			  			$('#view-table table .rowContent').remove();
+						for(i = 0;i < ndList.length; i++ ) {
+							nd = ndList[i];
+							var style = '';
+							if  (i % 2 == 1)
+								style = 'style=\"background : #CCFFFF;\"'
+							//alert(ndList[i].msnv);
+			  				content +='<tr class=\"rowContent\"' + style + '><td style=\"text-align: center\"><input type=\"checkbox\" name=\"msnv\" value=\"' +nd.msnv 
+							+ '\"</td><td class=\"col\">'+ nd.msnv +'</td><td class=\"col\">' + nd.hoTen
+							+'</td><td class=\"col\">' + nd.chucDanh.cdTen
+							+'</td><td class=\"col\">' + nd.email
+							+'</td><td class=\"col\">' + nd.diaChi
+							+'</td><td class=\"col\">' + nd.sdt
+							+'</tr>';
+						}
+						$('#view-table table tr:first').after(content);
+			  		}
+			  		else {
+		  				alert("Không tìm thấy tài khoản!");
+		  			}
+		  		}
+		  	}
+		});
+	}
 /* 
  $(document).ready(function() {
 		$('#add-form').keypress(function(e) {
@@ -756,7 +849,14 @@ $(document).ready(function(){
 		timKiemNguoidung();
 		return false;
 	});
+});
+$(document).ready(function(){
+	$('#search-nguoidung-khoa').submit(function(){
+		timKiemNguoidungKhoa();
+		return false;
+	});
 })
+
 $(document).ready(function() {
 	$('#checkTen').change(function() {
 		var checked = $( this ).is( ":checked" );

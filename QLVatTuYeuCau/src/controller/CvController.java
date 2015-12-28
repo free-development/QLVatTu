@@ -251,7 +251,7 @@ public class CvController extends HttpServlet{
 			return;
 		} catch (NullPointerException e) {
 			
-		} catch (NumberFormatException e2){
+		} catch (NumberFormatException e){
 			System.out.println("Cannot convert to int");
 		}
 	}

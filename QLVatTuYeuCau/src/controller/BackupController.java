@@ -264,13 +264,21 @@ public class BackupController extends HttpServlet {
 			
 			String pathLogBackup = context.getInitParameter("pathLogBackup");
 			File fileId = new File(pathLogBackup + "numberBackup.sysInfo");
-			
+			if (!fileId.exists()) {
+				FileWriter writer = new FileWriter(fileId);
+				writer.write("" + 0);
+				writer.close();
+			}
 			FileReader fileInput = new FileReader(fileId);
 			BufferedReader buff = new BufferedReader(fileInput);
 			pageNumber = (Integer.parseInt(buff.readLine()) - 1)/ 10;
 			buff.close();
 //			for (int i = pageNumber; i >= 0 ; i--) {
-				FileReader fileIdInput = new FileReader(pathLogBackup + "idInfo" + pageNumber + ".info");
+			File file = new File(pathLogBackup + "idInfo" + pageNumber + ".info");
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			FileReader fileIdInput = new FileReader(file);
 				BufferedReader buff2 = new BufferedReader(fileIdInput);
 				String line = "";
 				while (true) {
@@ -317,8 +325,6 @@ public class BackupController extends HttpServlet {
 			int size = Integer.parseInt(buffFileIn.readLine());
 			buffFileIn.close();
 			page = (size - 1)/ 10 - page;
-//			int idPage = page / 10;
-//			int idBackup = page % 10;
 			FileReader fileIdInput = new FileReader(pathLogBackup + "idInfo" + page + ".info");
 			BufferedReader buffFileIdInput = new BufferedReader(fileIdInput);
 			ArrayList<BackupInfo> vatTuList = new ArrayList<BackupInfo>() ;

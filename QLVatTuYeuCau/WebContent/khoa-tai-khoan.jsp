@@ -12,12 +12,7 @@
 <link rel="stylesheet" href="style/style-giao-dien-chinh.css"
 	type="text/css">
 <link rel="stylesheet" href="style/style.css" type="text/css">
-<link href="style/style-khoa-tai-khoan.css" type="text/css"
-	rel="stylesheet">
-<link href="style/style-chia-se.css" type="text/css"
-	rel="stylesheet">
-<link href="style/style-vat-tu.css" type="text/css"
-	rel="stylesheet">
+<link href="style/style-cap-nhat-tai-khoan.css" type="text/css" rel="stylesheet">
 <link
 	href="style/font-awesome-4.3.0/font-awesome-4.3.0/css/font-awesome.min.css"
 	type="text/css" rel="stylesheet">
@@ -101,7 +96,7 @@
 					</tr>					
 				</table>
 				<form id="main-form">
-				<div id="view-table-chia-se">
+				<div id="view-table">
 					<table style="width:1024px;">
 						<tr bgcolor= "#199e5e">
 						<th style="text-align: center;">Chọn</th>

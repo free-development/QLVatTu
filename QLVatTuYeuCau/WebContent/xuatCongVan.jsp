@@ -99,7 +99,7 @@ display:none;
 			<td style="font-size: 17px; text-align: center;">Độc lập - Tự do - Hạnh phúc</td>
 		</tr>
 		<tr>
-		<td style="padding-left: 150px;">-----------------------</td>
+		<td style="padding-left: 150px;"><div style="w"></div></td>
 		<td style="text-align: center;">-----------------------</td>
 		</tr>
 		<tr>

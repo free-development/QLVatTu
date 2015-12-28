@@ -545,6 +545,7 @@ produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JS
 	//		ignoreList.add(adminMa);
 			ArrayList<Object> objectList = new ArrayList<Object>();
 			CTNguoiDungDAO ctndDAO = new CTNguoiDungDAO();
+			
 			long sizeNd = ctndDAO.size();
 			ArrayList<NguoiDung> ndList = (ArrayList<NguoiDung>) ctndDAO.limit(ignoreList, page * 10, 10);
 			objectList.add(ndList);
@@ -605,6 +606,30 @@ produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JS
 				ndList = (ArrayList<NguoiDung>) nguoiDungDAO.searchMsnv(msnv, ignoreList);
 			else
 				ndList = (ArrayList<NguoiDung>) nguoiDungDAO.searchHoten(hoTen, ignoreList);
+			nguoiDungDAO.disconnect();
+			return JSonUtil.toJson(ndList);
+		} catch (NullPointerException e) {
+			logger.error("Lỗi khi tìm kiếm người dùng: " + e.getMessage());
+			return JSonUtil.toJson("authentication error");
+		}
+	}
+	@RequestMapping(value="/timNguoiDungKhoa", method=RequestMethod.GET, 
+			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String timNguoiDungKhoa(@RequestParam("msnv") String msnv, @RequestParam("hoTen") String hoTen, HttpServletRequest request) {
+		try {
+			HttpSession session = request.getSession(false);
+			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
+			if (authentication == null) { 
+				logger.error("Không chứng thực tìm kiếm người dùng");
+				return JSonUtil.toJson("authentication error"); 
+			} 
+			NguoiDungDAO nguoiDungDAO = new NguoiDungDAO();
+			ArrayList<NguoiDung> ndList = new ArrayList<NguoiDung> ();
+			ArrayList<String> ignoreList = new ArrayList<String>();
+			if(msnv.length() > 0)
+				ndList = (ArrayList<NguoiDung>) nguoiDungDAO.searchMsnvKhoa(msnv, ignoreList);
+			else
+				ndList = (ArrayList<NguoiDung>) nguoiDungDAO.searchHotenKhoa(hoTen, ignoreList);
 			nguoiDungDAO.disconnect();
 			return JSonUtil.toJson(ndList);
 		} catch (NullPointerException e) {

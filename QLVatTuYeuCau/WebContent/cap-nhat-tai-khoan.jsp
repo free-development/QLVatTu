@@ -76,6 +76,7 @@
 		<jsp:include page="header.jsp" />
 		<div id="main-content">
 		<div id= "loading"></div>
+		<div id="title-content">Danh sách tài khoản</div>
 				<table style="margin:0 auto; margin-bottom: 10px;">		
 					<tr>		
 					<th  style="text-align: left; color: black; font-size: 19px;">*Tìm kiếm mã</th>
@@ -100,7 +101,7 @@
 									</td>
 					</tr>					
 				</table>
-				<div id="title-content">Danh sách tài khoản</div>
+				
 				<form id="main-form">
 				
 				<div id="view-table">

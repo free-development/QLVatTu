@@ -12,12 +12,7 @@
 <link rel="stylesheet" href="style/style-giao-dien-chinh.css"
 	type="text/css">
 <link rel="stylesheet" href="style/style.css" type="text/css">
-<link href="style/style-khoa-tai-khoan.css" type="text/css"
-	rel="stylesheet">
-<link href="style/style-chia-se.css" type="text/css"
-	rel="stylesheet">
-<link href="style/style-vat-tu.css" type="text/css"
-	rel="stylesheet">
+<link href="style/style-cap-nhat-tai-khoan.css" type="text/css" rel="stylesheet">
 <link
 	href="style/font-awesome-4.3.0/font-awesome-4.3.0/css/font-awesome.min.css"
 	type="text/css" rel="stylesheet">
@@ -66,7 +61,7 @@
 	<div class="wrapper">
 		<jsp:include page="header.jsp" />
 		<div id="main-content">
-		<form id="main-form">
+			<form id="search-nguoidung-khoa">
 				<div id="title-content">Danh sách tài khoản bị khóa</div>
 				<table style="margin:0 auto;margin-bottom: 10px;">		
 					<tr>		
@@ -75,7 +70,7 @@
 									<div class="search_form1" id="search">		
 										
 										
-										<form>												
+																					
 											<span> &nbsp; <input type="search" id="searchName" class="text-search" name="nguoidung"/>						
 														 												
 												<td><input type="checkbox" value="check" class="checkbox" style="text-align: center;" id="checkTen"/></td>
@@ -83,7 +78,7 @@
 											</span>
 											
 												<td> <span class="search-button"> &nbsp; <button type="button" class="btn-search" style="background-color: #00A69B;" onclick="timKiemNguoidung()"><i class="fa fa-search"></i></button></span></td>						
-										</form>
+										
 										<script>
 														$('#searchName').autocomplete("getdataMsnv.jsp");
 														$('#searchName').autocomplete("getdataHoten.jsp");	
@@ -92,7 +87,9 @@
 									</td>
 					</tr>					
 				</table>
-				<div id="view-table-chia-se">
+				</form>
+				<form id="main-form">
+				<div id="view-table">
 					<table style="width:1024px;">
 						<tr bgcolor= "#199e5e">
 						<th style="text-align: center;">Chọn</th>
