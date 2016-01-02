@@ -74,7 +74,6 @@
     <param-name>pathBackup</param-name>
     <param-value>C:/server/File/Backup/</param-value>
   </context-param>
-  
   <context-param>
     <param-name>fileLogBackup</param-name>
     <param-value>C:/server/File/LogBackup/logBackup.txt</param-value>
@@ -83,33 +82,22 @@
     <param-name>pathLogBackup</param-name>
     <param-value>C:/server/File/LogBackup/</param-value>
   </context-param>
-  <!-- param backup data -->
-  
-  <!-- param dbUser -->
   <context-param>
     <param-name>dbUser</param-name>
     <param-value>root</param-value>
   </context-param>
-  
-  <!-- param dbPassword -->
   <context-param>
     <param-name>dbPassword</param-name>
     <param-value>voquoctuong</param-value>
   </context-param>
-  
-  <!-- param dbAdrress -->
   <context-param>
     <param-name>dbAddress</param-name>
     <param-value>127.0.0.1</param-value>
   </context-param>
-  
-  <!-- param dbPort -->
   <context-param>
     <param-name>dbPort</param-name>
     <param-value>3306</param-value>
   </context-param>
-  
-  <!-- param dbName -->
   <context-param>
     <param-name>dbName</param-name>
     <param-value>vattu</param-value>
@@ -145,8 +133,7 @@
     <location>/QLVatTuYeuCau/login.jsp</location>
   </error-page>
   <error-page>
-    <exception-type>java.lang.NullPointerException</exception-type >
+    <exception-type>java.lang.NullPointerException</exception-type>
     <location>/login.jsp</location>
-</error-page>
-  
+  </error-page>
 </web-app>

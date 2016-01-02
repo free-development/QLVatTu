@@ -170,13 +170,15 @@
 			<div id="view-table" style="height: 500px;width: 1250px;display: auto;border: 1px solid #CCCCCC;margin: 0 auto;margin-top: 20px;overflow: scroll;">
 				<table >
 					<tr bgcolor="lightgreen">
-						<th style="width: 100px;">Số công văn nhận</th>
+						<th style="width: 50px;">Số P.VT</th>
+						<th style="width: 50px;">Ngày P.VT nhận</th>
+						
 						<th style="width: 100px;">Số công văn đến</th>
-						<th style="width: 50px;">Ngày công văn nhận</th>
 						<th style="width: 50px;">Ngày công văn đến</th>
-						<th style="width: 250px;">Mục đích</th>
+						
+						<th style="width: 150px;">Mục đích</th>
 						<th style="width: 200px;">Nơi gửi</th>
-						<th style="width: 200px;">Trích yếu</th>
+						<th style="width: 300px;">Nội dung công tác</th>
 						<th style="width: 200px;">Bút phê</th>
 						<th style="width: 100px;">Trạng thái</th>
 						
@@ -190,21 +192,21 @@
 					<tr class="rowContent"
 						<%if (cnt % 2 == 0) out.println("style=\"background : #CCFFFF;\"");%>>
 						<td style="width: 50px; text-align: center;"><%=congVan.getSoDen() %></td>
+						<td style="width: 100px; text-align: center;"><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td> 
 						<td style="width: 50px; text-align: center;"><%=congVan.getCvSo()%></td>
-						<td style="width: 100px; text-align: center;"><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td>
+						
 <%-- 						<td style="width: 50px; text-align: center;"><%=congVan.getCvSo() %></td> --%>
 						
 						<td style="width: 50px; text-align: center;"><%=DateUtil.toString(congVan.getCvNgayDi()) %></td>
-						<td style="text-align: left; width: 300px;"><%=congVan.getMucDich().getMdTen() %></td>
+						<td style="text-align: left; width: 150px;"><%=congVan.getMucDich().getMdTen() %></td>
 						<td style="text-align: left; width: 100px;"><%=congVan.getDonVi().getDvTen() %></td>
-						<td style="width: 50px;"><%=congVan.getTrichYeu() %></td>
+						<td style="width: 300px;"><%=congVan.getTrichYeu() %></td>
 						<td style="text-align: left; width: 100px;"><%=congVan.getButPhe() %></td>
 						<td style="text-align: left; width: 150px;"><%=congVan.getTrangThai().getTtTen() %></td>
 
 					</tr>
 					<%} %>
-				</table>
-				</div>
+				</table>				</div>
 				<div class="group-button">
 					&nbsp;&nbsp;
 					<a href="<%=siteMap.exportBccv%>" target="_blank"><button class="button" type="button">

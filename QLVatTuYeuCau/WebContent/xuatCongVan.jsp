@@ -99,7 +99,7 @@ display:none;
 			<td style="font-size: 17px; text-align: center;">Độc lập - Tự do - Hạnh phúc</td>
 		</tr>
 		<tr>
-		<td style="padding-left: 150px;"><div style="w"></div></td>
+		<td style="padding-left: 150px;">-----------------------</td>
 		<td style="text-align: center;">-----------------------</td>
 		</tr>
 		<tr>
@@ -117,18 +117,19 @@ display:none;
 					<table style="text-align: center;margin: 0 auto; color: black;border: solid 1px black;width:1224px;">
 					<thead>
 						<tr bgcolor="#199e5e"  style= "border-style: solid;border-color:black;">
-<!-- 							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="a-column">Số đến</th> -->
-							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="b-column">Số công văn nhận</th>
-							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="b-column">Số công văn đến</th>
-							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="c-column">Ngày công văn nhận</th>
-<!-- 							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="b-column">Số công văn đến</th> -->
+<!-- 							<th style="border: 1px solid black;font-size: 17px;width: 50px;" >Số đến</th> -->
+							<th style="border: 1px solid black;font-size: 17px;width: 50px; width: 50px;">Số P.VT</th>
 							
-							<th style="border: 1px solid black;font-size: 17px;width: 50px;" class="d-column">Ngày công văn đến</th>
-							<th style="border: 1px solid black;font-size: 17px;width: 200px;" class="e-column">Mục đích</th>
-							<th style="border: 1px solid black;font-size: 17px;width: 250px;" class="f-column">Nơi gửi</th>
-							<th style="border: 1px solid black;font-size: 17px;width: 200px;" class="g-column">Trích yếu</th>
-							<th style="border: 1px solid black;font-size: 17px;width: 200px;" class="k-column">Bút phê</th>
-							<th style="border: 1px solid black;font-size: 17px;width: 100px;" class="k-column">Trạng thái</th>
+							<th style="border: 1px solid black;font-size: 17px;width: 50px;">Ngày P.VT nhận</th>
+							<th style="border: 1px solid black;font-size: 17px;width: 50px;">Số công văn đến</th>
+<!-- 							<th style="border: 1px solid black;font-size: 17px;width: 50px;">Số công văn đến</th> -->
+							
+							<th style="border: 1px solid black;font-size: 17px;width: 50px;">Ngày công văn đến</th>
+							<th style="border: 1px solid black;font-size: 17px;width: 150px;">Mục đích</th>
+							<th style="border: 1px solid black;font-size: 17px;width: 200px;">Nơi gửi</th>
+							<th style="border: 1px solid black;font-size: 17px;width: 300px;">Nôi dung công tác</th>
+							<th style="border: 1px solid black;font-size: 17px;width: 200px;">Bút phê</th>
+							<th style="border: 1px solid black;font-size: 17px;width: 100px;">Trạng thái</th>
 							
 						</tr>
 					</thead>
@@ -142,15 +143,16 @@ display:none;
 								<tr 
 									<%if (cnt % 2 == 0) out.println("style=\"background : #CCFFFF;\"");%>
 									style= "border-style: solid;border-color:black black black black;">
-<%-- 									<td style="border: 1px solid black;font-size: 17px;" class="a-column"><%=congVan.getSoDen() %></td> --%>
+<%-- 									<td style="border: 1px solid black;font-size: 17px;"><%=congVan.getSoDen() %></td> --%>
 									<td style="border: 1px solid black;font-size: 17px;" class="a-column"><%=congVan.getSoDen() %></td>
-									<td style="border: 1px solid black;font-size: 17px;" class="a-column"><%=congVan.getCvSo() %></td>
-									<td style="border: 1px solid black;font-size: 17px;" class="b-column"><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td>
-<%-- 									<td style="border: 1px solid black;font-size: 17px;" class="a-column"><%=congVan.getCvSo() %></td> --%>
 									
-									<td style="border: 1px solid black;font-size: 17px;" class="b-column"><%=DateUtil.toString(congVan.getCvNgayDi()) %></td>
-									<td style="border: 1px solid black;font-size: 17px;text-align: left;" class="b-column"><%=congVan.getMucDich().getMdTen() %></td>
-									<td style="border: 1px solid black;font-size: 17px;text-align: left;" class="b-column"><%=congVan.getDonVi().getDvTen() %></td>
+									<td style="border: 1px solid black;font-size: 17px;" ><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td>
+									<td style="border: 1px solid black;font-size: 17px;" ><%=congVan.getCvSo() %></td>
+<%-- 									<td style="border: 1px solid black;font-size: 17px;" ><%=congVan.getCvSo() %></td> --%>
+									
+									<td style="border: 1px solid black;font-size: 17px;" ><%=DateUtil.toString(congVan.getCvNgayDi()) %></td>
+									<td style="border: 1px solid black;font-size: 17px;text-align: left;" ><%=congVan.getMucDich().getMdTen() %></td>
+									<td style="border: 1px solid black;font-size: 17px;text-align: left;"><%=congVan.getDonVi().getDvTen() %></td>
 									<td style="border: 1px solid black;font-size: 17px;text-align: left;" class="b-column"><%=congVan.getTrichYeu() %></td>
 									<td style="border: 1px solid black;font-size: 17px;text-align: left;" class="b-column"><%=congVan.getButPhe() %></td>
 									<td style="border: 1px solid black;font-size: 17px;text-align: left;" class="b-column"><%=congVan.getTrangThai().getTtTen() %></td>

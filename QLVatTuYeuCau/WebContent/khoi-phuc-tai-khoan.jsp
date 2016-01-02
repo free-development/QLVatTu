@@ -77,7 +77,7 @@
 												<td  style="text-align: center; color: black; font-size: 19px;">Theo tên</td>&nbsp;&nbsp;&nbsp;
 											</span>
 											
-												<td> <span class="search-button"> &nbsp; <button type="button" class="btn-search" style="background-color: #00A69B;" onclick="timKiemNguoidung()"><i class="fa fa-search"></i></button></span></td>						
+												<td> <span class="search-button"> &nbsp; <button type="submit" class="btn-search" style="background-color: #00A69B;" ><i class="fa fa-search"></i></button></span></td>						
 										
 										<script>
 														$('#searchName').autocomplete("getdataMsnv.jsp");
