@@ -1,6 +1,4 @@
-/**
- * 
- */
+﻿
 package dao;
 
 import java.io.File;
@@ -9,6 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import model.CTVatTu;
+import model.ChatLuong;
+import model.NoiSanXuat;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -20,12 +22,6 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import model.CTVatTu;
-import model.ChatLuong;
-import model.DonViTinh;
-import model.NoiSanXuat;
-import model.VatTu;
 
 /**
  * @author quoioln
@@ -66,6 +62,9 @@ public class ReadExcelTon {
 					switch (count) {
 					case 1:
 						vtMa = cell.getStringCellValue();
+						vtMa.replaceAll("\'", "");
+						vtMa.replaceAll("'", "");
+						vtMa.replaceAll("\"", "");
 						break;
 					case 2:
 						vtTen = cell.getStringCellValue();
@@ -81,7 +80,7 @@ public class ReadExcelTon {
 						break;
 					}
 				} else if (cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC) {
-					switch (count) {
+					switch (count) {	
 						case 6:
 							soLuong = (int)cell.getNumericCellValue();
 							break;
@@ -196,6 +195,10 @@ public class ReadExcelTon {
 					switch (count) {
 					case 1:
 						vtMa = cell.getStringCellValue();
+						vtMa.replaceAll("'", "");
+						vtMa.replaceAll("\'", "");
+						vtMa.replaceAll("\"", "");
+						
 						break;
 					case 2:
 						vtTen = cell.getStringCellValue();
