@@ -12,7 +12,7 @@
 		function showForm2(formId1, formId2, check){
 			if (check)
 				document.getElementById(formId2).style.display="block";
-			else document.getElementById(formId2g).style.display="none";
+			else document.getElementById(formId2).style.display="none";
 			var f = document.getElementById(formId1), s, opacity;
 			s = f.style;
 			opacity = check? '10' : '100';

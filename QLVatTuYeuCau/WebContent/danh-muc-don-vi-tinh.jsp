@@ -117,10 +117,12 @@
 							onclick="showForm('add-form', true); $('#dvtFocus').focus();">
 							<i class="fa fa-plus-circle"></i>&nbsp;Thêm
 						</button>
+						&nbsp;
 						<button type="button" class="button"
 							onclick="preUpdatedvt('update-form', true);">
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Thay đổi
 						</button>
+						&nbsp;
 						<button type="button" class="button" onclick="confirmDelete();">
 							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xóa
 						</button>
@@ -150,9 +152,11 @@
 				<button class="button" type="button" onclick="adddvt();">
 					<i class="fa fa-plus-circle"></i>&nbsp;Thêm
 				</button>
+				&nbsp;
 				<button type="reset" class="button">
 					<i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại
 				</button>
+				&nbsp;
 				<button type="button" class="button"
 					onclick="loadAddDvt();">
 					<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
@@ -181,10 +185,10 @@
 						
 						<button type="button" class="button" onclick="confirmUpdatedvt();">
 							<i class="fa fa-floppy-o"></i>&nbsp;Lưu lại
-						</button>
+						</button>&nbsp;
 						<button  type="button" class="button" onclick="resetUpdatedvt();">
 							<i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại
-						</button>
+						</button>&nbsp;
 						<button type="button" class="button"
 							onclick="loadUpdateDvt();">
 							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát

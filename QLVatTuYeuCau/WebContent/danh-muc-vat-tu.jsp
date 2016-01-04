@@ -196,11 +196,10 @@
 					
 			</div>
 				<div class="group-button" style="text-align: center;">	
-				<input type="hidden" name="action" value="deleteVatTu">
 				<button type="button" class="button"
 					onclick="showForm2('vattu','add-form', true)">
 					<i class="fa fa-plus-circle"></i>&nbsp;Thêm
-				</button>
+				</button>&nbsp;&nbsp;
 				<button type="button" class="button"
 					onclick="preEditVattu('vattu','update-form', true);">
 					<i class="fa fa-pencil fa-fw"></i>&nbsp;Thay đổi
@@ -217,7 +216,7 @@
 				&nbsp;
 				<a href="<%=siteMap.exportCTVatTuMn%>" target="_blank">
 				<button class="button" type="button">
-					<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Báo cáo
+					<i class="fa fa-book"></i>&nbsp;&nbsp;Báo cáo
 				</button>
 				</a>
 				&nbsp;
@@ -228,7 +227,6 @@
 <!-- 				<button class="button" type="button"> -->
 <!-- 					<i class="fa fa-print"></i>&nbsp;&nbsp;In -->
 <!-- 				</button> -->
-				&nbsp;
 				<button type="button" class="button" onclick="location.href='<%=siteMap.homePageManage %>'">
 					<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 				</button>
@@ -279,11 +277,12 @@
 <!-- 					<input type="hidden" name="action" value="addVatTu"> -->
 					<button type="button" class="button" onclick="addVattu();">
 						<i class="fa fa-plus-circle"></i>&nbsp;Thêm
-					</button>
+					</button>&nbsp;
 <!-- 					<button class="button" onclick="showForm('add-chitiet', true)" > -->
 <!-- 						<i class="fa fa-plus-circle"></i>&nbsp;Thêm chi tiết -->
-					</button> 
+					</button>&nbsp;
 					<button type="reset" class="button"><i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại</button>
+					&nbsp;
 					<button type="button" class="button" onclick="loadAddVt();"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát</button>
 				</div>
 			</form>
@@ -333,7 +332,9 @@
 				</div>
 				<div class="group-button">
 					<button type="button" class="button" onclick="confirmUpdateVattu();" ><i class="fa fa-floppy-o"></i>&nbsp;Lưu lại</button> 
+					&nbsp;
 					<button type="button" class="button" onclick="resetUpdateVT();"><i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại</button>
+					&nbsp;
 					<button type="button" class="button" onclick="loadUpdateVt();"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát</button>
 				</div>
 			</form>

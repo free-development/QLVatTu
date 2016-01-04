@@ -53,7 +53,6 @@ public class SessionController extends HttpServlet {
 				JSonUtil.toJson("authentication error");
 			} 
 			session.removeAttribute(sessionName);
-			System.out.println("welcome to remove session controller");
 			session.removeAttribute(sessionName);
 			return JSonUtil.toJson("success");
 		} catch (NullPointerException e) {

@@ -36,21 +36,22 @@ public class VatTuAlert extends AbstractExcelView {
 		
 		// create a new Excel sheet
 		HSSFSheet sheet = workbook.createSheet("Vật tư dưới định mức");
-		sheet.setColumnWidth(0, 3000);
-		sheet.setColumnWidth(1, 12000);
-		sheet.setColumnWidth(2, 1500);
-		sheet.setColumnWidth(3, 4500);
-		sheet.setColumnWidth(4, 4500);
-		sheet.setColumnWidth(5, 3000);
-		sheet.setColumnWidth(6, 3000);
-		// create style for header cells
 		CellStyle style = workbook.createCellStyle();
 		Font font = workbook.createFont();
 		font.setFontName("Times New Roman");
-		
 		font.setFontHeight((short)260);
 		style.setFont(font);
-		sheet.setDefaultRowHeight((short)400);
+		
+		sheet.setDefaultRowHeight((short) 400);
+		sheet.setColumnWidth(0, 7000);
+		sheet.setColumnWidth(1, 10000);
+		sheet.setColumnWidth(2, 2500);
+		sheet.setColumnWidth(3, 3000);
+		sheet.setColumnWidth(4, 4000);
+		sheet.setColumnWidth(5, 3000);
+		sheet.setColumnWidth(6, 4000);
+		sheet.setColumnWidth(7, 4000);
+		
 		sheet.setDefaultColumnStyle(0, style);
 		sheet.setDefaultColumnStyle(1, style);
 		sheet.setDefaultColumnStyle(2, style);
@@ -58,32 +59,44 @@ public class VatTuAlert extends AbstractExcelView {
 		sheet.setDefaultColumnStyle(4, style);
 		sheet.setDefaultColumnStyle(5, style);
 		sheet.setDefaultColumnStyle(6, style);
+		sheet.setDefaultColumnStyle(7, style);
+		// create header row
+		CellStyle style2 = workbook.createCellStyle();
+		Font font2 = workbook.createFont();
+		font2.setFontName("Times New Roman");
+		font2.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		font2.setFontHeight((short) 260);
+		style2.setFont(font2);
+		style2.setAlignment(CellStyle.ALIGN_CENTER);
 		
 		// create header row
 		HSSFRow header = sheet.createRow(0);
 		response.setHeader("Content-Disposition", "inline; filename=" + "VatTuDuoiDinhMuc.xls");
 		
 		header.createCell(0).setCellValue("Mã Vật Tư");
-		header.getCell(0).setCellStyle(style);
+		header.getCell(0).setCellStyle(style2);
 		
 		header.createCell(1).setCellValue("Tên Vật Tư");
-		header.getCell(1).setCellStyle(style);
+		header.getCell(1).setCellStyle(style2);
 		
 		header.createCell(2).setCellValue("ĐVT");
-		header.getCell(2).setCellStyle(style);
+		header.getCell(2).setCellStyle(style2);
 		
-		header.createCell(3).setCellValue("Mã Nơi Sản Xuất");
-		header.getCell(3).setCellStyle(style);
+		header.createCell(3).setCellValue("Mã NSX");
+		header.getCell(3).setCellStyle(style2);
 		
 		
-		header.createCell(4).setCellValue("Mã chất lượng");
-		header.getCell(4).setCellStyle(style);
+		header.createCell(4).setCellValue("Mã linh kiện");
+		header.getCell(4).setCellStyle(style2);
 		
-		header.createCell(5).setCellValue("Số lượng tồn");
-		header.getCell(5).setCellStyle(style);
+		header.createCell(5).setCellValue("Mã CL");
+		header.getCell(5).setCellStyle(style2);
 		
-		header.createCell(6).setCellValue("Định mức");
-		header.getCell(6).setCellStyle(style);
+		header.createCell(6).setCellValue("Số lượng tồn");
+		header.getCell(6).setCellStyle(style2);
+		
+		header.createCell(7).setCellValue("Định mức");
+		header.getCell(7).setCellStyle(style2);
 		
 		int rowCount = 1;
 		for (CTVatTu ctvt : listCtvt) {
@@ -92,9 +105,10 @@ public class VatTuAlert extends AbstractExcelView {
 			aRow.createCell(1).setCellValue(ctvt.getVatTu().getVtTen());
 			aRow.createCell(2).setCellValue(ctvt.getVatTu().getDvt().getDvtTen());
 			aRow.createCell(3).setCellValue(ctvt.getNoiSanXuat().getNsxMa());
-			aRow.createCell(4).setCellValue(ctvt.getChatLuong().getClMa());
-			aRow.createCell(5).setCellValue(ctvt.getSoLuongTon());
-			aRow.createCell(6).setCellValue(ctvt.getDinhMuc());
+			aRow.createCell(4).setCellValue("");
+			aRow.createCell(5).setCellValue(ctvt.getChatLuong().getClMa());
+			aRow.createCell(6).setCellValue(ctvt.getSoLuongTon());
+			aRow.createCell(7).setCellValue(ctvt.getDinhMuc());
 		}
 	}
 

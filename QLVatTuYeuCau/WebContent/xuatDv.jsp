@@ -73,11 +73,11 @@ display:none;
    				 	 <button class="button" id="print_button" type="button" onclick="window.print();">
 						<i class="fa fa-print"></i>&nbsp;&nbsp;In
 					</button>
-					&nbsp;&nbsp;
+					&nbsp;
 					<button class="button" id="print_button" type="button" onclick="location.href='<%=siteMap.downloadExcelDv%>'">
-						<i class="fa fa-print"></i>&nbsp;&nbsp;Tải file
+						<i class="fa fa-download"></i>&nbsp;&nbsp;Tải file
 					</button>
-					&nbsp;&nbsp;
+					&nbsp;
 					<button type="button" id="exit_button" class="button">
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 					</button>

@@ -38,10 +38,28 @@ public class DonViFile extends AbstractExcelView {
 		CellStyle style = workbook.createCellStyle();
 		Font font = workbook.createFont();
 		font.setFontName("Times New Roman");
-		//style.setFillPattern(CellStyle.SOLID_FOREGROUND);
-		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-//		font.setColor(HSSFColor.WHITE.index);
+		font.setFontHeight((short)260);
 		style.setFont(font);
+		
+		sheet.setDefaultRowHeight((short) 400);
+		sheet.setColumnWidth(0, 3000);
+		sheet.setColumnWidth(1, 12000);
+		sheet.setColumnWidth(2, 12000);
+		sheet.setColumnWidth(3, 4000);
+		sheet.setColumnWidth(4, 6000);
+		sheet.setDefaultColumnStyle(0, style);
+		sheet.setDefaultColumnStyle(1, style);
+		sheet.setDefaultColumnStyle(2, style);
+		sheet.setDefaultColumnStyle(3, style);
+		sheet.setDefaultColumnStyle(4, style);
+		// create header row
+		CellStyle style2 = workbook.createCellStyle();
+		Font font2 = workbook.createFont();
+		font2.setFontName("Times New Roman");
+		font2.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		font2.setFontHeight((short) 260);
+		style2.setFont(font2);
+		style2.setAlignment(CellStyle.ALIGN_CENTER);
 		
 		HSSFRow row2 = sheet.createRow(0);
 		row2.createCell(0).setCellValue("Công ty điện lực thành phố Cần Thơ");
@@ -54,20 +72,22 @@ public class DonViFile extends AbstractExcelView {
 		HSSFRow header = sheet.createRow(1);
 		
 		
-		header.createCell(0).setCellValue("Mã Bộ phận sử dụng");
-		header.getCell(0).setCellStyle(style);
+		header.createCell(0).setCellValue("Mã BPSD");
+		header.getCell(0).setCellStyle(style2);
 		
-		header.createCell(1).setCellValue("Tên Bộ phận sử dụng");
-		header.getCell(1).setCellStyle(style);
+		header.createCell(1).setCellValue("Tên BPSD");
+		header.getCell(1).setCellStyle(style2);
 		
 		header.createCell(2).setCellValue("Địa chỉ");
-		header.getCell(2).setCellStyle(style);
+		header.getCell(2).setCellStyle(style2);
 		
-		header.createCell(3).setCellValue("Số điện thoại");
-		header.getCell(3).setCellStyle(style);
+		header.createCell(3).setCellValue("Email");
+		header.getCell(3).setCellStyle(style2);
 		
-		header.createCell(4).setCellValue("Email");
-		header.getCell(4).setCellStyle(style);
+		header.createCell(4).setCellValue("Số điện thoại");
+		header.getCell(4).setCellStyle(style2);
+		
+		
 		
 		response.setHeader("Content-Disposition", "inline; filename=" + "Bophansudung.xls");
 		
@@ -79,8 +99,9 @@ public class DonViFile extends AbstractExcelView {
 			aRow.createCell(0).setCellValue(dv.getDvMa());
 			aRow.createCell(1).setCellValue(dv.getDvTen());
 			aRow.createCell(2).setCellValue(dv.getDiaChi());
-			aRow.createCell(3).setCellValue(dv.getSdt());
-			aRow.createCell(4).setCellValue(dv.getEmail());
+			aRow.createCell(3).setCellValue(dv.getEmail());
+			aRow.createCell(4).setCellValue(dv.getSdt());
+			
 		}
 	}
 

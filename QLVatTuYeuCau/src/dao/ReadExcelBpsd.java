@@ -63,6 +63,7 @@ public class ReadExcelBpsd {
 					switch (count) {
 					case 0:
 						dvMa = cell.getStringCellValue();
+						dvMa = dvMa.replaceAll("\'", "");
 						break;
 					case 1:
 						dvTen = cell.getStringCellValue();
@@ -76,8 +77,19 @@ public class ReadExcelBpsd {
 					case 4:
 						sdt = cell.getStringCellValue();
 						break;	
+					} 
+				} else {
+					switch (count) {
+					case 0:
+						dvMa = (int) cell.getNumericCellValue() + "";
+						break;
+					/*
+					case 3:
+						sdt = cell.getNumericCellValue() + "";;
+						break;
+						*/
 					}
-				} 
+				}
 				count++;
 			}
 			if (dvMa.length() == 0 && dvTen.length() == 0)
@@ -143,6 +155,7 @@ public class ReadExcelBpsd {
 					switch (count) {
 					case 0:
 						dvMa = cell.getStringCellValue();
+						dvMa = dvMa.replaceAll("\'", "");
 						break;
 					case 1:
 						dvTen = cell.getStringCellValue();
@@ -157,6 +170,17 @@ public class ReadExcelBpsd {
 						sdt = cell.getStringCellValue();
 						break;	
 					} 
+				} else {
+					switch (count) {
+					case 0:
+						dvMa = (int) cell.getNumericCellValue() + "";
+						break;
+					/*
+					case 3:
+						sdt = cell.getNumericCellValue() + "";;
+						break;
+						*/
+					}
 				}
 				count++;
 			}

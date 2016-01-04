@@ -137,7 +137,7 @@
 						</button>
 						&nbsp;
 						<a href="<%=siteMap.xuatTonKhoMn%>" target="_blank"><button class="button" type="button">
-							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Báo cáo tồn kho
+							<i class="fa fa-book"></i>&nbsp;&nbsp;Báo cáo tồn kho
 						</button></a>
 						&nbsp;
 						<button type="button" class="button" onclick="location.href='<%=siteMap.homePageManage %>'">

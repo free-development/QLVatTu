@@ -38,23 +38,27 @@ public class TonKhoFile extends AbstractExcelView {
 		
 		// create a new Excel sheet
 		HSSFSheet sheet = workbook.createSheet("Vật tư tồn kho");
-		//sheet.setDefaultColumnWidth(30);
-	//	sheet.setColumnWidth(0, 30);
-//		sheet.setColumnWidth(1, 200);
-//		sheet.setColumnWidth(2, 30);
-//		sheet.setColumnWidth(3, 100);
-//		sheet.setColumnWidth(4,50);
-//		sheet.setColumnWidth(5, 100); 
-		
-		// create style for header cells
 		CellStyle style = workbook.createCellStyle();
 		Font font = workbook.createFont();
 		font.setFontName("Times New Roman");
-//		style.setFillForegroundColor(HSSFColor.WHITE.index);
-//		style.setFillPattern(CellStyle.SOLID_FOREGROUND);
-//		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-//		font.setColor(HSSFColor.WHITE.index);
+		font.setFontHeight((short)260);
 		style.setFont(font);
+		
+		sheet.setDefaultRowHeight((short) 400);
+		sheet.setColumnWidth(0, 2000);
+		sheet.setColumnWidth(1, 7000);
+		sheet.setColumnWidth(2, 10000);
+		sheet.setColumnWidth(3, 2500);
+		sheet.setColumnWidth(4, 6000);
+		sheet.setColumnWidth(5, 6000);
+		sheet.setColumnWidth(6, 4000);
+		sheet.setDefaultColumnStyle(0, style);
+		sheet.setDefaultColumnStyle(1, style);
+		sheet.setDefaultColumnStyle(2, style);
+		sheet.setDefaultColumnStyle(3, style);
+		sheet.setDefaultColumnStyle(4, style);
+		sheet.setDefaultColumnStyle(5, style);
+		sheet.setDefaultColumnStyle(6, style);
 		
 		// create title row
 		HSSFRow title = sheet.createRow(0);
@@ -76,34 +80,44 @@ public class TonKhoFile extends AbstractExcelView {
 		sheet.setDefaultColumnStyle(3, style);
 		sheet.setDefaultColumnStyle(4, style);
 		sheet.setDefaultColumnStyle(5, style);
-		
+		sheet.setDefaultColumnStyle(6, style);
+//		sheet.setDefaultColumnStyle(7, style);
 		// create header row
 		HSSFRow header = sheet.createRow(1);
-//		row.setRowStyle(style);
+		CellStyle style2 = workbook.createCellStyle();
+		Font font2 = workbook.createFont();
+		font2.setFontName("Times New Roman");
+		font2.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		font2.setFontHeight((short) 260);
+		style2.setFont(font2);
+		style2.setAlignment(CellStyle.ALIGN_CENTER);
+		
+		
 		response.setHeader("Content-Disposition", "inline; filename=" + "vatTuTonKho.xls");
 		header.createCell(0).setCellValue("STT");
-		header.getCell(0).setCellStyle(style);
+		header.getCell(0).setCellStyle(style2);
 		
 		header.createCell(1).setCellValue("Mã Vật Tư");
-		header.getCell(1).setCellStyle(style);
+		header.getCell(1).setCellStyle(style2);
 		
 		header.createCell(2).setCellValue("Tên Vật Tư");
-		header.getCell(2).setCellStyle(style);
+		header.getCell(2).setCellStyle(style2);
 		
 		header.createCell(3).setCellValue("ĐVT");
-		header.getCell(3).setCellStyle(style);
+		header.getCell(3).setCellStyle(style2);
 		
 		header.createCell(4).setCellValue("Nơi Sản Xuất");
-		header.getCell(4).setCellStyle(style);
+		header.getCell(4).setCellStyle(style2);
 		
 		header.createCell(5).setCellValue("Chất lượng");
-		header.getCell(5).setCellStyle(style);
+		header.getCell(5).setCellStyle(style2);
 		
 		header.createCell(6).setCellValue("Số lượng");
-		header.getCell(6).setCellStyle(style);
+		header.getCell(6).setCellStyle(style2);
 		
-		header.createCell(7).setCellValue("Định mức");
-		header.getCell(7).setCellStyle(style);
+//		header.createCell(7).setCellValue("Định mức");
+//		header.getCell(7).setCellStyle(style2);
+		
 		//create row 2
 		HSSFRow row2 = sheet.createRow(2);
 		row2.createCell(0).setCellValue("D01");
@@ -123,7 +137,7 @@ public class TonKhoFile extends AbstractExcelView {
 			aRow.createCell(4).setCellValue(ctvtTon.getNoiSanXuat().getNsxTen());
 			aRow.createCell(5).setCellValue(ctvtTon.getChatLuong().getClTen());
 			aRow.createCell(6).setCellValue(ctvtTon.getSoLuongTon());
-			aRow.createCell(7).setCellValue(ctvtTon.getDinhMuc());
+//			aRow.createCell(7).setCellValue(ctvtTon.getDinhMuc());
 			stt++;
 		}
 	}

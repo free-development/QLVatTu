@@ -126,10 +126,12 @@
 						onclick="showForm('add-form', true);$('#clMaFocus').focus();">
 						<i class="fa fa-plus-circle"></i>&nbsp;Thêm
 					</button>
+					&nbsp;
 					<button type="button" onclick="preUpdateCl('update-form', true);"
 						class="button" title="Chọn 1 chất lượng để thay đổi">
 						<i class="fa fa-pencil fa-fw"></i>&nbsp;Thay đổi
 					</button>
+					&nbsp;
 					<button class="button" type="button" onclick="confirmDeleteCl();">
 						<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xóa
 					</button>
@@ -137,11 +139,14 @@
 					<button type="button" class="button" 
 							onclick="showForm2('main-form','import-formct', true);"> 
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Import 
-						</button>&nbsp;
-						<a href="<%=siteMap.exporClMn%>" target="_blank"><button class="button" type="button" >
-							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xuất File
-						</button></a>
-						&nbsp;
+					</button>
+					&nbsp;
+					<a href="<%=siteMap.exporClMn%>" target="_blank">
+						<button class="button" type="button" >
+							<i class="fa fa-book"></i>&nbsp;&nbsp;Xuất File
+						</button>
+					</a>
+					&nbsp;
 					<button class="button" type="reset">
 						<i class="fa fa-spinner"></i>&nbsp;&nbsp;Bỏ qua
 					</button>
@@ -177,9 +182,11 @@
 					<button class="button" onclick="addCl();" type="button">
 						<i class="fa fa-plus-circle"></i>&nbsp;Thêm
 					</button>
+					&nbsp;
 					<button type="reset" class="button">
 						<i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại
 					</button>
+					&nbsp;
 					<button type="button" class="button"
 						onclick="showForm2('main-form','add-form', false);;">
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
@@ -214,9 +221,11 @@
 					<button class="button" onclick="confirmUpdateCl()" type="button">
 						<i class="fa fa-floppy-o"></i>&nbsp;Lưu lại
 					</button>
+					&nbsp;
 					<button type="button" class="button" onclick="resetUpdateCL();">
 						<i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại
 					</button>
+					&nbsp;
 					<button type="button" class="button"
 						onclick="loadUpdateCl();">
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát

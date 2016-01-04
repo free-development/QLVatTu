@@ -70,6 +70,7 @@
 						<button type="button" class="button" onclick="location.href='<%=siteMap.downloadExcelTon%>'">
 							<i class="fa fa-download"></i>&nbsp;&nbsp;Tải xuống
 						</button>
+						&nbsp;
 						<button type="button" class="button" onclick="location.href='<%=siteMap.vatTuTonKho + ".jsp"%>'">
 							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 						</button>

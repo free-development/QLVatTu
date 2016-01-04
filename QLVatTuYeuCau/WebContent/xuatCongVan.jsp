@@ -79,11 +79,11 @@ display:none;
    				 	 <button class="button" id="print_button" type="button" onclick="window.print();">
 						<i class="fa fa-print"></i>&nbsp;&nbsp;In báo cáo
 					</button>
-					&nbsp;&nbsp;
+					&nbsp;
 					<button class="button" id="print_button" type="button" onclick="location.href='<%=siteMap.xuatCongVan+".jsp"+ "?exportToExel=YES" %>'">
-						<i class="fa fa-print"></i>&nbsp;&nbsp;Tải file
+						<i class="fa fa-download"></i>&nbsp;&nbsp;Tải file
 					</button>
-					&nbsp;&nbsp;
+					&nbsp;
 					<button type="button" id="exit_button" class="button"  onclick="window.close();">
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 					</button>

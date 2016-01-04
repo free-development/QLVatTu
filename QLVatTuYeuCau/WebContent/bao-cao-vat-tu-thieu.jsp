@@ -83,6 +83,7 @@
 <!-- 					<input type="hidden" name="action" value="baocaovtt"> -->
 					<div class="button-group">
 						<input type="submit" value="Xem" class="button"/>
+						&nbsp;
 						<button type="button" class="button" id="reset">Nhập lại</button> 
 					</div>
 				</fieldset>
@@ -158,7 +159,7 @@
 <!--     <a href="excel.jsp?exportToExcel=YES">Export to Excel</a> -->
 			<a href="<%=siteMap.xuatFile + "jsp"%>" target="_blank">
 				<button class="button" type="button">
-					<i class="fa fa-print"></i>&nbsp;&nbsp;Xuất file
+					<i class="fa fa-download"></i>&nbsp;&nbsp;Xuất file
 				</button>
 				&nbsp;
 				

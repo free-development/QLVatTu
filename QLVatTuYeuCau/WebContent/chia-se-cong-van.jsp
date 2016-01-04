@@ -176,9 +176,10 @@
 <!-- 					</div> -->
 					<div class="group-button">
 					<input type="hidden" value="save" name="action">
-						<button class="btn">
+						<button class="button">
 							<i class="fa fa-floppy-o"></i>&nbsp;Lưu lại
 						</button>
+						&nbsp;
 <!-- 						<button type="reset" class="btn"> -->
 <!-- 							<i class="fa fa-refresh"></i>&nbsp;&nbsp;Bỏ qua -->
 <!-- 						</button> -->
@@ -233,6 +234,7 @@
 						<button class="button" id="update" type="button">
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Sửa
 						</button>
+						&nbsp;
 						<button type="reset" class="button" type="button">
 							<i class="fa fa-refresh"></i>&nbsp;&nbsp;Bỏ qua
 						</button>
@@ -249,7 +251,8 @@
 				<div id="title-content" style="margin-bottom: 10px;">Cập nhật chia sẻ</div>
 				<table></table>
 				<div class="group-button" id="updateButton">
-				<button type="button" class="button" id="updateCs">Lưu lại</button> 
+				<button type="button" class="button" id="updateCs">Lưu lại</button>
+				&nbsp; 
 				<button type="button" class="button" id="exitCs">Thoát</button>
 				</div>
 				</div>

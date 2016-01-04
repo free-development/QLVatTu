@@ -45,23 +45,37 @@ public class TonKhoErrorFile extends AbstractExcelView {
 		
 		// create a new Excel sheet
 		HSSFSheet sheet = workbook.createSheet("Vật tư tồn kho");
-		//sheet.setDefaultColumnWidth(30);
-	//	sheet.setColumnWidth(0, 30);
-//		sheet.setColumnWidth(1, 200);
-//		sheet.setColumnWidth(2, 30);
-//		sheet.setColumnWidth(3, 100);
-//		sheet.setColumnWidth(4,50);
-//		sheet.setColumnWidth(5, 100); 
-		
-		// create style for header cells
 		CellStyle style = workbook.createCellStyle();
 		Font font = workbook.createFont();
 		font.setFontName("Times New Roman");
-//		style.setFillForegroundColor(HSSFColor.WHITE.index);
-//		style.setFillPattern(CellStyle.SOLID_FOREGROUND);
-//		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-//		font.setColor(HSSFColor.WHITE.index);
+		font.setFontHeight((short)260);
 		style.setFont(font);
+		
+		sheet.setDefaultRowHeight((short) 400);
+		sheet.setColumnWidth(0, 2000);
+		sheet.setColumnWidth(1, 7000);
+		sheet.setColumnWidth(2, 10000);
+		sheet.setColumnWidth(3, 2500);
+		sheet.setColumnWidth(4, 6000);
+		sheet.setColumnWidth(5, 6000);
+		sheet.setColumnWidth(6, 4000);
+		sheet.setColumnWidth(7, 5000);
+		sheet.setDefaultColumnStyle(0, style);
+		sheet.setDefaultColumnStyle(1, style);
+		sheet.setDefaultColumnStyle(2, style);
+		sheet.setDefaultColumnStyle(3, style);
+		sheet.setDefaultColumnStyle(4, style);
+		sheet.setDefaultColumnStyle(5, style);
+		sheet.setDefaultColumnStyle(6, style);
+		sheet.setDefaultColumnStyle(7, style);
+		// create header row
+		CellStyle style2 = workbook.createCellStyle();
+		Font font2 = workbook.createFont();
+		font2.setFontName("Times New Roman");
+		font2.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		font2.setFontHeight((short) 260);
+		style2.setFont(font2);
+		style2.setAlignment(CellStyle.ALIGN_CENTER);
 		
 		// create title row
 		HSSFRow title = sheet.createRow(0);
@@ -77,40 +91,34 @@ public class TonKhoErrorFile extends AbstractExcelView {
 		
 		title.createCell(3).setCellValue(DateUtil.toString(dayCurrent));
 		title.getCell(3).setCellStyle(style);
-		sheet.setDefaultColumnStyle(0, style);
-		sheet.setDefaultColumnStyle(1, style);
-		sheet.setDefaultColumnStyle(2, style);
-		sheet.setDefaultColumnStyle(3, style);
-		sheet.setDefaultColumnStyle(4, style);
-		sheet.setDefaultColumnStyle(5, style);
 		
 		// create header row
 		HSSFRow header = sheet.createRow(1);
-//		row.setRowStyle(style);
+		header.setRowStyle(style2);
 		response.setHeader("Content-Disposition", "inline; filename=" + "vatTuTonKhoError.xls");
 		header.createCell(0).setCellValue("STT");
-		header.getCell(0).setCellStyle(style);
+		header.getCell(0).setCellStyle(style2);
 		
 		header.createCell(1).setCellValue("Mã Vật Tư");
-		header.getCell(1).setCellStyle(style);
-		
+		header.getCell(1).setCellStyle(style2);
+//		
 		header.createCell(2).setCellValue("Tên Vật Tư");
-		header.getCell(2).setCellStyle(style);
+		header.getCell(2).setCellStyle(style2);
 		
 		header.createCell(3).setCellValue("ĐVT");
-		header.getCell(3).setCellStyle(style);
+		header.getCell(3).setCellStyle(style2);
 		
 		header.createCell(4).setCellValue("Nơi Sản Xuất");
-		header.getCell(4).setCellStyle(style);
+		header.getCell(4).setCellStyle(style2);
 		
 		header.createCell(5).setCellValue("Mã chất lượng");
-		header.getCell(5).setCellStyle(style);
+		header.getCell(5).setCellStyle(style2);
 		
 		header.createCell(6).setCellValue("Số lượng");
-		header.getCell(6).setCellStyle(style);
+		header.getCell(6).setCellStyle(style2);
 		
 		header.createCell(7).setCellValue("Lỗi");
-		header.getCell(7).setCellStyle(style);
+		header.getCell(7).setCellStyle(style2);
 		//create row 2
 		HSSFRow row2 = sheet.createRow(2);
 		row2.createCell(0).setCellValue("D01");
@@ -126,7 +134,7 @@ public class TonKhoErrorFile extends AbstractExcelView {
 			aRow.createCell(0).setCellValue(count + 1);
 			aRow.createCell(1).setCellValue(vtMa);
 			aRow.createCell(2).setCellValue(vtTenError.get(count));
-			aRow.createCell(3).setCellValue(vtTenError.get(count));
+			aRow.createCell(3).setCellValue(dvtTenError.get(count));
 			aRow.createCell(4).setCellValue(nsxTenError.get(count));
 			aRow.createCell(5).setCellValue(clTenError.get(count));
 			aRow.createCell(6).setCellValue(soLuongError.get(count));

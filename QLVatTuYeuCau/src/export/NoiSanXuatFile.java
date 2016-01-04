@@ -41,20 +41,31 @@ public class NoiSanXuatFile extends AbstractExcelView {
 		CellStyle style = workbook.createCellStyle();
 		Font font = workbook.createFont();
 		font.setFontName("Times New Roman");
-		style.setFillForegroundColor(HSSFColor.BLUE.index);
-		style.setFillPattern(CellStyle.SOLID_FOREGROUND);
-		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-		font.setColor(HSSFColor.WHITE.index);
+		font.setFontHeight((short)260);
 		style.setFont(font);
+		
+		sheet.setDefaultRowHeight((short) 400);
+		sheet.setColumnWidth(0, 3000);
+		sheet.setColumnWidth(1, 7000);
+		sheet.setDefaultColumnStyle(0, style);
+		sheet.setDefaultColumnStyle(1, style);
+		// create header row
+		CellStyle style2 = workbook.createCellStyle();
+		Font font2 = workbook.createFont();
+		font2.setFontName("Times New Roman");
+		font2.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		font2.setFontHeight((short) 260);
+		style2.setFont(font2);
+		style2.setAlignment(CellStyle.ALIGN_CENTER);
 		
 		// create header row
 		HSSFRow header = sheet.createRow(0);
 		response.setHeader("Content-Disposition", "inline; filename=" + "Noisanxuat.xls");
-		header.createCell(0).setCellValue("Mã Nơi sản xuất");
-		header.getCell(0).setCellStyle(style);
+		header.createCell(0).setCellValue("Mã NSX");
+		header.getCell(0).setCellStyle(style2);
 		
-		header.createCell(1).setCellValue("Tên nơi sản xuất");
-		header.getCell(1).setCellStyle(style);
+		header.createCell(1).setCellValue("Tên NSX");
+		header.getCell(1).setCellStyle(style2);
 		
 		// create data rows
 		int rowCount = 1;

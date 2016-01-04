@@ -56,7 +56,6 @@ public class ReadExcel extends HttpServlet {
 			session.removeAttribute("size");
 			try {
 				java.io.File file = uploadFile(multipartRequest);
-				System.out.println(file.getName());
 				String extenstionFile = FileUtil.getExtension(file);
 				ArrayList<Object> errorList = new ArrayList<Object>();
 				if ("xls".equalsIgnoreCase(extenstionFile)) {

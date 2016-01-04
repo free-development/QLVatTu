@@ -120,6 +120,7 @@
 								<td style="text-align: left;"><label class="lable1" for="CGQ">Tất cả</label></td>
 				</table>
 				<input type="hidden" name="action" value="baocaobdn">
+				
 				<input style="margin-top: 15px;"class="button" type="submit" value="Xem">
 <!-- 					<i class="fa fa-eye"></i>&nbsp;&nbsp;</> -->
 				<br>
@@ -183,10 +184,10 @@
 					&nbsp;&nbsp;
 					<a href="<%=siteMap.xuatBcChiTiet+".jsp"%>" target="_blank">
 					<button class="button" type="button">
-						<i class="fa fa-print"></i>&nbsp;&nbsp;Xuất file
+						<i class="fa fa-download"></i>&nbsp;&nbsp;Xuất file
 					</button>
 					</a>
-					&nbsp;&nbsp;
+					&nbsp;
 					<button type="button" class="button" onclick="location.href='<%=siteMap.homePageManage %>'">
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 					</button>

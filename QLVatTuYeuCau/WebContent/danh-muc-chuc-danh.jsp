@@ -117,10 +117,12 @@
 						onclick="showForm('add-form', true)">
 						<i class="fa fa-plus-circle"></i>&nbsp;Thêm
 					</button>
+					&nbsp;
 					<button type="button" onclick="preUpdateCd('update-form', true)"
 						class="button" title="Chọn 1 chất lượng để thay đổi">
 						<i class="fa fa-pencil fa-fw"></i>&nbsp;Thay đổi
 					</button>
+					&nbsp;
 					<button class="button" type="button" onclick="confirmDeleteCd();">
 						<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xóa
 					</button>
@@ -161,9 +163,11 @@
 					<button class="button" onclick="addCd()" type="button">
 						<i class="fa fa-plus-circle"></i>&nbsp;Thêm
 					</button>
+					&nbsp;
 					<button type="reset" class="button">
 						<i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại
 					</button>
+					&nbsp;
 					<button type="button" class="button"
 						onclick="loadAddCd();">
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
@@ -198,9 +202,11 @@
 					<button class="button" onclick="confirmUpdateCd()" type="button">
 						<i class="fa fa-floppy-o"></i>&nbsp;Lưu lại
 					</button>
+					&nbsp;
 					<button class="button" onclick="resetUpdateCD()" type="button">
 						<i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại
 					</button>
+					&nbsp;
 					<button type="button" class="button"
 						onclick="loadUpdateCd();">
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát

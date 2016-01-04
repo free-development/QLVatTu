@@ -84,9 +84,11 @@
 									class="checkAll"></th>
 								<th class="mid-column">Mã BPSD</th>
 								<th class="column-2">Tên bộ phận</th>
-								<th class="column-3">Số điện thoại</th>
+								
 								<th class="column-4">Địa chỉ</th>
 								<th class="column-5">Email</th>
+								<th class="column-3">Số điện thoại</th>
+								
 							</tr>
 							<%
 							if(listDonVi != null) {
@@ -98,9 +100,11 @@
 									value="<%=donVi.getDvMa() %>" class="checkbox"></td>
 								<td class="mid-column" style="text-align: left;"><%=donVi.getDvMa() %></td>
 								<td class="column-2" style="text-align: left;"><%=donVi.getDvTen()%></td>
-								<td class="column-3" style="text-align: left;"><%=donVi.getSdt()%></td>
 								<td class="column-4" style="text-align: left;"><%=donVi.getDiaChi()%></td>
 								<td class="column-5" style="text-align: left;"><%=donVi.getEmail()%></td>
+								<td class="column-3" style="text-align: left;"><%=donVi.getSdt()%></td>
+								
+								
 							</tr>
 							<%} }%>
 						</table>
@@ -128,30 +132,30 @@
 							onclick="showForm('add-form', true)">
 							<i class="fa fa-plus-circle"></i>&nbsp;Thêm
 						</button>
-						&nbsp;&nbsp;
+						&nbsp;
 						<button type="button" class="button"
 							onclick="preUpdateBp('update-form', true);">
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Thay đổi
 						</button>
-						&nbsp;&nbsp;
+						&nbsp;
 						<button class="button" type="button" onclick="confirmDelete()">
 							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xóa
 						</button>
-						&nbsp;&nbsp;
+						&nbsp;
 						<button type="button" class="button" 
 							onclick="showForm2('view-table-bo-phan','import-formct', true)"> 
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Import 
 						</button>
-						&nbsp;&nbsp;
+						&nbsp;
 						<a href="<%=siteMap.exporDvMn%>" target="_blank">
 						<button class="button" type="button" >
-							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xuất File
+							<i class="fa fa-book"></i>&nbsp;&nbsp;Xuất File
 						</button></a>
 						&nbsp;
 						<button class="button" type="reset">
 							<i class="fa fa-spinner"></i>&nbsp;&nbsp;Bỏ qua
 						</button>
-						&nbsp;&nbsp;
+						&nbsp;
 						<button type="button" class="button" onclick="location.href='<%=siteMap.homePageManage %>'">
 							<i class="fa fa-sign-out"></i>Thoát
 						</button>
@@ -218,9 +222,11 @@
 						<button type="button" class="button" onclick="addBp();">
 							<i class="fa fa-plus-circle"></i>&nbsp;Thêm
 						</button>
+						&nbsp;
 						<button type="reset" class="button">
 							<i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại
 						</button>
+						&nbsp;
 						<button type="button" class="button"
 							onclick="loadAddBp()">
 							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
@@ -288,9 +294,11 @@
 						<button type="button" class="button" onclick="confirmUpdateBp();">
 							<i class="fa fa-plus-circle"></i>&nbsp;Lưu lại
 						</button>
+						&nbsp;
 						<button type="button" class="button" onclick="resetUpdateBP();">
 							<i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại
 						</button>
+						&nbsp;
 						<button type="button" class="button"
 							onclick="loadUpdateBp()">
 							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát

@@ -5,9 +5,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -111,9 +113,12 @@ public class BackupController extends HttpServlet {
 				} else {
 					contentBackup = "\n" + contentId;
 				}
-				FileWriter fileWriterId = new FileWriter(fileId);
-				fileWriterId.write(temp + "#####" + thoiGian + "#####" + moTa + "#####" + filePath + contentBackup);
-				fileWriterId.close();
+//				FileWriter fileWriterId = new FileWriter(fileId);
+				OutputStreamWriter fi = new OutputStreamWriter(new FileOutputStream(fileId), "UTF-8");
+				fi.write(temp + "#####" + thoiGian + "#####" + moTa + "#####" + filePath + contentBackup);
+				fi.close();
+//				fileWriterId.write(temp + "#####" + thoiGian + "#####" + moTa + "#####" + filePath + contentBackup);
+//				fileWriterId.close();
 			} else {
 				if (!fileId.exists())
 					fileId.createNewFile();

@@ -56,22 +56,29 @@ public class CongVanError extends AbstractExcelView {
 		sheet.setDefaultColumnStyle(2, style);
 		sheet.setDefaultColumnStyle(3, style);
 		sheet.setDefaultColumnStyle(4, style);
+		CellStyle style2 = workbook.createCellStyle();
+		Font font2 = workbook.createFont();
+		font2.setFontName("Times New Roman");
+		font2.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		font2.setFontHeight((short) 260);
+		style2.setFont(font2);
+		style2.setAlignment(CellStyle.ALIGN_CENTER);
 		// create header row
 		HSSFRow header = sheet.createRow(0);
 		response.setHeader("Content-Disposition", "inline; filename=" + "VatTuLoi.xls");
 		header.createCell(0).setCellValue("Mã Vật Tư");
-//		header.getCell(0).setCellStyle(style);
-		header.createCell(1).setCellValue("Mã nơi sản xuất");
-//		header.getCell(1).setCellStyle(style);
+		header.getCell(0).setCellStyle(style2);
+		header.createCell(1).setCellValue("Mã NSX");
+		header.getCell(1).setCellStyle(style2);
 		
-		header.createCell(2).setCellValue("Mã chất lượng");
-//		header.getCell(2).setCellStyle(style);
+		header.createCell(2).setCellValue("Mã CL");
+		header.getCell(2).setCellStyle(style2);
 		
 		header.createCell(3).setCellValue("Số lượng thiếu");
-//		header.getCell(3).setCellStyle(style);
+		header.getCell(3).setCellStyle(style2);
 		
 		header.createCell(4).setCellValue("Lỗi");
-//		header.getCell(4).setCellStyle(style);
+		header.getCell(4).setCellStyle(style2);
 		
 		int count = 0;
 		for (String vtMa : vtMaError) {

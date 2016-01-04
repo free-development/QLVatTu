@@ -210,9 +210,9 @@
 				<div class="group-button">
 					&nbsp;&nbsp;
 					<a href="<%=siteMap.exportBccv%>" target="_blank"><button class="button" type="button">
-						<i class="fa fa-print"></i>&nbsp;&nbsp;Xuất file
+						<i class="fa fa-download"></i>&nbsp;&nbsp;Xuất file
 					</button></a>
-					&nbsp;&nbsp;
+					&nbsp;
 					<button type="button" class="button" onclick="window.close();">
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 					</button>

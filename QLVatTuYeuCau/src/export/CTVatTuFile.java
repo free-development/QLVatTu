@@ -46,33 +46,52 @@ public class CTVatTuFile extends AbstractExcelView {
 		CellStyle style = workbook.createCellStyle();
 		Font font = workbook.createFont();
 		font.setFontName("Times New Roman");
-		style.setFillForegroundColor(HSSFColor.BLUE.index);
-		style.setFillPattern(CellStyle.SOLID_FOREGROUND);
-		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-		font.setColor(HSSFColor.WHITE.index);
+		font.setFontHeight((short)260);
 		style.setFont(font);
+		
+		sheet.setDefaultRowHeight((short) 400);
+		sheet.setColumnWidth(0, 7000);
+		sheet.setColumnWidth(1, 10000);
+		sheet.setColumnWidth(2, 2500);
+		sheet.setColumnWidth(3, 3000);
+		sheet.setColumnWidth(4, 4000);
+		sheet.setColumnWidth(5, 3000);
+		sheet.setDefaultColumnStyle(0, style);
+		sheet.setDefaultColumnStyle(1, style);
+		sheet.setDefaultColumnStyle(2, style);
+		sheet.setDefaultColumnStyle(3, style);
+		sheet.setDefaultColumnStyle(4, style);
+		sheet.setDefaultColumnStyle(5, style);
+		// create header row
+		CellStyle style2 = workbook.createCellStyle();
+		Font font2 = workbook.createFont();
+		font2.setFontName("Times New Roman");
+		font2.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		font2.setFontHeight((short) 260);
+		style2.setFont(font2);
+		style2.setAlignment(CellStyle.ALIGN_CENTER);
 		
 		// create header row
 		HSSFRow header = sheet.createRow(0);
 		response.setHeader("Content-Disposition", "inline; filename=" + "VatTu.xls");
 		
 		header.createCell(0).setCellValue("Mã Vật Tư");
-		header.getCell(0).setCellStyle(style);
+		header.getCell(0).setCellStyle(style2);
 		
 		header.createCell(1).setCellValue("Tên Vật Tư");
-		header.getCell(1).setCellStyle(style);
+		header.getCell(1).setCellStyle(style2);
 		
 		header.createCell(2).setCellValue("ĐVT");
-		header.getCell(2).setCellStyle(style);
+		header.getCell(2).setCellStyle(style2);
 		
-		header.createCell(3).setCellValue("Mã Nơi Sản Xuất");
-		header.getCell(3).setCellStyle(style);
+		header.createCell(3).setCellValue("Mã NSX");
+		header.getCell(3).setCellStyle(style2);
 		
 		header.createCell(4).setCellValue("Mã linh kiện");
-		header.getCell(4).setCellStyle(style);
+		header.getCell(4).setCellStyle(style2);
 		
-		header.createCell(5).setCellValue("Mã chất lượng");
-		header.getCell(5).setCellStyle(style);
+		header.createCell(5).setCellValue("Mã CL");
+		header.getCell(5).setCellStyle(style2);
 		
 		int rowCount = 1;
 		for (CTVatTu ctvt : listCtvt) {

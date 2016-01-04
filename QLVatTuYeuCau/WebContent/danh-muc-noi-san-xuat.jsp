@@ -145,18 +145,21 @@
 					&nbsp;
 						<button class="button" type="button" onclick="confirmDelete();">
 							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xóa
-						</button>&nbsp;
+						</button>
+						&nbsp;
 						<button type="button" class="button" 
 							onclick="showForm2('main-form','import-formct', true)"> 
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Import 
-						</button>&nbsp;
+						</button>
+						&nbsp;
 						<a target="_blank" href='<%=siteMap.exportNsxMn%>'><button class="button" type="button" >
-							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xuất File
+							<i class="fa fa-book"></i>&nbsp;&nbsp;Xuất File
 						</button></a>
 						&nbsp;
 						<button class="button" type="reset">
 							<i class="fa fa-spinner"></i>&nbsp;&nbsp;Bỏ qua
-						</button>&nbsp;
+						</button>
+						&nbsp;
 						<button type="button" class="button" onclick="location.href='<%=siteMap.homePageManage%>'">
 							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 						</button>
@@ -186,9 +189,11 @@
 				<button class="button" type="button" onclick="addNsx();">
 					<i class="fa fa-plus-circle"></i>&nbsp;Thêm
 				</button>
+				&nbsp;
 				<button type="reset" class="button">
 					<i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại
 				</button>
+				&nbsp;
 				<button type="button" class="button"
 					onclick="loadAddNsx();">
 					<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
@@ -221,9 +226,11 @@
 				<button class="button" type="button" onclick="confirmUpdateNsx();">
 					<i class="fa fa-floppy-o"></i>&nbsp;Lưu lại
 				</button>
+				&nbsp;
 				<button class="button" type="button" onclick="resetUpdateNsx();">
 					<i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại
 				</button>
+				&nbsp;
 				<button type="button" class="button"
 					onclick="loadUpdateNsx()">
 					<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát

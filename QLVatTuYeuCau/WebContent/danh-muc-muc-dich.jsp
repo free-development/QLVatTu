@@ -117,10 +117,12 @@
 								onclick="showForm('add-form', true)">
 								<i class="fa fa-plus-circle"></i>&nbsp;Thêm
 							</button>
+							&nbsp;
 							<button type="button" class="button"
 								onclick="preUpdateMd('update-form', true); $('#mdTenFocus').focus();">
 								<i class="fa fa-pencil fa-fw"></i>&nbsp;Thay đổi
 							</button>
+							&nbsp;
 							<button class="button" type="button" onclick="confirmDeleteMd();">
 								<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xóa
 							</button>
@@ -160,9 +162,11 @@
 							<button class="button" type="button" onclick="addMd()">
 								<i class="fa fa-plus-circle"></i>&nbsp;Thêm
 							</button>
+							&nbsp;
 							<button type="reset" class="button">
 								<i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại
 							</button>
+							&nbsp;
 							<button type="button" class="button"
 								onclick="loadAddMd();">
 								<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
@@ -195,9 +199,11 @@
 							<button class="button" type="button" onclick="confirmUpdateMd()">
 								<i class="fa fa-floppy-o"></i>&nbsp;Lưu lại
 							</button>
+							&nbsp;
 							<button class="button" type="button" onclick="resetUpdateMd()">
 								<i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại
 							</button>
+							&nbsp;
 							<button type="button" class="button"
 								onclick="loadUpdateMd();">
 								<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát

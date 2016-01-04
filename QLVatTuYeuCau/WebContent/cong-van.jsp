@@ -443,23 +443,26 @@ countAdd = '0';
 							<button type="button" class="button" onclick="loadDataCv();">
 								<i class="fa fa-plus-circle"></i>&nbsp;Thêm mới
 							</button>
+							&nbsp;
 							<button type="button" class="button"title="Chỉ chọn một công văn để sửa"
 								onclick="checkUpdate()">
 								<i class="fa fa-pencil fa-fw"></i>&nbsp;Sửa
 							</button>
+							&nbsp;
 							<button class="button" type="button" onclick="confirmDelete();">
 								<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xóa
 							</button>
+							&nbsp;
 							<%} %>
 							<% if(chucDanh.equals(phoPhongMa) ||  chucDanh.equals(truongPhongMa) || chucDanh.equals(adminMa)) { %>
 							<a href="<%=siteMap.bccvManage%>" target="_blank"><button class="button" type="button"">
 							<i class="fa fa-print"></i>&nbsp;&nbsp;Báo cáo
 							</button></a>
+							&nbsp;
 							<% } %>
 <!-- 							<button class="button" "> -->
 <!-- 								<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xóa -->
 <!-- 							</button> -->
-							&nbsp;
 							<button type="button" class="button" onclick="location.href='<%=siteMap.homePageManage %>'">
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 					</button>
@@ -560,9 +563,11 @@ countAdd = '0';
 							onclick="checkAdd();">
 							<i class="fa fa-plus-circle"></i>&nbsp;Lưu lại
 						</button>
+						&nbsp;
 						<button type="reset" class="button">
 							<i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại
 						</button>
+						&nbsp;
 						<button type="button" class="button"
 							onclick="hideAddForm();">
 							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
@@ -638,9 +643,11 @@ countAdd = '0';
 							onclick="checkUp();">
 							<i class="fa fa-floppy-o"></i>&nbsp;Lưu lại
 						</button>
+						&nbsp;
 						<button type="reset" class="button">
 							<i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại
 						</button>
+						&nbsp;
 						<button type="button" class="button"
 							onclick="hideUpdateForm();">
 							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát

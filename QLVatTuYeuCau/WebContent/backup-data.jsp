@@ -166,6 +166,7 @@
 							<button class="button" type="submit" id="backupData">
 								<i class="fa fa-plus-circle"></i>&nbsp;Sao lưu
 							</button>
+							&nbsp;
 							<button type="reset" class="button">
 								<i class="fa fa-refresh"></i>&nbsp;Nhập lại
 							</button>

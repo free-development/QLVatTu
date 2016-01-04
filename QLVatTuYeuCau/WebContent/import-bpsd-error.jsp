@@ -44,8 +44,9 @@
 								<th class="four-column">Mã BPSD</th>
 								<th class="three-column">Tên BPSD</th>
 								<th class="six-column">Địa chỉ</th>
-								<th class="six-column">Email</th>
-								<th class="four-column">Số điện thoại</th>
+								
+								<th class="four-column">Email</th>
+								<th class="six-column">Số điện thoại</th>
 								<th class="four-column">Lỗi</th>
 							</tr>
 							<%
@@ -60,8 +61,11 @@
 								<td class="col"><%=donVi.getDvMa()%></td>
 								<td class="col" style="text-align: left;"><%=donVi.getDvTen()%></td>
 								<td class="col" style="text-align: left;"><%=donVi.getDiaChi() %></td>
-								<td class="col" style="text-align: left;"><%=donVi.getEmail()%></td>
-								<td class="col"><%=donVi.getSdt() %></td>
+								<td class="col"><%=donVi.getEmail() %></td>
+								<td class="col" style="text-align: left;"><%=donVi.getSdt()%></td>
+								
+								
+								
 								<td class="col"><%=statusError.get(count) %></td>
 							</tr>
 							<%count++;} }%>

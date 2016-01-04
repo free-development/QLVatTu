@@ -117,10 +117,12 @@
 							onclick="showForm('add-form', true); $('#vtFocus').focus();">
 							<i class="fa fa-plus-circle"></i>&nbsp;Thêm
 						</button>
+						&nbsp;
 						<button type="button" class="button"
 							onclick="preUpdatevt('update-form', true);">
 							<i class="fa fa-pencil fa-fw"></i>&nbsp;Thay đổi
 						</button>
+						&nbsp;
 						<button type="button" class="button" onclick="confirmDelete();">
 							<i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xóa
 						</button>
@@ -129,7 +131,7 @@
 							<i class="fa fa-spinner"></i>&nbsp;&nbsp;Bỏ qua
 						</button>
 						&nbsp;
-						<button type="button" class="btn" onclick="location.href='<%=siteMap.homePageManage %>'">
+						<button type="button" class="button" onclick="location.href='<%=siteMap.homePageManage %>'">
 							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 						</button>
 					</div>
@@ -156,9 +158,11 @@
 				<button class="button" type="button" onclick="addvt();">
 					<i class="fa fa-plus-circle"></i>&nbsp;Thêm
 				</button>
+				&nbsp;
 				<button type="reset" class="button">
 					<i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại
 				</button>
+				&nbsp;
 				<button type="button" class="button"
 					onclick="loadAddVt();">
 					<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
@@ -188,9 +192,11 @@
 						<button type="button" class="button" onclick="confirmUpdatevt();">
 							<i class="fa fa-floppy-o"></i>&nbsp;Lưu lại
 						</button>
+						&nbsp;
 						<button  type="reset" class="button" >
 							<i class="fa fa-refresh"></i>&nbsp;&nbsp;Nhập lại
 						</button>
+						&nbsp;
 						<button type="button" class="button"
 							onclick="loadUpdateVt();">
 							<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
