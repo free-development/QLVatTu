@@ -62,9 +62,8 @@ public class ReadExcelTon {
 					switch (count) {
 					case 1:
 						vtMa = cell.getStringCellValue();
-						vtMa.replaceAll("\'", "");
-						vtMa.replaceAll("'", "");
-						vtMa.replaceAll("\"", "");
+						vtMa = vtMa.replaceAll("\'", "");
+						vtMa = vtMa.replaceAll("\"", "");
 						break;
 					case 2:
 						vtTen = cell.getStringCellValue();
@@ -80,7 +79,10 @@ public class ReadExcelTon {
 						break;
 					}
 				} else if (cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC) {
-					switch (count) {	
+					switch (count) {
+						case 1:
+							vtMa = cell.getNumericCellValue() + "";
+							break;
 						case 6:
 							soLuong = (int)cell.getNumericCellValue();
 							break;
@@ -195,10 +197,8 @@ public class ReadExcelTon {
 					switch (count) {
 					case 1:
 						vtMa = cell.getStringCellValue();
-						vtMa.replaceAll("'", "");
-						vtMa.replaceAll("\'", "");
-						vtMa.replaceAll("\"", "");
-						
+						vtMa = vtMa.replaceAll("\'", "");
+						vtMa = vtMa.replaceAll("\"", "");
 						break;
 					case 2:
 						vtTen = cell.getStringCellValue();
@@ -216,6 +216,9 @@ public class ReadExcelTon {
 					}
 				} else if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
 					switch (count) {
+						case 1:
+							vtMa = cell.getNumericCellValue() + "";
+							break;
 						case 6:
 							soLuong = (int)cell.getNumericCellValue();
 							break;

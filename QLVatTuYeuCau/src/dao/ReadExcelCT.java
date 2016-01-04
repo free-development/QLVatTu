@@ -61,6 +61,8 @@ public class ReadExcelCT {
 					switch (count) {
 					case 0:
 						vtMa = cell.getStringCellValue();
+						vtMa = vtMa.replaceAll("\'", "");
+						vtMa = vtMa.replaceAll("\"", "");
 						break;
 					case 1:
 						vtTen = cell.getStringCellValue();

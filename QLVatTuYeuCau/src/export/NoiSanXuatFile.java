@@ -40,7 +40,7 @@ public class NoiSanXuatFile extends AbstractExcelView {
 		// create style for header cells
 		CellStyle style = workbook.createCellStyle();
 		Font font = workbook.createFont();
-		font.setFontName("Arial");
+		font.setFontName("Times New Roman");
 		style.setFillForegroundColor(HSSFColor.BLUE.index);
 		style.setFillPattern(CellStyle.SOLID_FOREGROUND);
 		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);

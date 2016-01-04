@@ -50,6 +50,7 @@ public class ChatLuongFile extends AbstractExcelView {
 		// create header row
 		HSSFRow header = sheet.createRow(0);
 		response.setHeader("Content-Disposition", "inline; filename=" + "ChatLuong.xls");
+		
 		header.createCell(0).setCellValue("Mã Chất Lượng");
 		header.getCell(0).setCellStyle(style);
 		

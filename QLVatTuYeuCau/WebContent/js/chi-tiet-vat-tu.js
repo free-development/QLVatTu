@@ -1,4 +1,4 @@
-		function showForm(formId, check){
+function showForm(formId, check){
 			if (check)
 				document.getElementById(formId).style.display="block";
 			else document.getElementById(formId).style.display="none";

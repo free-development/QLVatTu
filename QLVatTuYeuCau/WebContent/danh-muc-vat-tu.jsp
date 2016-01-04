@@ -89,7 +89,7 @@
 <!--  							$("#country").autocomplete("getdata.jsp"); -->
 <!-- 						</script> -->
 		
-		<form id="vattu">
+		
 			<table style="margin: 0 auto;">		
 					<tr>		
 					<th  style="text-align: left; color: black; font-size: 19px;">* Tìm kiếm mã</th>
@@ -128,7 +128,7 @@
 					</tr>					
 				</table>
 			
-			
+			<form id="vattu">
 			<div id="view-table-vat-tu" style="margin: 0 auto; overflow: auto;font-family: Tahoma,.vntime;" class="scroll_content">
 				<table style="width:1024px; ">
 					<tr style="background: #199e5e; height: 30px">
@@ -341,7 +341,7 @@
 						<form id="import-formct" onsubmit="showForm2('vattu','import-formct', false);" target="_blank" action="<%=siteMap.readExcelCt %>" method="post" enctype="multipart/form-data" style="height: 200px;width:350px;text-align: center;" >
 									<input type="file" name="file" accept=".xls, .xlsx" class="text" style="padding-left: 0px;">
 									<div class="group-button">
-										<input value="uploadFile" name="action" type="submit" class="button" style="width: 120px;font-size: 17px;text-align: center;" onclick="document.body.style.cursor='wait'; return true;">
+										<input value="uploadFile" name="action" type="submit" class="button" style="width: 120px;font-size: 17px;text-align: center;" onclick="showForm2('vattu','import-formct', false);">
 										<input value="Thoát" onclick="showForm2('vattu','import-formct', false);" type="button" class="button"  style="width: 100px;text-align: center;font-size: 17px;">
 									</div>
 						</form>
