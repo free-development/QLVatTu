@@ -107,10 +107,7 @@ display:none;
 		<td style="padding-left: 150px;">-----------------------</td>
 		<td style="text-align: center;">-----------------------</td>
 		</tr>
-		<tr>
-		<td></td>
-		<td style="font-size: 17px; text-align: center;">Cần Thơ, ngày...tháng...năm...</td>
-		</tr>
+		
 		</table>
 		<br>
 	   		<div style="text-align: center;font-size: 20px;font-weight: bold;color: #199e5e;">Báo cáo tổng hợp vật tư thiếu</div>
@@ -121,13 +118,13 @@ display:none;
 			<div id="view-table-bao-cao" >
 				<table style="border: solid 1px black;width:1224px;">
 					<tr bgcolor="#199e5e"  style= "border-style: solid;border-color:black;">
-						<th style="border: 1px solid black;width: 50px;" class="three-column" style="text-align: center;">Mã vật tư</th>
-						<th style="border: 1px solid black;width: 450px;" class="two-column">Tên vật tư</th>
-						<th style="border: 1px solid black;width: 100px;" class="three-column">Nơi sản xuất</th>
-						<th style="border: 1px solid black;width: 100px;" class="three-column">Chất lượng</th>
-						<th style="border: 1px solid black;width: 50px;" class="six-column">Đvt</th>
-						<th style="border: 1px solid black;width: 50px;" class="one-column">Tổng số lượng thiếu</th>	
-						<th style="border: 1px solid black;width: 50px;" class="one-column">Số lượng tồn</th>
+						<th style="border: 1px solid black;width: 50px; text-align: center;" class="three-column" style="text-align: center;">Mã vật tư</th>
+						<th style="border: 1px solid black;width: 450px; text-align: center;" class="two-column">Tên vật tư</th>
+						<th style="border: 1px solid black;width: 100px; text-align: center;" class="three-column">Nơi sản xuất</th>
+						<th style="border: 1px solid black;width: 100px; text-align: center;" class="three-column">Chất lượng</th>
+						<th style="border: 1px solid black;width: 50px;text-align: center;" class="six-column">Đvt</th>
+						<th style="border: 1px solid black;width: 50px; text-align: center;" class="one-column">Tổng số lượng thiếu</th>	
+						<th style="border: 1px solid black;width: 50px; text-align: center;" class="one-column">Số lượng tồn</th>
 					</tr>
 								<%
 								int count = 0;

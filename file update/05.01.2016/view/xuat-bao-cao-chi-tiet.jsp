@@ -66,9 +66,9 @@ display:none;
 		
 		
 		if (congVanList ==  null) {
-			int index = siteMap.baoCaoChiTiet.lastIndexOf("/");
-			String url = siteMap.cvManage.substring(index);
-			RequestDispatcher dispatcher =  request.getRequestDispatcher(url + "?action=manageBcbdn");
+// 			int index = siteMap.baoCaoChiTiet.lastIndexOf("/");
+// 			String url = siteMap.cvManage.substring(index);
+			RequestDispatcher dispatcher =  request.getRequestDispatcher(siteMap.baoCaoChiTiet);
 			dispatcher.forward(request, response);
 			return;
 		}
@@ -118,7 +118,7 @@ display:none;
 		</tr>
 		<tr>
 		<td></td>
-		<td style="font-size: 17px; text-align: center;">Cần Thơ, ngày...tháng...năm...</td>
+<!-- 		<td style="font-size: 17px; text-align: center;">Cần Thơ, ngày...tháng...năm...</td> -->
 		</tr>
 		</table>
 		<br>

@@ -32,12 +32,16 @@
 <script type="text/javascript" src="js/sessionManagement.js"></script>
 <title>Xuất chi tiết vật tư</title>
 <style type="text/css" media="print">
+.head {
+    page-break-after: always;
+}
 #print_button{
 display:none;
 }
 @page 
         {
             size: auto A4 landscape;
+            page-break-after: always;
         	color: black; background: white; }
 		
 </style>
@@ -111,7 +115,7 @@ display:none;
 			<div id="view-table-bao-cao">
 					<table  style="border: solid 1px black;width:960px;font-size: 12px;">
 					<thead>
-						<tr style="border: 1px solid black;">
+						<tr style="border: 1px solid black;" class="head">
 						<th style="border: 1px solid black;font-size: 17px;width: 5px;">STT</th>
 						<th style="border: 1px solid black;font-size: 17px;width: 10px;">Mã VT</th>
 						<th style="border: 1px solid black;font-size: 17px;width: 300px;">Tên vật tư</th>

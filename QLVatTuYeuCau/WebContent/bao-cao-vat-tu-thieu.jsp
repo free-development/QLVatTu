@@ -157,7 +157,7 @@
 
 			<div class="group-button"style ="text-align: center;margin-top:10px;">
 <!--     <a href="excel.jsp?exportToExcel=YES">Export to Excel</a> -->
-			<a href="<%=siteMap.xuatFile + "jsp"%>" target="_blank">
+			<a href="<%=siteMap.xuatFile + ".jsp"%>" target="_blank">
 				<button class="button" type="button">
 					<i class="fa fa-download"></i>&nbsp;&nbsp;Xuất file
 				</button>

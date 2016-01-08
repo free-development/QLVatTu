@@ -42,8 +42,13 @@ display:none;
 }
 @page 
         {
-            size: auto A4 landscape;
-        	color: black; background: white; }
+            size: portrait;
+            
+        	color: black; background: white;
+        	 
+        	}
+@page { size : portrait }
+   @page rotated { size : portrait }        	
 	   table 
 	   { 
 	   		font-size: 100%; 
@@ -104,7 +109,8 @@ display:none;
 		</tr>
 		<tr>
 		<td></td>
-		<td style="font-size: 17px; text-align: center;">Cần Thơ, ngày...tháng...năm...</td>
+<!-- 		<td style="font-size: 17px; text-align: center;">Cần Thơ, ngày...tháng...năm...</td> -->
+		<td></td>
 		</tr>
 		</table>
 		<br>
@@ -166,11 +172,7 @@ display:none;
 				<br>
 				<br>
 				<div style="width:800px;font-size: 18px;margin: auto;">
-						<table style="width:800px;font-size: 18px;;">
-								<tr>
-								<td></td>
-								<td style="font-size: 17px; text-align: center;">Cần Thơ, ngày...tháng...năm...</td>
-								</tr>
+						<table style="width:800px;font-size: 18px;">
 								<tr>
 									<td style="padding-left: 50px;font-weight: bold;">Người lập biểu</td>
 									<td style="text-align: center;font-weight: bold;">Trưởng Phòng Vật Tư</td>
