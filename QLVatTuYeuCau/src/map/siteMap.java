@@ -181,6 +181,10 @@ public class siteMap {
 	public static final String  downloadNsxError = home + "downloadNsxError.html";
 	public static final String  downloadClError = home + "downloadClError.html";
 	
+	
+	
 	public static final String  exportVatTuAlert = home + "exportAlert.html";
 	
+	public static final String  exportCongVan = home + "exportCongVan.html";
+	public static final String  excelCongVan = "excelCongVan";
 }

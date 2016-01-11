@@ -41,6 +41,7 @@ import dao.ReadExcelCongVan;
 import dao.TrangThaiDAO;
 import dao.VTCongVanDAO;
 import dao.VaiTroDAO;
+import jdk.nashorn.internal.scripts.JS;
 import map.siteMap;
 import model.CongVan;
 import model.DonVi;
@@ -121,7 +122,7 @@ public class CvController extends HttpServlet{
 	//		else 
 	//			cvId = 0;
 			
-			orderBy.put("soDen", true);
+			orderBy.put("cvId", true);
 	    	ArrayList<CongVan> congVanList = (ArrayList<CongVan>) congVanDAO.searchLimit(msnvTemp, conditions, orderBy, 0, 3);
 			HashMap<Integer, File> fileHash = new HashMap<Integer, File>();
 			if (cdMa.equals(vanThuMa) || cdMa.equals(truongPhongMa) || cdMa.equals(adminMa) || cdMa.equals(phoPhongMa) || cdMa.equals(thuKyMa) ) {
@@ -347,6 +348,7 @@ public class CvController extends HttpServlet{
 			SendMail sendMail = new SendMail(account, password);
 			NguoiDungDAO nguoiDungDAO = new NguoiDungDAO();
 			ArrayList<NguoiDung> nguoiDungList = (ArrayList<NguoiDung>) nguoiDungDAO.getTruongPhong(truongPhongMa);
+			nguoiDungDAO.disconnect();
 			for (NguoiDung nguoiDung : nguoiDungList) {
 				Mail mail = new Mail();
 				mail.setFrom(account);
@@ -1114,6 +1116,7 @@ public class CvController extends HttpServlet{
 			if (truongPhongMa.equals(cdMa) || vanThuMa.equals(cdMa) || cdMa.equals(adminMa) || cdMa.equals(phoPhongMa) || thuKyMa.equals(cdMa))
 				msnvTemp = null;
 			
+			
 			if (filter.equals("mdMa"))
 				column = "mucDich."+"mdMa";
 			else if (filter.equals("dvMa"))
@@ -1123,16 +1126,25 @@ public class CvController extends HttpServlet{
 			columnValue = filterValue;
 			if (filter.equals("cvNgayNhan") || filter.equals("cvNgayDi"))
 				columnValue = DateUtil.parseDate((String) columnValue);
-			CongVanDAO congVanDAO = new CongVanDAO();
-			FileDAO fileDAO = new FileDAO();
+			
 			HashMap<String, Object> conditions = new HashMap<String, Object>();
 			HashMap<String, Boolean> orderBy = new HashMap<String, Boolean>();
-			orderBy.put("soDen", true);
+			orderBy.put("cvId", true);
 			if (ttMa.length() > 0)
 				conditions.put("trangThai.ttMa", ttMa);
 			if (column.length() > 0 && columnValue.toString().length() > 0)  {
-				if (column.equals("soDen"))
-					conditions.put(column, Integer.parseInt((String) columnValue));
+				String value = columnValue.toString();
+				int index = value.lastIndexOf("/");
+				if (column.equals("soDen")) {
+					String soDen = value.substring(0, index);
+					String year = value.substring(index + 1);
+					try {
+						conditions.put("soDen", Integer.parseInt(soDen));
+						conditions.put("year", Integer.parseInt(year));
+					} catch (NumberFormatException e) {
+						return JSonUtil.toJson("empty");
+					}
+				}
 				else
 					conditions.put(column, columnValue);
 			}
@@ -1140,10 +1152,11 @@ public class CvController extends HttpServlet{
 				conditions.remove("cvId");
 				cvId = 0;
 			}
-			
+			CongVanDAO congVanDAO = new CongVanDAO();
+			FileDAO fileDAO = new FileDAO();
 			LogicalExpression expression = congVanDAO.addTimeExpression(null, month, date);
 			conditions.put("time", expression);
-			orderBy.put("cvNgayNhan", true);
+//			orderBy.put("cvNgayNhan", true);
 			
 			
 			ArrayList<CongVan> congVanList = congVanDAO.searchLimit(msnvTemp, conditions, orderBy, 0, 3);

@@ -39,14 +39,16 @@ public class BcvttController extends HttpServlet {
     	try {
 			HttpSession session = request.getSession(false);
 			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
-			String adminMa = context.getInitParameter("adminMa");
+			
 			if (authentication == null) { 
 				logger.error("Không chứng thực truy cập báo cáo vật tư thiếu");
 				return new ModelAndView(siteMap.login);
-			} else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
-				logger.error("Không có quyền truy cập báo cáo vật tư thiếu");
-				return new ModelAndView(siteMap.login);
 			}
+//				else if (!authentication.getChucDanh().getCdMa().equals(adminMa)) {
+//				logger.error("Không có quyền truy cập báo cáo vật tư thiếu");
+//				return new ModelAndView(siteMap.login);
+//			}
+			
 			session.removeAttribute("congVanList");
 			session.removeAttribute("ctVatTuList");
 			session.removeAttribute("soLuongList");
@@ -55,6 +57,15 @@ public class BcvttController extends HttpServlet {
 			session.removeAttribute("trangThaiList");
 			session.removeAttribute("donViList");
 			session.removeAttribute("errorList");
+			
+			String adminMa = context.getInitParameter("adminMa");
+			String truongPhongMa = context.getInitParameter("truongPhongMa");
+			String phoPhongMa = context.getInitParameter("phoPhongMa");
+			String cdMa =authentication.getChucDanh().getCdMa();
+			
+			String msnv =authentication.getMsnv();
+			if (cdMa.equals(adminMa) || cdMa.equals(phoPhongMa) || cdMa.equals(truongPhongMa) )
+				msnv = null;
 	    	CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();
 			YeuCauDAO yeuCauDAO = new YeuCauDAO();
 	    	CongVanDAO congVanDAO = new CongVanDAO();
@@ -72,7 +83,7 @@ public class BcvttController extends HttpServlet {
 				session.setAttribute("ngaykt", DateUtil.parseDate(ngaykt));
 			}
 			
-			ArrayList<CTVatTu> ctVatTuList = yeuCauDAO.distinctCtvt(condtions);
+			ArrayList<CTVatTu> ctVatTuList = yeuCauDAO.distinctCtvt(condtions, msnv);
 			ArrayList<ArrayList<CongVan>> congVanList = new ArrayList<ArrayList<CongVan>>();
 			ArrayList<Long> soLuongList = new ArrayList<Long>();
 			for (CTVatTu ctVatTu : ctVatTuList) {

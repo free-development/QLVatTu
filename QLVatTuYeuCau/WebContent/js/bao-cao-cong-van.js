@@ -88,13 +88,16 @@ function loadBaoCao() {
 		  		
 		  		for (var i = 0; i < length; i++ ) {
 		  			var congVan = congVanList[i];
+		  			var cvNgayNhan = parseDate(congVan.cvNgayNhan);
+					var index = cvNgayNhan.lastIndexOf('/') ;
+					var year = cvNgayNhan.substring(index + 1);
 		  			var style = '';
 		  			if (i % 2 == 0)
 		  				style = ' style=\"background : #CCFFFF;\" ';
 		  			else
 		  				style = ' style=\"background : #FFFFFF;\" ';
 		  			content += '<tr class=\"rowContent\"' + style + '>'
-		  					+ '<td style=\"width: 50px; text-align: center;\">' + congVan.soDen + '</td>'
+		  					+ '<td style=\"width: 50px; text-align: center;\">' + congVan.soDen + '/' + year + '</td>'
 							
 							+ '<td style=\"width: 100px; text-align: center;\">' + parseDate(congVan.cvNgayNhan) + '</td>'
 							+ '<td style=\"width: 50px; text-align: center;\">' + congVan.cvSo + '</td>'	

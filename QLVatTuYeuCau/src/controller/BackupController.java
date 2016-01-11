@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -105,7 +106,7 @@ public class BackupController extends HttpServlet {
 				fileIdInput.read(b1);
 				fileIdInput.close();
 				
-				String contentId = new String(b1);
+				String contentId = new String(b1, "UTF-8");
 				String contentBackup = "";
 				int temp = idTemp % 10;
 				if (temp == 0) {
@@ -117,14 +118,15 @@ public class BackupController extends HttpServlet {
 				OutputStreamWriter fi = new OutputStreamWriter(new FileOutputStream(fileId), "UTF-8");
 				fi.write(temp + "#####" + thoiGian + "#####" + moTa + "#####" + filePath + contentBackup);
 				fi.close();
+				
 //				fileWriterId.write(temp + "#####" + thoiGian + "#####" + moTa + "#####" + filePath + contentBackup);
 //				fileWriterId.close();
 			} else {
 				if (!fileId.exists())
 					fileId.createNewFile();
-				FileWriter fileWriterId = new FileWriter(fileId);
-				fileWriterId.write(0 + "#####" + thoiGian + "#####" + moTa + "#####" + filePath);
-				fileWriterId.close();
+				OutputStreamWriter fi = new OutputStreamWriter(new FileOutputStream(fileId), "UTF-8");
+				fi.write(0 + "#####" + thoiGian + "#####" + moTa + "#####" + filePath);
+				fi.close();
 			}
 			FileWriter fileWriter = new FileWriter(fileIdBackup);
 			fileWriter.write(new String("" + (idTemp + 1)));
@@ -158,7 +160,6 @@ public class BackupController extends HttpServlet {
 			int idPage  = id / 10;
 			int idBackup = id % 10;
 			String pathFileRestore = "";
-			System.out.println(pathLogBackup + "idInfo" + idPage + ".info");
 			FileReader fileInput = new FileReader(pathLogBackup + "idInfo" + idPage + ".info");
 			BufferedReader buff = new BufferedReader(fileInput);
 			
@@ -279,28 +280,30 @@ public class BackupController extends HttpServlet {
 			pageNumber = (Integer.parseInt(buff.readLine()) - 1)/ 10;
 			buff.close();
 //			for (int i = pageNumber; i >= 0 ; i--) {
-			File file = new File(pathLogBackup + "idInfo" + pageNumber + ".info");
+			java.io.File file = new File(pathLogBackup + "idInfo" + pageNumber + ".info");
 			if (!file.exists()) {
 				file.createNewFile();
 			}
-			FileReader fileIdInput = new FileReader(file);
-				BufferedReader buff2 = new BufferedReader(fileIdInput);
-				String line = "";
-				while (true) {
-					line = buff2.readLine();
-					if (line ==  null)
-						break;
-					String[] temp = line.split("\\#####");
-					BackupInfo backupInfo = new BackupInfo(Integer.parseInt(temp[0]), temp[1].substring(9), temp[2], temp[3]);
-					backupList.add(backupInfo);
-				}
-				buff2.close();
-//			}
+//			I fileIdInput = new FileReader(file);
+			FileInputStream fileIdInput = new FileInputStream(file);
+			InputStreamReader buffFileIn = new InputStreamReader(fileIdInput, "UTF-8");
+			
+			fileIdInput.available();
+			String content = "";
+			char[] b = new char[fileIdInput.available()];	
+			buffFileIn.read(b);
+			content =  new String (b);
+				String[] temp= content.split("\n") ;
+			for (String line : temp) {
+				String[] t = line.split("\\#####");
+				BackupInfo backupInfo = new BackupInfo(Integer.parseInt(t[0]), t[1].substring(9), t[2], t[3]);
+				backupList.add(backupInfo);
+			}
 			request.setAttribute("backupList", backupList);
 			request.setAttribute("pageNumber", pageNumber);
 			
-			buff.close();
 			fileInput.close();
+			fileIdInput.close();
 			return new ModelAndView(siteMap.backupDataPage);
 		} catch (NullPointerException | IndexOutOfBoundsException | NumberFormatException | IOException e) {
 			logger.error("Lỗi truy cập quản lý database: " + e.getMessage());
@@ -324,23 +327,34 @@ public class BackupController extends HttpServlet {
 			}
 			int page = Integer.parseInt(pageNumber);
 			ArrayList<Object> objectList = new ArrayList<Object>();
+			ArrayList<BackupInfo> backupList = new ArrayList<BackupInfo>();
 			String pathLogBackup = context.getInitParameter("pathLogBackup");
 			FileReader fileIn = new FileReader(pathLogBackup + "numberBackup.sysInfo");
 			BufferedReader buffFileIn = new BufferedReader(fileIn);
+//			InputStreamReader buffFileIn = new InputStreamReader(fileIn, "UTF-8");
+//			buffFileIn.
+//			System.out.println(temp + "#####" + thoiGian + "#####" + moTa + "#####" + filePath);
+//			String 
 			int size = Integer.parseInt(buffFileIn.readLine());
 			buffFileIn.close();
 			page = (size - 1)/ 10 - page;
-			FileReader fileIdInput = new FileReader(pathLogBackup + "idInfo" + page + ".info");
-			BufferedReader buffFileIdInput = new BufferedReader(fileIdInput);
-			ArrayList<BackupInfo> vatTuList = new ArrayList<BackupInfo>() ;
-			String line = "";
-			while((line = buffFileIdInput.readLine()) != null) {
-				String[] temp = line.split("\\#####");
-				BackupInfo backupInfo = new BackupInfo(Integer.parseInt(temp[0]), temp[1].substring(9), temp[2], temp[3]);
-				vatTuList.add(backupInfo);
+			//FileReader fileIdInput = new FileReader(pathLogBackup + "idInfo" + page + ".info");
+//			Fil
+			FileInputStream fileInputId = new FileInputStream(pathLogBackup + "idInfo" + page + ".info");
+			InputStreamReader buffFileId = new InputStreamReader(fileInputId, "UTF-8");
+			
+			String content = "";
+			char[] b = new char[fileInputId.available()];	
+			buffFileId.read(b);
+			content =  new String (b);
+				String[] temp= content.split("\n") ;
+			for (String line : temp) {
+				String[] t = line.split("\\#####");
+				BackupInfo backupInfo = new BackupInfo(Integer.parseInt(t[0]), t[1].substring(9), t[2], t[3]);
+				backupList.add(backupInfo);
 			}
-			buffFileIdInput.close();
-			objectList.add(vatTuList);
+			buffFileId.close();
+			objectList.add(backupList);
 			objectList.add(size);
 			return JSonUtil.toJson(objectList);
 		} catch (FileNotFoundException e){
@@ -359,3 +373,4 @@ public class BackupController extends HttpServlet {
 	}
 	
 }
+

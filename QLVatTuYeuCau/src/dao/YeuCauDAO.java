@@ -284,10 +284,17 @@ public class YeuCauDAO {
 //			return 0;
 		return -1;
 	}
-	public ArrayList<CTVatTu> distinctCtvt(HashMap<String, Object> conditions) {
+	public ArrayList<CTVatTu> distinctCtvt(HashMap<String, Object> conditions, String msnv) {
 		session.beginTransaction();
+		String joinVtCv = "";
+		String conditionMsnv = "" ;
+		if (msnv != null) {
+			joinVtCv = " join VTCONGVAN d ";
+			conditionMsnv = " d.cvId = b.cvId and d.msnv = '" + msnv + "' and ";
+		}
+//		String msnv = " join VTCONGVAN d ";
 		ArrayList<CTVatTu> ctVatTuList = new ArrayList<CTVatTu>();
-		String sql = "select c.* from CTVATTU c join YEUCAU a join CONGVAN b where a.cvId = b.cvId and c.ctvtId = a.ctvtId and a.ycSoLuong > a.capSoLuong and a.daXoa = 0 ";
+		String sql = "select c.* from CTVATTU c join YEUCAU a join CONGVAN b " + joinVtCv + " where " + conditionMsnv+ " a.cvId = b.cvId and c.ctvtId = a.ctvtId and a.ycSoLuong > a.capSoLuong and a.daXoa = 0 ";
 		SQLQuery query;
 		ArrayList<Integer> ctvtIdList = new ArrayList<Integer> ();
 		if (conditions != null) {

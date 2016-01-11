@@ -36,7 +36,9 @@
 #print_button{
 display:none;
 }
-
+.button{
+display:none;
+}
 @page { size : landscape; }
    @page rotated { size : landscape }
            	
@@ -98,7 +100,7 @@ display:none;
 						<i class="fa fa-download"></i>&nbsp;&nbsp;Tải file
 					</button>
 					&nbsp;&nbsp;
-					<button type="button" id="exit_button" class="button">
+					<button id="exit_button"  class="button"  onclick="window.close();">
 						<i class="fa fa-sign-out"></i>&nbsp;&nbsp;Thoát
 					</button>
 					<% } %>
@@ -189,10 +191,10 @@ display:none;
 				<br>
 				<div style="width:800px;font-size: 18px;margin: auto;">
 						<table style="width:800px;font-size: 18px;;">
-								<tr>
-								<td></td>
-								<td style="font-size: 17px; text-align: center;">Cần Thơ, ngày...tháng...năm...</td>
-								</tr>
+<!-- 								<tr> -->
+<!-- 								<td></td> -->
+<!-- 								<td style="font-size: 17px; text-align: center;">Cần Thơ, ngày...tháng...năm...</td> -->
+<!-- 								</tr> -->
 								<tr>
 									<td style="padding-left: 50px;font-weight: bold;">Người lập biểu</td>
 									<td style="text-align: center;font-weight: bold;">Trưởng Phòng Vật Tư</td>

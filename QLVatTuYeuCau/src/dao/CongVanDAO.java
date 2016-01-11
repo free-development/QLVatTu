@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import org.apache.poi.hssf.util.HSSFColor.AQUA;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
@@ -56,7 +57,20 @@ public class CongVanDAO {
 		session.getTransaction().commit();
 		return congVanList;
 	}
-	
+	public List<CongVan> getAllCongVan(String msnv) {
+		session.beginTransaction();
+		Criteria cr = session.createCriteria(CongVan.class);
+		cr.add(Restrictions.eq("daXoa", 0));
+		if (msnv != null) {
+			String sql = "select distinct cvId from VTCongVan where msnv = '" + msnv + "'";
+			Query query = session.createQuery(sql);
+			ArrayList<Integer> cvIdList = (ArrayList<Integer>) query.list();
+			cr.add(Restrictions.in("cvId", cvIdList));
+		}
+		List<CongVan> congVanList = (List<CongVan>) cr.list();
+		session.getTransaction().commit();
+		return congVanList;
+	}
 	public List<CongVan> limit(int first, int limit) {
 		session.beginTransaction();
 		Criteria cr = session.createCriteria(CongVan.class);
@@ -162,7 +176,7 @@ public class CongVanDAO {
 		session.beginTransaction();
 		Criteria cr =  session.createCriteria(CongVan.class);
 		cr.setProjection(Projections.max("soDen"));
-		cr.add(Restrictions.sqlRestriction("MONTH(cvNgayNhan) = " + (cvNgayNhan.getMonth() + 1)));
+//		cr.add(Restrictions.sqlRestriction("MONTH(cvNgayNhan) = " + (cvNgayNhan.getMonth() + 1)));
 		cr.add(Restrictions.sqlRestriction("YEAR(cvNgayNhan) = " + (cvNgayNhan.getYear() + 1900)));
 //		cr.setProjection(Projections.property("soDen"));
 //		cr.addOrder(Order.desc("soDen"));
@@ -407,7 +421,7 @@ public class CongVanDAO {
 	
 	
 	public ArrayList<CongVan> searchLimit(String msnv, HashMap<String, Object> conditions,  HashMap<String, Boolean> orderBy, int first, int limit) {
-		
+		session.beginTransaction();
 		ArrayList<Integer> cvIdList = new ArrayList<Integer>();
 		if (msnv != null) {
 			cvIdList = (ArrayList<Integer>) session.createQuery("select cvId from VTCongVan where msnv = '" + msnv + "' and daXoa = 0").list();
@@ -422,7 +436,7 @@ public class CongVanDAO {
 		cr.createAlias("congVan.donVi", "donVi");
 		cr.createAlias("congVan.trangThai", "trangThai");
 		LogicalExpression expression = null;
-		session.beginTransaction();
+		
 		if (conditions != null) {
 			for (String key : conditions.keySet()) {
 				Object object = conditions.get(key);
@@ -432,7 +446,9 @@ public class CongVanDAO {
 				} else if (object != null){ 
 					if (key.equals("cvId") || key.equals("soDen") || key.equals("cvNgayDi") || key.equals("cvNgayNhan"))
 						cr.add(Restrictions.eq(key, object));
-					
+					else if (key.equals("year")) 
+//						cr.addQueryHint("year(cvNgayNhan) = " + object);
+						cr.add(Restrictions.sqlRestriction("year(cvNgayNhan) = " + object));
 					else if (key.equals("gecvNgayNhan")) 
 						cr.add(Restrictions.ge("cvNgayNhan", object));
 					else if (key.equals("lecvNgayNhan")) 
@@ -444,6 +460,7 @@ public class CongVanDAO {
 					else
 						cr.add(Restrictions.like(key, (String)object, MatchMode.START));
 //					cr.add(Restrictions.eq(key, conditions.get(key)));
+					
 				}
 			}
 		}
@@ -494,7 +511,9 @@ public long size(String msnv, HashMap<String, Object> conditions) {
 				} else if (object != null){ 
 					if (key.equals("cvId") || key.equals("soDen") || key.equals("cvNgayDi") || key.equals("cvNgayNhan"))
 						cr.add(Restrictions.eq(key, object));
-					
+					else if (key.equals("year")) 
+//						cr.addQueryHint("year(cvNgayNhan) = " + object);
+						cr.add(Restrictions.sqlRestriction("year(cvNgayNhan) = " + object));
 					else if (key.equals("gecvNgayNhan")) 
 						cr.add(Restrictions.ge("cvNgayNhan", object));
 					else if (key.equals("lecvNgayNhan")) 

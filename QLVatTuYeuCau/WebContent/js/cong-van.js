@@ -400,10 +400,13 @@ function preUpdateCv(cv) {
 		  		var congVan = objectList[0];
 		  		
 				$('#update-form input:hidden[name=cvId]').val(congVan.cvId);
-		  		$('#update-form input:text[name=soDen]').val(congVan.soDen);
+				var cvNgayNhan = congVan.cvNgayNhan;
+				var year = cvNgayNhan.substring(index + 1);
+				var index = cvNgayNhan.lastIndexOf("/");
+		  		$('#update-form input:text[name=soDen]').val(congVan.soDen + '/' + year);
 		  		$('#update-form input:text[name=cvSo]').val(congVan.cvSo);
 		  		$('#update-form input:text[name=ngayGoiUpdate]').val(congVan.cvNgayGoi);
-		  		$('#update-form input:text[name=ngayNhanUpdate]').val(congVan.cvNgayNhan);
+		  		$('#update-form input:text[name=ngayNhanUpdate]').val(cvNgayNhan);
 		  		$('#update-form select[name=donViUpdate] option[value=' + congVan.donVi.dvMa+']').prop('selected',true);
 	//	  		$('#dvtUp option[value='+vt.dvt.dvtTen+']').prop('selected',true);
 	//	  		$('#update-form input[name=file]').val(fileName);
@@ -582,6 +585,8 @@ function loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVa
 			var congVan = congVanList[i];
 			
 			var cvNgayNhan = parseDate(congVan.cvNgayNhan);
+			var index = cvNgayNhan.lastIndexOf('/') ;
+			var year = cvNgayNhan.substring(index + 1);
 //  			var dateTemp = congVan.cvNgayNhan.split('\\-');
 //  			var date = dateTemp[2] + '/' + dateTemp[1] + '/' + dateTemp[0];   
 //  			alert(date);
@@ -607,7 +612,7 @@ function loadCongVan(congVanList, fileList, nguoiXlCongVan, vaiTroList, vtCongVa
 						+ '</td>';
 						}
 						tables += '<td style=\"font-weight: bold; width: 18%;\">Số nhận: </td>'
-						+ '<td style=\"text-align: left; width: 25%;\">' + congVan.soDen + '</td>'
+						+ '<td style=\"text-align: left; width: 25%;\">' + congVan.soDen + '/' + year +'</td>'
 						+ '<td style=\"font-weight: bold; width: 25%;\">Ngày nhận: </td>'
 						+ '<td style=\"text-align: left;color:blue; width: 15%;\">' + cvNgayNhan + '</td>'
 //						+ '<td colspan=\"1\" style=\"font-weight: bold;\">Trạng thái</td>'
@@ -862,7 +867,10 @@ function filterData(filter, filterValue) {
 	    success: function(objectList) {
 	    	if (objectList == "authentication error") 
 	  			location.assign("login.jsp");
-	  		else {
+	    	else if (objectList == "empty") {
+	    		alert("Không tìm thấy công văn");
+				$('.scroll_content table').html('');
+	    	} else {
 	  			var count = 0;
 		    	var congVanList = objectList[count];
 		    	count ++;
@@ -1113,6 +1121,7 @@ $(document).ready(function(){
 		searchByTrangThai(trangThai);
 	});
 });	
+/*
 $(document).ready(function(){
 	$('#buttonSearch').click(function(){
 		var filterValue = $('#filterValue').val()+'';	
@@ -1120,6 +1129,7 @@ $(document).ready(function(){
 		filterData(filter, filterValue);
 	});
 });
+*/
 function getDonVi() {
 	var content = '';
 	$.ajax({
@@ -1251,6 +1261,16 @@ $(document).ready(function(){
 	$('#search-form').submit(function(){
 		var filterValue = $('#filterValue').val()+'';	
 		var filter = $('#filter').val();
+		
+		if (filter == 'soDen' && filterValue != '') {
+			var index = filterValue.lastIndexOf('/');
+			if (index == -1) {
+				alert("Không tìm thấy công văn");
+				$('.scroll_content table').html('');
+				return false;
+			}
+		}
+		
 		filterData(filter, filterValue);
 		return false;
 	});

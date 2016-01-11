@@ -36,46 +36,50 @@
 <script type="text/javascript" src="js/location.js"></script>
 <script type="text/javascript" src="js/sessionManagement.js"></script>
 <title>Xuất công văn</title>
+
 <style type="text/css" media="print">
+#header{
+page-break-after: always;
+}
 #print_button{
 display:none;
 }
 .button{
 display:none;
 }
-#print-footer {
-    display: block;
-    position: fixed;
-    bottom: 0;
-    left:0;
+#footer {
+bottom: 0;
+position: relative;
+left: 46%;
 }
-@page 
-        {
-            size: portrait;
-            
-        	color: black; background: white;
-        	
-        	 
-        	}
+
 @page { size : landscape; }
-   @page rotated { size : landscape }
+@page rotated { size : landscape }
            	
-	   table 
-	   { 
-	   		font-size: 100%;
-	   		 page : landscape;
-	   		 
-	   			 }
+table 
+{ 
+	font-size: 100%;
+	 page : landscape;
+ }
+#print-footer{
+	display: block;
+    color:red; 
+    font-family:Arial; 
+    font-size: 16px; 
+    text-transform: uppercase; 
+    
+}	   		
+thead {display: table-header-group;}
 </style>
+
 </head>
 <body>
 	<%
    		NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
    		if (authentication == null) {
-   			request.setAttribute("url", siteMap.bccvManage+ "?action=manageBccv");
    			RequestDispatcher dispatcher = request.getRequestDispatcher(siteMap.login + ".jsp");
    			dispatcher.forward(request, response);
-   		}
+   		} else {
    	%>
 		<% 
     	ArrayList<CongVan> congVanList = (ArrayList<CongVan>) session.getAttribute("objectList");
@@ -98,7 +102,7 @@ display:none;
 						<i class="fa fa-print"></i>&nbsp;&nbsp;In báo cáo
 					</button>
 					&nbsp;
-					<button class="button" id="print_button" type="button" onclick="location.href='<%=siteMap.xuatCongVan+".jsp"+ "?exportToExel=YES" %>'">
+					<button class="button" id="print_button" type="button" onclick="location.href='<%=siteMap.exportCongVan + "?exportToExel=YES" %>'">
 						<i class="fa fa-download"></i>&nbsp;&nbsp;Tải file
 					</button>
 					&nbsp;
@@ -109,21 +113,21 @@ display:none;
 				</div>
 		<table style = "margin: 0 auto;width:960px;">
 		<tr>
-			<td style="text-align: right;font-size: 17px;width:350px;">CÔNG TY ĐIỆN LỰC TP CẦN THƠ</td>
-			<td style="text-align: center;font-size: 17px;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</td>
+			<td style="text-align: center;font-size: 17px; width: 50%;" colspan="5">CÔNG TY ĐIỆN LỰC TP CẦN THƠ</td>
+			<td style="text-align: center;font-size: 17px; width: 50%;" colspan="4">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</td>
 		</tr>
 		<tr>
-			<td style="font-size: 17px; padding-left: 150px;">PHÒNG VẬT TƯ</td>
-			<td style="font-size: 17px; text-align: center;">Độc lập - Tự do - Hạnh phúc</td>
+			<td style="font-size: 17px; text-align: center;" colspan="5">PHÒNG VẬT TƯ</td>
+			<td style="font-size: 17px; text-align: center;" colspan="4">Độc lập - Tự do - Hạnh phúc</td>
 		</tr>
 		<tr>
-		<td style="padding-left: 150px;">-----------------------</td>
-		<td style="text-align: center;">-----------------------</td>
-		</tr>
-		<tr>
-		<td></td>
+		<td style="text-align: center;" colspan="5">-----------------------</td>
+		<td style="text-align: center;" colspan="4">-----------------------</td>
+<!-- 		</tr> -->
+<!-- 		<tr> -->
+<!-- 		<td></td> -->
 <!-- 		<td style="font-size: 17px; text-align: center;">Cần Thơ, ngày...tháng...năm...</td> -->
-		<td></td>
+<!-- 		<td></td> -->
 		</tr>
 		</table>
 		<br>
@@ -135,7 +139,7 @@ display:none;
 			<div id="view-table-bao-cao">
 					<table style="text-align: center;margin: 0 auto; color: black;border: solid 1px black;width:1224px;">
 					<thead>
-						<tr bgcolor="#199e5e"  style= "border-style: solid;border-color:black;">
+						<tr bgcolor="#199e5e"  style= "border-style: solid;border-color:black;" >
 <!-- 							<th style="border: 1px solid black;font-size: 17px;width: 50px;" >Số đến</th> -->
 							<th style="border: 1px solid black;font-size: 17px;width: 50px; width: 50px;">Số P.VT</th>
 							
@@ -163,7 +167,7 @@ display:none;
 									<%if (cnt % 2 == 0) out.println("style=\"background : #CCFFFF;\"");%>
 									style= "border-style: solid;border-color:black black black black;">
 <%-- 									<td style="border: 1px solid black;font-size: 17px;"><%=congVan.getSoDen() %></td> --%>
-									<td style="border: 1px solid black;font-size: 17px;" class="a-column"><%=congVan.getSoDen() %></td>
+									<td style="border: 1px solid black;font-size: 17px;" class="a-column"><%=congVan.getSoDen() + "/" + (congVan.getCvNgayNhan().getYear() + 1900)%></td>
 									
 									<td style="border: 1px solid black;font-size: 17px;" ><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td>
 									<td style="border: 1px solid black;font-size: 17px;" ><%=congVan.getCvSo() %></td>
@@ -191,8 +195,8 @@ display:none;
 									<td style="text-align: center;font-weight: bold;">Trưởng Phòng Vật Tư</td>
 								</tr>
 						</table>
-				</div>
-				
+				</div>	
+				<div id="footer">Báo cáo công văn</div>		
 		</body>
-		<footer style="text-align: center; display: none;" id = "print-footer">Xuất công văn</footer>
+		<%} %>
 		</html>

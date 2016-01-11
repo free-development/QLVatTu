@@ -96,7 +96,8 @@ function restoreData(){
 //	location.reload();
 };
 function loadBackupInfo(backupList) {
-	for(i = 0;i < length; i++ ) {
+	var length = backupList.length;
+	for(var i = length - 1;i >= 0; i-- ) {
 		var backupInfo = backupList[i];
 		var cells = '';
 		var style = '';
@@ -139,7 +140,7 @@ function loadPage(pageNumber){
 			} else {
 		  		var size = objectList[1];
 		  		var backupList = objectList[0];
-		  		alert(backupList);
+//		  		alert(backupList);
 		  		var length = backupList.length;
 		  		$('#view-table table .rowContent').remove();
 				loadBackupInfo(backupList);

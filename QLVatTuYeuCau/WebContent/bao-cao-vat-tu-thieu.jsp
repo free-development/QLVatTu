@@ -112,7 +112,7 @@
 						<th style="border: 1px dotted black;width: 50px;" class="six-column">Đvt</th>
 						<th style="border: 1px dotted black;width: 50px;" class="one-column">Tổng số lượng thiếu</th>
 						<th style="border: 1px dotted black;width: 50px;" class="one-column">Số lượng tồn</th>
-						<th style="border: 1px dotted black;width: 150px;" class="one-column">Công văn liên quan (số nhận - ngày nhận)</th>
+						<th style="border: 1px dotted black;width: 150px;" class="one-column">Công văn liên quan (số P.VT nhận)</th>
 					</tr >
 								<%
 								int count = 0;
@@ -140,7 +140,7 @@
 								StringBuilder cell = new StringBuilder ("");
 								for(CongVan congVan : congVans) {
 									if (congVan.getDaXoa() == 0)							
-										cell.append("<a style=\"color: red; text-decoration: underline; \" href=" + siteMap.searchCongVan + "?congVan=" + congVan.getCvId() + ">" + congVan.getSoDen() + " - " + DateUtil.toString(congVan.getCvNgayNhan()) + " </a>" + ", ");
+										cell.append("<a style=\"color: red; text-decoration: underline; \" href=" + siteMap.searchCongVan + "?congVan=" + congVan.getCvId() + ">" + congVan.getSoDen() + "/" + (congVan.getCvNgayNhan().getYear() + 1900) + " </a>" + ", ");
 									else 
 										cell.append(congVan.getSoDen() + " - " + DateUtil.toString(congVan.getCvNgayNhan()) + "(Đã xóa)), ");
 								}

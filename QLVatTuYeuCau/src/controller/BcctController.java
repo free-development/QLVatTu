@@ -61,10 +61,18 @@ public class BcctController extends HttpServlet {
 			TrangThaiDAO trangThaiDAO = new TrangThaiDAO();
 			DonViDAO donViDAO = new DonViDAO();
 			CongVanDAO congVanDAO = new CongVanDAO();
+			
+			String msnv = authentication.getMsnv();
+			String cdMa = authentication.getChucDanh().getCdMa();
+			String adminMa = context.getInitParameter("adminMa");
+			String truongPhongMa = context.getInitParameter("truongPhongMa");
+			String phoPhongMa = context.getInitParameter("phoPhongMa");
+			if (cdMa.equals(adminMa) || cdMa.equals(phoPhongMa) || cdMa.equals(truongPhongMa) )
+				msnv = null;
 			if ("manageBcbdn".equalsIgnoreCase(action)) {
 				ArrayList<TrangThai> trangThaiList = (ArrayList<TrangThai>) trangThaiDAO.getAllTrangThai();
 				ArrayList<DonVi> donViList = (ArrayList<DonVi>) donViDAO.getAllDonVi();
-				ArrayList<CongVan> congVanList = (ArrayList<CongVan>) congVanDAO.getAllCongVan();
+				ArrayList<CongVan> congVanList = (ArrayList<CongVan>) congVanDAO.getAllCongVan(msnv);
 				HashMap<Integer, ArrayList<YeuCau>> yeuCauHash = new HashMap<Integer, ArrayList<YeuCau>>();
 				HashMap<Integer, ArrayList<CTVatTu>> ctVatTuHash = new HashMap<Integer, ArrayList<CTVatTu>>();
 				CTVatTuDAO ctVatTuDAO = new CTVatTuDAO();

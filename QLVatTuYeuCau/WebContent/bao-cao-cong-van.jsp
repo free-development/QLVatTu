@@ -59,7 +59,7 @@
 	<%
 	
 	
-	ArrayList<CongVan> congVanList = (ArrayList<CongVan>) request.getAttribute("congVanList");
+	ArrayList<CongVan> congVanList = (ArrayList<CongVan>) session.getAttribute("objectList");
 	if (congVanList ==  null) {
 		int index = siteMap.bccvManage.lastIndexOf("/");
 		String url = siteMap.bccvManage.substring(index);
@@ -92,7 +92,7 @@
 								<%						  
  								for (CongVan congVan : congVanList)
  								{%>  
- 								<option value=<%=congVan.getCvSo()%>><%=congVan.getCvSo()%></option> 
+ 								<option value=<%=congVan.getCvSo() %>><%=congVan.getCvSo()%></option> 
  								<%}  
   								%>  
 						</select>
@@ -191,7 +191,7 @@
 			                     %>
 					<tr class="rowContent"
 						<%if (cnt % 2 == 0) out.println("style=\"background : #CCFFFF;\"");%>>
-						<td style="width: 50px; text-align: center;"><%=congVan.getSoDen() %></td>
+						<td style="width: 50px; text-align: center;"><%=congVan.getSoDen() + "/" + (congVan.getCvNgayNhan().getYear() + 1900) %></td>
 						<td style="width: 100px; text-align: center;"><%=DateUtil.toString(congVan.getCvNgayNhan()) %></td> 
 						<td style="width: 50px; text-align: center;"><%=congVan.getCvSo()%></td>
 						

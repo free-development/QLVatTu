@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -27,6 +28,7 @@ import dao.DonViDAO;
 import dao.MucDichDAO;
 import dao.YeuCauDAO;
 import map.siteMap;
+import model.ChatLuong;
 import model.CongVan;
 import model.DonVi;
 import model.File;
@@ -49,11 +51,19 @@ public class BccvController extends HttpServlet {
 		try {
 			HttpSession session = request.getSession(false);
 			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
-			String adminMa = context.getInitParameter("adminMa");
+//			String adminMa = context.getInitParameter("adminMa");
 			if (authentication == null) { 
 				logger.error("Không chứng thực truy cập báo công văn");
 				return new ModelAndView(siteMap.login);
-			} 
+			}
+			String cdMa = authentication.getChucDanh().getCdMa();
+			String truongPhongMa = context.getInitParameter("truongPhongMa");
+			String adminMa = context.getInitParameter("adminMa");
+			String phoPhongMa = context.getInitParameter("phoPhongMa");
+	    	
+	    	String msnv = authentication.getMsnv();
+			if (cdMa.equals(adminMa) || cdMa.equals(truongPhongMa) || cdMa.equals(phoPhongMa))
+				msnv = null;	
 			session.removeAttribute("congVanList");
 			session.removeAttribute("ctVatTuList");
 			session.removeAttribute("soLuongList");
@@ -69,10 +79,10 @@ public class BccvController extends HttpServlet {
 			ArrayList<MucDich> mucDichList = (ArrayList<MucDich>) mucDichDAO.getAllMucDich();
 			HashMap<String, Boolean> orderBy = new HashMap<String, Boolean>();
 			orderBy.put("cvId", true);
-			ArrayList<CongVan> congVanList = (ArrayList<CongVan>) congVanDAO.searchLimit(null, null, orderBy, 0, Integer.MAX_VALUE);
+			ArrayList<CongVan> congVanList = (ArrayList<CongVan>) congVanDAO.searchLimit(msnv, null, orderBy, 0, Integer.MAX_VALUE);
 			request.setAttribute("donViList", donViList);
 			request.setAttribute("mucDichList", mucDichList);
-			request.setAttribute("congVanList", congVanList);
+			session.setAttribute("objectList", congVanList);
 			congVanDAO.disconnect();
 			donViDAO.disconnect();
 			mucDichDAO.disconnect();
@@ -95,12 +105,13 @@ public class BccvController extends HttpServlet {
 				return new ModelAndView(siteMap.login);
 			}
 		
-			CongVanDAO congVanDAO = new CongVanDAO();
+//			CongVanDAO congVanDAO = new CongVanDAO();
 			HashMap<String, Boolean> orderBy = new HashMap<String, Boolean>();
-			orderBy.put("cvId", true);
-			ArrayList<CongVan> congVanList = (ArrayList<CongVan>) congVanDAO.searchLimit(null, null, orderBy, 0, Integer.MAX_VALUE);
+//			orderBy.put("cvId", true);
+//			ArrayList<CongVan> congVanList = (ArrayList<CongVan>) congVanDAO.searchLimit(null, null, orderBy, 0, Integer.MAX_VALUE);
+			ArrayList<CongVan> congVanList = (ArrayList<CongVan>) session.getAttribute("objectList");
 			session.setAttribute("objectList", congVanList);
-			congVanDAO.disconnect();
+//			congVanDAO.disconnect();
 			return new ModelAndView(siteMap.xuatCongVan);
 		} catch (NullPointerException e) {
 			logger.error("Lỗi khi xuất báo cáo công văn: " + e.getMessage());
@@ -117,11 +128,18 @@ public class BccvController extends HttpServlet {
 		try {
 			HttpSession session = request.getSession(false);
 			NguoiDung authentication = (NguoiDung) session.getAttribute("nguoiDung");
-			String adminMa = context.getInitParameter("adminMa");
 			if (authentication == null) { 
 				logger.error("Không chứng thực tìm kiếm công văn");
 				return JSonUtil.toJson("authentication error");
 			}
+			String cdMa = authentication.getChucDanh().getCdMa();
+			String truongPhongMa = context.getInitParameter("truongPhongMa");
+			String adminMa = context.getInitParameter("adminMa");
+			String phoPhongMa = context.getInitParameter("phoPhongMa");
+	    	
+	    	String msnv = authentication.getMsnv();
+			if (cdMa.equals(adminMa) || cdMa.equals(truongPhongMa) || cdMa.equals(phoPhongMa))
+				msnv = null;
 			HashMap<String, Object> conditions = new HashMap<String, Object>();
 			HashMap<String, Boolean> orderBy = new HashMap<String, Boolean>();
 			if (eCvNgayNhan != null && eCvNgayNhan.length() > 0)
@@ -144,8 +162,8 @@ public class BccvController extends HttpServlet {
 				conditions.put("trangThai.ttMa", ttMa);
 			orderBy.put("cvId", true);
 			CongVanDAO congVanDAO = new CongVanDAO();
-			ArrayList<CongVan> congVanList = (ArrayList<CongVan>) congVanDAO.searchLimit(null, conditions, orderBy, 0, Integer.MAX_VALUE);
-			session.setAttribute("congVanList", congVanList);
+			ArrayList<CongVan> congVanList = (ArrayList<CongVan>) congVanDAO.searchLimit(msnv, conditions, orderBy, 0, Integer.MAX_VALUE);
+			session.setAttribute("objectList", congVanList);
 			congVanDAO.disconnect();
 			return JSonUtil.toJson(congVanList);
 		} catch (NullPointerException e ) {
@@ -154,4 +172,14 @@ public class BccvController extends HttpServlet {
 		}
 		
 	}
+	@RequestMapping(value = "/exportCongVan", method = RequestMethod.GET)
+	 public ModelAndView downloadExcelCl(HttpServletRequest request) {
+		 try {
+		 	HttpSession session = request.getSession(false); 
+	        List<CongVan> congVanList = (List<CongVan>) session.getAttribute("objectList");
+	        return new ModelAndView(siteMap.excelCongVan, "objectList", congVanList);
+		 } catch (NullPointerException e) {
+				return new ModelAndView(siteMap.login);
+			}
+	 }
 }
