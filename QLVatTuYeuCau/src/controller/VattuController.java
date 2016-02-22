@@ -180,17 +180,17 @@ public class VattuController extends HttpServlet {
 				return JSonUtil.toJson("authentication error");
 			}
 			VatTuDAO vatTuDAO = new VatTuDAO();
-			if(vtMa != ""){
+			if(vtMa.length() != 0){
 				ArrayList<VatTu> vtList = (ArrayList<VatTu>) vatTuDAO.searchVtMaLimit(vtMa, 0, 10);
 				this.filter = "vtMa";
 				this.filterValue = vtMa;
 				long size = vatTuDAO.size(filter, filterValue);
-				System.out.println(size);
+//				System.out.println(size);
 				ArrayList<Object> objectList = new ArrayList<Object>();
 				int page = ((int)size % 10 == 0 ? (int)size/10 : ((int)size/10) + 1);
 				objectList.add(vtList);
 				objectList.add(page);
-				System.out.println(page);
+//				System.out.println(page);
 				vatTuDAO.disconnect();
 				return JSonUtil.toJson(objectList);
 			}

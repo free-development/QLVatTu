@@ -31,11 +31,11 @@
 <link rel="Shortcut Icon" href="img/logo16.png" type="image/x-icon" />
 
 <link rel="stylesheet" type="text/css" href="style/jquery.autocomplete.css" />
-	<script src="http://www.google.com/jsapi"></script>  
-	<script>  
-		google.load("jquery", "1");
-	</script>
-	<script src="js/jquery.autocomplete.js"></script>  
+<!-- 	<script src="http://www.google.com/jsapi"></script>   -->
+<!-- 	<script>   -->
+<!-- 		google.load("jquery", "1"); -->
+<!-- 	</script> -->
+<!-- 	<script src="js/jquery.autocomplete.js"></script>   -->
 	
 	<script type="text/javascript">
 	
@@ -90,43 +90,19 @@
 <!-- 						</script> -->
 		
 		
-			<table style="margin: 0 auto;">		
+<!-- 			<table style="margin: 0 auto;">		 -->
+<!-- 					<tr>		 -->
+			<form id="search-form">	
+				<table style="margin: 0 auto;">		
 					<tr>		
-					<th  style="text-align: left; color: black; font-size: 19px;">* Tìm kiếm mã</th>
-								<td>
-									<div class="search_form1" id="search">		
-										<form>	
-<!-- 											<span class="search-text"> &nbsp; <input type="search" class="text" name="search_box" name="search" placeholder="Tìm kiếm" /> 												 -->
-<!-- 												<td><input type="checkbox" class="checkbox" style="text-align: center;"/></td> -->
-<!-- 												<td  style="text-align: center; color: black; font-size: 19px;">Theo tên</td>&nbsp;&nbsp;&nbsp; -->
-<!-- 											</span> -->
-											
-											<span> &nbsp; <input type="search" id="searchName" class="text-search" name="vattu"/>						
-														<script>
-														$("#searchName").autocomplete("getdataMa.jsp");
-// 														$("#searchName").autocomplete("getdata.jsp");
-// 														i = 0;
-// 															$('#checkTen').check(function() {
-// 																var check = $(this).val();
-// 																alert(check);
-// 																if(i % 2 == 0)
-// 																	$("#searchName").autocomplete("getdata.jsp");
-// 																else 
-// 																	$("#searchName").autocomplete("getdataMa.jsp");
-															//});
-// 															$('#checkTen').uncheck(function() {
-// 																	$("#searchName").autocomplete("getdataMa.jsp");
-// 															});
-															
-														</script> 												
-												<td><input type="checkbox" value="check" class="checkbox" style="text-align: center;" id="checkTen"/></td>
-												<td  style="text-align: center; color: black; font-size: 19px;">Theo tên</td>&nbsp;&nbsp;&nbsp;
-											</span>
-												<td> <span class="search-button"> &nbsp; <button type="button" class="btn-search" style="background-color: #00A69B;" onclick="timKiemVattu();"><i class="fa fa-search"></i></button></span></td>						
-										</form>
-									</div>
+						<th  style="text-align: left; color: black; font-size: 19px;">* Tìm kiếm mã</th>
+						<td> &nbsp; <input type="search" id="searchName" class="text-search" name="vattu"/></td>						
+						<td><input type="checkbox" value="check" class="checkbox" style="text-align: center;" id="checkTen"/></td>
+						<td  style="text-align: center; color: black; font-size: 19px;">Theo tên &nbsp;&nbsp;&nbsp;</td>
+						<td class="search-button"> &nbsp; <button type="button" class="btn-search" style="background-color: #00A69B;" onclick="timKiemVattu();"><i class="fa fa-search"></i></button></td>						
 					</tr>					
 				</table>
+			</form>
 			
 			<form id="vattu">
 			<div id="view-table-vat-tu" style="margin: 0 auto; overflow: auto;font-family: Tahoma,.vntime;" class="scroll_content">

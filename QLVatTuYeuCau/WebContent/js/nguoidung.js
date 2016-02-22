@@ -857,15 +857,8 @@ $(document).ready(function(){
 	});
 })
 
-$(document).ready(function() {
-	$('#checkTen').change(function() {
-		var checked = $( this ).is( ":checked" );
-		if (checked) {
-//			$("searchName").attr('autocomplete', 'off');
-			$("#searchName").autocomplete("getdataHoten.jsp");
-		} else {
-			$("#searchName").autocomplete("getdataMsnv.jsp");
-		}
-		
-	});   
+$(document).ready(function(){
+	$('#searchName').keypress(function(){
+		timKiemNguoidung();
+	});
 });

@@ -366,8 +366,14 @@ td.input {
 body {
 	font-size: 20px;
 }
+/*
+#view-table-bao-cao {
+	height: 19cm;	
+}
+*/
 #footer {
-	position: fixed;
+	display: none;
+	position: absolute;
 	bottom: 0;
 	left: 46%;
 }

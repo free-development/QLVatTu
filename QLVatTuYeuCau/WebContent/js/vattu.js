@@ -25,9 +25,9 @@
 			var vtMa = '';
 			var check = $('#checkTen:checked').val();
 			if (check != null)
-				vtTen = $('#search input[name=vattu]').val();
+				vtTen = $('#searchName').val();
 			else 
-				vtMa = $('#search input[name=vattu]').val();
+				vtMa =  $('#searchName').val();
 			$.ajax({
 				url: getRoot() +  "/timKiemVattu.html",	
 			  	type: "GET",
@@ -477,4 +477,18 @@ $(document).ready(function() {
 		}
 		
 	});   
+});
+// event keypress search vattu
+
+$(document).ready(function(){
+	$("#searchName").keypress(function() {
+		timKiemVattu();
+	});
+});
+//event enter search vattu
+
+$(document).ready(function(){
+	$("#search-form").submit(function() {
+		timKiemVattu();
+	});
 });

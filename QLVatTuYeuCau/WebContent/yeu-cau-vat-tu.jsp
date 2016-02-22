@@ -81,38 +81,25 @@
 		<jsp:include page="header.jsp" /> 
 
 		<div id="main-content">
-			<form id="add-yeu-cau-form">
+<!-- 			<form id="add-yeu-cau-form"> -->
 <%--  			<div style="color: #CC3333;height:20px;text-align: right;margin-right: 40px;">Số công văn:&nbsp;<%=congVan.getCvSo() %></div> --%>
 			
 			<div class="form-title-vat-tu">Danh sách vật tư</div>
 			<div id="yc-table">
+			<form id ="searchForm">
 				<table style="margin-bottom: 10px;">		
 					<tr>		
-					<td  style="text-align: center; font-size: 19px;color:#6600FF;">* Tìm kiếm mã</td>
-								<td>
-									<div class="search_form1" id="search">		
-										<form id ="searchForm" onsubmit="return false;">	
-<!-- 											<span class="search-text"> &nbsp; <input type="search" class="text" name="search_box" name="search" placeholder="Tìm kiếm" /> 												 -->
-<!-- 												<td><input type="checkbox" class="checkbox" style="text-align: center;"/></td> -->
-<!-- 												<td  style="text-align: center; color: black; font-size: 19px;">Theo tên</td>&nbsp;&nbsp;&nbsp; -->
-<!-- 											</span> -->
-											
-											<span> &nbsp; <input type="search" id="searchName" class="text-search" name="vattu"/>						
-														<script>
-														$("#searchName").autocomplete("getdataMa.jsp");
-// 														$("#searchName").autocomplete("getdata.jsp");	
-														</script> 												
-												<td><input type="checkbox" value="check" class="checkbox" style="text-align: center;" id="checkTen"/></td>
-												<td  style="text-align: center; color:#6600FF; font-size: 19px;">Theo tên</td>&nbsp;&nbsp;&nbsp;
-											</span>
-												<td> <span class="search-button"> &nbsp; <button type="button" id="search-button" class="btn-search" style="background-color: #00A69B;" ><i class="fa fa-search"></i></button></span></td>						
-										</form>
-									</div>
+						<td  style="text-align: center; font-size: 19px;color:#6600FF;">* Tìm kiếm mã</td>
+						<td><input type="search" id="searchName" class="text-search" name="vattu"/>						
+						<td><input type="checkbox" value="check" class="checkbox" style="text-align: center;" id="checkTen"/></td>
+						<td  style="text-align: center; color:#6600FF; font-size: 19px;">Theo tên &nbsp;&nbsp;&nbsp;</td>
+						<td class="search-button">&nbsp; <button type="button" id="search-button" class="btn-search" style="background-color: #00A69B;" ><i class="fa fa-search"></i></button></td>						
 					</tr>					
 				</table>
+			</form>
 				</div>
-				<form id="danh-sach-vat-tu">
-				<div id="view-search">
+<!-- 				<form id="danh-sach-vat-tu"> -->
+<!-- 				<div id="view-search"> -->
 				<div id="view-table-ds">
 				<table style="width:100%;">
 <!-- 					<tr><th >Ma vat tu</th><th >Ten vat tu</th><th >Noi san xuat</th><th >Chat luong</th><th >Don vi tinh</th><th ></th></tr> -->
@@ -146,7 +133,7 @@
 					<%}%>
 				</table>
 				</div>
-				</div>
+<!-- 				</div> -->
 					<div id = "paging" >
 				<table style ="border-style: none;">
 								<tr>
@@ -167,7 +154,6 @@
 								</table>
 					</div>
 			</form>				
-			</form>
 			<form id="main-form">
 			<div class="form-title-vat-tu" style="padding-top: 10px;">Yêu cầu vật tư còn thiếu cho công văn số <%=congVan.getSoDen() %> nhận ngày <%=DateUtil.toString(congVan.getCvNgayNhan()) %></div> 
 					<div id="view-table-yc" style="overflow: auto;width:1024px; margin: 0 auto;">

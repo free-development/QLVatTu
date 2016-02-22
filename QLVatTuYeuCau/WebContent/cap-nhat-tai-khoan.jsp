@@ -15,29 +15,13 @@
 <link rel="stylesheet" href="style/style.css" type="text/css">
 <link href="style/style-cap-nhat-tai-khoan.css" type="text/css"
 	rel="stylesheet">
-<!-- <link href="style/style-chia-se.css" type="text/css" -->
-<!-- 	rel="stylesheet"> -->
-<!-- <link href="style/style-vat-tu.css" type="text/css" -->
-<!-- 	rel="stylesheet"> -->
 <link rel="stylesheet" type="text/css" href="style/jquery.autocomplete.css" />
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/check.js"></script>
-<script src="js/jsapi.js"></script>  
-	<script>  
-		google.load("jquery", "1");
-	</script>
-	<script src="js/jquery.autocomplete.js"></script>
-	
-	<script type="text/javascript">
-	
-	</script>
 </head>
 <link
 	href="style/font-awesome-4.3.0/font-awesome-4.3.0/css/font-awesome.min.css"
 	type="text/css" rel="stylesheet">
-<!--		<script type="text/javascript" src="js/check.js"></script>-->
-<!-- <script type="text/javascript" src="js/jquery-1.6.3.min.js"></script> -->
-<!-- <script type="text/javascript" src="js/jquery.min.js"></script> -->
 <script type="text/javascript" src="js/location.js"></script>
 <script type="text/javascript" src="js/nguoidung.js"></script>
 <script type="text/javascript" src="js/location.js"></script>
@@ -77,30 +61,17 @@
 		<div id="main-content">
 		<div id= "loading"></div>
 		<div id="title-content">Danh sách tài khoản</div>
-				<table style="margin:0 auto; margin-bottom: 10px;">		
-					<tr>		
-					<th  style="text-align: left; color: black; font-size: 19px;">*Tìm kiếm mã</th>
-								<td>
-									<div class="search_form1" id="search">		
-										
-										
-										<form id="search-nguoidung">												
-											<span> &nbsp; <input type="search" id="searchName" class="text-search" name="nguoidung"/>						
-														 												
-												<td><input type="checkbox" value="check" class="checkbox" style="text-align: center;" id="checkTen"/></td>
-												<td  style="text-align: center; color: black; font-size: 19px;">Theo tên</td>&nbsp;&nbsp;&nbsp;
-											</span>
-											
-												<td> <span class="search-button"> &nbsp; <button type="button" class="btn-search" style="background-color: #00A69B;" onclick="timKiemNguoidung()"><i class="fa fa-search"></i></button></span></td>						
-										</form>
-										<script>
-														$('#searchName').autocomplete("getdataMsnv.jsp");
-														$('#searchName').autocomplete("getdataHoten.jsp");	
-														</script>
-									</div>
-									</td>
-					</tr>					
-				</table>
+			<form action="timKiemNguoiDung.jsp" method="get" id = "search-nguoidung">
+					<table style="margin:0 auto; margin-bottom: 10px;">		
+						<tr>		
+						<th  style="text-align: left; color: black; font-size: 19px;">*Tìm kiếm mã</th>
+							<td><input type="search" id="searchName" class="text-search" name="nguoidung"/>						
+							<td><input type="checkbox" value="check" class="checkbox" style="text-align: center;" id="checkTen"/></td>
+							<td  style="text-align: center; color: black; font-size: 19px;">Theo tên &nbsp;&nbsp;&nbsp;</td>
+							<td class="search-button"> &nbsp; <button type="button" class="btn-search" style="background-color: #00A69B;" onclick="timKiemNguoidung();"><i class="fa fa-search"></i></button></td>						
+						</tr>					
+					</table>
+			</form>
 				
 				<form id="main-form">
 				

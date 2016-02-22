@@ -598,3 +598,18 @@ $(document).ready(function() {
 		}
 	});   
 });
+
+//event keypress search vattu
+
+$(document).ready(function(){
+	$("#searchName").keypress(function() {
+		searchCtVt();
+	});
+});
+//event enter search vattu
+
+$(document).ready(function(){
+	$("#searchForm").submit(function() {
+		searchCtVt();
+	});
+});

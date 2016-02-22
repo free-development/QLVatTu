@@ -47,16 +47,7 @@
 	font-weight: bold;
 	padding-top: 20px;
 }
-.text-search{
-	border-radius: 5px;
-	border-style: solid;
-	border-width: 1px;
-	height: 25px;
-	width: 700px;
-	opacity: 0.9;
-	border-color: dimgray;
-	font-size: 16px;
-}
+
 #update-form{
 	display: none;
 	position: fixed;

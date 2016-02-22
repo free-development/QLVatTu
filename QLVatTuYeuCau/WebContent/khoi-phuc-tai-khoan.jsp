@@ -20,11 +20,6 @@
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/location.js"></script>
 <script type="text/javascript" src="js/check.js"></script>
-<script src="js/jsapi.js"></script>  
-	<script>  
-		google.load("jquery", "1");
-	</script>
-	<script src="js/jquery.autocomplete.js"></script>
 	<style>
 		input {
 			font-size: 120%;
@@ -33,8 +28,6 @@
 	<script type="text/javascript">
 	
 	</script>
-<!-- <script type="text/javascript" src="js/jquery-1.6.3.min.js"></script> -->
-<!-- <script type="text/javascript" src="js/jquery.min.js"></script> -->
 <script type="text/javascript" src="js/nguoidung.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="Shortcut Icon" href="img/logo16.png" type="image/x-icon" />
@@ -61,34 +54,19 @@
 	<div class="wrapper">
 		<jsp:include page="header.jsp" />
 		<div id="main-content">
+			<div id="title-content">Danh sách tài khoản bị khóa</div>
 			<form id="search-nguoidung-khoa">
-				<div id="title-content">Danh sách tài khoản bị khóa</div>
-				<table style="margin:0 auto;margin-bottom: 10px;">		
+				<table style="margin:0 auto; margin-bottom: 10px;">		
 					<tr>		
-					<th  style="text-align: left; color: black; font-size: 19px;">*Tìm kiếm mã</th>
-								<td>
-									<div class="search_form1" id="search">		
-										
-										
-																					
-											<span> &nbsp; <input type="search" id="searchName" class="text-search" name="nguoidung"/>						
-														 												
-												<td><input type="checkbox" value="check" class="checkbox" style="text-align: center;" id="checkTen"/></td>
-												<td  style="text-align: center; color: black; font-size: 19px;">Theo tên</td>&nbsp;&nbsp;&nbsp;
-											</span>
-											
-												<td> <span class="search-button"> &nbsp; <button type="submit" class="btn-search" style="background-color: #00A69B;" ><i class="fa fa-search"></i></button></span></td>						
-										
-										<script>
-														$('#searchName').autocomplete("getdataMsnv.jsp");
-														$('#searchName').autocomplete("getdataHoten.jsp");	
-														</script>
-									</div>
-									</td>
+						<th  style="text-align: left; color: black; font-size: 19px;">*Tìm kiếm mã</th>
+						<td><input type="search" id="searchName" class="text-search" name="nguoidung"/>						
+						<td><input type="checkbox" value="check" class="checkbox" style="text-align: center;" id="checkTen"/></td>
+						<td  style="text-align: center; color: black; font-size: 19px;">Theo tên &nbsp;&nbsp;&nbsp;</td>
+						<td class="search-button"> &nbsp; <button type="button" class="btn-search" style="background-color: #00A69B;" onclick="timKiemNguoidung();"><i class="fa fa-search"></i></button></td>						
 					</tr>					
 				</table>
-				</form>
-				<form id="main-form">
+			</form>
+			<form id="main-form">
 				<div id="view-table">
 					<table style="width:1024px;">
 						<tr bgcolor= "#199e5e">

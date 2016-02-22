@@ -76,34 +76,17 @@
 		
 		<div id="main-content">
 		<div id="title-content">Danh sách tài khoản</div>
-		<form action="timKiemNguoiDung.jsp" method="get" id = "search-nguoidung">
-				
-				
-				<table style="margin:0 auto; margin-bottom: 10px;">		
-					<tr>		
-					<th  style="text-align: left; color: black; font-size: 19px;">*Tìm kiếm mã</th>
-								<td>
-									<div class="search_form1" id="search">		
-										
-										
-										<form id="search-nguoidung">												
-											<span> &nbsp; <input type="search" id="searchName" class="text-search" name="nguoidung"/>						
-														 												
-												<td><input type="checkbox" value="check" class="checkbox" style="text-align: center;" id="checkTen"/></td>
-												<td  style="text-align: center; color: black; font-size: 19px;">Theo tên</td>&nbsp;&nbsp;&nbsp;
-											</span>
-											
-												<td> <span class="search-button"> &nbsp; <button type="button" class="btn-search" style="background-color: #00A69B;" onclick="timKiemNguoidung();"><i class="fa fa-search"></i></button></span></td>						
-										</form>
-										<script>
-														$('#searchName').autocomplete("getdataMsnv.jsp");
-														$('#searchName').autocomplete("getdataHoten.jsp");	
-														</script>
-									</div>
-									</td>
-					</tr>					
-				</table>
-				</form>
+			<form action="timKiemNguoiDung.jsp" method="get" id = "search-nguoidung">
+					<table style="margin:0 auto; margin-bottom: 10px;">		
+						<tr>		
+						<th  style="text-align: left; color: black; font-size: 19px;">*Tìm kiếm mã</th>
+							<td><input type="search" id="searchName" class="text-search" name="nguoidung"/>						
+							<td><input type="checkbox" value="check" class="checkbox" style="text-align: center;" id="checkTen"/></td>
+							<td  style="text-align: center; color: black; font-size: 19px;">Theo tên &nbsp;&nbsp;&nbsp;</td>
+							<td class="search-button"> &nbsp; <button type="button" class="btn-search" style="background-color: #00A69B;" onclick="timKiemNguoidung();"><i class="fa fa-search"></i></button></td>						
+						</tr>					
+					</table>
+			</form>
 				<form id="main-form">
 				<div id="view-table" style="margin: 0 auto">
 					<table style="width:1024px;" style="margin: 0 auto">

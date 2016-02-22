@@ -33,18 +33,14 @@ display:none;
 .button{
 display:none;
 }
-@page 
-        {
-            {
-            size: auto A4 landscape;
-        	color: black; background: white; 
-        	font-family: "Times New Roman";
-        	
-        	
-        	} }
+@page { size : landscape; }
+   @page rotated { size : landscape }
+           	
 	   table 
 	   { 
-/* 	   		font-size: 70%;  */
+	   		font-size: 100%;
+	   		 page : landscape;
+	   		 
 	   			 }
 </style>
 </head>
