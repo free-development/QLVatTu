@@ -1,0 +1,201 @@
+@CHARSET "ISO-8859-1";
+#import-form {
+	display: none;
+	width: 30%;;
+	left: 35%;
+	top: 30%;
+	/*bottom: 65%;*/
+	position: fixed;
+	background-color : #DCEAF5;
+	border-radius: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 20px;
+	font-size: 60px;	
+	border: outset;
+	border-color: #0000FF;
+}
+#title-content {
+	text-align: center;
+	font-size: 25px;
+	color: firebrick;
+	font-weight: bold;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+#view-table-chi-tiet {
+	margin-top: 50px;
+	margin: 0 auto;
+	width: 1024px;
+}
+#view-table-chi-tiet table {
+	border-spacing: 0px;
+	margin: 0 auto;
+	/*height: 800px;*/
+	background: #FFF;
+}
+
+#view-table-chi-tiet table tr td {
+	border-style: dotted;
+	border-width: 1px;
+	margin: 0px;
+	border-spacing: 0px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	text-align: center;
+}
+
+#view-table-chi-tiet table tr th {
+	border-style: dotted;
+	border-width: 1px;
+	color: black;
+	margin: 0px;
+	border-spacing: 0px border-spacing: 0px;
+	padding-left: 10px;
+	padding-right: 10px;
+	background-color: #199e5e;
+	text-align: center;
+}
+
+.one-column {
+	width: 20px;
+	text-align: center;
+}
+
+.two-column {
+	width: 150px;
+	text-align: left;
+}
+
+.three-column {
+	width: 450px;
+	text-align: center;
+}
+.three-col{
+	width: 250px;
+	text-align: center;
+}
+
+.four-column {
+	width: 100px;
+	text-align: center;
+}
+
+.five-column {
+	width: 50px;
+	text-align: center;
+}
+
+.six-column {
+	width: 150px;
+	text-align: center;
+}
+
+.seven-column {
+	width: 100px;
+	text-align: center;
+}
+.btn {
+	background: #199e5e;
+	border-radius: 5px;
+	color: #ffffff;
+	font-size: 13px;
+	padding: 8px 30px 8px 20px;
+	margin-right: 0px;
+	border: none;
+}
+
+.btn:hover {
+	background: #0a6114;
+}
+
+.font {
+	color: #198724;
+}
+
+#hide {
+	visibility: hidden
+}
+
+.form-title {
+	text-align: center;
+	font-size: 25px;
+	font-weight: bold;
+	color: #199e5e;
+	margin-bottom: 20px;
+	padding: 10px;
+}
+
+.lable {
+	text-align: left;
+}
+
+.checkbox {
+	text-align: right;
+}
+
+.lbltk {
+	padding-left: 30px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 10px;
+	font-size: 20px;
+	color: firebrick;
+	font-weight: bold;
+	font-size: 13px;
+}
+
+#add-form {
+	display: none;
+	width: 450px;
+	position: absolute;
+	left: 483px;
+	margin-top: 30px;
+	top: 140px;
+	background-color: #DCEAF5;
+	border-radius: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 20px;
+}
+
+#update-form {
+	display: none;
+	width: 450px;
+	position: absolute;
+	left: 483px;
+	margin-top: 30px;
+	top: 140px;
+	background-color: #DCEAF5;
+	border-radius: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 20px
+}
+#paging {
+	text-align: center;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	margin: 0 auto;
+}
+
+.button-xem {
+	border-radius: 5px;
+	background-color: #199e5e;
+	height: 20px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-color: none;
+	color: floralwhite;
+	text-align: center;
+	border: none;
+	cursor: pointer;
+}
+
+.button-xem:hover {
+	background-color: #0a6114;
+}

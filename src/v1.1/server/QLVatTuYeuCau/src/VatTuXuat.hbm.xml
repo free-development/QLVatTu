@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="model.VatTuXuat" table="VATTUXUAT">
+		<id name="soLuong" type="int" access="field">
+			<column name="SOLUONG" />
+			<generator class="assigned" />
+		</id>
+		<many-to-one name="phieuXuat" class="model.PhieuXuat"
+			access="field" fetch="join">
+			<column name="PHIEUXUAT" />
+		</many-to-one>
+		<many-to-one name="yeuCau" class="model.YeuCau" access="field"
+			fetch="join">
+			<column name="YEUCAU" />
+		</many-to-one>
+	</class>
+</hibernate-mapping>

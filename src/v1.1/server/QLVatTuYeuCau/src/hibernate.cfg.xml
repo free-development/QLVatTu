@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.password">user1</property>
+		<property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/vattu?useUnicode=true&amp;characterEncoding=UTF-8</property>
+		
+		<property name="hibernate.connection.username">user1</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name="show_sql">fasle</property>
+		<property name="hibernate.connection.CharSet">utf8</property>
+		<property name="hibernate.connection.characterEncoding">utf8</property>
+		<property name="hibernate.connection.useUnicode">true</property>
+		
+		<property name="format_sql">true</property>
+
+		<mapping resource="CTVatTu.hbm.xml" />
+		<mapping resource="VatTu.hbm.xml" />
+		<mapping resource="ChatLuong.hbm.xml" />
+		<mapping resource="NoiSanXuat.hbm.xml" />
+		<mapping resource="NguoiDung.hbm.xml" />
+		<mapping resource="CTNguoiDung.hbm.xml" />
+		<mapping resource="ChucDanh.hbm.xml" />
+		<mapping resource="DonVi.hbm.xml" />
+		<mapping resource="CongVan.hbm.xml" />
+		<mapping resource="MucDich.hbm.xml" />
+		<mapping resource="TrangThai.hbm.xml" />
+		<mapping resource="File.hbm.xml" />
+		<mapping resource="VaiTro.hbm.xml" />
+		<mapping resource="DonViTinh.hbm.xml" />
+		<mapping resource="YeuCau.hbm.xml" />
+		<mapping resource="VTCongVan.hbm.xml"/>
+		<mapping resource="NhatKy.hbm.xml"/>
+		<!-- <mapping resource=".hbm.xml"/> <mapping resource=".hbm.xml"/> <mapping 
+			resource=".hbm.xml"/> <mapping resource=".hbm.xml"/> <mapping resource=".hbm.xml"/> 
+			<mapping resource=".hbm.xml"/> <mapping resource=".hbm.xml"/> <mapping resource=".hbm.xml"/> 
+			<mapping resource=".hbm.xml"/> <mapping resource=".hbm.xml"/> <mapping resource=".hbm.xml"/> 
+			<mapping resource=".hbm.xml"/> <mapping resource=".hbm.xml"/> <mapping resource=".hbm.xml"/> 
+			<mapping resource=".hbm.xml"/> <mapping resource=".hbm.xml"/> <mapping resource=".hbm.xml"/> 
+			<mapping resource=".hbm.xml"/> <mapping resource=".hbm.xml"/> -->
+	</session-factory>
+</hibernate-configuration>

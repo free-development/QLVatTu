@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="model.NoiSanXuat" table="NOISANXUAT" catalog="vattu">
+		<id name="nsxMa" type="java.lang.String" access="field">
+			<column name="NSXMA" />
+			<generator class="assigned" />
+		</id>
+		<property name="nsxTen" type="java.lang.String" access="field">
+			<column name="NSXTEN" />
+		</property>
+		<property name="daXoa" type="int" access="field"> 
+ 			<column name="DAXOA" /> 
+ 		</property>
+	</class>
+</hibernate-mapping>
