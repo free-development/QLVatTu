@@ -1,8 +1,7 @@
 
-<%@page import="model.CongVan"%>
+<%@page import="vn.com.freesoft.docmanagement.mapping.siteMap"%>
+<%@page import="vn.com.freesoft.docmanagement.entity.NguoiDung"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="model.NguoiDung"%>
-<%@page import="map.siteMap"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <!DOCTYPE html>

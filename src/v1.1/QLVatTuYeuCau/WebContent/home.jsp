@@ -1,12 +1,12 @@
-<%@page import="util.DateUtil"%>
-<%@page import="model.CTVatTu"%>	
-<%@page import="model.VaiTro"%>
-<%@page import="model.TrangThai"%>
-<%@page import="model.NhatKy"%>
-<%@page import="model.CongVan"%>
+<%@page import="vn.com.freesoft.docmanagement.util.DateUtil"%>
+<%@page import="vn.com.freesoft.docmanagement.entity.CTVatTu"%>	
+<%@page import="vn.com.freesoft.docmanagement.entity.VaiTro"%>
+<%@page import="vn.com.freesoft.docmanagement.entity.TrangThai"%>
+<%@page import="vn.com.freesoft.docmanagement.model.NhatKy"%>
+<%@page import="vn.com.freesoft.docmanagement.entity.CongVan"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="model.NguoiDung"%>
-<%@page import="map.siteMap"%>
+<%@page import="vn.com.freesoft.docmanagement.entity.NguoiDung"%>
+<%@page import="vn.com.freesoft.docmanagement.mapping.siteMap"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <!DOCTYPE html>
