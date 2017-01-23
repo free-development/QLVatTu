@@ -1,0 +1,155 @@
+/*
+#main-content {
+	margin: 0 auto;
+	width: 700px;
+}
+*/
+#title-content {
+	text-align: center;
+	font-size: 25px;
+	color: firebrick;
+	font-weight: bold;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+/*#main-content {
+	margin: 0 auto;
+	width: 100%;
+}
+*/
+#view-table {
+	margin: 0 auto;
+	width: 600px;
+	/*max-height: 350px;*/
+}
+
+.group-button {
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	padding: 15px;
+}
+
+#view-table table {
+	border-spacing: 0px;
+}
+
+#view-table table tr td {
+	border-style: dotted;
+	border-width: 1px;
+	margin: 0px;
+	border-spacing: 0px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+#view-table table tr th {
+	border-style: dotted;
+	border-width: 1px;
+	margin: 0px;
+	border-spacing: 0px ;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.input-table table tr td {
+	padding-left: 0px;
+}
+
+.input-table table tr th {
+	padding-left: 0px;
+}
+
+.input-table {
+	margin: 0 auto;
+}
+
+.left-column {
+	width: 40px;
+	text-align: center;
+}
+
+.mid-column {
+	width: 100px;
+	text-align: center;
+}
+
+.right-column {
+	width: 500px;
+}
+
+.btn {
+	background: #199e5e;
+	border-radius: 5px;
+	color: #ffffff;
+	font-size: 13px;
+	padding: 8px 30px 8px 20px;
+	margin-right: 0px;
+	border: none;
+}
+
+.btn:hover {
+	background: #0a6114;
+}
+
+.font {
+	color: #198724;
+}
+
+.form-title {
+	text-align: center;
+	font-size: 25px;
+	font-weight: bold;
+	color: #199e5e;
+	margin-bottom: 20px;
+}
+
+#add-form , #update-form {
+	display: none;
+	width: 50%;;
+	left: 25%;
+	top: 30%;
+	/*height: 30%;*/
+	position: fixed;
+	background-color: #DCEAF5;
+	border-radius: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 20px;
+	border: outset;
+	border-color: #0000FF;
+}
+
+
+#paging table {
+	margin: 0 auto;
+	margin-top: 20px;
+	border-style: none;
+}
+#paging table tr td{
+	border-style: none;
+}
+#paging table tr td a {
+	color: blue;
+	font-size: 15px;
+}
+
+.scroll {
+	max-height: 420px;
+	/*height: 300px;*/
+	width: 960px;
+	display: auto;
+	border: 1px solid #CCCCCC;
+	margin: 1em 0;
+	overflow: scroll;
+}
+
+/*#main-content {
+	height: 610px;
+	background-color: while;
+}*/
